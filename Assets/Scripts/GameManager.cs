@@ -74,18 +74,20 @@ public class GameManager : MonoBehaviour
     {
         public override void OnEnter()
         {
-
+            Debug.Log("Entered StartPlay");
         }
 
         public override void Update()
         {
             base.Update();
+            TransitionTo<PlayState>();
             Services.InputManager.ProcessPlayInput();
         }
 
         public override void OnExit()
         {
-
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 
@@ -93,7 +95,7 @@ public class GameManager : MonoBehaviour
     {
         public override void OnEnter()
         {
-
+            Debug.Log("Entered PlayState");
         }
 
         public override void Update()
@@ -121,7 +123,9 @@ public class GameManager : MonoBehaviour
     {
         public override void OnEnter()
         {
-
+            Debug.Log("Entered Pause");
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
 
         public override void Update()
@@ -140,7 +144,8 @@ public class GameManager : MonoBehaviour
 
         public override void OnExit()
         {
-
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 
@@ -148,7 +153,9 @@ public class GameManager : MonoBehaviour
     {
         public override void OnEnter()
         {
-
+            Debug.Log("Entered InDialogueState");
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
 
         public override void Update()
@@ -161,7 +168,8 @@ public class GameManager : MonoBehaviour
 
         public override void OnExit()
         {
-
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
     #endregion

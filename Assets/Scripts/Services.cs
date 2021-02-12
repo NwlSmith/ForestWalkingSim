@@ -49,6 +49,17 @@ public static class Services
         }
         private set => _inputManager = value;
     }
+
+    private static PlayerMovement _playerMovement;
+    public static PlayerMovement PlayerMovement
+    {
+        get
+        {
+            Debug.Assert(_playerMovement != null);
+            return _playerMovement;
+        }
+        private set => _playerMovement = value;
+    }
     #endregion
 
     #region Functions
@@ -58,6 +69,7 @@ public static class Services
         GameManager = gm;
         UIManager = Object.FindObjectOfType<UIManager>();
         InputManager = Object.FindObjectOfType<InputManager>();
+        PlayerMovement = Object.FindObjectOfType<PlayerMovement>();
 
     }
     #endregion
