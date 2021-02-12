@@ -60,6 +60,17 @@ public static class Services
         }
         private set => _playerMovement = value;
     }
+
+    private static CameraManager _cameraManager;
+    public static CameraManager CameraManager
+    {
+        get
+        {
+            Debug.Assert(_cameraManager != null);
+            return _cameraManager;
+        }
+        private set => _cameraManager = value;
+    }
     #endregion
 
     #region Functions
@@ -70,6 +81,7 @@ public static class Services
         UIManager = Object.FindObjectOfType<UIManager>();
         InputManager = Object.FindObjectOfType<InputManager>();
         PlayerMovement = Object.FindObjectOfType<PlayerMovement>();
+        CameraManager = Object.FindObjectOfType<CameraManager>();
 
     }
     #endregion

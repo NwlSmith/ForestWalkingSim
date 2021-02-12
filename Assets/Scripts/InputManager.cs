@@ -26,6 +26,10 @@ public class InputManager : MonoBehaviour
             Input.GetAxis("Vertical"),
             Input.GetAxis("Jump"),
             Input.GetButton("Sprint"));
+
+        Services.CameraManager.InputUpdate(
+            Input.GetAxis("Mouse X"),
+            Input.GetAxis("Mouse Y"));
     }
 
     public void ProcessPauseMenuInput()

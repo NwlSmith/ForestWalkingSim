@@ -8,8 +8,14 @@ public class CameraManager : MonoBehaviour
     
     [SerializeField] private Transform targetVector;
     private Cinemachine.CinemachineVirtualCamera mainFollowCamera;
-    private float vRot = 0f;
-    private float hRot = 0f;
+    private float _curVertRot = 0f;
+    private float _curHorRot = 0f;
+
+    private float _mouseY = 0f;
+    private float _mouseX = 0f;
+
+    private readonly float _minVert = -30f;
+    private readonly float _maxVert = 30f;
 
     private void Awake()
     {
@@ -17,16 +23,23 @@ public class CameraManager : MonoBehaviour
         cam.Follow = targetVector;
     }
 
-    void Update()
+    private void LateUpdate()
     {
-        // Retrieve mouse input. // MOVE THIS TO INPUTHANDLER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        // Calculate new vertical rotation.
+        _curVertRot -= _mouseY * mouseSensitivity * Time.deltaTime;
+        _curVertRot = Mathf.Clamp(_curVertRot, _minVert, _maxVert);
 
-        // Move camera vertically.
-        vRot -= mouseY;
-        vRot = Mathf.Clamp(vRot, -30, 30);
-        hRot += mouseX;
-        targetVector.eulerAngles = new Vector3(vRot, hRot, 0);
+        // Calculate new horizontal rotation.
+        _curHorRot += _mouseX * mouseSensitivity * Time.deltaTime;
+
+        // Calculate new rotate targetVector.
+        targetVector.eulerAngles = new Vector3(_curVertRot, _curHorRot, 0);
+    }
+
+    // Updates the camera movement inputs. Called in InputManager.
+    public void InputUpdate(float mouseX, float mouseY)
+    {
+        _mouseX = mouseX;
+        _mouseY = mouseY;
     }
 }
