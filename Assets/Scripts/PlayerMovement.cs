@@ -38,7 +38,8 @@ public class PlayerMovement : MonoBehaviour
     // The downward push of gravity that is added to currentMovement.
     private readonly Vector3 _downwardGravityPush = new Vector3(0f, -5f, 0f);
     // The vector used to move the player when jumping.
-    private readonly Vector3 _jumpVector = new Vector3(0f, 30f, 1f);
+    private readonly float _upwardJumpSpeed = 30f;
+    private readonly float _forwardJumpSpeed = 1f;
 
     private readonly float _jumpCooldown = .5f;
     private float _curJumpCooldown = 0f;
@@ -55,6 +56,12 @@ public class PlayerMovement : MonoBehaviour
      * 
      * When jumping, take current velocity, add in a jump speed, set physicsvector to that
      * in jump, check for ground, subtract gravity from physicsvector.
+     * 
+     * 
+     * Issues: 
+     * jump forward goes forward in relation to the world, not the player
+     * jump doesn't jump to proper height after first second? - Issue with gravity?
+     * transition physics code to fixedupdate
      */
 
     private Rigidbody _rb;
@@ -154,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
         public override void Update()
         {
             base.Update();
-            
+
         }
 
         public override void OnExit()
@@ -166,6 +173,9 @@ public class PlayerMovement : MonoBehaviour
     // Player is currently moving on the ground.
     private class MovingOnGroundState : GameState
     {
+
+        float turningSmoothVel;
+
         public override void OnEnter()
         {
             Debug.Log("MovingOnGround enter");
@@ -185,8 +195,22 @@ public class PlayerMovement : MonoBehaviour
                 TransitionTo<FallingState>();
 
 
+            Vector3 direction = new Vector3(Context._horizontalInput, 0f, Context._verticalInput).normalized;
+
+            if (direction.sqrMagnitude >= .1f)
+            {
+                float targetAngle = Mathf.Atan2(Context._horizontalInput, Context._verticalInput) * Mathf.Rad2Deg + Services.CameraManager.CameraYAngle();
+                float angle = Mathf.SmoothDampAngle(Context.transform.eulerAngles.y, targetAngle, ref turningSmoothVel, .1f);
+                Context.transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+                Context._targetMovementVector = (Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward).normalized * Context._movementSpeed * Time.deltaTime * (Context._sprintInput ? Context._shiftMultiplier : 1f);
+            }
+            else
+            {
+                Context._targetMovementVector = Vector3.zero;
+            }
             // Calculate the target movement.
-            Context._targetMovementVector = new Vector3(Context._horizontalInput, 0, Context._verticalInput).normalized * Context._movementSpeed * Time.deltaTime;
+            //Context._targetMovementVector = new Vector3(Context._horizontalInput, 0, Context._verticalInput).normalized * Context._movementSpeed * Time.deltaTime;
 
             // Lerp the current movement toward the targetmovement
             Context._currentMovementVector = Vector3.Lerp(Context._currentMovementVector, Context._targetMovementVector, Context._movementChangeSpeed * Time.deltaTime); // Maybe change to Slerp?
@@ -210,7 +234,8 @@ public class PlayerMovement : MonoBehaviour
         public override void OnEnter()
         {
             Debug.Log("JumpingState enter");
-            Context._currentMovementVector += Context._jumpVector * Time.deltaTime;
+            Vector3 jumpVector = Context.transform.forward * Context._forwardJumpSpeed + Vector3.up * Context._upwardJumpSpeed;
+            Context._currentMovementVector += jumpVector * Time.deltaTime; // ROTATE TO MOVE FORWARD
             Context._curJumpCooldown = Context._jumpCooldown;
         }
 

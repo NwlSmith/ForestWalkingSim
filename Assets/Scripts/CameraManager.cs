@@ -42,4 +42,9 @@ public class CameraManager : MonoBehaviour
         _mouseX = mouseX;
         _mouseY = mouseY;
     }
+
+    public float CameraYAngle()
+    {
+        return targetVector.eulerAngles.y;
+    }
 }
