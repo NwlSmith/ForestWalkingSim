@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 // Pause
-                TransitionTo<InDialogueState>();
+                //TransitionTo<InDialogueState>();
             }
         }
 

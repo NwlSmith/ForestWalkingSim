@@ -82,6 +82,17 @@ public static class Services
         }
         private set => _cameraManager = value;
     }
+
+    private static PlayerItemHolder _playerItemHolder;
+    public static PlayerItemHolder PlayerItemHolder
+    {
+        get
+        {
+            Debug.Assert(_playerItemHolder != null);
+            return _playerItemHolder;
+        }
+        private set => _playerItemHolder = value;
+    }
     #endregion
 
     #region Functions
@@ -94,6 +105,7 @@ public static class Services
         PlayerMovement = Object.FindObjectOfType<PlayerMovement>();
         PlayerAnimation = Object.FindObjectOfType<PlayerAnimation>();
         CameraManager = Object.FindObjectOfType<CameraManager>();
+        PlayerItemHolder = Object.FindObjectOfType<PlayerItemHolder>();
 
     }
     #endregion

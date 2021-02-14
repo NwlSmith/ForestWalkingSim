@@ -1,38 +1,52 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * Creator: Nate Smith
+ * Creation Date: 2/13/2021
+ * Description: Camera management script.
+ * 
+ * Handles the state and behavior of cameras.
+ * 
+ * Defaults to play-mode camera, but can be transitioned to other camera state as well.
+ * 
+ * 
+ */
 public class CameraManager : MonoBehaviour
 {
 
-    // The finite state machine of the current gamestate.
+    // The finite state machine of the current CameraState.
     private FiniteStateMachine<CameraManager> _fsm;
 
-    public float mouseSensitivity = 100f;
+    public float mouseSensitivity = 200f;
     
     [SerializeField] private Transform targetVector;
     private Cinemachine.CinemachineVirtualCamera mainFollowCamera;
+
+    // Ingame camera movement.
     private float _curVertRot = 0f;
     private float _curHorRot = 0f;
-
     private float _mouseY = 0f;
     private float _mouseX = 0f;
-
     private readonly float _minVert = -30f;
     private readonly float _maxVert = 30f;
 
     private void Awake()
     {
-        Cinemachine.CinemachineVirtualCamera cam = GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>();
-        cam.Follow = targetVector;
+        mainFollowCamera = GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>();
+        mainFollowCamera.Follow = targetVector;
 
         _fsm = new FiniteStateMachine<CameraManager>(this);
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         _fsm.TransitionTo<PlayState>();
+    }
+
+    private void Update()
+    {
+        _fsm.Update();
     }
 
     private void LateUpdate()
@@ -93,7 +107,7 @@ public class CameraManager : MonoBehaviour
         public override void OnExit() { }
     }
 
-    // Player is in dialogue. Transition to player dialogue camera 1 (looking from player to NPC
+    // Player is in dialogue. Transition to player dialogue camera 1 (looking from player to NPC)
     private class InDialogueState : CameraState
     {
         public override void OnEnter() { PlayerCameraView(); }

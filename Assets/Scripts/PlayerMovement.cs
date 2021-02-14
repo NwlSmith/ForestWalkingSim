@@ -273,7 +273,7 @@ public class PlayerMovement : MonoBehaviour
             // Detect if moving up or down?
             Debug.Log("Current movement vector " + Context._currentMovementVector.y);
 
-            if (false)//Context.OnGround())
+            if (Context.OnGround())
             {
                 TransitionTo<IdleState>();
             }

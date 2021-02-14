@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 /*
  * Creator: Nate Smith
- * Creation Date: 2/13/2021
+ * Creation Date: 2/14/2021
  * Description: Base class for quests.
  * 
  * Each quest will extend from this quest and implement more specific behavior.
@@ -18,7 +18,49 @@ using UnityEngine;
  * 
  * 
  */
+
 public abstract class Quest : MonoBehaviour
 {
-    [SerializeField] private string questName = "";
+    [SerializeField] public string questName = "";
+
+    [SerializeField] public enum QuestProgress { NOT_AVAILABLE, AVAILABLE, COMPLETED };
+
+    [SerializeField] public QuestProgress progress = QuestProgress.NOT_AVAILABLE;
+
+
+    // The finite state machine of the current QuestState.
+    private FiniteStateMachine<Quest> _fsm;
+
+    private void Awake()
+    {
+        _fsm = new FiniteStateMachine<Quest>(this);
+    }
+
+    void Start()
+    {
+        _fsm.TransitionTo<StartQuest>();
+    }
+
+    private void Update()
+    {
+        _fsm.Update();
+    }
+
+    [System.Serializable]
+    private abstract class QuestState : FiniteStateMachine<Quest>.State
+    {
+        public string DefaultQuestStateString;
+    }
+
+    // Normal camera follow state.
+    private class StartQuest : QuestState
+    {
+        public override void OnEnter() { }
+
+        public override void Update() { base.Update(); }
+
+        
+
+        public override void OnExit() { }
+    }
 }

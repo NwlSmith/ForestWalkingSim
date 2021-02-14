@@ -22,7 +22,8 @@ public class InputManager : MonoBehaviour
         }
 
         // Send movement inputs to player.
-        Services.PlayerMovement.InputUpdate(Input.GetAxis("Horizontal"),
+        Services.PlayerMovement.InputUpdate(
+            Input.GetAxis("Horizontal"),
             Input.GetAxis("Vertical"),
             Input.GetAxis("Jump"),
             Input.GetButton("Sprint"));
@@ -30,6 +31,9 @@ public class InputManager : MonoBehaviour
         Services.CameraManager.InputUpdate(
             Input.GetAxis("Mouse X"),
             Input.GetAxis("Mouse Y"));
+
+        if (Input.GetButtonDown("Interact"))
+            Services.PlayerItemHolder.InputPressed();
     }
 
     public void ProcessPauseMenuInput()

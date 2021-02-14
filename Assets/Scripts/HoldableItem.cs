@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 /*
  * Creator: Nate Smith
- * Creation Date: 2/13/2021
+ * Creation Date: 2/14/2021
  * Description: Holdable item base script.
  * 
  * When the player enters the trigger area of the item, the item prompts the player to pick it up through the UI.
@@ -15,14 +15,31 @@ using UnityEngine;
  * If the player drops the item in a quest area, trigger something.
  * 
  * 
- * camera
- * quests
- * items
- * separating camera into FSM
- * comment camera
  */
 public class HoldableItem : MonoBehaviour
 {
-    
+    public bool holdable = true;
+    public bool beingHeld = false;
 
+    public Rigidbody rb { get; private set; }
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    public void DetachFromTransform()
+    {
+        rb.isKinematic = false;
+        transform.parent = transform.root.parent;
+        beingHeld = false;
+    }
+
+    public void AttachToTransform(Transform newParent)
+    {
+        rb.isKinematic = true;
+        transform.position = newParent.position;
+        transform.parent = newParent;
+        beingHeld = true;
+    }
 }
