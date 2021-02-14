@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     // The finite state machine of the current gamestate.
     private FiniteStateMachine<PlayerMovement> _fsm;
 
+    // Stored inputs
     private float _horizontalInput = 0f;
     private float _verticalInput = 0f;
     private float _jumpInput = 0f;
@@ -35,34 +36,21 @@ public class PlayerMovement : MonoBehaviour
 
     // The rate at which _currentMovementVector is lerped to _targetMovementVector.
     private readonly float _movementChangeSpeed = 3f;
+
+    // Jumping.
     // The downward push of gravity that is added to currentMovement.
-    private readonly Vector3 _downwardGravityPush = new Vector3(0f, -5f, 0f);
-    // The vector used to move the player when jumping.
-    private readonly float _upwardJumpSpeed = 30f;
-    private readonly float _forwardJumpSpeed = 1f;
+    private readonly float _gravity = -.981f;
+
+    private readonly float _desiredJumpHeight = 100f;
+    private readonly float _jumpForwardDistance = 1f;
+
+    // The calculated jump speed (so we don't calculate square root every update).
+    private float _jumpSpeed = 0f;
 
     private readonly float _jumpCooldown = .5f;
     private float _curJumpCooldown = 0f;
-    /*
-     * We will have movement target which is directly from input and current movement.
-     * lerp between target and current movement.
-     * 
-     * ALSO
-     * Rotate input vector by camera pos (simplified lol) and set forward to that.
-     * 
-     * Gravity?
-     * gravity will be calculated separately, only when jumping - NO, need to calculate slopes too... hmmmm
-     * No, make the current movement y axis -2
-     * 
-     * When jumping, take current velocity, add in a jump speed, set physicsvector to that
-     * in jump, check for ground, subtract gravity from physicsvector.
-     * 
-     * 
-     * Issues: 
-     * jump forward goes forward in relation to the world, not the player
-     * jump doesn't jump to proper height after first second? - Issue with gravity?
-     * transition physics code to fixedupdate
-     */
+
+    // Components
 
     private Rigidbody _rb;
     private CharacterController _charController;
@@ -76,6 +64,9 @@ public class PlayerMovement : MonoBehaviour
         _fsm = new FiniteStateMachine<PlayerMovement>(this);
         _rb = GetComponent<Rigidbody>();
         _charController = GetComponent<CharacterController>();
+
+        _jumpSpeed = Mathf.Sqrt(_desiredJumpHeight * -2f * _gravity) * Time.fixedDeltaTime;
+        Debug.Log("jump speed " + _jumpSpeed);
     }
 
     // Start is called before the first frame update
@@ -95,7 +86,14 @@ public class PlayerMovement : MonoBehaviour
         _fsm.Update();
     }
 
-    #endregion 
+    void FixedUpdate()
+    {
+        GameState curGS = ((GameState)_fsm.CurrentState);
+        if (curGS != null)
+            curGS.FixedUpdate();
+    }
+
+    #endregion
 
     // Updates the player movement inputs. Called in InputManager.
     public void InputUpdate(float hor, float vert, float jump, bool sprint)
@@ -106,10 +104,17 @@ public class PlayerMovement : MonoBehaviour
         _sprintInput = sprint;
     }
 
+    // Forces the player to be idle.
+    public void ForceIdle()
+    {
+        _fsm.TransitionTo<ForcedIdleState>();
+    }
+
     // Returns if the player is currently on the ground.
     private bool OnGround()
     {
-        return true;
+
+        return _charController.isGrounded;
     }
 
     // Returns whether or not the player entered any ground movement inputs W, A, S, D, NOT space.
@@ -120,7 +125,9 @@ public class PlayerMovement : MonoBehaviour
 
     #region States
 
-    private abstract class GameState : FiniteStateMachine<PlayerMovement>.State { }
+    private abstract class GameState : FiniteStateMachine<PlayerMovement>.State {
+        public virtual void FixedUpdate() { }
+    }
 
     // Player not inputting any inputs, but they are allowed to move if they want to.
     private class IdleState : GameState
@@ -164,6 +171,13 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
+        // Physics calculations.
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+            
+        }
+
         public override void OnExit()
         {
 
@@ -193,7 +207,12 @@ public class PlayerMovement : MonoBehaviour
                 TransitionTo<JumpingState>();
             else if (!Context.OnGround())
                 TransitionTo<FallingState>();
+        }
 
+        // Physics calculations.
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
 
             Vector3 direction = new Vector3(Context._horizontalInput, 0f, Context._verticalInput).normalized;
 
@@ -203,7 +222,7 @@ public class PlayerMovement : MonoBehaviour
                 float angle = Mathf.SmoothDampAngle(Context.transform.eulerAngles.y, targetAngle, ref turningSmoothVel, .1f);
                 Context.transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-                Context._targetMovementVector = (Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward).normalized * Context._movementSpeed * Time.deltaTime * (Context._sprintInput ? Context._shiftMultiplier : 1f);
+                Context._targetMovementVector = (Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward).normalized * Context._movementSpeed * Time.fixedDeltaTime * (Context._sprintInput ? Context._shiftMultiplier : 1f);
             }
             else
             {
@@ -213,13 +232,12 @@ public class PlayerMovement : MonoBehaviour
             //Context._targetMovementVector = new Vector3(Context._horizontalInput, 0, Context._verticalInput).normalized * Context._movementSpeed * Time.deltaTime;
 
             // Lerp the current movement toward the targetmovement
-            Context._currentMovementVector = Vector3.Lerp(Context._currentMovementVector, Context._targetMovementVector, Context._movementChangeSpeed * Time.deltaTime); // Maybe change to Slerp?
+            Context._currentMovementVector = Vector3.Lerp(Context._currentMovementVector, Context._targetMovementVector, Context._movementChangeSpeed * Time.fixedDeltaTime); // Maybe change to Slerp?
 
             // Fall downwards
-            Context._currentMovementVector.y = Context._downwardGravityPush.y * Time.deltaTime;
+            Context._currentMovementVector.y = Context._gravity * Time.fixedDeltaTime;
 
             Context._charController.Move(Context._currentMovementVector);
-
         }
 
         public override void OnExit()
@@ -234,9 +252,15 @@ public class PlayerMovement : MonoBehaviour
         public override void OnEnter()
         {
             Debug.Log("JumpingState enter");
-            Vector3 jumpVector = Context.transform.forward * Context._forwardJumpSpeed + Vector3.up * Context._upwardJumpSpeed;
-            Context._currentMovementVector += jumpVector * Time.deltaTime; // ROTATE TO MOVE FORWARD
+            Vector3 jumpVector = Context.transform.forward * Context._jumpForwardDistance;// + Vector3.up * Context._upwardJumpSpeed;
+            Context._currentMovementVector += jumpVector * Time.fixedDeltaTime;
+            Context._currentMovementVector.y = Context._jumpSpeed;
+
             Context._curJumpCooldown = Context._jumpCooldown;
+            Debug.Log("Current movement vector " + Context._currentMovementVector.y);
+
+
+            Context._charController.Move(Context._currentMovementVector);
         }
 
         public override void Update()
@@ -247,6 +271,7 @@ public class PlayerMovement : MonoBehaviour
             // Move in air?
 
             // Detect if moving up or down?
+            Debug.Log("Current movement vector " + Context._currentMovementVector.y);
 
             if (false)//Context.OnGround())
             {
@@ -257,8 +282,16 @@ public class PlayerMovement : MonoBehaviour
                 TransitionTo<FallingState>();
             }
 
+            
+        }
+
+        // Physics calculations.
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+
             // Fall downwards
-            Context._currentMovementVector += Context._downwardGravityPush * Time.deltaTime;
+            Context._currentMovementVector.y += Context._gravity * Time.fixedDeltaTime;
 
             Context._charController.Move(Context._currentMovementVector);
             // Detect if hit the ground?
@@ -293,6 +326,19 @@ public class PlayerMovement : MonoBehaviour
                 TransitionTo<IdleState>();
             }
 
+            // Detect if hit the ground?
+            // transfer to idle if not moving, moving if moving
+        }
+
+        // Physics calculations.
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+
+            // Fall downwards
+            Context._currentMovementVector.y += Context._gravity * Time.fixedDeltaTime;
+
+            Context._charController.Move(Context._currentMovementVector);
             // Detect if hit the ground?
             // transfer to idle if not moving, moving if moving
         }

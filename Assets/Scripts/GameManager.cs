@@ -111,6 +111,12 @@ public class GameManager : MonoBehaviour
                 // Pause
                 TransitionTo<PauseState>();
             }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                // Pause
+                TransitionTo<InDialogueState>();
+            }
         }
 
         public override void OnExit()
@@ -156,6 +162,10 @@ public class GameManager : MonoBehaviour
             Debug.Log("Entered InDialogueState");
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            Services.PlayerMovement.ForceIdle();
+            Services.CameraManager.EnterDialogue();
+
+            // Transition camera to NPCTalkingCam
         }
 
         public override void Update()
