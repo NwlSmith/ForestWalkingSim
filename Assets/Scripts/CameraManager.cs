@@ -46,7 +46,19 @@ public class CameraManager : MonoBehaviour
     {
         _fsm.TransitionTo<InDialogueState>();
     }
-    
+
+    // Updates the camera movement inputs. Called in InputManager.
+    public void InputUpdate(float mouseX, float mouseY)
+    {
+        _mouseX = mouseX;
+        _mouseY = mouseY;
+    }
+
+    public float CameraYAngle()
+    {
+        return targetVector.eulerAngles.y;
+    }
+
 
     #region States
 
