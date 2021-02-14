@@ -61,6 +61,17 @@ public static class Services
         private set => _playerMovement = value;
     }
 
+    private static PlayerAnimation _playerAnimation;
+    public static PlayerAnimation PlayerAnimation
+    {
+        get
+        {
+            Debug.Assert(_playerAnimation != null);
+            return _playerAnimation;
+        }
+        private set => _playerAnimation = value;
+    }
+
     private static CameraManager _cameraManager;
     public static CameraManager CameraManager
     {
@@ -81,6 +92,7 @@ public static class Services
         UIManager = Object.FindObjectOfType<UIManager>();
         InputManager = Object.FindObjectOfType<InputManager>();
         PlayerMovement = Object.FindObjectOfType<PlayerMovement>();
+        PlayerAnimation = Object.FindObjectOfType<PlayerAnimation>();
         CameraManager = Object.FindObjectOfType<CameraManager>();
 
     }

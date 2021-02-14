@@ -42,7 +42,7 @@ public class InputManager : MonoBehaviour
 
     public void ProcessDialogueInput()
     {
-        if (Input.GetButtonDown("Jump") || Input.GetButtonDown("Fire"))
+        if (Input.GetButtonDown("Jump") || Input.GetButtonDown("Fire1"))
         {
             // Select dialogue option?
         }

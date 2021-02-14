@@ -93,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
             curGS.FixedUpdate();
     }
 
-    #endregion 
+    #endregion
 
     // Updates the player movement inputs. Called in InputManager.
     public void InputUpdate(float hor, float vert, float jump, bool sprint)
@@ -102,6 +102,12 @@ public class PlayerMovement : MonoBehaviour
         _verticalInput = vert;
         _jumpInput = jump;
         _sprintInput = sprint;
+    }
+
+    // Forces the player to be idle.
+    public void ForceIdle()
+    {
+        _fsm.TransitionTo<ForcedIdleState>();
     }
 
     // Returns if the player is currently on the ground.
