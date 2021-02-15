@@ -42,24 +42,36 @@ public class GameManager : MonoBehaviour
         _fsm = new FiniteStateMachine<GameManager>(this);
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         _fsm.TransitionTo<StartPlay>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         _fsm.Update();
     }
     
+    // Called on Pause.
     public void Pause()
     {
         _fsm.TransitionTo<PauseState>();
     }
 
+    // Called on Unpause.
     public void Unpause()
+    {
+        _fsm.TransitionTo<PlayState>();
+    }
+
+    // Called on Enter dialogue.
+    public void EnterDialogue()
+    {
+        _fsm.TransitionTo<InDialogueState>();
+    }
+
+    // Called on Exit dialogue.
+    public void ExitDialogue()
     {
         _fsm.TransitionTo<PlayState>();
     }
@@ -112,10 +124,10 @@ public class GameManager : MonoBehaviour
                 TransitionTo<PauseState>();
             }
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.F))
             {
                 // Pause
-                //TransitionTo<InDialogueState>();
+                TransitionTo<InDialogueState>();
             }
         }
 
@@ -164,8 +176,7 @@ public class GameManager : MonoBehaviour
             Cursor.visible = true;
             Services.PlayerMovement.ForceIdle();
             Services.CameraManager.EnterDialogue();
-
-            // Transition camera to NPCTalkingCam
+            Services.UIManager.EnterDialogue();
         }
 
         public override void Update()
@@ -180,6 +191,10 @@ public class GameManager : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+
+            Services.PlayerMovement.EnterPlay(); // FIGURE THESE OUT
+            Services.CameraManager.EnterPlay();
+            Services.UIManager.EnterPlay();
         }
     }
     #endregion

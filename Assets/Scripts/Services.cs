@@ -93,6 +93,17 @@ public static class Services
         }
         private set => _playerItemHolder = value;
     }
+
+    private static NPCInteractionManager _npcInteractionManager;
+    public static NPCInteractionManager NPCInteractionManager
+    {
+        get
+        {
+            Debug.Assert(_npcInteractionManager != null);
+            return _npcInteractionManager;
+        }
+        private set => _npcInteractionManager = value;
+    }
     #endregion
 
     #region Functions
@@ -106,6 +117,7 @@ public static class Services
         PlayerAnimation = Object.FindObjectOfType<PlayerAnimation>();
         CameraManager = Object.FindObjectOfType<CameraManager>();
         PlayerItemHolder = Object.FindObjectOfType<PlayerItemHolder>();
+        NPCInteractionManager = Object.FindObjectOfType<NPCInteractionManager>();
 
     }
     #endregion

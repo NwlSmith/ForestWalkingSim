@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 /*
  * Creator: Nate Smith
  * Creation Date: 2/13/2021
@@ -21,9 +22,9 @@ public class CameraManager : MonoBehaviour
     public float mouseSensitivity = 200f;
     
     [SerializeField] private Transform targetVector;
-    [SerializeField] private Cinemachine.CinemachineVirtualCamera mainFollowCamera;
-    [SerializeField] private Cinemachine.CinemachineVirtualCamera playerCameraView;
-    [SerializeField] private Cinemachine.CinemachineVirtualCamera npcCameraView;
+    [SerializeField] private CinemachineVirtualCamera mainFollowCamera;
+    [SerializeField] private CinemachineVirtualCamera playerCameraView;
+    [SerializeField] private CinemachineVirtualCamera npcCameraView;
 
     // Ingame camera movement.
     private float _curVertRot = 0f;
@@ -37,7 +38,6 @@ public class CameraManager : MonoBehaviour
 
     private void Awake()
     {
-        mainFollowCamera = GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>();
         mainFollowCamera.Follow = targetVector;
 
         _fsm = new FiniteStateMachine<CameraManager>(this);
@@ -63,6 +63,13 @@ public class CameraManager : MonoBehaviour
     public void EnterDialogue()
     {
         _fsm.TransitionTo<InDialogueState>();
+        SetTargetNPC(Services.NPCInteractionManager.closestNPC);
+    }
+
+    public void EnterPlay()
+    {
+        _fsm.TransitionTo<PlayState>();
+        SetTargetNPC(null);
     }
 
     // Updates the camera movement inputs. Called in InputManager.
@@ -127,7 +134,15 @@ public class CameraManager : MonoBehaviour
     {
         public override void OnEnter() { PlayerCameraView(); }
 
-        public override void Update() { base.Update(); }
+        public override void Update() { base.Update();
+            if (Input.GetKeyDown(KeyCode.F)) // DEBUG, REMOVE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            {
+                if (Context.playerCameraView.Priority == 30)
+                    NPCCameraView();
+                else
+                    PlayerCameraView();
+            }
+        }
 
         public override void OnExit() { }
 

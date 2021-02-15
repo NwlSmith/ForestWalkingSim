@@ -110,6 +110,12 @@ public class PlayerMovement : MonoBehaviour
         _fsm.TransitionTo<ForcedIdleState>();
     }
 
+    // Returns player to play mode.
+    public void EnterPlay()
+    {
+        _fsm.TransitionTo<IdleState>();
+    }
+
     // Returns if the player is currently on the ground.
     private bool OnGround()
     {

@@ -17,8 +17,8 @@ public class UIManager : MonoBehaviour
     // The finite state machine of the current UIState.
     private FiniteStateMachine<UIManager> _fsm;
 
-    [SerializeField] private List<Image> DialogueUI; // Will need to change this - These aren't going to all be images.
-    [SerializeField] private List<Image> PauseUI;
+    [SerializeField] private List<MaskableGraphic> DialogueUI;
+    [SerializeField] private List<MaskableGraphic> PauseUI;
 
     #region Lifecycle Management
     private void Awake()
@@ -50,14 +50,24 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void DisplayConversationEnterPrompt()
+    public void DisplayDialogueEnterPrompt()
     {
 
     }
 
-    public void HideConversationEnterPrompt()
+    public void HideDialogueEnterPrompt()
     {
 
+    }
+
+    public void EnterDialogue()
+    {
+        _fsm.TransitionTo<InDialogueState>();
+    }
+
+    public void EnterPlay()
+    {
+        _fsm.TransitionTo<PlayState>();
     }
 
     #endregion
@@ -100,8 +110,6 @@ public class UIManager : MonoBehaviour
         public override void Update() { base.Update(); }
 
         public override void OnExit() { HideUI(Context.DialogueUI); }
-
-
     }
 
     // Pause UI.

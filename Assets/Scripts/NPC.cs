@@ -8,7 +8,7 @@ using UnityEngine;
  * 
  * Holds variables and functions for an instance of an NPC.
  * 
- * 
+ * Maybe make NPC face toward player on dialogue entry?
  */
 public class NPC : MonoBehaviour
 {
