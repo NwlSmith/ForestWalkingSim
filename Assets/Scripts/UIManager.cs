@@ -76,18 +76,18 @@ public class UIManager : MonoBehaviour
 
     private abstract class UIState : FiniteStateMachine<UIManager>.State
     {
-        public virtual void DisplayUI(List<Image> UI)
+        public virtual void DisplayUI(List<MaskableGraphic> UI)
         {
-            foreach (Image img in UI)
+            foreach (MaskableGraphic graphic in UI)
             {
-                img.gameObject.SetActive(true);
+                graphic.gameObject.SetActive(true);
             }
         }
-        public virtual void HideUI(List<Image> UI)
+        public virtual void HideUI(List<MaskableGraphic> UI)
         {
-            foreach (Image img in UI)
+            foreach (MaskableGraphic graphic in UI)
             {
-                img.gameObject.SetActive(false);
+                graphic.gameObject.SetActive(false);
             }
         }
     }
