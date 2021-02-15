@@ -21,7 +21,9 @@ public class CameraManager : MonoBehaviour
     public float mouseSensitivity = 200f;
     
     [SerializeField] private Transform targetVector;
-    private Cinemachine.CinemachineVirtualCamera mainFollowCamera;
+    [SerializeField] private Cinemachine.CinemachineVirtualCamera mainFollowCamera;
+    [SerializeField] private Cinemachine.CinemachineVirtualCamera playerCameraView;
+    [SerializeField] private Cinemachine.CinemachineVirtualCamera npcCameraView;
 
     // Ingame camera movement.
     private float _curVertRot = 0f;
@@ -30,6 +32,8 @@ public class CameraManager : MonoBehaviour
     private float _mouseX = 0f;
     private readonly float _minVert = -30f;
     private readonly float _maxVert = 30f;
+
+    private NPC targetNPC = null;
 
     private void Awake()
     {
@@ -73,6 +77,12 @@ public class CameraManager : MonoBehaviour
         return targetVector.eulerAngles.y;
     }
 
+    // Must be called upon initiating dialogue with an NPC.
+    public void SetTargetNPC(NPC newTarget)
+    {
+        targetNPC = newTarget;
+    }
+
 
     #region States
 
@@ -84,7 +94,12 @@ public class CameraManager : MonoBehaviour
     // Normal camera follow state.
     private class PlayState : CameraState
     {
-        public override void OnEnter() { }
+        public override void OnEnter()
+        {
+            Context.mainFollowCamera.Priority = 30;
+            Context.playerCameraView.Priority = 20;
+            Context.npcCameraView.Priority = 10;
+        }
 
         public override void Update() { base.Update(); }
 
@@ -117,10 +132,29 @@ public class CameraManager : MonoBehaviour
         public override void OnExit() { }
 
         // The point of view of the player looking at the NPC.
-        public void PlayerCameraView() { }
+        public void PlayerCameraView()
+        {
+            Context.mainFollowCamera.Priority = 10;
+            Context.playerCameraView.Priority = 30;
+            Context.npcCameraView.Priority = 20;
+
+            // look at npc in question
+
+            Context.playerCameraView.LookAt = Context.targetNPC.transform;
+        }
 
         // The point of view of the NPC looking at the player.
-        public void NPCCameraView() { }
+        public void NPCCameraView()
+        {
+            Context.mainFollowCamera.Priority = 10;
+            Context.playerCameraView.Priority = 20;
+            Context.npcCameraView.Priority = 30;
+
+            // set to proper position
+            Context.npcCameraView.ForceCameraPosition(Context.targetNPC.transform.position, Context.targetNPC.transform.rotation);
+            // look at player
+            Context.playerCameraView.LookAt = Context.transform;
+        }
     }
 
     // Placeholder for cutscene state.

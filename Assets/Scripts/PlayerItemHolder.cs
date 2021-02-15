@@ -28,6 +28,8 @@ public class PlayerItemHolder : MonoBehaviour
         if (itemsInCollider.Contains(holdableItem)) return;
 
         itemsInCollider.Add(holdableItem);
+
+        Services.UIManager.DisplayItemPickupPrompt();
     }
 
     private void OnTriggerExit(Collider other)
@@ -37,6 +39,9 @@ public class PlayerItemHolder : MonoBehaviour
 
         if (itemsInCollider.Contains(holdableItem))
             itemsInCollider.Remove(holdableItem);
+
+        if (itemsInCollider.Count > 0)
+            Services.UIManager.HideItemPickupPrompt();
     }
 
     public void InputPressed()
