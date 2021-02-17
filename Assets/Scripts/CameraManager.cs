@@ -11,7 +11,8 @@ using Cinemachine;
  * 
  * Defaults to play-mode camera, but can be transitioned to other camera state as well.
  * 
- * 
+ * Issues:
+ * - Camera can get buggy when holding a holdableObject
  */
 public class CameraManager : MonoBehaviour
 {
@@ -43,15 +44,9 @@ public class CameraManager : MonoBehaviour
         _fsm = new FiniteStateMachine<CameraManager>(this);
     }
 
-    void Start()
-    {
-        _fsm.TransitionTo<PlayState>();
-    }
+    void Start() => _fsm.TransitionTo<PlayState>();
 
-    private void Update()
-    {
-        _fsm.Update();
-    }
+    private void Update() => _fsm.Update();
 
     private void LateUpdate()
     {
@@ -79,16 +74,10 @@ public class CameraManager : MonoBehaviour
         _mouseY = mouseY;
     }
 
-    public float CameraYAngle()
-    {
-        return targetVector.eulerAngles.y;
-    }
+    public float CameraYAngle => targetVector.eulerAngles.y;
 
     // Must be called upon initiating dialogue with an NPC.
-    public void SetTargetNPC(NPC newTarget)
-    {
-        targetNPC = newTarget;
-    }
+    public void SetTargetNPC(NPC newTarget) => targetNPC = newTarget;
 
 
     #region States
@@ -108,7 +97,7 @@ public class CameraManager : MonoBehaviour
             Context.npcCameraView.Priority = 10;
         }
 
-        public override void Update() { base.Update(); }
+        public override void Update() => base.Update();
 
         public override void LateUpdate()
         {
@@ -132,7 +121,7 @@ public class CameraManager : MonoBehaviour
     // Player is in dialogue. Transition to player dialogue camera 1 (looking from player to NPC)
     private class InDialogueState : CameraState
     {
-        public override void OnEnter() { PlayerCameraView(); }
+        public override void OnEnter() => PlayerCameraView();
 
         public override void Update() { base.Update();
             if (Input.GetKeyDown(KeyCode.F)) // DEBUG, REMOVE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

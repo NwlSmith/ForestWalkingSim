@@ -8,6 +8,12 @@ using UnityEngine;
  * Description: A retriever and director for inputs.
  * 
  * Different input is processed based on which game state the player is in.
+ * 
+ * Each method is called in the GameManager StateMachine.
+ * 
+ * Issues:
+ * - Need hierachy between entering conversation and picking up items.
+ * - 
  */
 
 public class InputManager : MonoBehaviour
@@ -25,15 +31,19 @@ public class InputManager : MonoBehaviour
         Services.PlayerMovement.InputUpdate(
             Input.GetAxis("Horizontal"),
             Input.GetAxis("Vertical"),
-            Input.GetAxis("Jump"),
+            Input.GetButtonDown("Jump"),
             Input.GetButton("Sprint"));
 
         Services.CameraManager.InputUpdate(
             Input.GetAxis("Mouse X"),
             Input.GetAxis("Mouse Y"));
 
+
         if (Input.GetButtonDown("Interact"))
-            Services.PlayerItemHolder.InputPressed();
+        {
+            Services.PlayerItemHolder.InputPressed(); // CREATE HIERARCHY BETWEEN THESE TWO - Only one should be used at once.
+            Services.NPCInteractionManager.InputPressed();
+        }
     }
 
     public void ProcessPauseMenuInput()
@@ -48,7 +58,7 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump") || Input.GetButtonDown("Fire1"))
         {
-            // Select dialogue option?
+            Services.GameManager.ExitDialogue();
         }
     }
 }

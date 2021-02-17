@@ -11,23 +11,25 @@ using UnityEngine;
  * If they press the button they attach the closest item to a pre-defined place.
  * 
  * If triggered by an item receptacle, the player will drop the item.
+ * 
  */
 
 public class PlayerItemHolder : MonoBehaviour
 {
 
-    private List<HoldableItem> itemsInCollider = new List<HoldableItem>();
-    private bool holdingItem = false;
-    private HoldableItem currentlyHeldItem = null;
-    [SerializeField] private Transform itemAttachmentPoint;
+    private List<HoldableItem> _itemsInCollider = new List<HoldableItem>();
+    public bool _holdingItem = false;
+    private HoldableItem _currentlyHeldItem = null;
+    [SerializeField] private Transform _itemAttachmentPoint;
 
     private void OnTriggerEnter(Collider other)
     {
         HoldableItem holdableItem = other.GetComponent<HoldableItem>();
+        if (_holdingItem) return;
         if (holdableItem == null) return;
-        if (itemsInCollider.Contains(holdableItem)) return;
+        if (_itemsInCollider.Contains(holdableItem)) return;
 
-        itemsInCollider.Add(holdableItem);
+        _itemsInCollider.Add(holdableItem);
 
         Services.UIManager.DisplayItemPickupPrompt();
     }
@@ -37,17 +39,17 @@ public class PlayerItemHolder : MonoBehaviour
         HoldableItem holdableItem = other.GetComponent<HoldableItem>();
         if (holdableItem == null) return;
 
-        if (itemsInCollider.Contains(holdableItem))
-            itemsInCollider.Remove(holdableItem);
+        if (_itemsInCollider.Contains(holdableItem))
+            _itemsInCollider.Remove(holdableItem);
 
-        if (itemsInCollider.Count > 0)
+        if (_itemsInCollider.Count <= 0)
             Services.UIManager.HideItemPickupPrompt();
     }
 
     public void InputPressed()
     {
         // If the player has an item in their possession, drop it.
-        if (holdingItem)
+        if (_holdingItem)
         {
             DropItem();
             return;
@@ -55,7 +57,7 @@ public class PlayerItemHolder : MonoBehaviour
 
         // otherwise, check if there are any items that can be picked up.
 
-        if (itemsInCollider.Count == 0) return;
+        if (_itemsInCollider.Count == 0) return;
         
         HoldableItem closest = GetClosestItem();
 
@@ -66,7 +68,7 @@ public class PlayerItemHolder : MonoBehaviour
     {
         HoldableItem closest = null;
         float shortestDist = 1000f;
-        foreach (HoldableItem item in itemsInCollider)
+        foreach (HoldableItem item in _itemsInCollider)
         {
             float dist = DistanceTo(item);
             if (dist < shortestDist)
@@ -80,21 +82,24 @@ public class PlayerItemHolder : MonoBehaviour
 
     private float DistanceTo(HoldableItem item)
     {
-        return Vector3.Distance(item.transform.position, itemAttachmentPoint.position);
+        return Vector3.Distance(item.transform.position, _itemAttachmentPoint.position);
     }
 
     private void DropItem()
     {
         Debug.Log("Dropping item");
-        holdingItem = false;
-        currentlyHeldItem.DetachFromTransform();
+        _holdingItem = false;
+        _currentlyHeldItem.DetachFromTransform();
+        //if (itemsInCollider.Contains(currentlyHeldItem))
+
     }
 
     private void PickUpItem(HoldableItem item)
     {
         Debug.Log("Picking up item");
-        holdingItem = true;
-        currentlyHeldItem = item;
-        item.AttachToTransform(itemAttachmentPoint);
+        _holdingItem = true;
+        _currentlyHeldItem = item;
+        item.AttachToTransform(_itemAttachmentPoint);
+        Services.UIManager.HideItemPickupPrompt();
     }
 }

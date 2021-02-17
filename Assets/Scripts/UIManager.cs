@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,79 +16,74 @@ public class UIManager : MonoBehaviour
     // The finite state machine of the current UIState.
     private FiniteStateMachine<UIManager> _fsm;
 
-    [SerializeField] private List<MaskableGraphic> DialogueUI;
-    [SerializeField] private List<MaskableGraphic> PauseUI;
+    [SerializeField] private List<RectTransform> _pickupItemUI;
+    [SerializeField] private List<RectTransform> _dialogueEnterPromptUI;
+
+    [SerializeField] private List<RectTransform> _dialogueUI;
+    [SerializeField] private List<RectTransform> _pauseUI;
 
     #region Lifecycle Management
     private void Awake()
     {
         _fsm = new FiniteStateMachine<UIManager>(this);
+        HideAllUI();
     }
 
-    void Start()
-    {
-        _fsm.TransitionTo<PlayState>();
-    }
+    void Start() => _fsm.TransitionTo<PlayState>();
 
-    private void Update()
-    {
-        _fsm.Update();
-    }
-
+    private void Update() => _fsm.Update();
     #endregion
 
     #region Triggers
+    public void DisplayItemPickupPrompt() => DisplayUI(_pickupItemUI);
 
-    public void DisplayItemPickupPrompt()
-    {
-
-    }
-
-    public void HideItemPickupPrompt()
-    {
-
-    }
+    public void HideItemPickupPrompt() => HideUI(_pickupItemUI);
 
     public void DisplayDialogueEnterPrompt()
     {
-
+        if (_fsm.CurrentState.GetType() != typeof(InDialogueState))
+            DisplayUI(_dialogueEnterPromptUI);
     }
 
-    public void HideDialogueEnterPrompt()
+    public void HideDialogueEnterPrompt() => HideUI(_dialogueEnterPromptUI);
+
+    public void EnterPlay() => _fsm.TransitionTo<PlayState>();
+
+    public void EnterDialogue() => _fsm.TransitionTo<InDialogueState>();
+
+    public void EnterPause() => _fsm.TransitionTo<PauseState>();
+    #endregion
+
+    #region Utilities
+    private void DisplayUI(List<RectTransform> UI)
     {
-
+        foreach (RectTransform graphic in UI)
+        {
+            graphic.gameObject.SetActive(true);
+        }
     }
-
-    public void EnterDialogue()
+    private void HideUI(List<RectTransform> UI)
     {
-        _fsm.TransitionTo<InDialogueState>();
+        foreach (RectTransform graphic in UI)
+        {
+            graphic.gameObject.SetActive(false);
+        }
     }
 
-    public void EnterPlay()
+    private void HideAllUI()
     {
-        _fsm.TransitionTo<PlayState>();
+        HideUI(_pickupItemUI);
+        HideUI(_dialogueEnterPromptUI);
+        HideUI(_dialogueUI);
+        HideUI(_pauseUI);
     }
-
     #endregion
 
     #region States
 
     private abstract class UIState : FiniteStateMachine<UIManager>.State
     {
-        public virtual void DisplayUI(List<MaskableGraphic> UI)
-        {
-            foreach (MaskableGraphic graphic in UI)
-            {
-                graphic.gameObject.SetActive(true);
-            }
-        }
-        public virtual void HideUI(List<MaskableGraphic> UI)
-        {
-            foreach (MaskableGraphic graphic in UI)
-            {
-                graphic.gameObject.SetActive(false);
-            }
-        }
+        
     }
 
     // Normal play-time UI. Usually nothing, except possibly map, compass, and prompts to enter conversation and interact with objects.
@@ -97,29 +91,48 @@ public class UIManager : MonoBehaviour
     {
         public override void OnEnter() { }
 
-        public override void Update() { base.Update(); }
+        public override void Update() => base.Update();
 
-        public override void OnExit() { }
+        public override void OnExit()
+        {
+            Context.HideItemPickupPrompt();
+            Context.HideDialogueEnterPrompt();
+        }
     }
 
     // Player is in dialogue.
     private class InDialogueState : UIState
     {
-        public override void OnEnter() { DisplayUI(Context.DialogueUI); }
+        private float _timeElapsed = 0f;
+        private readonly float _maxTimeElapsedBeforeUI = 1f;
 
-        public override void Update() { base.Update(); }
+        public override void OnEnter()
+        {
+            _timeElapsed = 0f;
+        }
 
-        public override void OnExit() { HideUI(Context.DialogueUI); }
+        public override void Update()
+        {
+            base.Update();
+
+            _timeElapsed += Time.deltaTime;
+            if (_timeElapsed >= _maxTimeElapsedBeforeUI)
+            {
+                Context.DisplayUI(Context._dialogueUI);
+            }
+        }
+
+        public override void OnExit() => Context.HideUI(Context._dialogueUI);
     }
 
     // Pause UI.
     private class PauseState : UIState
     {
-        public override void OnEnter() { DisplayUI(Context.PauseUI); }
+        public override void OnEnter() => Context.DisplayUI(Context._pauseUI);
 
-        public override void Update() { base.Update(); }
+        public override void Update() => base.Update();
 
-        public override void OnExit() { HideUI(Context.PauseUI); }
+        public override void OnExit() => Context.HideUI(Context._pauseUI);
     }
     #endregion
 

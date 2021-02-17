@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     // Stored inputs
     private float _horizontalInput = 0f;
     private float _verticalInput = 0f;
-    private float _jumpInput = 0f;
+    private bool _jumpInput = false;
     private bool _sprintInput = false;
 
     private readonly float _movementSpeed = 5f;
@@ -70,10 +70,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
-        _fsm.TransitionTo<IdleState>();
-    }
+    void Start() => _fsm.TransitionTo<IdleState>();
 
     // Update is called once per frame
     void Update()
@@ -93,10 +90,8 @@ public class PlayerMovement : MonoBehaviour
             curGS.FixedUpdate();
     }
 
-    #endregion
-
     // Updates the player movement inputs. Called in InputManager.
-    public void InputUpdate(float hor, float vert, float jump, bool sprint)
+    public void InputUpdate(float hor, float vert, bool jump, bool sprint)
     {
         _horizontalInput = hor;
         _verticalInput = vert;
@@ -104,30 +99,30 @@ public class PlayerMovement : MonoBehaviour
         _sprintInput = sprint;
     }
 
-    // Forces the player to be idle.
-    public void ForceIdle()
-    {
-        _fsm.TransitionTo<ForcedIdleState>();
-    }
+    #endregion
+
+    #region Triggers
 
     // Returns player to play mode.
-    public void EnterPlay()
-    {
-        _fsm.TransitionTo<IdleState>();
-    }
+    public void EnterPlay() => _fsm.TransitionTo<IdleState>();
+
+    // Forces the player to be idle.
+    public void ForceIdle() => _fsm.TransitionTo<ForcedIdleState>();
+
+    // Forces the player to be idle and faces toward NPC.
+    public void EnterDialogue() => _fsm.TransitionTo<InDialogueState>();
+
+    #endregion
+
+    #region Utilities
 
     // Returns if the player is currently on the ground.
-    private bool OnGround()
-    {
-
-        return _charController.isGrounded;
-    }
+    private bool OnGround => _charController.isGrounded;
 
     // Returns whether or not the player entered any ground movement inputs W, A, S, D, NOT space.
-    private bool GroundMovementInputsEntered()
-    {
-        return _horizontalInput != 0f || _verticalInput != 0f;
-    }
+    private bool GroundMovementInputsEntered => _horizontalInput != 0f || _verticalInput != 0f;
+
+    #endregion
 
     #region States
 
@@ -142,6 +137,8 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("IdleState enter");
             Context._currentMovementVector.y = 0f;
+
+            // Enter Idle animation state.
         }
 
         public override void Update()
@@ -149,11 +146,11 @@ public class PlayerMovement : MonoBehaviour
             base.Update();
 
             // Process inputs
-            if (Context.GroundMovementInputsEntered() || Context._currentMovementVector != Vector3.zero)
+            if (Context.GroundMovementInputsEntered|| Context._currentMovementVector != Vector3.zero)
                 TransitionTo<MovingOnGroundState>();
-            else if (Context._jumpInput != 0 && Context._curJumpCooldown <= 0)
+            else if (Context._jumpInput && Context._curJumpCooldown <= 0)
                 TransitionTo<JumpingState>();
-            else if (!Context.OnGround())
+            else if (!Context.OnGround)
                 TransitionTo<FallingState>();
         }
 
@@ -169,37 +166,44 @@ public class PlayerMovement : MonoBehaviour
         public override void OnEnter()
         {
 
+            Context._currentMovementVector = Vector3.zero;
         }
 
-        public override void Update()
-        {
-            base.Update();
-
-        }
+        public override void Update() => base.Update();
 
         // Physics calculations.
-        public override void FixedUpdate()
+        public override void FixedUpdate() => base.FixedUpdate();
+
+        public override void OnExit() { }
+    }
+
+    // Player is forced to remain idle, turns to look at NPC.
+    private class InDialogueState : GameState
+    {
+        public override void OnEnter()
         {
-            base.FixedUpdate();
-            
+
+            Context._currentMovementVector = Vector3.zero;
+            Context.transform.LookAt(Services.NPCInteractionManager.closestNPC.transform, Vector3.up);
         }
 
-        public override void OnExit()
-        {
+        public override void Update() => base.Update();
 
-        }
+        // Physics calculations.
+        public override void FixedUpdate() => base.FixedUpdate();
+
+        public override void OnExit() { }
     }
 
     // Player is currently moving on the ground.
     private class MovingOnGroundState : GameState
     {
-
-        float turningSmoothVel;
+        private float turningSmoothVel;
 
         public override void OnEnter()
         {
             Debug.Log("MovingOnGround enter");
-
+            Context._currentMovementVector.y = 0f;
         }
 
         public override void Update()
@@ -209,9 +213,9 @@ public class PlayerMovement : MonoBehaviour
             // Process inputs.
             if (Context._currentMovementVector == Vector3.zero) // !Context.GroundMovementInputsEntered()
                 TransitionTo<IdleState>();
-            else if (Context._jumpInput != 0 && Context._curJumpCooldown <= 0)
+            else if (Context._jumpInput && Context._curJumpCooldown <= 0)
                 TransitionTo<JumpingState>();
-            else if (!Context.OnGround())
+            else if (!Context.OnGround)
                 TransitionTo<FallingState>();
         }
 
@@ -222,9 +226,10 @@ public class PlayerMovement : MonoBehaviour
 
             Vector3 direction = new Vector3(Context._horizontalInput, 0f, Context._verticalInput).normalized;
 
+            // If the player has entered input, calculate the forward angle and move the target movement.
             if (direction.sqrMagnitude >= .1f)
             {
-                float targetAngle = Mathf.Atan2(Context._horizontalInput, Context._verticalInput) * Mathf.Rad2Deg + Services.CameraManager.CameraYAngle();
+                float targetAngle = Mathf.Atan2(Context._horizontalInput, Context._verticalInput) * Mathf.Rad2Deg + Services.CameraManager.CameraYAngle;
                 float angle = Mathf.SmoothDampAngle(Context.transform.eulerAngles.y, targetAngle, ref turningSmoothVel, .1f);
                 Context.transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
@@ -234,25 +239,21 @@ public class PlayerMovement : MonoBehaviour
             {
                 Context._targetMovementVector = Vector3.zero;
             }
-            // Calculate the target movement.
-            //Context._targetMovementVector = new Vector3(Context._horizontalInput, 0, Context._verticalInput).normalized * Context._movementSpeed * Time.deltaTime;
 
             // Lerp the current movement toward the targetmovement
-            Context._currentMovementVector = Vector3.Lerp(Context._currentMovementVector, Context._targetMovementVector, Context._movementChangeSpeed * Time.fixedDeltaTime); // Maybe change to Slerp?
+            Context._currentMovementVector = Vector3.Lerp(Context._currentMovementVector, Context._targetMovementVector, Context._movementChangeSpeed * Time.fixedDeltaTime);
 
             // Fall downwards
             Context._currentMovementVector.y = Context._gravity * Time.fixedDeltaTime;
 
+            // Finally, move the character to that vector.
             Context._charController.Move(Context._currentMovementVector);
         }
 
-        public override void OnExit()
-        {
-
-        }
+        public override void OnExit() { }
     }
 
-    // Player is currently jumping.
+    // Player is currently jumping. Possibly change into 2 states - a jump charging state and a released jump state.
     private class JumpingState : GameState
     {
         public override void OnEnter()
@@ -263,9 +264,7 @@ public class PlayerMovement : MonoBehaviour
             Context._currentMovementVector.y = Context._jumpSpeed;
 
             Context._curJumpCooldown = Context._jumpCooldown;
-            Debug.Log("Current movement vector " + Context._currentMovementVector.y);
-
-
+            
             Context._charController.Move(Context._currentMovementVector);
         }
 
@@ -273,13 +272,12 @@ public class PlayerMovement : MonoBehaviour
         {
             base.Update();
 
-            // Process inputs
-            // Move in air?
+            // Process inputs in air?
 
-            // Detect if moving up or down?
-            Debug.Log("Current movement vector " + Context._currentMovementVector.y);
+            // Detect if on the ground or moving down.
+            //Debug.Log("Current movement vector " + Context._currentMovementVector.y);
 
-            if (Context.OnGround())
+            if (Context.OnGround)
             {
                 TransitionTo<IdleState>();
             }
@@ -287,8 +285,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 TransitionTo<FallingState>();
             }
-
-            
         }
 
         // Physics calculations.
@@ -300,14 +296,9 @@ public class PlayerMovement : MonoBehaviour
             Context._currentMovementVector.y += Context._gravity * Time.fixedDeltaTime;
 
             Context._charController.Move(Context._currentMovementVector);
-            // Detect if hit the ground?
-            // transfer to idle if not moving, moving if moving
         }
 
-        public override void OnExit()
-        {
-
-        }
+        public override void OnExit() { }
     }
 
     // Player is currently falling.
@@ -323,17 +314,16 @@ public class PlayerMovement : MonoBehaviour
         {
             base.Update();
 
-            // Process inputs
-            // Move in air?
+            // Process inputs in air?
 
-            // Detect if moving up or down?
-            if (Context.OnGround())
+            // Detect if on the ground. If moving, transition to the moving state.
+            if (Context.OnGround)
             {
-                TransitionTo<IdleState>();
+                if (Context.GroundMovementInputsEntered)
+                    TransitionTo<MovingOnGroundState>();
+                else
+                    TransitionTo<IdleState>();
             }
-
-            // Detect if hit the ground?
-            // transfer to idle if not moving, moving if moving
         }
 
         // Physics calculations.
@@ -345,14 +335,9 @@ public class PlayerMovement : MonoBehaviour
             Context._currentMovementVector.y += Context._gravity * Time.fixedDeltaTime;
 
             Context._charController.Move(Context._currentMovementVector);
-            // Detect if hit the ground?
-            // transfer to idle if not moving, moving if moving
         }
 
-        public override void OnExit()
-        {
-
-        }
+        public override void OnExit() { }
     }
     #endregion
 

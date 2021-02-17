@@ -76,6 +76,12 @@ public class GameManager : MonoBehaviour
         _fsm.TransitionTo<PlayState>();
     }
 
+    // Called on Quit.
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
     #endregion 
 
     #region States
@@ -86,7 +92,7 @@ public class GameManager : MonoBehaviour
     {
         public override void OnEnter()
         {
-            Debug.Log("Entered StartPlay");
+            Debug.Log("GameManager: Entered StartPlay");
         }
 
         public override void Update()
@@ -107,43 +113,31 @@ public class GameManager : MonoBehaviour
     {
         public override void OnEnter()
         {
-            Debug.Log("Entered PlayState");
+            Debug.Log("GameManager: Entered PlayState");
+            Services.PlayerMovement.EnterPlay();
+            Services.CameraManager.EnterPlay();
+            Services.UIManager.EnterPlay();
         }
 
         public override void Update()
         {
             base.Update();
 
-
             Services.InputManager.ProcessPlayInput();
-
-            // This will be moved to InputManager.
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                // Pause
-                TransitionTo<PauseState>();
-            }
-
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                // Pause
-                TransitionTo<InDialogueState>();
-            }
         }
 
-        public override void OnExit()
-        {
-
-        }
+        public override void OnExit() { }
     }
 
     private class PauseState : GameState
     {
         public override void OnEnter()
         {
-            Debug.Log("Entered Pause");
+            Debug.Log("GameManager: Entered Pause");
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+
+            Services.UIManager.EnterPause();
         }
 
         public override void Update()
@@ -164,6 +158,9 @@ public class GameManager : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+
+            // Figure out where you are going. If you are going to play, lock mouse, enter play.
+            Services.UIManager.EnterPlay();
         }
     }
 
@@ -171,10 +168,10 @@ public class GameManager : MonoBehaviour
     {
         public override void OnEnter()
         {
-            Debug.Log("Entered InDialogueState");
+            Debug.Log("GameManager: Entered InDialogueState");
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            Services.PlayerMovement.ForceIdle();
+            Services.PlayerMovement.EnterDialogue();
             Services.CameraManager.EnterDialogue();
             Services.UIManager.EnterDialogue();
         }
@@ -192,7 +189,7 @@ public class GameManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
-            Services.PlayerMovement.EnterPlay(); // FIGURE THESE OUT
+            Services.PlayerMovement.EnterPlay();
             Services.CameraManager.EnterPlay();
             Services.UIManager.EnterPlay();
         }
