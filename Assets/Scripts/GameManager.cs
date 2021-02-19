@@ -174,6 +174,7 @@ public class GameManager : MonoBehaviour
             Services.PlayerMovement.EnterDialogue();
             Services.CameraManager.EnterDialogue();
             Services.UIManager.EnterDialogue();
+            Services.NPCInteractionManager.EnterDialogue();
         }
 
         public override void Update()
@@ -192,6 +193,7 @@ public class GameManager : MonoBehaviour
             Services.PlayerMovement.EnterPlay();
             Services.CameraManager.EnterPlay();
             Services.UIManager.EnterPlay();
+            Services.NPCInteractionManager.ExitDialogue();
         }
     }
     #endregion

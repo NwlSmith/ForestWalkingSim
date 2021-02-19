@@ -22,6 +22,7 @@ public class CameraManager : MonoBehaviour
 
     public float mouseSensitivity = 200f;
     
+    [SerializeField] private Transform npcCameraTarget;
     [SerializeField] private Transform targetVector;
     [SerializeField] private CinemachineVirtualCamera mainFollowCamera;
     [SerializeField] private CinemachineVirtualCamera playerCameraView;
@@ -155,9 +156,9 @@ public class CameraManager : MonoBehaviour
             Context.npcCameraView.Priority = 30;
 
             // set to proper position
-            Context.npcCameraView.ForceCameraPosition(Context.targetNPC.transform.position, Context.targetNPC.transform.rotation);
+            Context.npcCameraView.ForceCameraPosition(Context.targetNPC.npcCameraViewPosition.position, Context.targetNPC.transform.rotation);
             // look at player
-            Context.playerCameraView.LookAt = Context.transform;
+            Context.npcCameraView.LookAt = Context.npcCameraTarget;
         }
     }
 

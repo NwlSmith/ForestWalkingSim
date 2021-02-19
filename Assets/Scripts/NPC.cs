@@ -13,6 +13,22 @@ using UnityEngine;
 public class NPC : MonoBehaviour
 {
 
-    [SerializeField] public Transform npcCameraViewPosition { get; private set; }
+    public Transform npcCameraViewPosition;// { get; private set; }
 
+    private Quaternion _initRot;
+
+    private void Awake()
+    {
+        _initRot = transform.rotation;
+    }
+
+    public void EnterDialogue(Transform playerPos)
+    {
+        transform.LookAt(playerPos, Vector3.up);
+    }
+
+    public void ExitDialogue()
+    {
+        transform.rotation = _initRot;
+    }
 }

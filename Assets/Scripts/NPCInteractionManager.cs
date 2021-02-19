@@ -27,4 +27,14 @@ public class NPCInteractionManager : MonoBehaviour
             Services.GameManager.EnterDialogue();
         }
     }
+
+    public void EnterDialogue()
+    {
+        closestNPC.EnterDialogue(Services.PlayerMovement.transform);
+    }
+
+    public void ExitDialogue()
+    {
+        closestNPC.ExitDialogue();
+    }
 }
