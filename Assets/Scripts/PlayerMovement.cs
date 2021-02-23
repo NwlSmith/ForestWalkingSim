@@ -230,7 +230,7 @@ public class PlayerMovement : MonoBehaviour
             if (direction.sqrMagnitude >= .1f)
             {
                 float targetAngle = Mathf.Atan2(Context._horizontalInput, Context._verticalInput) * Mathf.Rad2Deg + Services.CameraManager.CameraYAngle;
-                float angle = Mathf.SmoothDampAngle(Context.transform.eulerAngles.y, targetAngle, ref turningSmoothVel, .1f);
+                float angle = Mathf.SmoothDampAngle(Context.transform.eulerAngles.y, targetAngle, ref turningSmoothVel, .2f);
                 Context.transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
                 Context._targetMovementVector = (Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward).normalized * Context._movementSpeed * Time.fixedDeltaTime * (Context._sprintInput ? Context._shiftMultiplier : 1f);
