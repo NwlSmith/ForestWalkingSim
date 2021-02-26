@@ -66,7 +66,7 @@ public class DialogueController : MonoBehaviour
     {
         _speakerText.text = _curNPC.NPCSpeakerData.SpeakerName;
         _dialogueText.color = _curNPC.NPCSpeakerData.SpeakerColor;
-        _audioSource.clip = _curNPC.NPCSpeakerData.SpeakerSound;
+        _audioSource.clip = _curNPC.NPCSpeakerData.GetAudioClip();
         _audioSource.Play();
         Services.CameraManager.PlayerCameraView();
     }
@@ -75,7 +75,8 @@ public class DialogueController : MonoBehaviour
     {
         _speakerText.text = _playerSpeakerData.SpeakerName;
         _dialogueText.color = _playerSpeakerData.SpeakerColor;
-        _audioSource.clip = _playerSpeakerData.SpeakerSound;
+        _audioSource.clip = _playerSpeakerData.GetAudioClip();
+        _audioSource.pitch = Random.Range(.9f, 1.1f);
         _audioSource.Play();
         Services.CameraManager.NPCCameraView();
     }
