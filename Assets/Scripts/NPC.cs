@@ -13,6 +13,14 @@ using UnityEngine;
 public class NPC : MonoBehaviour
 {
 
+
+    public string YarnStartNode { get { return _yarnStartNode; } }
+    public NPCSpeakerData NPCSpeakerData { get { return _nPCSpeakerData; } }
+
+    [SerializeField] string _yarnStartNode = "Start";
+    [SerializeField] YarnProgram _yarnDialogue;
+    [SerializeField] NPCSpeakerData _nPCSpeakerData;
+
     public Transform npcCameraViewPosition;// { get; private set; }
 
     private Quaternion _initRot;
@@ -20,6 +28,12 @@ public class NPC : MonoBehaviour
     private void Awake()
     {
         _initRot = transform.rotation;
+
+    }
+
+    private void Start()
+    {
+        Services.DialogueController.AddYarnDialogue(_yarnDialogue);
     }
 
     public void EnterDialogue(Transform playerPos)

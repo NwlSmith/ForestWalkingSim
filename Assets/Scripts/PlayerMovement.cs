@@ -109,8 +109,15 @@ public class PlayerMovement : MonoBehaviour
     // Forces the player to be idle.
     public void ForceIdle() => _fsm.TransitionTo<ForcedIdleState>();
 
+    // Forces the player to stop moving.
+    public void EnterPause()
+    {
+        _fsm.TransitionTo<PauseState>();
+    }
+
     // Forces the player to be idle and faces toward NPC.
     public void EnterDialogue() => _fsm.TransitionTo<InDialogueState>();
+
 
     #endregion
 
@@ -136,7 +143,7 @@ public class PlayerMovement : MonoBehaviour
         public override void OnEnter()
         {
             Debug.Log("IdleState enter");
-            Context._currentMovementVector.y = 0f;
+            //Context._currentMovementVector.y = 0f;
 
             // Enter Idle animation state.
         }
@@ -146,7 +153,7 @@ public class PlayerMovement : MonoBehaviour
             base.Update();
 
             // Process inputs
-            if (Context.GroundMovementInputsEntered|| Context._currentMovementVector != Vector3.zero)
+            if (Context.GroundMovementInputsEntered || Context._currentMovementVector != Vector3.zero)
                 TransitionTo<MovingOnGroundState>();
             else if (Context._jumpInput && Context._curJumpCooldown <= 0)
                 TransitionTo<JumpingState>();
@@ -165,7 +172,6 @@ public class PlayerMovement : MonoBehaviour
     {
         public override void OnEnter()
         {
-
             Context._currentMovementVector = Vector3.zero;
         }
 
@@ -173,6 +179,17 @@ public class PlayerMovement : MonoBehaviour
 
         // Physics calculations.
         public override void FixedUpdate() => base.FixedUpdate();
+
+        public override void OnExit() { }
+    }
+    
+    // Player is forced to pause movement.
+    private class PauseState : GameState
+    {
+        public override void OnEnter() { }
+
+        public override void Update() => base.Update();
+        
 
         public override void OnExit() { }
     }
@@ -185,12 +202,9 @@ public class PlayerMovement : MonoBehaviour
 
             Context._currentMovementVector = Vector3.zero;
             Context.transform.LookAt(Services.NPCInteractionManager.closestNPC.transform, Vector3.up);
+            // SET LOCATION? LERP TO LOCATION?
         }
-
-        public override void Update() => base.Update();
-
-        // Physics calculations.
-        public override void FixedUpdate() => base.FixedUpdate();
+        
 
         public override void OnExit() { }
     }
@@ -203,7 +217,7 @@ public class PlayerMovement : MonoBehaviour
         public override void OnEnter()
         {
             Debug.Log("MovingOnGround enter");
-            Context._currentMovementVector.y = 0f;
+            //Context._currentMovementVector.y = Context._gravity * Time.fixedDeltaTime;
         }
 
         public override void Update()
@@ -244,7 +258,7 @@ public class PlayerMovement : MonoBehaviour
             Context._currentMovementVector = Vector3.Lerp(Context._currentMovementVector, Context._targetMovementVector, Context._movementChangeSpeed * Time.fixedDeltaTime);
 
             // Fall downwards
-            Context._currentMovementVector.y = Context._gravity * Time.fixedDeltaTime;
+            Context._currentMovementVector.y = 4 * Context._gravity * Time.fixedDeltaTime;
 
             // Finally, move the character to that vector.
             Context._charController.Move(Context._currentMovementVector);

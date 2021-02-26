@@ -137,6 +137,7 @@ public class GameManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
+            Services.PlayerMovement.EnterPause();
             Services.UIManager.EnterPause();
         }
 

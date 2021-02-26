@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Yarn.Unity;
 
 /*
  * Creator: Nate Smith
@@ -22,10 +24,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private List<RectTransform> _dialogueUI;
     [SerializeField] private List<RectTransform> _pauseUI;
 
+
     #region Lifecycle Management
     private void Awake()
     {
         _fsm = new FiniteStateMachine<UIManager>(this);
+
+
         HideAllUI();
     }
 
@@ -52,6 +57,7 @@ public class UIManager : MonoBehaviour
     public void EnterDialogue() => _fsm.TransitionTo<InDialogueState>();
 
     public void EnterPause() => _fsm.TransitionTo<PauseState>();
+
     #endregion
 
     #region Utilities
@@ -103,23 +109,16 @@ public class UIManager : MonoBehaviour
     // Player is in dialogue.
     private class InDialogueState : UIState
     {
-        private float _timeElapsed = 0f;
         private readonly float _maxTimeElapsedBeforeUI = 1f;
 
-        public override void OnEnter()
-        {
-            _timeElapsed = 0f;
-        }
+        public override void OnEnter() => Context.StartCoroutine(DelayDisplayUI());
 
-        public override void Update()
-        {
-            base.Update();
 
-            _timeElapsed += Time.deltaTime;
-            if (_timeElapsed >= _maxTimeElapsedBeforeUI)
-            {
-                Context.DisplayUI(Context._dialogueUI);
-            }
+        private IEnumerator DelayDisplayUI()
+        {
+            yield return new WaitForSeconds(_maxTimeElapsedBeforeUI);
+            Context.DisplayUI(Context._dialogueUI);
+            Services.DialogueController.EnterDialogue();
         }
 
         public override void OnExit() => Context.HideUI(Context._dialogueUI);

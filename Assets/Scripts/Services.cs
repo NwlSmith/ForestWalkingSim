@@ -104,6 +104,17 @@ public static class Services
         }
         private set => _npcInteractionManager = value;
     }
+
+    private static DialogueController _dialogueController;
+    public static DialogueController DialogueController
+    {
+        get
+        {
+            Debug.Assert(_dialogueController != null);
+            return _dialogueController;
+        }
+        private set => _dialogueController = value;
+    }
     #endregion
 
     #region Functions
@@ -118,6 +129,7 @@ public static class Services
         CameraManager = Object.FindObjectOfType<CameraManager>();
         PlayerItemHolder = Object.FindObjectOfType<PlayerItemHolder>();
         NPCInteractionManager = Object.FindObjectOfType<NPCInteractionManager>();
+        DialogueController = Object.FindObjectOfType<DialogueController>();
 
     }
     #endregion
