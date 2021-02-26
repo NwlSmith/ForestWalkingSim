@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpeakerName: Bord
   SpeakerColor: {r: 0.07075471, g: 0.49386254, b: 1, a: 1}
-  SpeakerSound: {fileID: 8300000, guid: e6c62b61ea08e4b46b8b52301b1ecfb2, type: 3}
+  SpeakerSounds:
+  - {fileID: 8300000, guid: e6c62b61ea08e4b46b8b52301b1ecfb2, type: 3}

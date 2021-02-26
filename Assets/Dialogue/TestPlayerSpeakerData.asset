@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpeakerName: Fox
   SpeakerColor: {r: 1, g: 0.5437762, b: 0.07058823, a: 1}
-  SpeakerSound: {fileID: 8300000, guid: 14c0ab5f81da2a7409b399f4516808bb, type: 3}
+  SpeakerSounds:
+  - {fileID: 8300000, guid: 14c0ab5f81da2a7409b399f4516808bb, type: 3}
