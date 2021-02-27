@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Yarn.Unity;
 using TMPro;
-
-
+/*
+ * Creator: Nate Smith
+ * Creation Date: 2/25/2021
+ * Description: Dialogue controller class.
+ * 
+ * Interfaces between our code and Yarn for dialogue.
+ */
 public class DialogueController : MonoBehaviour
 {
-
 
     private DialogueUI _yarnDialogueUI;
     public DialogueUI DialogueUIManager
@@ -44,10 +48,17 @@ public class DialogueController : MonoBehaviour
         DialogueRunner = GetComponent<DialogueRunner>();
         _audioSource = GetComponent<AudioSource>();
 
+        AddYarnCommands();
+    }
+
+    // Adds a function to the command handler in Yarn.
+    private void AddYarnCommands()
+    {
         DialogueRunner.AddCommandHandler("NPCSpeak", NPCSpeak);
         DialogueRunner.AddCommandHandler("PlayerSpeak", PlayerSpeak);
     }
 
+    // Injects a Yarn Dialogue file into Yarn.
     public void AddYarnDialogue(YarnProgram yarnDialogue)
     {
         DialogueRunner.Add(yarnDialogue);

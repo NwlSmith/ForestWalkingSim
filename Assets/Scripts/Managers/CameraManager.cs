@@ -13,6 +13,7 @@ using Cinemachine;
  * 
  * Issues:
  * - Camera can get buggy when holding a holdableObject
+ * - Must be able to accommodate having conversations with multiple people!!!!!
  */
 public class CameraManager : MonoBehaviour
 {

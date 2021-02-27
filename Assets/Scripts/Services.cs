@@ -115,6 +115,17 @@ public static class Services
         }
         private set => _dialogueController = value;
     }
+
+    private static QuestManager _questManager;
+    public static QuestManager QuestManager
+    {
+        get
+        {
+            Debug.Assert(_questManager != null);
+            return _questManager;
+        }
+        private set => _questManager = value;
+    }
     #endregion
 
     #region Functions
@@ -130,7 +141,7 @@ public static class Services
         PlayerItemHolder = Object.FindObjectOfType<PlayerItemHolder>();
         NPCInteractionManager = Object.FindObjectOfType<NPCInteractionManager>();
         DialogueController = Object.FindObjectOfType<DialogueController>();
-
+        QuestManager = Object.FindObjectOfType<QuestManager>();
     }
     #endregion
 }

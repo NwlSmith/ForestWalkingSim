@@ -7,7 +7,9 @@ using UnityEngine;
  * Creation Date: 2/11/2021
  * Description: Processes the player's movement input and moves the player.
  * 
- * Input is processed differently based on what state the player is in.
+ * Input is processed differently based on what state the player is in.'
+ * 
+ * NOTE: ADD STATE TO FORCE PLAYER TO WALK TO A PRE-DEFINED POSITION WHEN TALKING TO NPCS.
  */
 
 public class PlayerMovement : MonoBehaviour

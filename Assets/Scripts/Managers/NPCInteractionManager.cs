@@ -1,7 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * Creator: Nate Smith
+ * Creation Date: 2/19/2021
+ * Description: Manager that interfaces between the player and NPCs for dialogue.
+ */
 public class NPCInteractionManager : MonoBehaviour
 {
 

@@ -1,0 +1,13 @@
+title: Bord.Start
+tags: 
+colorID: 0
+position: 860,384
+---
+<<NPCSpeak>>
+Hello. This the npc dialogue test for the first NPC.
+It will help us make dialogue work.
+<<PlayerSpeak>>
+Oh, that's cool.
+<<NPCSpeak>>
+It is, isn't it?
+===
