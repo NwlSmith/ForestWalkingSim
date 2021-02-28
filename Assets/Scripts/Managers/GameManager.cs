@@ -14,7 +14,7 @@ using UnityEngine;
  * Issues:
  * - Need to fix player position during dialogue.
  * - Need to allow for multiple-NPC conversations. - Use SetTargetNPC for camera, Not sure what to do for dialogueController
- * - Need to make mouse looking faster
+ * - Immediately thinks I want to talk to spirit
  * 
  */
 

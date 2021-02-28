@@ -81,7 +81,6 @@ public class FrogQuest : FSMQuest
         {
             _stageNum = 4;
             base.OnEnter();
-            // TRIGGER END CUTSCENE.
         }
     }
 }

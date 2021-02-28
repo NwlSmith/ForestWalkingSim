@@ -121,7 +121,6 @@ public class WarblerQuest : FSMQuest
         {
             _stageNum = 7;
             base.OnEnter();
-            // TRIGGER END CUTSCENE.
         }
     }
 }

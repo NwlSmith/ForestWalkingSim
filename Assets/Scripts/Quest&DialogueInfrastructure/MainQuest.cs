@@ -88,6 +88,4 @@ public class MainQuest : FSMQuest
             // TRIGGER END CUTSCENE.
         }
     }
-
-
 }

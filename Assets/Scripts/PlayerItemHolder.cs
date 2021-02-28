@@ -85,7 +85,7 @@ public class PlayerItemHolder : MonoBehaviour
         return Vector3.Distance(item.transform.position, _itemAttachmentPoint.position);
     }
 
-    private void DropItem()
+    public void DropItem()
     {
         Debug.Log("Dropping item");
         _holdingItem = false;

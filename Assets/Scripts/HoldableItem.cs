@@ -23,7 +23,7 @@ public class HoldableItem : MonoBehaviour
 
     public Rigidbody rb { get; private set; }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }

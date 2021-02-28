@@ -56,9 +56,10 @@ public class InputManager : MonoBehaviour
 
     public void ProcessDialogueInput()
     {
+        /*
         if (Input.GetButtonDown("Jump"))
         {
             Services.GameManager.ExitDialogue();
-        }
+        }*/
     }
 }
