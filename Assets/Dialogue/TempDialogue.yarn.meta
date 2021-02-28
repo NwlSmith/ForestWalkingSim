@@ -1,0 +1,80 @@
+fileFormatVersion: 2
+guid: 473f2d59bcab5944c936ec2d5c37b7a8
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 94073015eacc34c1d8fc6786e43d60ca, type: 3}
+  baseLanguageID: en-US
+  stringIDs:
+  - SpiritTemp (4)-Spirit.Start-0
+  - SpiritTemp (4)-Spirit.Start-1
+  - SpiritTemp (4)-Spirit.Start-2
+  - SpiritTemp (4)-Spirit.Start-3
+  - SpiritTemp (4)-Spirit.Start-4
+  - SpiritTemp (4)-Spirit.Start-5
+  - SpiritTemp (4)-Spirit.Start-6
+  - SpiritTemp (4)-Spirit.Start-7
+  - SpiritTemp (4)-WarblerMom.Start-8
+  - SpiritTemp (4)-WarblerMom.Start-9
+  - SpiritTemp (4)-WarblerMom.Start-10
+  - SpiritTemp (4)-WarblerMom.Start-11
+  - SpiritTemp (4)-WarblerMom.Start-12
+  - SpiritTemp (4)-WarblerMom.Start-13
+  - SpiritTemp (4)-WarblerMom.Start-14
+  - SpiritTemp (4)-WarblerMom.Start-15
+  - SpiritTemp (4)-WarblerMom.Start-16
+  - SpiritTemp (4)-WarblerMom.Start-17
+  - SpiritTemp (4)-WarblerMom.Start-18
+  - SpiritTemp (4)-WarblerMom.Start-19
+  - SpiritTemp (4)-WarblerMom.Start-20
+  - SpiritTemp (4)-WarblerMom.Start-21
+  - SpiritTemp (4)-WarblerMom.Start-22
+  - SpiritTemp (4)-WarblerMom.Start-23
+  - SpiritTemp (4)-WarblerChild1.Start-24
+  - SpiritTemp (4)-WarblerChild1.Start-25
+  - SpiritTemp (4)-WarblerChild1.Start-26
+  - SpiritTemp (4)-WarblerChild1.Start-27
+  - SpiritTemp (4)-WarblerChild1.Start-28
+  - SpiritTemp (4)-WarblerChild1.Start-29
+  - SpiritTemp (4)-WarblerChild1.Start-30
+  - SpiritTemp (4)-WarblerChild1.Start-31
+  - SpiritTemp (4)-WarblerChild1.Start-32
+  - SpiritTemp (4)-WarblerChild1.Start-33
+  - SpiritTemp (4)-WarblerChild1.Start-34
+  - SpiritTemp (4)-WarblerChild1.Start-35
+  - SpiritTemp (4)-WarblerChild1.Start-36
+  - SpiritTemp (4)-WarblerChild2.Start-37
+  - SpiritTemp (4)-WarblerChild2.Start-38
+  - SpiritTemp (4)-WarblerChild2.Start-39
+  - SpiritTemp (4)-WarblerChild2.Start-40
+  - SpiritTemp (4)-WarblerChild2.Start-41
+  - SpiritTemp (4)-WarblerChild2.Start-42
+  - SpiritTemp (4)-WarblerChild2.Start-43
+  - SpiritTemp (4)-WarblerChild2.Start-44
+  - SpiritTemp (4)-WarblerChild2.Start-45
+  - SpiritTemp (4)-WarblerChild2.Start-46
+  - SpiritTemp (4)-WarblerChild2.Start-47
+  - SpiritTemp (4)-WarblerChild2.Start-48
+  - SpiritTemp (4)-WarblerChild2.Start-49
+  - SpiritTemp (4)-WarblerChild2.Start-50
+  - SpiritTemp (4)-WarblerChild3.Start-51
+  - SpiritTemp (4)-WarblerChild3.Start-52
+  - SpiritTemp (4)-WarblerChild3.Start-53
+  - SpiritTemp (4)-WarblerChild3.Start-54
+  - SpiritTemp (4)-WarblerChild3.Start-55
+  - SpiritTemp (4)-WarblerChild3.Start-56
+  - SpiritTemp (4)-WarblerChild3.Start-57
+  - SpiritTemp (4)-WarblerChild3.Start-58
+  - SpiritTemp (4)-WarblerChild3.Start-59
+  - SpiritTemp (4)-WarblerChild3.Start-60
+  - SpiritTemp (4)-WarblerChild3.Start-61
+  - SpiritTemp (4)-WarblerChild3.Start-62
+  compilationStatus: 1
+  isSuccesfullyCompiled: 1
+  compilationErrorMessage: 
+  baseLanguage: {fileID: 7128917941130120860, guid: 473f2d59bcab5944c936ec2d5c37b7a8, type: 3}
+  localizations: []

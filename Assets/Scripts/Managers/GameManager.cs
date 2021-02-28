@@ -11,6 +11,12 @@ using UnityEngine;
  * 
  * Allows different game states to have different Update functions.
  * 
+ * Issues:
+ * - Need to fix player position during dialogue.
+ * - Need to allow for multiple-NPC conversations.
+ * - Need to make it so you can't talk to the same bird to advance warbler.
+ * - Need to make mouse looking faster
+ * 
  */
 
 public class GameManager : MonoBehaviour

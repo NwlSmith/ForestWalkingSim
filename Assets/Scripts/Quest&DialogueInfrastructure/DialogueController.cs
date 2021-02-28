@@ -35,7 +35,20 @@ public class DialogueController : MonoBehaviour
         private set => _yarnDialogueRunner = value;
     }
 
+    private InMemoryVariableStorage _inMemoryVariableStorage;
+    public InMemoryVariableStorage InMemoryVariableStorage
+    {
+        get
+        {
+            Debug.Assert(_inMemoryVariableStorage != null);
+            return _inMemoryVariableStorage;
+        }
+        private set => _inMemoryVariableStorage = value;
+    }
+
     private NPC _curNPC;
+
+    private bool _isPlayerSpeaking = false;
 
     [SerializeField] private NPCSpeakerData _playerSpeakerData;
     [SerializeField] private TMP_Text _speakerText;
@@ -46,6 +59,7 @@ public class DialogueController : MonoBehaviour
     {
         DialogueUIManager = GetComponent<DialogueUI>();
         DialogueRunner = GetComponent<DialogueRunner>();
+        InMemoryVariableStorage = GetComponent<InMemoryVariableStorage>();
         _audioSource = GetComponent<AudioSource>();
 
         AddYarnCommands();
@@ -77,18 +91,26 @@ public class DialogueController : MonoBehaviour
     {
         _speakerText.text = _curNPC.NPCSpeakerData.SpeakerName;
         _dialogueText.color = _curNPC.NPCSpeakerData.SpeakerColor;
-        _audioSource.clip = _curNPC.NPCSpeakerData.GetAudioClip();
-        _audioSource.Play();
         Services.CameraManager.PlayerCameraView();
+        _isPlayerSpeaking = false;
     }
 
     private void PlayerSpeak(string[] parameters)
     {
         _speakerText.text = _playerSpeakerData.SpeakerName;
         _dialogueText.color = _playerSpeakerData.SpeakerColor;
-        _audioSource.clip = _playerSpeakerData.GetAudioClip();
+        Services.CameraManager.NPCCameraView();
+        _isPlayerSpeaking = true;
+    }
+
+    public void OnLineStart()
+    {
+        if (_isPlayerSpeaking)
+            _audioSource.clip = _playerSpeakerData.GetAudioClip();
+        else
+            _audioSource.clip = _curNPC.NPCSpeakerData.GetAudioClip();
+
         _audioSource.pitch = Random.Range(.9f, 1.1f);
         _audioSource.Play();
-        Services.CameraManager.NPCCameraView();
     }
 }

@@ -1,0 +1,38 @@
+title: WarblerChild2.Start
+tags: 
+colorID: 0
+position: -773,288
+---
+<<if $quest_warbler_stage is 0>>
+    <<NPCSpeak>>
+    You can't see me...
+    <<PlayerSpeak>>
+    Okay, that's cool.
+    <<NPCSpeak>>
+    Thanks!
+<<elseif $quest_warbler_stage gt 0 and $quest_warbler_stage lt 4>>
+    <<if $found_warbler_child_2 is false>>
+        <<NPCSpeak>>
+        I am invisible...
+        <<PlayerSpeak>>
+        No you're not.
+        <<NPCSpeak>>
+        Yes I am...
+        <<PlayerSpeak>>
+        Please go home to your mom.
+        <<NPCSpeak>>
+        Fine, I'll meet you there
+        <<set $found_warbler_child_2 to true>>
+        <<AdvanceQuest Warbler>>
+    <<else>>
+        <<NPCSpeak>>
+        I'm going, I promise!
+        <<PlayerSpeak>>
+        Fine, I'll meet you there.
+    <<endif>>
+    <<NPCSpeak>>
+    Bye!
+    <<PlayerSpeak>>
+    Bye!
+<<endif>>
+===

@@ -9,6 +9,7 @@ using UnityEngine;
 public class QuestManager : MonoBehaviour
 {
     [SerializeField] private Dictionary<string, FSMQuest> _questDictionary = new Dictionary<string, FSMQuest>();
+    [SerializeField] private Dictionary<string, string> _stringToStageDictionary = new Dictionary<string, string>();
 
     private void Start()
     {
@@ -20,15 +21,20 @@ public class QuestManager : MonoBehaviour
     {
         FSMQuest main = FindObjectOfType<MainQuest>();
         _questDictionary.Add("Main", main);
+        _stringToStageDictionary.Add("Main", "$quest_main_stage");
 
         FSMQuest warbler = FindObjectOfType<WarblerQuest>();
         _questDictionary.Add("Warbler", warbler);
+        _stringToStageDictionary.Add("Warbler", "$quest_warbler_stage");
 
         FSMQuest frog = FindObjectOfType<FrogQuest>();
         _questDictionary.Add("Frog", frog);
+        _stringToStageDictionary.Add("Frog", "$quest_frog_stage");
 
         FSMQuest turtle = FindObjectOfType<TurtleQuest>();
         _questDictionary.Add("Turtle", turtle);
+        _stringToStageDictionary.Add("Turtle", "$quest_turtle_stage");
+
     }
 
     public void AdvanceQuest(string[] parameters)
@@ -46,5 +52,18 @@ public class QuestManager : MonoBehaviour
             return;
         }
         _questDictionary[key].AdvanceQuestStage();
+        AdvanceQuestMemoryVar(key);
     }
+
+    public void AdvanceQuest(string questName)
+    {
+        string[] param = new string[1];
+        param[0] = questName;
+        AdvanceQuest(param);
+    }
+
+    /*
+     * Keys are "Main", "Warbler", "Frog", "Turtle", not "$quest_main_stage"
+     */
+    public void AdvanceQuestMemoryVar(string key) => Services.DialogueController.InMemoryVariableStorage.SetValue(_stringToStageDictionary[key], (_questDictionary[key].QuestStage + 1));
 }

@@ -1,0 +1,34 @@
+title: WarblerChild3.Start
+tags: 
+colorID: 0
+position: -1015,295
+---
+<<if $quest_warbler_stage is 0>>
+    <<NPCSpeak>>
+    Hello. My name is Child 3.
+    <<PlayerSpeak>>
+    Okay, that's cool.
+    <<NPCSpeak>>
+    Thanks!
+<<elseif $quest_warbler_stage gt 0 and $quest_warbler_stage lt 4>>
+    <<if $found_warbler_child_3 is false>>
+        <<NPCSpeak>>
+        Hello. My name is Child 3.
+        <<PlayerSpeak>>
+        Okay. Go home.
+        <<NPCSpeak>>
+        Okay.
+        <<set $found_warbler_child_3 to true>>
+        <<AdvanceQuest Warbler>>
+    <<else>>
+        <<NPCSpeak>>
+        I'm going, I promise!
+        <<PlayerSpeak>>
+        Fine, I'll meet you there.
+    <<endif>>
+    <<NPCSpeak>>
+    Bye!
+    <<PlayerSpeak>>
+    Bye!
+<<endif>>
+===

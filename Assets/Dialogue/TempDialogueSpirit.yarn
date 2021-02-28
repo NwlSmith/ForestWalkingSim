@@ -1,0 +1,27 @@
+title: Spirit.Start
+tags: 
+colorID: 0
+position: 153,208
+---
+<<if $quest_main_stage is 0>>
+    <<NPCSpeak>>
+    Hello. I am the forest spirit.
+    I do lots of foresty things, so that's pretty cool.
+    <<PlayerSpeak>>
+    Yeah, that's cool.
+    <<NPCSpeak>>
+    Thank you. Anyway, you should start stage 1 of the quest.
+    <<set $quest_main_stage to 1>>
+    <<AdvanceQuest Main>>
+<<elseif $quest_main_stage gt 0 and $quest_main_stage lt 4>>
+    <<NPCSpeak>>
+    You know what you need to do.
+    <<PlayerSpeak>>
+    You are right. Bye!
+<<elseif $quest_main_stage is 4>>
+    <<NPCSpeak>>
+    Congrats. You finished the game.
+    <<PlayerSpeak>>
+    Thank you!
+<<endif>>
+===

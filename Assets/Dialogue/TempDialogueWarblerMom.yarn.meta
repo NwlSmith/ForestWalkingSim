@@ -1,0 +1,33 @@
+fileFormatVersion: 2
+guid: 060f23c93f836684fbc2858b6259e940
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 94073015eacc34c1d8fc6786e43d60ca, type: 3}
+  baseLanguageID: en-US
+  stringIDs:
+  - SpiritTemp (7)-WarblerMom.Start-0
+  - SpiritTemp (7)-WarblerMom.Start-1
+  - SpiritTemp (7)-WarblerMom.Start-2
+  - SpiritTemp (7)-WarblerMom.Start-3
+  - SpiritTemp (7)-WarblerMom.Start-4
+  - SpiritTemp (7)-WarblerMom.Start-5
+  - SpiritTemp (7)-WarblerMom.Start-6
+  - SpiritTemp (7)-WarblerMom.Start-7
+  - SpiritTemp (7)-WarblerMom.Start-8
+  - SpiritTemp (7)-WarblerMom.Start-9
+  - SpiritTemp (7)-WarblerMom.Start-10
+  - SpiritTemp (7)-WarblerMom.Start-11
+  - SpiritTemp (7)-WarblerMom.Start-12
+  - SpiritTemp (7)-WarblerMom.Start-13
+  - SpiritTemp (7)-WarblerMom.Start-14
+  - SpiritTemp (7)-WarblerMom.Start-15
+  compilationStatus: 1
+  isSuccesfullyCompiled: 1
+  compilationErrorMessage: 
+  baseLanguage: {fileID: 7128917941130120860, guid: 060f23c93f836684fbc2858b6259e940, type: 3}
+  localizations: []

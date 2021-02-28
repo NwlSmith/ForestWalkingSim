@@ -1,0 +1,178 @@
+title: Spirit.Start
+tags: 
+colorID: 0
+position: 153,208
+---
+<<if $quest_main_stage is 0>>
+    <<NPCSpeak>>
+    Hello. I am the forest spirit.
+    I do lots of foresty things, so that's pretty cool.
+    <<PlayerSpeak>>
+    Yeah, that's cool.
+    <<NPCSpeak>>
+    Thank you. Anyway, you should start stage 1 of the quest.
+    <<set $quest_main_stage to 1>>
+    <<AdvanceQuest Main>>
+<<elseif $quest_main_stage gt 0 and $quest_main_stage lt 4>>
+    <<NPCSpeak>>
+    You know what you need to do.
+    <<PlayerSpeak>>
+    You are right. Bye!
+<<elseif $quest_main_stage is 4>>
+    <<NPCSpeak>>
+    Congrats. You finished the game.
+    <<PlayerSpeak>>
+    Thank you!
+<<endif>>
+===
+title: WarblerMom.Start
+tags: 
+colorID: 0
+position: -184,215
+---
+<<if $quest_warbler_stage is 0>>
+    <<NPCSpeak>>
+    Hello. I am the warbler mom.
+    I do lots of birdy things, so that's pretty cool.
+    <<PlayerSpeak>>
+    Yeah, that's cool.
+    <<NPCSpeak>>
+    Thank you. Anyway, you should start stage 1 of the warbler quest.
+    Please find my children.
+    <<AdvanceQuest Warbler>>
+<<elseif $quest_warbler_stage is 1>>
+    <<NPCSpeak>>
+    Please find my children.
+    <<PlayerSpeak>>
+    Okay!
+<<elseif $quest_warbler_stage is 2>>
+    <<NPCSpeak>>
+    Thank you for finding one of my children, I still have 2 left.
+    <<PlayerSpeak>>
+    Okay!
+<<elseif $quest_warbler_stage is 3>>
+    <<NPCSpeak>>
+    Thank you for finding two of my children, I still have 1 left.
+    <<PlayerSpeak>>
+    Okay!
+<<elseif $quest_warbler_stage is 4>>
+    <<NPCSpeak>>
+    You've found all my children!
+    Go get the seed!
+    <<PlayerSpeak>>
+    Okay!
+    <<AdvanceQuest Warbler>>
+<<elseif $quest_main_stage is 5>>
+    <<NPCSpeak>>
+    Bring the seed to the spirit dude.
+    <<PlayerSpeak>>
+    Thank you!
+<<endif>>
+===
+title: WarblerChild1.Start
+tags: 
+colorID: 0
+position: -491,284
+---
+<<if $quest_warbler_stage is 0>>
+    <<NPCSpeak>>
+    Hey!
+    Don't tell my mom where I am lol.
+    <<PlayerSpeak>>
+    Okay, that's cool.
+    <<NPCSpeak>>
+    Thanks!
+<<elseif $quest_warbler_stage gt 0 and $quest_warbler_stage lt 4>>
+    <<if $found_warbler_child_1 is false>>
+        <<NPCSpeak>>
+        Hey! Don't tell my mom where I am.
+        <<PlayerSpeak>>
+        Actually, she told me to find you. Go home.
+        <<NPCSpeak>>
+        Fine, I'll meet you there
+        <<set $found_warbler_child_1 to true>>
+        <<AdvanceQuest Warbler>>>>>>
+    <<else>>
+        <<NPCSpeak>>
+        I'm going, I promise!
+        <<PlayerSpeak>>
+        Fine, I'll meet you there.
+    <<endif>>>>>>>>
+    <<NPCSpeak>>
+    Bye!
+    <<PlayerSpeak>>
+    Bye!
+<<endif>>
+===
+title: WarblerChild2.Start
+tags: 
+colorID: 0
+position: -773,288
+---
+<<if $quest_warbler_stage is 0>>
+    <<NPCSpeak>>
+    You can't see me...
+    <<PlayerSpeak>>
+    Okay, that's cool.
+    <<NPCSpeak>>
+    Thanks!
+<<elseif $quest_warbler_stage gt 0 and $quest_warbler_stage lt 4>>
+    <<if $found_warbler_child_2 is false>>
+        <<NPCSpeak>>
+        I am invisible...
+        <<PlayerSpeak>>
+        No you're not.
+        <<NPCSpeak>>
+        Yes I am...
+        <<PlayerSpeak>>
+        Please go home to your mom.
+        <<NPCSpeak>>
+        Fine, I'll meet you there
+        <<set $found_warbler_child_2 to true>>
+        <<AdvanceQuest Warbler>>>>>>
+    <<else>>
+        <<NPCSpeak>>
+        I'm going, I promise!
+        <<PlayerSpeak>>
+        Fine, I'll meet you there.
+    <<endif>>>>>>>>
+    <<NPCSpeak>>
+    Bye!
+    <<PlayerSpeak>>
+    Bye!
+<<endif>>
+===
+title: WarblerChild3.Start
+tags: 
+colorID: 0
+position: -1015,295
+---
+<<if $quest_warbler_stage is 0>>
+    <<NPCSpeak>>
+    Hello. My name is Child 3.
+    <<PlayerSpeak>>
+    Okay, that's cool.
+    <<NPCSpeak>>
+    Thanks!
+<<elseif $quest_warbler_stage gt 0 and $quest_warbler_stage lt 4>>
+    <<if $found_warbler_child_3 is false>>
+        <<NPCSpeak>>
+        Hello. My name is Child 3.
+        <<PlayerSpeak>>
+        Okay. Go home.
+        <<NPCSpeak>>
+        Okay.
+        <<set $found_warbler_child_3 to true>>
+        <<AdvanceQuest Warbler>>>>>>
+    <<else>>
+        <<NPCSpeak>>
+        I'm going, I promise!
+        <<PlayerSpeak>>
+        Fine, I'll meet you there.
+    <<endif>>>>>>>>
+    <<NPCSpeak>>
+    Bye!
+    <<PlayerSpeak>>
+    Bye!
+<<endif>>
+===

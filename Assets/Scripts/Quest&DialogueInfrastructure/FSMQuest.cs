@@ -69,7 +69,10 @@ public abstract class FSMQuest : MonoBehaviour
 
     #region Lifecycle Management
 
-    protected virtual void Awake() => _fsm = new FiniteStateMachine<FSMQuest>(this);
+    protected virtual void Awake()
+    {
+        _fsm = new FiniteStateMachine<FSMQuest>(this);
+    }
 
     // Start is called before the first frame update
     void OnEnable() => startNextStage();
@@ -78,17 +81,20 @@ public abstract class FSMQuest : MonoBehaviour
     void Update() => _fsm.Update();
 
     #endregion
-    
+
+    public int QuestStage => _questStage;
+
     public void AdvanceQuestStage()
     {
         Debug.Log($"Attempting to advance to quest stage {_questStage + 1} of {name}.");
         if (_questStage + 1 < _questStates.Length)
         {
+            Debug.Log($"Advancing quest stage.");
             startNextStage();
         }
         else
         {
-            Debug.LogWarning($"Attempting to advance quest stage of {name} past the number of quest stages, ({_questStates.Length})");
+            Debug.LogWarning($"Attempting to advance quest stage of {name} past the number of quest stages, ({_questStates.Length}).");
         }
     }
 
@@ -108,10 +114,11 @@ public abstract class FSMQuest : MonoBehaviour
 
     protected abstract class QuestState : FiniteStateMachine<FSMQuest>.State
     {
-        protected readonly int _stageNum = -1;
+        protected int _stageNum = -1;
         public override void OnEnter()
         {
             base.OnEnter();
+            if (_stageNum < 0) return;
             Debug.Log($"Quest stage {_stageNum} of {Context.name} started");
             Context._questStage = _stageNum;
             Context._questStates[_stageNum].OnStageEnter();

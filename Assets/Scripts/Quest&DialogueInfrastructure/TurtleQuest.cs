@@ -16,23 +16,30 @@ public class TurtleQuest : FSMQuest
     {
         base.Awake();
 
-        startNextStages[0] = _fsm.TransitionTo<Stage1State>;
-        startNextStages[1] = _fsm.TransitionTo<Stage0State>;
+        startNextStages = new StartNextStage[]
+        {
+            _fsm.TransitionTo<Stage1State>,
+            _fsm.TransitionTo<Stage0State>
+        };
 
-        startNextStage = startNextStages[0];
+        startNextStage = _fsm.TransitionTo<Stage0State>;
     }
 
     // Stage 0: Quest is spawned. Advance to stage 1 by talking to turtle.
     private class Stage0State : QuestState
     {
-        protected new readonly int _stageNum = 0;
+        public override void OnEnter()
+        {
+            _stageNum = 0;
+            base.OnEnter();
+        }
     }
 
     private class Stage1State : QuestState
     {
-        protected new readonly int _stageNum = 1;
         public override void OnEnter()
         {
+            _stageNum = 1;
             base.OnEnter();
             //((TurtleQuest)Context).startNextStage = TransitionTo<Stage2State>;
         }

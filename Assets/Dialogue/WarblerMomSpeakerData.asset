@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae53c7e3d7652c9499630172723dbc69, type: 3}
-  m_Name: TestBirdSpeakerData
+  m_Name: WarblerMomSpeakerData
   m_EditorClassIdentifier: 
-  SpeakerName: Bord
+  SpeakerName: The Warbler
   SpeakerColor: {r: 0.07075471, g: 0.49386254, b: 1, a: 1}
   SpeakerSounds:
   - {fileID: 8300000, guid: e6c62b61ea08e4b46b8b52301b1ecfb2, type: 3}
