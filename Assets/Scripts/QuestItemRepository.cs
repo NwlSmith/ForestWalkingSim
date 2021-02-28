@@ -43,7 +43,9 @@ public class QuestItemRepository : MonoBehaviour
     {
         Services.PlayerItemHolder.DropItem();
         item.holdable = false;
-        item.rb.isKinematic = false;
+        item.rb.isKinematic = true;
+
+        item.transform.SetParent(transform);
 
         const float duration = 1f;
         float elapsedTime = 0f;

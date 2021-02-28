@@ -49,7 +49,7 @@ public class PlayerItemHolder : MonoBehaviour
     public void InputPressed()
     {
         // If the player has an item in their possession, drop it.
-        if (_holdingItem)
+        if (_holdingItem && _currentlyHeldItem.GetComponent<QuestItem>() == null)
         {
             DropItem();
             return;
