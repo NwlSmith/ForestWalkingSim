@@ -38,7 +38,7 @@ public class NPC : MonoBehaviour
 
     public void EnterDialogue(Transform playerPos)
     {
-        transform.LookAt(playerPos, Vector3.up);
+        transform.LookAt(playerPos, Vector3.up); // Change to a lerp
     }
 
     public void ExitDialogue()

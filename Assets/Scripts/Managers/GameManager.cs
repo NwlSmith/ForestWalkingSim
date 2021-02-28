@@ -13,8 +13,7 @@ using UnityEngine;
  * 
  * Issues:
  * - Need to fix player position during dialogue.
- * - Need to allow for multiple-NPC conversations.
- * - Need to make it so you can't talk to the same bird to advance warbler.
+ * - Need to allow for multiple-NPC conversations. - Use SetTargetNPC for camera, Not sure what to do for dialogueController
  * - Need to make mouse looking faster
  * 
  */
