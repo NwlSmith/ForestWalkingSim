@@ -13,4 +13,9 @@ Child2
 Child3
 <<PlayerSpeak>>
 Yeah, that's cool.
+<<NPCSpeak 0>>
+The seed is over by the pine tree. Bring it to the really big tree.
+<<PlayerSpeak>>
+Thanks!
+<<AdvanceQuest Warbler>>
 ===

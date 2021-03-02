@@ -13,9 +13,8 @@ using UnityEngine;
  * 
  * Issues:
  * - Need to fix player position during dialogue. - FSM within InDialogueState? Maybe transitions in, then goes to regular behavior?
- * - Need to allow for multiple-NPC conversations. - Use SetTargetNPC for camera, Not sure what to do for dialogueController
- * - Camera doesn't point to propper npc during multi npc convos
  * - Immediately thinks I want to talk to spirit
+ * - In group dialogue, only plays first NPC's sounds
  * 
  */
 

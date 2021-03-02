@@ -1,0 +1,32 @@
+title: Frogs.Start
+tags: 
+colorID: 0
+position: -1338,671
+---
+<<if $quest_frog_stage is 0>>
+    <<NPCSpeak 0>>
+    Hi, my name is Frog.
+    <<NPCSpeak 1>>
+    Hi, my name is Toad.
+    <<NPCSpeak 0>>
+    Together, we are Frog and Toad.
+    <<PlayerSpeak>>
+    That's cool.
+    Do you know where the Soil is?
+    <<NPCSpeak 0>>
+    No
+    <<NPCSpeak 1>>
+    No of course not.
+    But maybe it's over by the orange tree.
+    <<PlayerSpeak>>
+    Thanks, I'll go there.
+    <<AdvanceQuest Frog>>
+<<elseif $quest_frog_stage is 1>>
+    <<NPCSpeak 0>>
+    Toad already told you to go to the orange tree.
+    <<NPCSpeak 1>>
+    Yeah, come on.
+    <<PlayerSpeak>>
+    Thanks, I'll go there.
+<<endif>>
+===

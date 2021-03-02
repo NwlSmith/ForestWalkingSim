@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae53c7e3d7652c9499630172723dbc69, type: 3}
-  m_Name: TestPlayerSpeakerData
+  m_Name: FrogSpeakerData
   m_EditorClassIdentifier: 
-  SpeakerName: Fox
-  SpeakerColor: {r: 1, g: 0.5437762, b: 0.07058823, a: 1}
+  SpeakerName: Frog
+  SpeakerColor: {r: 0, g: 0.8773585, b: 0.022113312, a: 1}
   SpeakerSounds:
-  - {fileID: 8300000, guid: 0eeaf405e72451049aa908850b4b7450, type: 3}
+  - {fileID: 8300000, guid: 8ea25cd3a05026c459d31d4df2ca3910, type: 3}

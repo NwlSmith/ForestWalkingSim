@@ -89,8 +89,9 @@ public class CameraManager : MonoBehaviour
         npcCameraView.Priority = 20;
 
         // look at npc in question
+        Debug.Log($"In PlayerCameraView, Target npc is: {targetNPC}");
 
-        playerCameraView.LookAt = targetNPC.transform;
+        playerCameraView.LookAt = targetNPC.GetPlayerCameraLookAtPosition();
     }
 
     // The point of view of the NPC looking at the player.

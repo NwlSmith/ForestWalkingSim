@@ -47,6 +47,7 @@ public class DialogueController : MonoBehaviour
     }
 
     private NPC _curNPC;
+    private int _curMultiNPCNum = 0;
 
     private bool _isPlayerSpeaking = false;
 
@@ -90,28 +91,31 @@ public class DialogueController : MonoBehaviour
     private void NPCSpeak(string [] parameters)
     {
         // Accommodate more than 1 npc, AND just 1 npc.
-        int npcNum = 0;
+        _curMultiNPCNum = 0;
         MultiNPC multiNPC = _curNPC.GetComponent<MultiNPC>();
         if (multiNPC != null)
         {
             if (parameters != null && parameters.Length > 0)
             {
                 Debug.Log($"parameters on {_curNPC.name} = {parameters[0]}");
-                npcNum = int.Parse(parameters[0]);
-                Services.CameraManager.SetTargetNPC(multiNPC.npcs[npcNum]);
+                _curMultiNPCNum = int.Parse(parameters[0]);
+                Services.CameraManager.SetTargetNPC(multiNPC.npcs[_curMultiNPCNum]);
             }
             else
                 Debug.Log($"no parameters on {_curNPC.name}");
         }
 
-        _speakerText.text = _curNPC.GetNPCSpeakerData(npcNum).SpeakerName;
-        _dialogueText.color = _curNPC.GetNPCSpeakerData(npcNum).SpeakerColor;
+        _speakerText.text = _curNPC.GetNPCSpeakerData(_curMultiNPCNum).SpeakerName;
+        _dialogueText.color = _curNPC.GetNPCSpeakerData(_curMultiNPCNum).SpeakerColor;
         Services.CameraManager.PlayerCameraView();
         _isPlayerSpeaking = false;
     }
 
     private void PlayerSpeak(string[] parameters)
     {
+        // possibly fix character speaking problem?
+        Services.CameraManager.SetTargetNPC(_curNPC);
+
         _speakerText.text = _playerSpeakerData.SpeakerName;
         _dialogueText.color = _playerSpeakerData.SpeakerColor;
         Services.CameraManager.NPCCameraView();
@@ -123,7 +127,7 @@ public class DialogueController : MonoBehaviour
         if (_isPlayerSpeaking)
             _audioSource.clip = _playerSpeakerData.GetAudioClip();
         else
-            _audioSource.clip = _curNPC.GetNPCSpeakerData().GetAudioClip();
+            _audioSource.clip = _curNPC.GetNPCSpeakerData(_curMultiNPCNum).GetAudioClip();
 
         _audioSource.pitch = Random.Range(.9f, 1.1f);
         _audioSource.Play();

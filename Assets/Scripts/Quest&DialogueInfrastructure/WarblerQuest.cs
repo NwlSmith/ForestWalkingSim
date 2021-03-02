@@ -16,11 +16,9 @@ using UnityEngine;
  * 
  * Stage 4: Spawn all children near mother. Advance to stage 5 by talking to them.
  * 
- * Stage 5: Spawn in The Seed. Advance to stage 6 by picking it up.
+ * Stage 5: Spawn in The Seed. Advance to stage 6 by placing Seed in the heart.
  * 
- * Stage 6: Spawn in the Seed receptacle area. Advance to stage 7 by placing Seed in the heart.
- * 
- * Stage 7: Finish the quest, despawn everything.
+ * Stage 6: Finish the quest, despawn everything.
  */
 public class WarblerQuest : FSMQuest
 {
@@ -37,7 +35,6 @@ public class WarblerQuest : FSMQuest
             _fsm.TransitionTo<Stage4State>,
             _fsm.TransitionTo<Stage5State>,
             _fsm.TransitionTo<Stage6State>,
-            _fsm.TransitionTo<Stage7State>,
             _fsm.TransitionTo<Stage0State>
         };
 
@@ -94,7 +91,7 @@ public class WarblerQuest : FSMQuest
         }
     }
 
-    // Stage 5: Spawn in The Seed. Advance to stage 6 by picking it up.
+    // Stage 5: Spawn in The Seed. Advance to stage 6 by placing Seed in the heart.
     private class Stage5State : QuestState
     {
         public override void OnEnter()
@@ -104,22 +101,12 @@ public class WarblerQuest : FSMQuest
         }
     }
 
-    // Stage 6: Spawn in the Seed receptacle area. Advance to stage 7 by placing Seed in the heart.
+    // Stage 6: Finish the quest, despawn everything.
     private class Stage6State : QuestState
     {
         public override void OnEnter()
         {
-            _stageNum = 7;
-            base.OnEnter();
-        }
-    }
-
-    // Stage 7: Finish the quest, despawn everything.
-    private class Stage7State : QuestState
-    {
-        public override void OnEnter()
-        {
-            _stageNum = 7;
+            _stageNum = 6;
             base.OnEnter();
         }
     }

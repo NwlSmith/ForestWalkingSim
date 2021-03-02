@@ -1,0 +1,29 @@
+fileFormatVersion: 2
+guid: 4e2dfb9843ce8d843ad2027d68e4886f
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 94073015eacc34c1d8fc6786e43d60ca, type: 3}
+  baseLanguageID: en-US
+  stringIDs:
+  - SpiritTemp (1)-Frogs.Start-0
+  - SpiritTemp (1)-Frogs.Start-1
+  - SpiritTemp (1)-Frogs.Start-2
+  - SpiritTemp (1)-Frogs.Start-3
+  - SpiritTemp (1)-Frogs.Start-4
+  - SpiritTemp (1)-Frogs.Start-5
+  - SpiritTemp (1)-Frogs.Start-6
+  - SpiritTemp (1)-Frogs.Start-7
+  - SpiritTemp (1)-Frogs.Start-8
+  - SpiritTemp (1)-Frogs.Start-9
+  - SpiritTemp (1)-Frogs.Start-10
+  - SpiritTemp (1)-Frogs.Start-11
+  compilationStatus: 1
+  isSuccesfullyCompiled: 1
+  compilationErrorMessage: 
+  baseLanguage: {fileID: 7128917941130120860, guid: 4e2dfb9843ce8d843ad2027d68e4886f, type: 3}
+  localizations: []

@@ -15,18 +15,15 @@ public abstract class FSMQuest : MonoBehaviour
     [Serializable]
     public struct QuestStageData
     {
-        [Header("Stage Enter")]
+        [Header("Called on Stage Enter")]
         // These objects will be activated at the beginning of this quest stage.
         [SerializeField] private GameObject[] _gameObjectsEnableOnStageEnter;
         // These objects will be deactivated at the beginning of this quest stage.
         [SerializeField] private GameObject[] _gameObjectsDisableOnStageEnter;
         // This text will be added to the conversation log at the beginning of this quest stage.
+        [Header("Added to text log.")]
         [TextArea(10,100)]
         [SerializeField] private string _textAddedToLog;
-
-        [Header("Stage Exit")] // Maybe don't need these?
-        [SerializeField] private GameObject[] _gameObjectsEnableOnStageExit;
-        [SerializeField] private GameObject[] _gameObjectsDisableOnStageExit;
 
         public void OnStageEnter()
         {
@@ -35,18 +32,6 @@ public abstract class FSMQuest : MonoBehaviour
                 go.SetActive(true);
             }
             foreach (GameObject go in _gameObjectsDisableOnStageEnter)
-            {
-                go.SetActive(false);
-            }
-        }
-
-        public void OnStageExit()
-        {
-            foreach (GameObject go in _gameObjectsEnableOnStageExit)
-            {
-                go.SetActive(true);
-            }
-            foreach (GameObject go in _gameObjectsDisableOnStageExit)
             {
                 go.SetActive(false);
             }

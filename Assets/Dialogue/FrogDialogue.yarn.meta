@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 2600be6d535a3be47913fd6f646fe6c9
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 94073015eacc34c1d8fc6786e43d60ca, type: 3}
+  baseLanguageID: en-US
+  stringIDs:
+  - SpiritTemp-Frog.Start-0
+  - SpiritTemp-Frog.Start-1
+  - SpiritTemp-Frog.Start-2
+  - SpiritTemp-Frog.Start-3
+  - SpiritTemp-Frog.Start-4
+  compilationStatus: 1
+  isSuccesfullyCompiled: 1
+  compilationErrorMessage: 
+  baseLanguage: {fileID: 7128917941130120860, guid: 2600be6d535a3be47913fd6f646fe6c9, type: 3}
+  localizations: []

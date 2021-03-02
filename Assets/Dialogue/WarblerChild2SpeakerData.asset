@@ -15,4 +15,4 @@ MonoBehaviour:
   SpeakerName: Warbler Child 2
   SpeakerColor: {r: 0.07058823, g: 0.82207066, b: 1, a: 1}
   SpeakerSounds:
-  - {fileID: 8300000, guid: e6c62b61ea08e4b46b8b52301b1ecfb2, type: 3}
+  - {fileID: 8300000, guid: 8620dccf6f184a343a339a5f60332872, type: 3}

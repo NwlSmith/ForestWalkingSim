@@ -1,0 +1,17 @@
+title: Frog.Start
+tags: 
+colorID: 0
+position: -1519,947
+---
+<<if $quest_frog_stage gt 1>>
+    <<NPCSpeak>>
+    Hi again, my name is Frog.
+    Have you seen Toad?
+    <<PlayerSpeak>>
+    No.
+    <<NPCSpeak>>
+    Okay bye.
+    <<PlayerSpeak>>
+    Bye.
+<<endif>>
+===

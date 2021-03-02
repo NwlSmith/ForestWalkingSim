@@ -1,0 +1,24 @@
+title: Toad.Start
+tags: 
+colorID: 0
+position: -1085,626
+---
+<<if $quest_frog_stage is 1>>
+    <<NPCSpeak>>
+    Hi again, my name is Toad.
+    <<PlayerSpeak>>
+    That's cool.
+    Do you know where the Soil is?
+    <<NPCSpeak>>
+    yes.
+    It's by the pine tree.
+    <<PlayerSpeak>>
+    Thanks, I'll go there.
+    <<AdvanceQuest Frog>>
+<<elseif $quest_frog_stage is 2>>
+    <<NPCSpeak>>
+    I already told you to go to the Pine tree.
+    <<PlayerSpeak>>
+    Thanks, I'll go there.
+<<endif>>
+===

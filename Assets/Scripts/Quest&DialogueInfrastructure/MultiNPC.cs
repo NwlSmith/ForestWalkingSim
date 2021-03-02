@@ -17,7 +17,7 @@ public class MultiNPC : NPC
     public override void EnterDialogue(Transform playerPos)
     {
         foreach (NPC npc in npcs)
-            npc.EnterDialogue(playerPos);
+            npc.EnterDialogue(playerPos); // Maybe don't need to rotate the characters toward player?
     }
 
     public override void ExitDialogue()
