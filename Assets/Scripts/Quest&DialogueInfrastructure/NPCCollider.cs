@@ -25,7 +25,7 @@ public class NPCCollider : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        Services.NPCInteractionManager.closestNPC = null;
+        Services.NPCInteractionManager.PlayerLeftNPC();
         Services.UIManager.HideDialogueEnterPrompt();
     }
 }

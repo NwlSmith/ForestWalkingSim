@@ -12,8 +12,9 @@ using UnityEngine;
  * Allows different game states to have different Update functions.
  * 
  * Issues:
- * - Need to fix player position during dialogue.
+ * - Need to fix player position during dialogue. - FSM within InDialogueState? Maybe transitions in, then goes to regular behavior?
  * - Need to allow for multiple-NPC conversations. - Use SetTargetNPC for camera, Not sure what to do for dialogueController
+ * - Camera doesn't point to propper npc during multi npc convos
  * - Immediately thinks I want to talk to spirit
  * 
  */
@@ -177,7 +178,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("GameManager: Entered InDialogueState");
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            Services.PlayerMovement.EnterDialogue();
+            Services.PlayerMovement.EnterDialogue(); // Change each of these - make them only entering into dialogue, then in Update, have a function to actually commence dialogue.
             Services.CameraManager.EnterDialogue();
             Services.UIManager.EnterDialogue();
             Services.NPCInteractionManager.EnterDialogue();
@@ -196,7 +197,7 @@ public class GameManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
-            Services.PlayerMovement.EnterPlay();
+            Services.PlayerMovement.EnterPlay(); // These aren't needed
             Services.CameraManager.EnterPlay();
             Services.UIManager.EnterPlay();
             Services.NPCInteractionManager.ExitDialogue();

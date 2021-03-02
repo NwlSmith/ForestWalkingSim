@@ -1,0 +1,16 @@
+title: Multi.Start
+tags: 
+colorID: 0
+position: -99,-73
+---
+<<NPCSpeak 0>>
+Mom
+<<NPCSpeak 1>>
+Child1
+<<NPCSpeak 2>>
+Child2
+<<NPCSpeak 3>>
+Child3
+<<PlayerSpeak>>
+Yeah, that's cool.
+===

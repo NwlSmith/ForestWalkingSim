@@ -15,4 +15,4 @@ MonoBehaviour:
   SpeakerName: The Warbler
   SpeakerColor: {r: 0.07075471, g: 0.49386254, b: 1, a: 1}
   SpeakerSounds:
-  - {fileID: 8300000, guid: e6c62b61ea08e4b46b8b52301b1ecfb2, type: 3}
+  - {fileID: 8300000, guid: 8704014cdc4f03b4ab598f106c54d014, type: 3}

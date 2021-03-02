@@ -14,14 +14,12 @@ public class NPC : MonoBehaviour
 {
 
 
-    public string YarnStartNode { get { return _yarnStartNode; } }
-    public NPCSpeakerData NPCSpeakerData { get { return _nPCSpeakerData; } }
-
-    [SerializeField] string _yarnStartNode = "Start";
-    [SerializeField] YarnProgram _yarnDialogue;
-    [SerializeField] NPCSpeakerData _nPCSpeakerData;
+    public string YarnStartNode;
+    public YarnProgram YarnDialogue;
+    public NPCSpeakerData NPCSpeakerData;
 
     public Transform npcCameraViewPosition;// { get; private set; }
+    [SerializeField] protected Transform playerCameraLookAtPosition;// { get; private set; }
 
     private Quaternion _initRot;
 
@@ -33,16 +31,27 @@ public class NPC : MonoBehaviour
 
     private void Start()
     {
-        Services.DialogueController.AddYarnDialogue(_yarnDialogue);
+        if (GetComponent<MultiNPC>() || !GetComponentInParent<MultiNPC>())
+            Services.DialogueController.AddYarnDialogue(YarnDialogue);
     }
 
-    public void EnterDialogue(Transform playerPos)
+    public virtual void EnterDialogue(Transform playerPos)
     {
         transform.LookAt(playerPos, Vector3.up); // Change to a lerp
     }
 
-    public void ExitDialogue()
+    public virtual void ExitDialogue()
     {
         transform.rotation = _initRot;
+    }
+
+    public virtual NPCSpeakerData GetNPCSpeakerData(int npcNum = 0)
+    {
+        return NPCSpeakerData;
+    }
+
+    public virtual Transform GetPlayerCameraLookAtPosition(int num = 0)
+    {
+        return playerCameraLookAtPosition;
     }
 }

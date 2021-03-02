@@ -203,7 +203,7 @@ public class PlayerMovement : MonoBehaviour
         {
 
             Context._currentMovementVector = Vector3.zero;
-            Context.transform.LookAt(Services.NPCInteractionManager.closestNPC.transform, Vector3.up);
+            Context.transform.LookAt(Services.NPCInteractionManager.closestNPC.GetPlayerCameraLookAtPosition(), Vector3.up);
             // SET LOCATION? LERP TO LOCATION?
         }
         

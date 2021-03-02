@@ -15,4 +15,4 @@ MonoBehaviour:
   SpeakerName: Spirit
   SpeakerColor: {r: 1, g: 0.88915014, b: 0, a: 1}
   SpeakerSounds:
-  - {fileID: 8300000, guid: e6c62b61ea08e4b46b8b52301b1ecfb2, type: 3}
+  - {fileID: 8300000, guid: f3acd1f6edc75734fa8086af27b7c5cf, type: 3}
