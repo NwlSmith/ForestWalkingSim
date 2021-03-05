@@ -57,16 +57,18 @@ public class CameraManager : MonoBehaviour
             curGS.LateUpdate();
     }
 
-    public void EnterDialogue()
-    {
-        _fsm.TransitionTo<InDialogueState>();
-        SetTargetNPC(Services.NPCInteractionManager.closestNPC);
-    }
+    public void EnterStartMenu() => _fsm.TransitionTo<StartMenuState>();
 
     public void EnterPlay()
     {
         _fsm.TransitionTo<PlayState>();
         SetTargetNPC(null);
+    }
+
+    public void EnterDialogue()
+    {
+        _fsm.TransitionTo<InDialogueState>();
+        SetTargetNPC(Services.NPCInteractionManager.closestNPC);
     }
 
     // Updates the camera movement inputs. Called in InputManager.
@@ -112,6 +114,12 @@ public class CameraManager : MonoBehaviour
     private abstract class CameraState : FiniteStateMachine<CameraManager>.State
     {
         public virtual void LateUpdate() { }
+    }
+
+    // Start menu state.
+    private class StartMenuState : CameraState
+    {
+
     }
 
     // Normal camera follow state.

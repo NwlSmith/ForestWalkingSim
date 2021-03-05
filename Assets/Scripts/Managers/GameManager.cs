@@ -11,10 +11,22 @@ using UnityEngine;
  * 
  * Allows different game states to have different Update functions.
  * 
+ * To do:
+ * - Implement item holding in saving and loading
+ * - Implement turtle quest
+ * - Implement other animations
+ * - Make pause call a pause animation function in PlayerAnimation.
+ * - Pull camera back from player.
+ * - Implement Ground Fitter.
+ * 
  * Issues:
  * - Need to fix player position during dialogue. - FSM within InDialogueState? Maybe transitions in, then goes to regular behavior?
  * - Immediately thinks I want to talk to spirit
  * - In group dialogue, only plays first NPC's sounds
+ * - Maybe make MovingOnGroundState a composite FSM with walking and sprinting.
+ * - Fix weird rotation from jumping.
+ * - Player doesn't ever enter IdleState, Y vel is always -.1. This is messing up animations.
+ * - figure out a good way to transition from paused -> main menu -> continue game without recreating stuff.
  * 
  */
 
@@ -49,14 +61,40 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        _fsm.TransitionTo<StartPlay>();
+        _fsm.TransitionTo<StartMenu>();
     }
 
     void Update()
     {
         _fsm.Update();
     }
-    
+
+    #endregion
+
+    #region Triggers.
+
+    public void NewGame()
+    {
+        Services.SaveManager.NewGameSave();
+        _fsm.TransitionTo<StartPlay>();
+    }
+
+    public void LoadSave()
+    {
+        if (Services.SaveManager.SaveExists())
+            StartCoroutine(LoadSaveCO());
+        else
+            Debug.Log("Trying to load a save that does not exist");
+    }
+
+    private IEnumerator LoadSaveCO()
+    {
+        Services.UIManager.EnterLoadSave();
+        Coroutine loadCO = StartCoroutine(Services.SaveManager.LoadDataCO());
+        yield return loadCO;
+        _fsm.TransitionTo<StartPlay>();
+    }
+
     // Called on Pause.
     public void Pause()
     {
@@ -81,23 +119,51 @@ public class GameManager : MonoBehaviour
         _fsm.TransitionTo<PlayState>();
     }
 
+    // Called when the player goes to main menu.
+    public void MainMenu()
+    {
+        Services.SaveManager.SaveData();
+        _fsm.TransitionTo<StartMenu>();
+    }
+
     // Called on Quit.
     public void Quit()
     {
         Application.Quit();
     }
 
-    private void OnDestroy()
-    {
-        Services.SaveManager.SaveData();
-    }
-
-    #endregion 
+    #endregion
 
     #region States
 
     private abstract class GameState : FiniteStateMachine<GameManager>.State { }
 
+    private class StartMenu : GameState
+    {
+        public override void OnEnter()
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            Debug.Log("GameManager: Entered StartMenu");
+            Services.PlayerMovement.ForceIdle();
+            Services.CameraManager.EnterStartMenu();
+            Services.UIManager.EnterStartMenu();
+            if (!Services.SaveManager.SaveExists())
+            {
+                Debug.Log("Save does not exist");
+                Services.UIManager.HideContinue();
+            }
+            
+        }
+
+        public override void OnExit()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
+    // Possibly not needed?
     private class StartPlay : GameState
     {
         public override void OnEnter()
@@ -109,8 +175,6 @@ public class GameManager : MonoBehaviour
         {
             base.Update();
             // DELETE
-            Services.SaveManager.SaveData();
-            Context.StartCoroutine(Services.SaveManager.LoadDataCO());
 
             TransitionTo<PlayState>();
             Services.InputManager.ProcessPlayInput();

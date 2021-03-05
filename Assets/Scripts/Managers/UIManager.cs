@@ -24,6 +24,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private List<RectTransform> _dialogueUI;
     [SerializeField] private List<RectTransform> _pauseUI;
 
+    [SerializeField] private List<RectTransform> _overlay;
+    [SerializeField] private List<RectTransform> _startMenu;
+    [SerializeField] private List<RectTransform> _continueButton;
+
 
     #region Lifecycle Management
     private void Awake()
@@ -58,6 +62,12 @@ public class UIManager : MonoBehaviour
 
     public void EnterPause() => _fsm.TransitionTo<PauseState>();
 
+    public void EnterLoadSave() => _fsm.TransitionTo<LoadSaveState>();
+
+    public void EnterStartMenu() => _fsm.TransitionTo<StartMenuState>();
+
+    public void HideContinue() => HideUI(_continueButton);
+
     #endregion
 
     #region Utilities
@@ -90,6 +100,37 @@ public class UIManager : MonoBehaviour
     private abstract class UIState : FiniteStateMachine<UIManager>.State
     {
         
+    }
+
+    // Start Menu state.
+    private class StartMenuState : UIState
+    {
+        public override void OnEnter()
+        {
+            Context.DisplayUI(Context._startMenu);
+        }
+
+        public override void Update() => base.Update();
+
+        public override void OnExit()
+        {
+            Context.HideUI(Context._startMenu);
+        }
+    }
+
+    // UI overlay shown while game is loading.
+    private class LoadSaveState : UIState
+    {
+        public override void OnEnter() {
+            Context.DisplayUI(Context._overlay);
+        }
+
+        public override void Update() => base.Update();
+
+        public override void OnExit()
+        {
+            Context.HideUI(Context._overlay);
+        }
     }
 
     // Normal play-time UI. Usually nothing, except possibly map, compass, and prompts to enter conversation and interact with objects.

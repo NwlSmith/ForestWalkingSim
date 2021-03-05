@@ -22,7 +22,7 @@ public class InputManager : MonoBehaviour
     public void ProcessPlayInput()
     {
         // Intake pause instructions.
-        if (Input.GetButtonDown("Pause"))
+        if (Input.GetButtonDown("Pause") || Input.GetButtonDown("Cancel"))
         {
             Services.GameManager.Pause();
         }

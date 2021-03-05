@@ -69,10 +69,58 @@ public class SaveManager
         warblerQuest = Object.FindObjectOfType<WarblerQuest>();
         frogQuest = Object.FindObjectOfType<FrogQuest>();
         turtleQuest = Object.FindObjectOfType<TurtleQuest>();
-}
+
+        if (!File.Exists(Application.dataPath + "/save_default.json"))
+            CreateDefaultSave();
+    }
     #endregion
 
     #region Functions.
+
+    public void CreateDefaultSave()
+    {
+        QuestStageData[] questStagesArray =
+        {
+            new QuestStageData{quest = questStageMain, stage = 0},
+            new QuestStageData{quest = questStageWarbler, stage = 0},
+            new QuestStageData{quest = questStageFrog, stage = 0},
+            new QuestStageData{quest = questStageTurtle, stage = 0}
+        };
+
+        PlayerData playerData = new PlayerData
+        {
+            position = new Vector3(37.5f, 0.8299999237060547f, 0f),
+            rotation = new Quaternion(0f, 0f, 0f, 1f)
+        };
+
+        PlayerHolding playerHolding = new PlayerHolding { itemHolding = ItemEnum.None };
+
+        Data saveData = new Data
+        {
+            questStageData = questStagesArray,
+            playerData = playerData,
+            playerHolding = playerHolding
+        };
+
+        string saveDataJson = JsonUtility.ToJson(saveData, true);
+        File.WriteAllText(Application.dataPath + "/save_default.json", saveDataJson);
+    }
+
+    public bool SaveExists()
+    {
+        if (!File.Exists(Application.dataPath + "/save.json")) return false;
+
+        string defaultSaveString = File.ReadAllText(Application.dataPath + "/save_default.json");
+        string saveString = File.ReadAllText(Application.dataPath + "/save.json");
+        return !defaultSaveString.Equals(saveString);
+    }
+
+    public void NewGameSave()
+    {
+        string saveString = File.ReadAllText(Application.dataPath + "/save_default.json");
+        File.WriteAllText(Application.dataPath + "/save.json", saveString);
+    }
+
     public void SaveData()
     {
 
@@ -99,11 +147,6 @@ public class SaveManager
 
         string saveDataJson = JsonUtility.ToJson(saveData, true);
         File.WriteAllText(Application.dataPath + "/save.json", saveDataJson);
-    }
-
-    public void LoadData()
-    {
-        //StartCoroutine(LoadDataCO());
     }
 
     public IEnumerator LoadDataCO()

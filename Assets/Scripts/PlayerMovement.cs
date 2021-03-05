@@ -56,6 +56,8 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController _charController;
 
+    private PlayerAnimation _playerAnimation;
+
     #endregion 
 
     #region Lifecycle Management
@@ -64,6 +66,9 @@ public class PlayerMovement : MonoBehaviour
     {
         _fsm = new FiniteStateMachine<PlayerMovement>(this);
         _charController = GetComponent<CharacterController>();
+        _playerAnimation = GetComponent<PlayerAnimation>();
+        if (_playerAnimation == null)
+            Debug.LogWarning("Failed to retrieve _playerAnimation");
 
         _jumpSpeed = Mathf.Sqrt(_desiredJumpHeight * -2f * _gravity) * Time.fixedDeltaTime;
     }
@@ -148,10 +153,10 @@ public class PlayerMovement : MonoBehaviour
     {
         public override void OnEnter()
         {
-            //Debug.Log("IdleState enter");
+            Debug.Log("IdleState enter");
             //Context._currentMovementVector.y = 0f;
-
-            // Enter Idle animation state.
+            
+            Context._playerAnimation.Moving(false); // Maybe change to sit???
         }
 
         public override void Update()
@@ -179,6 +184,7 @@ public class PlayerMovement : MonoBehaviour
         public override void OnEnter()
         {
             Context._currentMovementVector = Vector3.zero;
+            Context._playerAnimation.Moving(false); // Maybe change to sit???
         }
 
         public override void Update() => base.Update();
@@ -192,10 +198,10 @@ public class PlayerMovement : MonoBehaviour
     // Player is forced to pause movement.
     private class PauseState : GameState
     {
-        public override void OnEnter() { }
-
-        public override void Update() => base.Update();
-        
+        public override void OnEnter()
+        {
+            Context._playerAnimation.Moving(false); // Maybe change to sit???
+        }
 
         public override void OnExit() { }
     }
@@ -205,6 +211,7 @@ public class PlayerMovement : MonoBehaviour
     {
         public override void OnEnter()
         {
+            Context._playerAnimation.Moving(false); // Maybe change to sit???
 
             Context._currentMovementVector = Vector3.zero;
             Context.transform.LookAt(Services.NPCInteractionManager.closestNPC.GetPlayerCameraLookAtPosition(), Vector3.up);
@@ -222,8 +229,9 @@ public class PlayerMovement : MonoBehaviour
 
         public override void OnEnter()
         {
-            //Debug.Log("MovingOnGround enter");
+            Debug.Log("MovingOnGround enter");
             //Context._currentMovementVector.y = Context._gravity * Time.fixedDeltaTime;
+            Context._playerAnimation.Moving(true);
         }
 
         public override void Update()
@@ -254,6 +262,7 @@ public class PlayerMovement : MonoBehaviour
                 Context.transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
                 Context._targetMovementVector = (Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward).normalized * Context._movementSpeed * Time.fixedDeltaTime * (Context._sprintInput ? Context._shiftMultiplier : 1f);
+                Context._playerAnimation.Sprinting(Context._sprintInput);
             }
             else
             {
