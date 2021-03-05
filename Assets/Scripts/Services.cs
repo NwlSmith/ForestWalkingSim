@@ -126,6 +126,17 @@ public static class Services
         }
         private set => _questManager = value;
     }
+
+    private static SaveManager _saveManager;
+    public static SaveManager SaveManager
+    {
+        get
+        {
+            Debug.Assert(_saveManager != null);
+            return _saveManager;
+        }
+        private set => _saveManager = value;
+    }
     #endregion
 
     #region Functions
@@ -142,6 +153,7 @@ public static class Services
         NPCInteractionManager = Object.FindObjectOfType<NPCInteractionManager>();
         DialogueController = Object.FindObjectOfType<DialogueController>();
         QuestManager = Object.FindObjectOfType<QuestManager>();
+        SaveManager = new SaveManager();
     }
     #endregion
 }
