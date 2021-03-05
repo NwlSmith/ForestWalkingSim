@@ -87,6 +87,11 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
+    private void OnDestroy()
+    {
+        Services.SaveManager.SaveData();
+    }
+
     #endregion 
 
     #region States
@@ -103,6 +108,10 @@ public class GameManager : MonoBehaviour
         public override void Update()
         {
             base.Update();
+            // DELETE
+            Services.SaveManager.SaveData();
+            Context.StartCoroutine(Services.SaveManager.LoadDataCO());
+
             TransitionTo<PlayState>();
             Services.InputManager.ProcessPlayInput();
         }

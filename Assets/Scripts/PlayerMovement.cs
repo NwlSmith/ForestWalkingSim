@@ -54,7 +54,6 @@ public class PlayerMovement : MonoBehaviour
 
     // Components
 
-    private Rigidbody _rb;
     private CharacterController _charController;
 
     #endregion 
@@ -64,11 +63,9 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         _fsm = new FiniteStateMachine<PlayerMovement>(this);
-        _rb = GetComponent<Rigidbody>();
         _charController = GetComponent<CharacterController>();
 
         _jumpSpeed = Mathf.Sqrt(_desiredJumpHeight * -2f * _gravity) * Time.fixedDeltaTime;
-        Debug.Log("jump speed " + _jumpSpeed);
     }
 
     // Start is called before the first frame update
@@ -120,6 +117,13 @@ public class PlayerMovement : MonoBehaviour
     // Forces the player to be idle and faces toward NPC.
     public void EnterDialogue() => _fsm.TransitionTo<InDialogueState>();
 
+    public void ForceTransform(Vector3 pos, Quaternion rot)
+    {
+        _charController.enabled = false;
+        transform.position = pos;
+        transform.rotation = rot;
+        _charController.enabled = true;
+    }
 
     #endregion
 
@@ -144,7 +148,7 @@ public class PlayerMovement : MonoBehaviour
     {
         public override void OnEnter()
         {
-            Debug.Log("IdleState enter");
+            //Debug.Log("IdleState enter");
             //Context._currentMovementVector.y = 0f;
 
             // Enter Idle animation state.
@@ -218,7 +222,7 @@ public class PlayerMovement : MonoBehaviour
 
         public override void OnEnter()
         {
-            Debug.Log("MovingOnGround enter");
+            //Debug.Log("MovingOnGround enter");
             //Context._currentMovementVector.y = Context._gravity * Time.fixedDeltaTime;
         }
 
@@ -274,7 +278,7 @@ public class PlayerMovement : MonoBehaviour
     {
         public override void OnEnter()
         {
-            Debug.Log("JumpingState enter");
+            //Debug.Log("JumpingState enter");
             Vector3 jumpVector = Context.transform.forward * Context._jumpForwardDistance;// + Vector3.up * Context._upwardJumpSpeed;
             Context._currentMovementVector += jumpVector * Time.fixedDeltaTime;
             Context._currentMovementVector.y = Context._jumpSpeed;
@@ -322,7 +326,7 @@ public class PlayerMovement : MonoBehaviour
     {
         public override void OnEnter()
         {
-            Debug.Log("FallingState enter");
+            //Debug.Log("FallingState enter");
 
         }
 

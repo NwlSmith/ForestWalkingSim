@@ -1891,8 +1891,6 @@ MonoBehaviour:
     - {fileID: 437732393}
     - {fileID: 200591085}
     - {fileID: 1347406853}
-    - {fileID: 1368042434}
-    - {fileID: 1544443937}
     - {fileID: 542429904}
     - {fileID: 329619185}
     - {fileID: 2139342554}
@@ -4095,6 +4093,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _questStates:
+  - _gameObjectsEnableOnStageEnter: []
+    _gameObjectsDisableOnStageEnter: []
+    _textAddedToLog: 
+  - _gameObjectsEnableOnStageEnter: []
+    _gameObjectsDisableOnStageEnter: []
+    _textAddedToLog: 
+  - _gameObjectsEnableOnStageEnter: []
+    _gameObjectsDisableOnStageEnter: []
+    _textAddedToLog: 
+  - _gameObjectsEnableOnStageEnter: []
+    _gameObjectsDisableOnStageEnter: []
+    _textAddedToLog: 
   - _gameObjectsEnableOnStageEnter: []
     _gameObjectsDisableOnStageEnter: []
     _textAddedToLog: 

@@ -17,10 +17,17 @@ using System.IO;
 public class SaveManager
 {
     #region Const Quest Strings.
-    private const string questStageMain = "main";
-    private const string questStageWarbler = "warbler";
-    private const string questStageFrog = "frog";
-    private const string questStageTurtle = "turtle";
+    private const string questStageMain = "Main";
+    private const string questStageWarbler = "Warbler";
+    private const string questStageFrog = "Frog";
+    private const string questStageTurtle = "Turtle";
+    #endregion
+
+    #region Quest GameObjects.
+    private MainQuest mainQuest;
+    private WarblerQuest warblerQuest;
+    private FrogQuest frogQuest;
+    private TurtleQuest turtleQuest;
     #endregion
 
     #region Serialized Quest Data.
@@ -54,23 +61,36 @@ public class SaveManager
     }
     #endregion
 
+
+    #region Lifecycle Management.
+    public SaveManager()
+    {
+        mainQuest = Object.FindObjectOfType<MainQuest>();
+        warblerQuest = Object.FindObjectOfType<WarblerQuest>();
+        frogQuest = Object.FindObjectOfType<FrogQuest>();
+        turtleQuest = Object.FindObjectOfType<TurtleQuest>();
+}
+    #endregion
+
     #region Functions.
     public void SaveData()
     {
 
         QuestStageData[] questStagesArray =
         {
-            new QuestStageData{quest = questStageMain, stage = 0},
-            new QuestStageData{quest = questStageWarbler, stage = 0},
-            new QuestStageData{quest = questStageFrog, stage = 0},
-            new QuestStageData{quest = questStageTurtle, stage = 0}
+            new QuestStageData{quest = questStageMain, stage = mainQuest.QuestStage},
+            new QuestStageData{quest = questStageWarbler, stage = warblerQuest.QuestStage},
+            new QuestStageData{quest = questStageFrog, stage = frogQuest.QuestStage},
+            new QuestStageData{quest = questStageTurtle, stage = turtleQuest.QuestStage}
         };
 
-        PlayerData playerData = new PlayerData {
+        PlayerData playerData = new PlayerData
+        {
             position = Services.PlayerMovement.transform.position,
-            rotation = Services.PlayerMovement.transform.rotation };
+            rotation = Services.PlayerMovement.transform.rotation
+        };
 
-        PlayerHolding playerHolding = new PlayerHolding { itemHolding = ItemEnum.Rain };
+        PlayerHolding playerHolding = new PlayerHolding { itemHolding = ItemEnum.None };
 
         Data saveData = new Data {
             questStageData = questStagesArray,
@@ -83,10 +103,26 @@ public class SaveManager
 
     public void LoadData()
     {
+        //StartCoroutine(LoadDataCO());
+    }
+
+    public IEnumerator LoadDataCO()
+    {
         string saveString = File.ReadAllText(Application.dataPath + "/save.json");
         Data data = JsonUtility.FromJson<Data>(saveString);
+        
+        Services.PlayerMovement.ForceTransform(data.playerData.position, data.playerData.rotation);
 
-        // Set data from here
+        foreach (QuestStageData questStageData in data.questStageData)
+        {
+            for (int i = 0; i < questStageData.stage; i++)
+            {
+                Services.QuestManager.AdvanceQuest(questStageData.quest);
+                yield return null;
+            }
+        }
+
+        // Move item to player holder.
     }
     #endregion
 }

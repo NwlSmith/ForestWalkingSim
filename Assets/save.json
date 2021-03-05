@@ -1,0 +1,36 @@
+{
+    "questStageData": [
+        {
+            "quest": "Main",
+            "stage": 0
+        },
+        {
+            "quest": "Warbler",
+            "stage": 0
+        },
+        {
+            "quest": "Frog",
+            "stage": 0
+        },
+        {
+            "quest": "Turtle",
+            "stage": 0
+        }
+    ],
+    "playerData": {
+        "position": {
+            "x": 37.5,
+            "y": 0.8299999237060547,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        }
+    },
+    "playerHolding": {
+        "itemHolding": 3
+    }
+}

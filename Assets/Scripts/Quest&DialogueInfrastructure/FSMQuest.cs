@@ -71,7 +71,7 @@ public abstract class FSMQuest : MonoBehaviour
 
     public void AdvanceQuestStage()
     {
-        Debug.Log($"Attempting to advance to quest stage {_questStage + 1} of {name}.");
+        //Debug.Log($"Attempting to advance to quest stage {_questStage + 1} of {name}.");
         if (_questStage + 1 < _questStates.Length)
         {
             Debug.Log($"Advancing quest stage.");

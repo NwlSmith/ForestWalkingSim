@@ -28,6 +28,10 @@ public class TurtleQuest : FSMQuest
         startNextStages = new StartNextStage[]
         {
             _fsm.TransitionTo<Stage1State>,
+            _fsm.TransitionTo<Stage2State>,
+            _fsm.TransitionTo<Stage3State>,
+            _fsm.TransitionTo<Stage4State>,
+            _fsm.TransitionTo<Stage5State>,
             _fsm.TransitionTo<Stage0State>
         };
 
