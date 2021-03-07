@@ -19,7 +19,7 @@ public class PlayerItemHolder : MonoBehaviour
 
     private List<HoldableItem> _itemsInCollider = new List<HoldableItem>();
     public bool _holdingItem = false;
-    private HoldableItem _currentlyHeldItem = null;
+    public HoldableItem _currentlyHeldItem { get; private set; }
     [SerializeField] private Transform _itemAttachmentPoint;
 
     private void OnTriggerEnter(Collider other)
@@ -94,7 +94,7 @@ public class PlayerItemHolder : MonoBehaviour
 
     }
 
-    private void PickUpItem(HoldableItem item)
+    public void PickUpItem(HoldableItem item)
     {
         Debug.Log("Picking up item");
         _holdingItem = true;

@@ -10,11 +10,9 @@ using UnityEngine;
  * 
  * Stage 1: Spawn in Toad at "Carp" location. Advance to stage 2 by talking to Toad at new location.
  * 
- * Stage 2: Spawn in flower and Soil. Advance to stage 3 by picking up the Soil.
+ * Stage 2: Spawn in flower and Soil. Advance to stage 3 by picking up the Soil and placing Soil in the heart.
  * 
- * Stage 3: Advance to stage 4 by placing Soil in the heart.
- * 
- * Stage 4: Finish the quest, despawn everything.
+ * Stage 3: Finish the quest, despawn everything.
  */
 public class FrogQuest : FSMQuest
 {
@@ -27,7 +25,6 @@ public class FrogQuest : FSMQuest
             _fsm.TransitionTo<Stage1State>,
             _fsm.TransitionTo<Stage2State>,
             _fsm.TransitionTo<Stage3State>,
-            _fsm.TransitionTo<Stage4State>,
             _fsm.TransitionTo<Stage0State>
         };
 
@@ -54,7 +51,7 @@ public class FrogQuest : FSMQuest
         }
     }
 
-    // Stage 2: Spawn in flower and Soil. Advance to stage 3 by picking up the Soil.
+    // Stage 2: Spawn in flower and Soil. Advance to stage 3 by picking up the Soil and placing Soil in the heart.
     private class Stage2State : QuestState
     {
         public override void OnEnter()
@@ -73,14 +70,5 @@ public class FrogQuest : FSMQuest
             base.OnEnter();
         }
     }
-
-    // Stage 4: Finish the quest, despawn everything.
-    private class Stage4State : QuestState
-    {
-        public override void OnEnter()
-        {
-            _stageNum = 4;
-            base.OnEnter();
-        }
-    }
+    
 }

@@ -31,7 +31,6 @@ public class TurtleQuest : FSMQuest
             _fsm.TransitionTo<Stage2State>,
             _fsm.TransitionTo<Stage3State>,
             _fsm.TransitionTo<Stage4State>,
-            _fsm.TransitionTo<Stage5State>,
             _fsm.TransitionTo<Stage0State>
         };
 
@@ -91,17 +90,6 @@ public class TurtleQuest : FSMQuest
         {
             _stageNum = 4;
             base.OnEnter();
-        }
-    }
-
-    // Stage 5: Finish the quest, despawn everything.
-    private class Stage5State : QuestState
-    {
-        public override void OnEnter()
-        {
-            _stageNum = 5;
-            base.OnEnter();
-            // End.
         }
     }
 }

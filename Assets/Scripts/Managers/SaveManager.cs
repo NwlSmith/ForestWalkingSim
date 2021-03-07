@@ -23,11 +23,14 @@ public class SaveManager
     private const string questStageTurtle = "Turtle";
     #endregion
 
-    #region Quest GameObjects.
+    #region Quest and Item GameObjects.
     private MainQuest mainQuest;
     private WarblerQuest warblerQuest;
     private FrogQuest frogQuest;
     private TurtleQuest turtleQuest;
+    private QuestItem seedItem;
+    private QuestItem soilItem;
+    private QuestItem rainItem;
     #endregion
 
     #region Serialized Quest Data.
@@ -52,12 +55,11 @@ public class SaveManager
         public Vector3 position;
         public Quaternion rotation;
     }
-
-    public enum ItemEnum { Seed, Soil, Rain, None };
+    
     [System.Serializable]
     public class PlayerHolding
     {
-        public ItemEnum itemHolding;
+        public QuestItem.QuestItemEnum itemHolding;
     }
     #endregion
 
@@ -69,6 +71,33 @@ public class SaveManager
         warblerQuest = Object.FindObjectOfType<WarblerQuest>();
         frogQuest = Object.FindObjectOfType<FrogQuest>();
         turtleQuest = Object.FindObjectOfType<TurtleQuest>();
+
+        QuestItem[] questItems = Object.FindObjectsOfType<QuestItem>();
+
+        if (questItems.Length != 3)
+        {
+            Debug.LogWarning($"Error retrieving questItems. {questItems.Length} were found.");
+        }
+        else
+        {
+            foreach (QuestItem questItem in questItems)
+            {
+                switch (questItem.itemEnum)
+                {
+                    case QuestItem.QuestItemEnum.Seed:
+                        seedItem = questItem;
+                        break;
+                    case QuestItem.QuestItemEnum.Soil:
+                        soilItem = questItem;
+                        break;
+                    case QuestItem.QuestItemEnum.Rain:
+                        rainItem = questItem;
+                        break;
+                    case QuestItem.QuestItemEnum.None:
+                        break;
+                }
+            }
+        }
 
         if (!File.Exists(Application.dataPath + "/save_default.json"))
             CreateDefaultSave();
@@ -93,7 +122,7 @@ public class SaveManager
             rotation = new Quaternion(0f, 0f, 0f, 1f)
         };
 
-        PlayerHolding playerHolding = new PlayerHolding { itemHolding = ItemEnum.None };
+        PlayerHolding playerHolding = new PlayerHolding { itemHolding = QuestItem.QuestItemEnum.None };
 
         Data saveData = new Data
         {
@@ -137,8 +166,12 @@ public class SaveManager
             position = Services.PlayerMovement.transform.position,
             rotation = Services.PlayerMovement.transform.rotation
         };
-
-        PlayerHolding playerHolding = new PlayerHolding { itemHolding = ItemEnum.None };
+        
+        PlayerHolding playerHolding = new PlayerHolding {
+            itemHolding = Services.PlayerItemHolder._holdingItem ?
+            Services.PlayerItemHolder._currentlyHeldItem.GetComponent<QuestItem>().itemEnum :
+            QuestItem.QuestItemEnum.None
+        };
 
         Data saveData = new Data {
             questStageData = questStagesArray,
@@ -153,6 +186,27 @@ public class SaveManager
     {
         string saveString = File.ReadAllText(Application.dataPath + "/save.json");
         Data data = JsonUtility.FromJson<Data>(saveString);
+
+        if (data.playerHolding.itemHolding != QuestItem.QuestItemEnum.None)
+        {
+            QuestItem holding = null;
+            switch (data.playerHolding.itemHolding)
+            {
+                case QuestItem.QuestItemEnum.Seed:
+                    holding = seedItem;
+                    break;
+                case QuestItem.QuestItemEnum.Soil:
+                    holding = soilItem;
+                    break;
+                case QuestItem.QuestItemEnum.Rain:
+                    holding = rainItem;
+                    break;
+                case QuestItem.QuestItemEnum.None:
+                    Debug.LogWarning("Thought to be holding quest item, holding None quest item");
+                    break;
+            }
+            Services.PlayerItemHolder.PickUpItem(holding);
+        }
         
         Services.PlayerMovement.ForceTransform(data.playerData.position, data.playerData.rotation);
 

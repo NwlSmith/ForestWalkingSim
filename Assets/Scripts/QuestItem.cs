@@ -10,7 +10,7 @@ using UnityEngine;
  */
 public class QuestItem : HoldableItem
 {
-    public enum QuestItemEnum { Seed, Soil, Rain };
+    public enum QuestItemEnum { Seed, Soil, Rain, None };
 
     public QuestItemEnum itemEnum;
 
