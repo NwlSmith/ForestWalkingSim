@@ -125,9 +125,15 @@ public class DialogueController : MonoBehaviour
     public void OnLineStart()
     {
         if (_isPlayerSpeaking)
+        {
             _audioSource.clip = _playerSpeakerData.GetAudioClip();
+            Services.PlayerAnimation.Talk();
+        }
         else
+        {
             _audioSource.clip = _curNPC.GetNPCSpeakerData(_curMultiNPCNum).GetAudioClip();
+            _curNPC.Speak();
+        }
 
         _audioSource.pitch = Random.Range(.9f, 1.1f);
         _audioSource.Play();

@@ -34,8 +34,15 @@ public class MainQuest : FSMQuest
 
         startNextStage = _fsm.TransitionTo<Stage0State>;
 
+
         //startNextStage = _fsm.TransitionTo<Stage0State>;
         //moveBackStage = _fsm.TransitionTo<Stage0State>;
+    }
+
+    private void Start()
+    {
+        startNextStage();
+        _fsm.Update();
     }
 
     // Stage 0: Start of game. Advance to stage 1 by talking to the forest spirit.
@@ -55,6 +62,9 @@ public class MainQuest : FSMQuest
         {
             _stageNum = 1;
             base.OnEnter();
+            Services.QuestManager.AdvanceQuest("Warbler");
+            Services.QuestManager.AdvanceQuest("Frog");
+            Services.QuestManager.AdvanceQuest("Turtle");
         }
     }
 

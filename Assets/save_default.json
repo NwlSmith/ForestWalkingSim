@@ -32,5 +32,10 @@
     },
     "playerHolding": {
         "itemHolding": 3
+    },
+    "warblerChildrenStatus": {
+        "foundChild1": false,
+        "foundChild2": false,
+        "foundChild3": false
     }
 }

@@ -59,11 +59,11 @@ public abstract class FSMQuest : MonoBehaviour
         _fsm = new FiniteStateMachine<FSMQuest>(this);
     }
 
-    // Start is called before the first frame update
-    void OnEnable() => startNextStage();
-
-    // Update is called once per frame
-    void Update() => _fsm.Update();
+    void Update()
+    {
+        if (_fsm.CurrentState != null)
+            _fsm.Update();
+    }
 
     #endregion
 
@@ -76,6 +76,7 @@ public abstract class FSMQuest : MonoBehaviour
         {
             Debug.Log($"Advancing quest stage.");
             startNextStage();
+            _fsm.Update();
         }
         else
         {

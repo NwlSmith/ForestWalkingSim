@@ -21,6 +21,9 @@ public class SaveManager
     private const string questStageWarbler = "Warbler";
     private const string questStageFrog = "Frog";
     private const string questStageTurtle = "Turtle";
+    private const string child1String = "$found_warbler_child_1";
+    private const string child2String = "$found_warbler_child_2";
+    private const string child3String = "$found_warbler_child_3";
     #endregion
 
     #region Quest and Item GameObjects.
@@ -40,6 +43,7 @@ public class SaveManager
         public QuestStageData[] questStageData;
         public PlayerData playerData;
         public PlayerHolding playerHolding;
+        public WarblerChildrenStatus warblerChildrenStatus;
     }
 
     [System.Serializable]
@@ -55,11 +59,19 @@ public class SaveManager
         public Vector3 position;
         public Quaternion rotation;
     }
-    
+
     [System.Serializable]
     public class PlayerHolding
     {
         public QuestItem.QuestItemEnum itemHolding;
+    }
+
+    [System.Serializable]
+    public class WarblerChildrenStatus
+    {
+        public bool foundChild1;
+        public bool foundChild2;
+        public bool foundChild3;
     }
     #endregion
 
@@ -124,11 +136,14 @@ public class SaveManager
 
         PlayerHolding playerHolding = new PlayerHolding { itemHolding = QuestItem.QuestItemEnum.None };
 
+        WarblerChildrenStatus warblerChildrenStatus = new WarblerChildrenStatus { foundChild1 = false, foundChild2 = false, foundChild3 = false };
+
         Data saveData = new Data
         {
             questStageData = questStagesArray,
             playerData = playerData,
-            playerHolding = playerHolding
+            playerHolding = playerHolding,
+            warblerChildrenStatus = warblerChildrenStatus
         };
 
         string saveDataJson = JsonUtility.ToJson(saveData, true);
@@ -138,10 +153,9 @@ public class SaveManager
     public bool SaveExists()
     {
         if (!File.Exists(Application.dataPath + "/save.json")) return false;
-
         string defaultSaveString = File.ReadAllText(Application.dataPath + "/save_default.json");
         string saveString = File.ReadAllText(Application.dataPath + "/save.json");
-        return !defaultSaveString.Equals(saveString);
+        return !defaultSaveString.Equals(saveString); // If they are equal, then there is no distinct save file.
     }
 
     public void NewGameSave()
@@ -173,10 +187,23 @@ public class SaveManager
             QuestItem.QuestItemEnum.None
         };
 
+
+        Yarn.Unity.InMemoryVariableStorage questMemory = Services.DialogueController.InMemoryVariableStorage;
+
+        Debug.Log($"Child1: {questMemory.GetValue(child1String)}, Child2: {questMemory.GetValue(child2String)}, Child3: {questMemory.GetValue(child3String)}");
+        WarblerChildrenStatus warblerChildrenStatus = new WarblerChildrenStatus {
+            foundChild1 = questMemory.GetValue(child1String).AsBool,
+            foundChild2 = questMemory.GetValue(child2String).AsBool,
+            foundChild3 = questMemory.GetValue(child3String).AsBool
+        };
+        Debug.Log($"foundChild1: {warblerChildrenStatus.foundChild1}, foundChild2: {warblerChildrenStatus.foundChild2}, foundChild3: {warblerChildrenStatus.foundChild3}");
+
         Data saveData = new Data {
             questStageData = questStagesArray,
             playerData = playerData,
-            playerHolding = playerHolding };
+            playerHolding = playerHolding,
+            warblerChildrenStatus = warblerChildrenStatus
+        };
 
         string saveDataJson = JsonUtility.ToJson(saveData, true);
         File.WriteAllText(Application.dataPath + "/save.json", saveDataJson);
@@ -186,6 +213,11 @@ public class SaveManager
     {
         string saveString = File.ReadAllText(Application.dataPath + "/save.json");
         Data data = JsonUtility.FromJson<Data>(saveString);
+
+        Yarn.Unity.InMemoryVariableStorage questMemory = Services.DialogueController.InMemoryVariableStorage;
+        questMemory.SetValue(child1String, data.warblerChildrenStatus.foundChild1);
+        questMemory.SetValue(child2String, data.warblerChildrenStatus.foundChild2);
+        questMemory.SetValue(child3String, data.warblerChildrenStatus.foundChild3);
 
         if (data.playerHolding.itemHolding != QuestItem.QuestItemEnum.None)
         {

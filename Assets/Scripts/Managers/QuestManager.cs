@@ -65,5 +65,5 @@ public class QuestManager : MonoBehaviour
     /*
      * Keys are "Main", "Warbler", "Frog", "Turtle", not "$quest_main_stage"
      */
-    public void AdvanceQuestMemoryVar(string key) => Services.DialogueController.InMemoryVariableStorage.SetValue(_stringToStageDictionary[key], (_questDictionary[key].QuestStage + 1));
+    public void AdvanceQuestMemoryVar(string key) => Services.DialogueController.InMemoryVariableStorage.SetValue(_stringToStageDictionary[key], (_questDictionary[key].QuestStage));
 }

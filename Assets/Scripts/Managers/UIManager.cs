@@ -66,6 +66,8 @@ public class UIManager : MonoBehaviour
 
     public void EnterStartMenu() => _fsm.TransitionTo<StartMenuState>();
 
+    public void ShowContinue() => DisplayUI(_continueButton);
+
     public void HideContinue() => HideUI(_continueButton);
 
     #endregion

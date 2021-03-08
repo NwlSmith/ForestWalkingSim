@@ -12,21 +12,29 @@ using UnityEngine;
  * Allows different game states to have different Update functions.
  * 
  * To do:
- * - Implement item holding in saving and loading
  * - Implement turtle quest
  * - Implement other animations
  * - Make pause call a pause animation function in PlayerAnimation.
  * - Pull camera back from player.
  * - Implement Ground Fitter.
+ * - Have set positions for player conversations - TaskManager?
+ * - Maybe change quest items so they're not affected by physics? - let player drop items
  * 
  * Issues:
  * - Need to fix player position during dialogue. - FSM within InDialogueState? Maybe transitions in, then goes to regular behavior?
  * - Immediately thinks I want to talk to spirit
- * - In group dialogue, only plays first NPC's sounds
  * - Maybe make MovingOnGroundState a composite FSM with walking and sprinting.
  * - Fix weird rotation from jumping.
  * - Player doesn't ever enter IdleState, Y vel is always -.1. This is messing up animations.
- * - figure out a good way to transition from paused -> main menu -> continue game without recreating stuff.
+ * - Save system will not keep track of which children you've talked to...
+ * - More responsive movement, accelleration and deceleration feel slow, camera lerp feels slow.
+ * - Have pickup and talk prompts easier to see, maybe more central? Maybe following characters?
+ * - "After I talk to the Frog and Toad and complete the Warbler quest, if I talk to Frog and Toad again I get hard-locked into dialogue."
+ * - "When I jump and interact with an animal, I can get them to rotate in really weird directions"
+ * - People want more variety in systems, like collecting rewards from NPCs/other kinds of interaction with the game environment.
+ * - People weren't that happy about NPC POV camera
+ * - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
+ * - Camera keeps moving if it was moving during pause. (possibly other states too?)
  * 
  */
 
@@ -40,6 +48,8 @@ public class GameManager : MonoBehaviour
 
     // The finite state machine of the current gamestate.
     private FiniteStateMachine<GameManager> _fsm;
+
+    private bool _gameStarted = false;
 
 
     #endregion 
@@ -75,16 +85,31 @@ public class GameManager : MonoBehaviour
 
     public void NewGame()
     {
-        Services.SaveManager.NewGameSave();
-        _fsm.TransitionTo<StartPlay>();
+        if (!_gameStarted)
+        {
+            _gameStarted = true;
+            _fsm.TransitionTo<StartPlay>();
+        }
+        else
+        {
+            Services.SaveManager.NewGameSave();
+            LoadSave();
+        }
     }
 
     public void LoadSave()
     {
-        if (Services.SaveManager.SaveExists())
-            StartCoroutine(LoadSaveCO());
+        if (!_gameStarted)
+        {
+            if (Services.SaveManager.SaveExists())
+                StartCoroutine(LoadSaveCO());
+            else
+                Debug.Log("Trying to load a save that does not exist");
+        }
         else
-            Debug.Log("Trying to load a save that does not exist");
+        {
+            _fsm.TransitionTo<StartPlay>();
+        }
     }
 
     private IEnumerator LoadSaveCO()
@@ -152,6 +177,10 @@ public class GameManager : MonoBehaviour
             {
                 Debug.Log("Save does not exist");
                 Services.UIManager.HideContinue();
+            }
+            else
+            {
+                Services.UIManager.ShowContinue();
             }
             
         }

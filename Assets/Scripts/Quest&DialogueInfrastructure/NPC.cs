@@ -22,11 +22,12 @@ public class NPC : MonoBehaviour
     [SerializeField] protected Transform playerCameraLookAtPosition;// { get; private set; }
 
     private Quaternion _initRot;
+    private Animator _anim;
 
     private void Awake()
     {
         _initRot = transform.rotation;
-
+        _anim = GetComponentInChildren<Animator>();
     }
 
     private void Start()
@@ -38,11 +39,18 @@ public class NPC : MonoBehaviour
     public virtual void EnterDialogue(Transform playerPos)
     {
         transform.LookAt(playerPos, Vector3.up); // Change to a lerp
+        _anim.SetBool("InConversation", true);
     }
 
     public virtual void ExitDialogue()
     {
         transform.rotation = _initRot;
+        _anim.SetBool("InConversation", false);
+    }
+
+    public void Speak()
+    {
+        _anim.SetTrigger("Talk");
     }
 
     public virtual NPCSpeakerData GetNPCSpeakerData(int npcNum = 0)
