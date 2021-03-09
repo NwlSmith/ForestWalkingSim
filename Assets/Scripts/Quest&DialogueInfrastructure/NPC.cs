@@ -38,7 +38,9 @@ public class NPC : MonoBehaviour
 
     public virtual void EnterDialogue(Transform playerPos)
     {
-        transform.LookAt(playerPos, Vector3.up); // Change to a lerp
+        Vector3 lookPos = playerPos.position - transform.position;
+        lookPos.y = 0;
+        transform.rotation = Quaternion.LookRotation(lookPos);
         _anim.SetBool("InConversation", true);
     }
 

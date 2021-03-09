@@ -26,15 +26,13 @@ using UnityEngine;
  * - Maybe make MovingOnGroundState a composite FSM with walking and sprinting.
  * - Fix weird rotation from jumping.
  * - Player doesn't ever enter IdleState, Y vel is always -.1. This is messing up animations.
- * - Save system will not keep track of which children you've talked to...
  * - More responsive movement, accelleration and deceleration feel slow, camera lerp feels slow.
  * - Have pickup and talk prompts easier to see, maybe more central? Maybe following characters?
  * - "After I talk to the Frog and Toad and complete the Warbler quest, if I talk to Frog and Toad again I get hard-locked into dialogue."
- * - "When I jump and interact with an animal, I can get them to rotate in really weird directions"
  * - People want more variety in systems, like collecting rewards from NPCs/other kinds of interaction with the game environment.
  * - People weren't that happy about NPC POV camera
  * - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
- * - Camera keeps moving if it was moving during pause. (possibly other states too?)
+ * - Only first NPC animates when talking in a group conversation
  * 
  */
 
@@ -245,6 +243,7 @@ public class GameManager : MonoBehaviour
             Cursor.visible = true;
 
             Services.PlayerMovement.EnterPause();
+            Services.CameraManager.EnterPause();
             Services.UIManager.EnterPause();
         }
 

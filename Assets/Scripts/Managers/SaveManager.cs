@@ -190,13 +190,11 @@ public class SaveManager
 
         Yarn.Unity.InMemoryVariableStorage questMemory = Services.DialogueController.InMemoryVariableStorage;
 
-        Debug.Log($"Child1: {questMemory.GetValue(child1String)}, Child2: {questMemory.GetValue(child2String)}, Child3: {questMemory.GetValue(child3String)}");
         WarblerChildrenStatus warblerChildrenStatus = new WarblerChildrenStatus {
             foundChild1 = questMemory.GetValue(child1String).AsBool,
             foundChild2 = questMemory.GetValue(child2String).AsBool,
             foundChild3 = questMemory.GetValue(child3String).AsBool
         };
-        Debug.Log($"foundChild1: {warblerChildrenStatus.foundChild1}, foundChild2: {warblerChildrenStatus.foundChild2}, foundChild3: {warblerChildrenStatus.foundChild3}");
 
         Data saveData = new Data {
             questStageData = questStagesArray,

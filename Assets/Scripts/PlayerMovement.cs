@@ -214,7 +214,9 @@ public class PlayerMovement : MonoBehaviour
             Context._playerAnimation.Moving(false); // Maybe change to sit???
 
             Context._currentMovementVector = Vector3.zero;
-            Context.transform.LookAt(Services.NPCInteractionManager.closestNPC.GetPlayerCameraLookAtPosition(), Vector3.up);
+            Vector3 lookPos = Services.NPCInteractionManager.closestNPC.GetPlayerCameraLookAtPosition().position - Context.transform.position;
+            lookPos.y = 0;
+            Context.transform.rotation = Quaternion.LookRotation(lookPos);
             // SET LOCATION? LERP TO LOCATION?
         }
         

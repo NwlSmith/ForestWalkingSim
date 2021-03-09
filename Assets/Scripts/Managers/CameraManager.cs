@@ -65,6 +65,8 @@ public class CameraManager : MonoBehaviour
         SetTargetNPC(null);
     }
 
+    public void EnterPause() => _fsm.TransitionTo<PausedState>();
+
     public void EnterDialogue()
     {
         _fsm.TransitionTo<InDialogueState>();
@@ -151,6 +153,16 @@ public class CameraManager : MonoBehaviour
         }
 
         public override void OnExit() { }
+    }
+
+    // Paused camera state.
+    private class PausedState : CameraState
+    {
+        public override void OnEnter()
+        {
+            Context._mouseY = 0f;
+            Context._mouseX = 0f;
+        }
     }
 
     // Player is in dialogue. Transition to player dialogue camera 1 (looking from player to NPC)
