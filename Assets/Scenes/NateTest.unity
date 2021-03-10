@@ -7592,7 +7592,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 790443476226313171}
   m_LocalRotation: {x: -0.08508245, y: 0.008150695, z: 0.17889346, w: 0.98014885}
-  m_LocalPosition: {x: -0.0034367442, y: 1.3958789, z: -0.583639}
+  m_LocalPosition: {x: -0.0034367442, y: 1.01, z: -0.583639}
   m_LocalScale: {x: 0.6751695, y: 0.6751695, z: 0.6751696}
   m_Children:
   - {fileID: 771320228138439061}
@@ -9232,7 +9232,7 @@ MonoBehaviour:
   Slithery: 1
   Curling: 0.707
   Springiness: 0
-  MaxStretching: 0.326
+  MaxStretching: 0
   AngleLimit: 170.14496
   AngleLimitAxis: {x: 0, y: 0, z: 0}
   LimitAxisRange: {x: 0, y: 0}
@@ -9249,7 +9249,7 @@ MonoBehaviour:
   DetectZeroKeyframes: 1
   StartAfterTPose: 1
   OptimizeWithMesh: {fileID: 0}
-  TailAnimatorAmount: 0.5507246
+  TailAnimatorAmount: 0.82809687
   DetachChildren: 0
   Axis2D: 0
   Tangle: 0

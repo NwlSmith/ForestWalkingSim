@@ -9,6 +9,7 @@ public class StepSound : MonoBehaviour
     [SerializeField] private AudioClip[] grassClips;
     [SerializeField] private AudioClip[] dirtClips;
     [SerializeField] private AudioClip[] gravelClips;
+    [SerializeField] private float audioVolume = .05f;
 
     private void Awake()
     {
@@ -17,7 +18,7 @@ public class StepSound : MonoBehaviour
             audioSources[i] = gameObject.AddComponent<AudioSource>();
             audioSources[i].playOnAwake = false;
             audioSources[i].clip = grassClips[0];
-            audioSources[i].volume = .2f;
+            audioSources[i].volume = audioVolume;
         }
     }
 
