@@ -132,7 +132,7 @@ public class DialogueController : MonoBehaviour
         else
         {
             _audioSource.clip = _curNPC.GetNPCSpeakerData(_curMultiNPCNum).GetAudioClip();
-            _curNPC.Speak();
+            _curNPC.Speak(_curMultiNPCNum);
         }
 
         _audioSource.pitch = Random.Range(.9f, 1.1f);

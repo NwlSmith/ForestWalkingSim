@@ -15,7 +15,6 @@ using UnityEngine;
  * - Implement turtle quest
  * - Implement other animations
  * - Make pause call a pause animation function in PlayerAnimation.
- * - Pull camera back from player.
  * - Implement Ground Fitter.
  * - Have set positions for player conversations - TaskManager?
  * - Maybe change quest items so they're not affected by physics? - let player drop items
@@ -33,6 +32,7 @@ using UnityEngine;
  * - People weren't that happy about NPC POV camera
  * - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
  * - Only first NPC animates when talking in a group conversation
+ * - Numerous issues with animations.
  * 
  */
 

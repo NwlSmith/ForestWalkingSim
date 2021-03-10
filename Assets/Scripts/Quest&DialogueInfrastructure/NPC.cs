@@ -50,7 +50,7 @@ public class NPC : MonoBehaviour
         _anim.SetBool("InConversation", false);
     }
 
-    public void Speak()
+    public virtual void Speak(int npcNum = 0)
     {
         _anim.SetTrigger("Talk");
     }
