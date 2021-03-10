@@ -22,10 +22,12 @@ public class PlayerAnimation : MonoBehaviour
     #endregion
 
     private Animator _animator;
+    private FIMSpace.FSpine.FSpineAnimator _spineAnimator;
 
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
+        _spineAnimator = GetComponent<FIMSpace.FSpine.FSpineAnimator>();
 
         if (_animator == null)
         {
@@ -37,21 +39,37 @@ public class PlayerAnimation : MonoBehaviour
 
     public void Moving(bool isMoving)
     {
+        if (isMoving)
+            _spineAnimator.SpineAnimatorAmount = .5f;
+        else
+        {
+            _spineAnimator.SpineAnimatorAmount = 0f;
+        }
         _animator.SetBool("Moving", isMoving);
-        if (!isMoving) Sprinting(false);
     }
 
     public void Sprinting(bool isSprinting) => _animator.SetBool(_sprinting, isSprinting);
 
-    public void Jump() => _animator.SetTrigger(_jump);
+    public void Jump()
+    {
+        _animator.SetTrigger(_jump);
+        _spineAnimator.SpineAnimatorAmount = 0f;
+    }
 
-    public void Falling(bool isFalling) => _animator.SetBool(_falling, isFalling);
+    public void Falling(bool isFalling)
+    {
+        _animator.SetBool(_falling, isFalling);
+    }
 
     public void Pickup() => _animator.SetTrigger(_pickup);
 
     public void Talk() => _animator.SetTrigger(_talk);
 
-    public void Sitting(bool isSitting) => _animator.SetBool(_sitting, isSitting);
+    public void Sitting(bool isSitting)
+    {
+        _animator.SetBool(_sitting, isSitting);
+        _spineAnimator.SpineAnimatorAmount = 0f;
+    }
 
     // Make a trigger to pause animation.
 

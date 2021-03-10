@@ -31,7 +31,6 @@ using UnityEngine;
  * - People want more variety in systems, like collecting rewards from NPCs/other kinds of interaction with the game environment.
  * - People weren't that happy about NPC POV camera
  * - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
- * - Numerous issues with animations.
  * - Tail being annoying when I sprint
  * 
  */
