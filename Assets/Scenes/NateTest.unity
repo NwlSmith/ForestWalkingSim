@@ -6052,7 +6052,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1748433190}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 37.5, y: 0.763, z: 0}
+  m_LocalPosition: {x: 37.5, y: 0.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2101554161}
@@ -6097,8 +6097,8 @@ MonoBehaviour:
     CollisionRadius: 1
     ColliderOffset: {x: 0, y: 0, z: 0}
     transform: {fileID: 771320228138439061}
-    ProceduralPosition: {x: 37.51716, y: 1.4553163, z: -1.0559199}
-    ProceduralRotation: {x: 0.00047276562, y: 0.99948716, z: -0.017715454, w: 0.026672937}
+    ProceduralPosition: {x: 37.51716, y: 0.64937687, z: -1.0559199}
+    ProceduralRotation: {x: 0.00047276038, y: 0.99948716, z: -0.017715257, w: 0.026672937}
     HelperDiffPosition: {x: 0, y: 0, z: 0}
     HelperDiffRoation: {x: 0, y: 0, z: 0, w: 0}
     PreviousPosition: {x: 0, y: 0, z: 0}
@@ -6119,8 +6119,8 @@ MonoBehaviour:
     CollisionRadius: 1
     ColliderOffset: {x: 0, y: 0, z: 0}
     transform: {fileID: 5612191215656692754}
-    ProceduralPosition: {x: 37.50099, y: 1.4660648, z: -0.7532369}
-    ProceduralRotation: {x: -0.0000001030849, y: 0.9999999, z: -0.0002133369, w: -0.00048320234}
+    ProceduralPosition: {x: 37.50099, y: 0.66012526, z: -0.7532369}
+    ProceduralRotation: {x: -0.00000010327198, y: 0.9999999, z: -0.00021372407, w: -0.00048320234}
     HelperDiffPosition: {x: 0, y: 0, z: 0}
     HelperDiffRoation: {x: 0, y: 0, z: 0, w: 0}
     PreviousPosition: {x: 0, y: 0, z: 0}
@@ -6141,7 +6141,7 @@ MonoBehaviour:
     CollisionRadius: 1
     ColliderOffset: {x: 0, y: 0, z: 0}
     transform: {fileID: 3888344385439012128}
-    ProceduralPosition: {x: 37.50114, y: 1.4661305, z: -0.5992919}
+    ProceduralPosition: {x: 37.50114, y: 0.66019106, z: -0.5992919}
     ProceduralRotation: {x: -0.000021928534, y: 0.9999613, z: -0.008405569, w: -0.0026087097}
     HelperDiffPosition: {x: 0, y: 0, z: 0}
     HelperDiffRoation: {x: 0, y: 0, z: 0, w: 0}
@@ -6163,8 +6163,8 @@ MonoBehaviour:
     CollisionRadius: 1
     ColliderOffset: {x: 0, y: 0, z: 0}
     transform: {fileID: 8794557188445776861}
-    ProceduralPosition: {x: 37.501965, y: 1.4687856, z: -0.44137147}
-    ProceduralRotation: {x: -0.0003698262, y: 0.99493855, z: -0.100418076, w: -0.0036642244}
+    ProceduralPosition: {x: 37.501965, y: 0.6628462, z: -0.44137147}
+    ProceduralRotation: {x: -0.00036982584, y: 0.99493855, z: -0.10041797, w: -0.003664224}
     HelperDiffPosition: {x: 0, y: 0, z: 0}
     HelperDiffRoation: {x: 0, y: 0, z: 0, w: 0}
     PreviousPosition: {x: 0, y: 0, z: 0}
@@ -6185,8 +6185,8 @@ MonoBehaviour:
     CollisionRadius: 1
     ColliderOffset: {x: 0, y: 0, z: 0}
     transform: {fileID: 8217207966859828308}
-    ProceduralPosition: {x: 37.50626, y: 1.5877128, z: 0.14177385}
-    ProceduralRotation: {x: -0.0003698262, y: 0.99493855, z: -0.100418076, w: -0.0036642244}
+    ProceduralPosition: {x: 37.50626, y: 0.7817732, z: 0.14177385}
+    ProceduralRotation: {x: -0.00036982584, y: 0.99493855, z: -0.10041797, w: -0.003664224}
     HelperDiffPosition: {x: 0, y: 0, z: 0}
     HelperDiffRoation: {x: 0, y: 0, z: 0, w: 0}
     PreviousPosition: {x: 0, y: 0, z: 0}
@@ -7036,6 +7036,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 125202490}
     m_Modifications:
+    - target: {fileID: 2771805088267087670, guid: b07e9532cfcd2b041a0971d949086298, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.15158093
+      objectReference: {fileID: 0}
+    - target: {fileID: 2771805088267087670, guid: b07e9532cfcd2b041a0971d949086298, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.33587256
+      objectReference: {fileID: 0}
+    - target: {fileID: 2771805088267087670, guid: b07e9532cfcd2b041a0971d949086298, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.8439943
+      objectReference: {fileID: 0}
     - target: {fileID: 2929595187840489579, guid: b07e9532cfcd2b041a0971d949086298, type: 3}
       propertyPath: m_Name
       value: BigSpiritNPC TEMP
@@ -10673,6 +10685,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: be01ae38ef5b9154c9c542d04ca0bac7, type: 3}
   dirtClips: []
   gravelClips: []
+  audioVolume: 0.05
 --- !u!4 &7791906197447396016 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7518431583243919423, guid: b07e9532cfcd2b041a0971d949086298, type: 3}
