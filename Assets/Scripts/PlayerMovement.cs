@@ -184,7 +184,8 @@ public class PlayerMovement : MonoBehaviour
         public override void OnEnter()
         {
             Context._currentMovementVector = Vector3.zero;
-            Context._playerAnimation.Moving(false); // Maybe change to sit???
+            Context._playerAnimation.Moving(false);
+            Context._playerAnimation.Sitting(true);
         }
 
         public override void Update() => base.Update();
@@ -192,7 +193,10 @@ public class PlayerMovement : MonoBehaviour
         // Physics calculations.
         public override void FixedUpdate() => base.FixedUpdate();
 
-        public override void OnExit() { }
+        public override void OnExit()
+        {
+            Context._playerAnimation.Sitting(false); // Maybe change to sit???
+        }
     }
     
     // Player is forced to pause movement.
@@ -287,16 +291,44 @@ public class PlayerMovement : MonoBehaviour
     // Player is currently jumping. Possibly change into 2 states - a jump charging state and a released jump state.
     private class JumpingState : GameState
     {
+        private Coroutine jumpCO = null;
+
         public override void OnEnter()
         {
             //Debug.Log("JumpingState enter");
+            
+            Context._curJumpCooldown = Context._jumpCooldown;
+            
+            Context._charController.Move(Context._currentMovementVector);
+            Context._playerAnimation.Jump();
+            jumpCO = Context.StartCoroutine(JumpAfterTime());
+        }
+
+        private IEnumerator JumpAfterTime()
+        {
+            yield return new WaitForSeconds(.33f);
             Vector3 jumpVector = Context.transform.forward * Context._jumpForwardDistance;// + Vector3.up * Context._upwardJumpSpeed;
             Context._currentMovementVector += jumpVector * Time.fixedDeltaTime;
             Context._currentMovementVector.y = Context._jumpSpeed;
 
-            Context._curJumpCooldown = Context._jumpCooldown;
-            
-            Context._charController.Move(Context._currentMovementVector);
+            // Replace FixedUpdate
+            while (true)
+            {
+                // Fall downwards
+                Context._currentMovementVector.y += Context._gravity * Time.fixedDeltaTime;
+
+                Context._charController.Move(Context._currentMovementVector);
+                yield return new WaitForFixedUpdate();
+
+                if (Context.OnGround)
+                {
+                    TransitionTo<IdleState>();
+                }
+                else if (Context._currentMovementVector.y < 0f)
+                {
+                    TransitionTo<FallingState>();
+                }
+            }
         }
 
         public override void Update()
@@ -308,28 +340,13 @@ public class PlayerMovement : MonoBehaviour
             // Detect if on the ground or moving down.
             //Debug.Log("Current movement vector " + Context._currentMovementVector.y);
 
-            if (Context.OnGround)
-            {
-                TransitionTo<IdleState>();
-            }
-            else if (Context._currentMovementVector.y < 0f)
-            {
-                TransitionTo<FallingState>();
-            }
+            
         }
 
-        // Physics calculations.
-        public override void FixedUpdate()
+        public override void OnExit()
         {
-            base.FixedUpdate();
-
-            // Fall downwards
-            Context._currentMovementVector.y += Context._gravity * Time.fixedDeltaTime;
-
-            Context._charController.Move(Context._currentMovementVector);
+            Context.StopCoroutine(jumpCO);
         }
-
-        public override void OnExit() { }
     }
 
     // Player is currently falling.
@@ -337,7 +354,8 @@ public class PlayerMovement : MonoBehaviour
     {
         public override void OnEnter()
         {
-            //Debug.Log("FallingState enter");
+            Debug.Log("FallingState enter");
+            Context._playerAnimation.Falling(true);
 
         }
 
@@ -368,7 +386,10 @@ public class PlayerMovement : MonoBehaviour
             Context._charController.Move(Context._currentMovementVector);
         }
 
-        public override void OnExit() { }
+        public override void OnExit()
+        {
+            Context._playerAnimation.Falling(false);
+        }
     }
     #endregion
 

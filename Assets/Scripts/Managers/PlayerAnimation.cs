@@ -18,6 +18,7 @@ public class PlayerAnimation : MonoBehaviour
     private const string _falling = "Falling";
     private const string _pickup = "Pickup";
     private const string _talk = "Talk";
+    private const string _sitting = "Sitting";
     #endregion
 
     private Animator _animator;
@@ -42,13 +43,15 @@ public class PlayerAnimation : MonoBehaviour
 
     public void Sprinting(bool isSprinting) => _animator.SetBool(_sprinting, isSprinting);
 
-    public void Jump() => _animator.SetTrigger(_sprinting);
+    public void Jump() => _animator.SetTrigger(_jump);
 
     public void Falling(bool isFalling) => _animator.SetBool(_falling, isFalling);
 
     public void Pickup() => _animator.SetTrigger(_pickup);
 
     public void Talk() => _animator.SetTrigger(_talk);
+
+    public void Sitting(bool isSitting) => _animator.SetBool(_sitting, isSitting);
 
     // Make a trigger to pause animation.
 

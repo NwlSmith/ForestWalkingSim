@@ -5290,7 +5290,7 @@ MonoBehaviour:
   ShoulderOffset: {x: 0.5, y: 0, z: 0}
   VerticalArmLength: 1
   CameraSide: 1
-  CameraDistance: 3
+  CameraDistance: 4
   CameraCollisionFilter:
     serializedVersion: 2
     m_Bits: 1
@@ -6050,8 +6050,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1748433190}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 37.5, y: 1, z: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 37.5, y: 0.744, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2101554161}
@@ -6062,7 +6062,7 @@ Transform:
   - {fileID: 8123857546719981556}
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &1748934018
 GameObject:
   m_ObjectHideFlags: 0
@@ -6123,7 +6123,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1748934018}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 1, z: -3}
+  m_LocalPosition: {x: 0.50000006, y: 0.99999994, z: -4.0000005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1676641270}
@@ -6680,14 +6680,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4319111550560673984}
-  m_LocalRotation: {x: -0.11352453, y: 0.0023122975, z: -0.023603259, w: 0.9932521}
-  m_LocalPosition: {x: 0.000000023748726, y: 0.54014987, z: -0.000000052154064}
+  m_LocalRotation: {x: -0.17498842, y: 0.003678435, z: -0.024875695, w: 0.98424935}
+  m_LocalPosition: {x: 0.002, y: 0.603, z: 0.034}
   m_LocalScale: {x: 0.9999999, y: 0.9999999, z: 0.9999999}
   m_Children:
   - {fileID: 7595250738927926386}
   m_Father: {fileID: 7616575448994343608}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -20.138, y: 0.973, z: -3.068}
 --- !u!1 &111426601084715358
 GameObject:
   m_ObjectHideFlags: 0
@@ -7007,14 +7007,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5155135064174640306}
-  m_LocalRotation: {x: 0.37073982, y: 0.00000043280366, z: 0.006168067, w: 0.9287163}
-  m_LocalPosition: {x: 0.000000009313226, y: 0.9614877, z: 0.00000008568168}
+  m_LocalRotation: {x: 0.24596941, y: 0.00007705387, z: 0.003180845, w: 0.9692724}
+  m_LocalPosition: {x: 0, y: 1.041, z: 0.008}
   m_LocalScale: {x: 0.9999999, y: 0.99999994, z: 0.99999994}
   m_Children:
   - {fileID: 7970207451785191204}
   m_Father: {fileID: 7130732959495370910}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 28.478, y: 0.112, z: 0.404}
 --- !u!1 &367512425114042858
 GameObject:
   m_ObjectHideFlags: 0
@@ -7337,7 +7337,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2410448342640103496}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.428877, z: 0}
+  m_LocalPosition: {x: 0, y: 0.428877, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7970207451785191204}
@@ -8150,7 +8150,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8969528665920941775}
   m_LocalRotation: {x: 0.008686959, y: 0.008508294, z: -0.034031957, w: 0.9993468}
-  m_LocalPosition: {x: 0.000000044703484, y: 0.7040142, z: -0.000000031664968}
+  m_LocalPosition: {x: 0.005, y: 0.751, z: -0.003}
   m_LocalScale: {x: 0.99999994, y: 0.9999999, z: 1}
   m_Children:
   - {fileID: 2304423415947387785}
@@ -8218,14 +8218,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3476968353503828791}
-  m_LocalRotation: {x: -0.11352446, y: 0.002312183, z: -0.02360321, w: 0.99325216}
-  m_LocalPosition: {x: 0.000000029336661, y: 0.5401498, z: -0.0000000018626451}
+  m_LocalRotation: {x: -0.17498869, y: 0.0036779833, z: -0.024875533, w: 0.9842493}
+  m_LocalPosition: {x: 0.002, y: 0.603, z: 0.034}
   m_LocalScale: {x: 1, y: 1, z: 0.99999994}
   m_Children:
   - {fileID: 3512416811353704140}
   m_Father: {fileID: 2197748406865984969}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -20.138, y: 0.973, z: -3.068}
 --- !u!114 &2308123781441702696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9069,7 +9069,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1884376625903674664}
   m_LocalRotation: {x: 0.7754332, y: -0.14358242, z: 0.1746301, w: 0.5895693}
-  m_LocalPosition: {x: -0.566316, y: 0.13223852, z: 0.33101737}
+  m_LocalPosition: {x: -0.593, y: 0.116, z: 0.405}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7616575448994343608}
@@ -10055,14 +10055,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5251751732502529299}
-  m_LocalRotation: {x: 0.37073994, y: -0.00000013594345, z: 0.0061683785, w: 0.9287163}
-  m_LocalPosition: {x: 0.000000014202669, y: 0.9614876, z: 0.000000030733645}
+  m_LocalRotation: {x: 0.24596918, y: 0.00007636843, z: 0.003180965, w: 0.96927243}
+  m_LocalPosition: {x: -0, y: 1.041, z: 0.008}
   m_LocalScale: {x: 0.9999999, y: 0.9999999, z: 0.99999994}
   m_Children:
   - {fileID: 5798323347001132949}
   m_Father: {fileID: 8302697817533060115}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 28.478, y: 0.112, z: 0.404}
 --- !u!4 &6490812416360893206
 Transform:
   m_ObjectHideFlags: 0
@@ -10071,7 +10071,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5191528331449059865}
   m_LocalRotation: {x: 0.7754333, y: -0.1435827, z: 0.17463003, w: 0.589569}
-  m_LocalPosition: {x: 0.4341882, y: 0.14720978, z: 0.6942462}
+  m_LocalPosition: {x: 0.408, y: 0.131, z: 0.768}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2197748406865984969}
@@ -10288,14 +10288,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3743658569723971363}
-  m_LocalRotation: {x: -0.71609986, y: -0.16703728, z: -0.25743958, w: 0.62691665}
+  m_LocalRotation: {x: -0.66814333, y: -0.18454197, z: -0.24316242, w: 0.6785285}
   m_LocalPosition: {x: -0.22229627, y: 0.48371828, z: -0.59373975}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 345372805964572677}
   m_Father: {fileID: 771320228138439061}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -94.825, y: -117.666, z: 82.426}
 --- !u!4 &7169374710211460429
 Transform:
   m_ObjectHideFlags: 0
@@ -10388,7 +10388,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 111426601084715358}
   m_LocalRotation: {x: 0.008686974, y: 0.0085078655, z: -0.034031913, w: 0.9993468}
-  m_LocalPosition: {x: 0.00000008940697, y: 0.7040143, z: -0.000000067055225}
+  m_LocalPosition: {x: 0.005, y: 0.751, z: -0.003}
   m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 1}
   m_Children:
   - {fileID: 62014548460341836}
@@ -10463,112 +10463,112 @@ MonoBehaviour:
     CollisionRadius: 1
     ColliderOffset: {x: 0, y: 0, z: 0}
     transform: {fileID: 771320228138439061}
-    ProceduralPosition: {x: 33.87311, y: 0.73111504, z: -1.387577}
-    ProceduralRotation: {x: -0.049912732, y: -0.045040227, z: 0.16530216, w: 0.9839489}
-    HelperDiffPosition: {x: 0.05096054, y: -0.045098126, z: -0.9756705}
-    HelperDiffRoation: {x: -0.04489008, y: -0.041450888, z: 0.0058129835, w: -0.9981148}
-    PreviousPosition: {x: 37.514282, y: 0.77957225, z: -0.41044015}
-    DefaultForward: {x: -0.056931786, y: -0.90001, z: -0.09680629}
-    StraightenFactor: 0.01842146
-    TargetStraightenFactor: 0.017862165
+    ProceduralPosition: {x: 36.847473, y: 0.30204242, z: -0.015431793}
+    ProceduralRotation: {x: 0.29934502, y: -0.6610904, z: 0.044108633, w: 0.6865905}
+    HelperDiffPosition: {x: -0.7148094, y: -0.070510745, z: -0.15045597}
+    HelperDiffRoation: {x: 0.014173484, y: -0.12111119, z: -0.045695443, w: 0.9914854}
+    PreviousPosition: {x: 37.189156, y: 0.7895923, z: -0.012174807}
+    DefaultForward: {x: -0.056758404, y: -0.8922746, z: -0.096307755}
+    StraightenFactor: 0.020992644
+    TargetStraightenFactor: 0.020451823
     MotionWeight: 1
-    FinalRotation: {x: -0.66640574, y: 0.21236935, z: -0.23369291, w: 0.67541903}
-    FinalPosition: {x: 33.922745, y: 0.75082767, z: -1.6706262}
-    ManualPosOffset: {x: 0, y: 0, z: 0}
+    FinalRotation: {x: -0.6535575, y: 0.6008883, z: 0.2619122, w: 0.3784156}
+    FinalPosition: {x: 36.400032, y: 0.7507606, z: -0.07889126}
+    ManualPosOffset: {x: 0, y: 0.01, z: 0.32}
     ManualRotOffset: {x: 0, y: 0, z: 0, w: 1}
-    ReferencePosition: {x: 33.82215, y: 0.77621317, z: -0.41190654}
-    ReferenceRotation: {x: 0.10057825, y: 0.07861059, z: -0.17066316, w: -0.9770254}
-    forward: {x: -0.06276714, y: -0.9923045, z: -0.10673404}
-    right: {x: -0.5467344, y: 0.12365499, z: -0.82812494}
-    up: {x: -0.8349497, y: -0.0063772216, z: 0.5502893}
+    ReferencePosition: {x: 37.18916, y: 0.78932416, z: -0.012575409}
+    ReferenceRotation: {x: 0.06633441, y: 0.69883335, z: 0.18665917, w: 0.6873065}
+    forward: {x: -0.06311783, y: -0.992243, z: -0.107098006}
+    right: {x: -0.5415666, y: 0.12417449, z: -0.8314363}
+    up: {x: -0.83828473, y: -0.0055236877, z: 0.54520476}
   - Collide: 1
     CollisionRadius: 1
     ColliderOffset: {x: 0, y: 0, z: 0}
     transform: {fileID: 5612191215656692754}
-    ProceduralPosition: {x: 33.80873, y: 0.7821456, z: -0.7807409}
-    ProceduralRotation: {x: -0.062381078, y: -0.041788075, z: 0.16443215, w: 0.9835265}
-    HelperDiffPosition: {x: 0.044124603, y: -0.046028256, z: -0.6650413}
-    HelperDiffRoation: {x: -0.032179046, y: -0.04237974, z: 0.00789821, w: -0.9985521}
-    PreviousPosition: {x: 37.509853, y: 0.83153296, z: -0.10872793}
-    DefaultForward: {x: -0.00035616383, y: 0.90698934, z: -0.00037231296}
-    StraightenFactor: 0.01842146
-    TargetStraightenFactor: 0.017862165
+    ProceduralPosition: {x: 37.175, y: 0.4732486, z: 0.0032195505}
+    ProceduralRotation: {x: 0.3162934, y: -0.632036, z: 0.05681844, w: 0.7051671}
+    HelperDiffPosition: {x: -0.45745468, y: -0.07534313, z: -0.014490336}
+    HelperDiffRoation: {x: -0.0017352625, y: -0.03258038, z: -0.011792497, w: 0.99939823}
+    PreviousPosition: {x: 37.45838, y: 0.835958, z: -0.008223165}
+    DefaultForward: {x: -0.00003040582, y: 0.89924717, z: -0.0002200976}
+    StraightenFactor: 0.020992644
+    TargetStraightenFactor: 0.020451823
     MotionWeight: 1
-    FinalRotation: {x: -0.6444391, y: 0.17684971, z: -0.26885018, w: 0.69364434}
-    FinalPosition: {x: 33.83618, y: 0.7715905, z: -0.96499026}
-    ManualPosOffset: {x: 0, y: 0, z: 0.1}
+    FinalRotation: {x: -0.6533505, y: 0.60769707, z: 0.2821839, w: 0.3524351}
+    FinalPosition: {x: 37.009377, y: 0.7644257, z: 0.07684915}
+    ManualPosOffset: {x: 0, y: 0, z: 0.05}
     ManualRotOffset: {x: 0, y: 0, z: 0, w: 1}
-    ReferencePosition: {x: 33.764606, y: 0.8281739, z: -0.115699604}
-    ReferenceRotation: {x: 0.10057825, y: 0.07861059, z: -0.17066316, w: -0.9770254}
-    forward: {x: 0.06403723, y: -0.99794465, z: 0.0023745121}
-    right: {x: -0.55318826, y: -0.037476372, z: -0.83221287}
-    up: {x: -0.83059174, y: -0.051979337, z: 0.5544507}
+    ReferencePosition: {x: 37.458385, y: 0.83568984, z: -0.008623768}
+    ReferenceRotation: {x: 0.06633441, y: 0.69883335, z: 0.18665917, w: 0.6873065}
+    forward: {x: 0.06448367, y: -0.9979147, z: 0.002878576}
+    right: {x: -0.5507917, y: -0.03797655, z: -0.8337783}
+    up: {x: -0.8321487, y: -0.052173734, z: 0.55209285}
   - Collide: 1
     CollisionRadius: 1
     ColliderOffset: {x: 0, y: 0, z: 0}
     transform: {fileID: 3888344385439012128}
-    ProceduralPosition: {x: 33.74583, y: 0.8488723, z: -0.17527378}
-    ProceduralRotation: {x: -0.072008245, y: -0.028150795, z: 0.16305591, w: 0.9835828}
-    HelperDiffPosition: {x: 0.03876877, y: -0.03126228, z: -0.35578108}
-    HelperDiffRoation: {x: -0.020559508, y: -0.053926703, z: 0.01138084, w: -0.9982684}
-    PreviousPosition: {x: 37.505424, y: 0.88349366, z: 0.19298428}
-    DefaultForward: {x: 0.004313132, y: -0.45444924, z: -0.0009372365}
-    StraightenFactor: 0.008349276
-    TargetStraightenFactor: 0.00789711
+    ProceduralPosition: {x: 37.300106, y: 0.5489908, z: 0.003076517}
+    ProceduralRotation: {x: 0.35880747, y: -0.60716206, z: 0.091227874, w: 0.7030569}
+    HelperDiffPosition: {x: -0.18784332, y: -0.04160118, z: 0.024280824}
+    HelperDiffRoation: {x: 0.007716016, y: -0.085632436, z: -0.032122213, w: 0.99577916}
+    PreviousPosition: {x: 37.727608, y: 0.8823237, z: -0.0042715226}
+    DefaultForward: {x: 0.0040346496, y: -0.4558529, z: -0.0009917337}
+    StraightenFactor: 0.01051451
+    TargetStraightenFactor: 0.0101137925
     MotionWeight: 1
-    FinalRotation: {x: 0.70095134, y: 0.11056198, z: 0.15754849, w: 0.6867476}
-    FinalPosition: {x: 33.809288, y: 0.78527933, z: -0.6555896}
-    ManualPosOffset: {x: 0, y: 0.02, z: -0.15}
+    FinalRotation: {x: 0.6380142, y: 0.53962046, z: -0.3502403, w: 0.42317885}
+    FinalPosition: {x: 37.226116, y: 0.785477, z: 0.07991634}
+    ManualPosOffset: {x: 0, y: 0.01, z: -0.21}
     ManualRotOffset: {x: 0, y: 0, z: 0, w: 1}
-    ReferencePosition: {x: 33.70706, y: 0.8801346, z: 0.18050732}
-    ReferenceRotation: {x: 0.10057825, y: 0.07861059, z: -0.17066316, w: -0.9770254}
-    forward: {x: 0.0016423501, y: 0.9999361, z: -0.011182472}
-    right: {x: -0.9989897, y: 0.0011412264, z: -0.044924468}
-    up: {x: 0.0449028, y: -0.011244774, z: -0.99892807}
+    ReferencePosition: {x: 37.72761, y: 0.8820555, z: -0.0046721254}
+    ReferenceRotation: {x: 0.06633441, y: 0.69883335, z: 0.18665917, w: 0.6873065}
+    forward: {x: 0.0015874945, y: 0.9999366, z: -0.011151328}
+    right: {x: -0.99911845, y: 0.0011108913, z: -0.041964825}
+    up: {x: 0.041956466, y: -0.01120376, z: -0.9990566}
   - Collide: 1
     CollisionRadius: 1
     ColliderOffset: {x: 0, y: 0, z: 0}
     transform: {fileID: 8794557188445776861}
-    ProceduralPosition: {x: 33.721634, y: 0.88952065, z: 0.12790284}
-    ProceduralRotation: {x: -0.10537598, y: -0.10824594, z: 0.16985509, w: 0.97382134}
-    HelperDiffPosition: {x: 0.04340744, y: -0.0166502, z: -0.20102677}
-    HelperDiffRoation: {x: -0.000111417605, y: 0.030106429, z: -0.0023608168, w: -0.9995441}
-    PreviousPosition: {x: 37.503204, y: 0.9095299, z: 0.34416515}
-    DefaultForward: {x: 0.03620613, y: -0.45683298, z: -0.09429997}
-    StraightenFactor: 0.008647459
-    TargetStraightenFactor: 0.008192123
+    ProceduralPosition: {x: 37.386906, y: 0.61490166, z: 0.0018854032}
+    ProceduralRotation: {x: 0.37127495, y: -0.5987271, z: 0.10061258, w: 0.7025368}
+    HelperDiffPosition: {x: -0.05366516, y: -0.036061525, z: 0.07362278}
+    HelperDiffRoation: {x: -0.015712095, y: 0.046846695, z: 0.017079238, w: 0.9986326}
+    PreviousPosition: {x: 37.86409, y: 0.9058287, z: -0.0022682396}
+    DefaultForward: {x: 0.030554827, y: -0.459715, z: -0.0813968}
+    StraightenFactor: 0.01079795
+    TargetStraightenFactor: 0.010393443
     MotionWeight: 1
-    FinalRotation: {x: 0.6032782, y: 0.045350343, z: 0.18122265, w: 0.7753436}
-    FinalPosition: {x: 33.7869, y: 0.8025466, z: -0.34524235}
-    ManualPosOffset: {x: 0, y: 0, z: 0}
+    FinalRotation: {x: 0.47892725, y: 0.6570524, z: -0.39372745, w: 0.42882445}
+    FinalPosition: {x: 37.500336, y: 0.780335, z: 0.12667663}
+    ManualPosOffset: {x: 0, y: -0.01, z: -0.02}
     ManualRotOffset: {x: 0, y: 0, z: 0, w: 1}
-    ReferencePosition: {x: 33.678226, y: 0.90617085, z: 0.3289296}
-    ReferenceRotation: {x: 0.10057825, y: 0.07861059, z: -0.17066316, w: -0.9770254}
-    forward: {x: 0, y: 1, z: -0.0000048070974}
-    right: {x: -0.9998952, y: 0.0000024035635, z: 0.014475862}
-    up: {x: -0.014473033, y: -0.0000033378767, z: -0.9998953}
+    ReferencePosition: {x: 37.864094, y: 0.90556055, z: -0.0026688424}
+    ReferenceRotation: {x: 0.06633441, y: 0.69883335, z: 0.18665917, w: 0.6873065}
+    forward: {x: 0.0000036053764, y: 1, z: -0.0000048071684}
+    right: {x: -0.99990433, y: 0.000012819148, z: 0.013828656}
+    up: {x: -0.013831579, y: -0.0000038146873, z: -0.9999044}
   - Collide: 1
     CollisionRadius: 1
     ColliderOffset: {x: 0, y: 0, z: 0}
     transform: {fileID: 8217207966859828308}
-    ProceduralPosition: {x: 33.64373, y: 0.94273627, z: 0.42937484}
-    ProceduralRotation: {x: 0.0709406, y: 0.09251595, z: -0.17307104, w: -0.9779855}
-    HelperDiffPosition: {x: -0.004814148, y: 0.0097616315, z: -0.05235216}
-    HelperDiffRoation: {x: 0.031237112, y: -0.008210193, z: 0.0059171207, w: 0.9994615}
-    PreviousPosition: {x: 37.50092, y: 0.9363337, z: 0.49980244}
-    DefaultForward: {x: -0.3923557, y: -1.0612187, z: 1.3520595}
+    ProceduralPosition: {x: 37.775333, y: 0.94723475, z: 0.00045278668}
+    ProceduralRotation: {x: 0.37127495, y: -0.5987271, z: 0.10061258, w: 0.7025368}
+    HelperDiffPosition: {x: 0.0836792, y: -0.0027105212, z: 0.04785949}
+    HelperDiffRoation: {x: -0.007289572, y: -0.001358006, z: -0.002032797, w: 0.9999714}
+    PreviousPosition: {x: 38.004166, y: 0.92995214, z: -0.00021225214}
+    DefaultForward: {x: -0.43213403, y: -1.0385228, z: 1.3575383}
     StraightenFactor: 0
     TargetStraightenFactor: 0
     MotionWeight: 1
-    FinalRotation: {x: -0.903988, y: 0.0018910574, z: -0.217584, w: -0.36805058}
-    FinalPosition: {x: 33.638916, y: 0.9524979, z: 0.37702268}
-    ManualPosOffset: {x: 0, y: 0, z: 0}
+    FinalRotation: {x: 0.73092884, y: 0.29933557, z: -0.5508422, w: 0.26966003}
+    FinalPosition: {x: 38.171528, y: 0.92426294, z: 0.095106125}
+    ManualPosOffset: {x: 0, y: 0, z: -0.05}
     ManualRotOffset: {x: 0, y: 0, z: 0, w: 1}
-    ReferencePosition: {x: 33.648544, y: 0.93297464, z: 0.481727}
-    ReferenceRotation: {x: 0.10057825, y: 0.07861059, z: -0.17066316, w: -0.9770254}
-    forward: {x: 0.22254933, y: 0.60193336, z: -0.7669081}
-    right: {x: -0.9511283, y: 0.30678058, z: -0.035223532}
-    up: {x: -0.21406634, y: -0.7372674, z: -0.64079046}
+    ReferencePosition: {x: 38.00417, y: 0.929684, z: -0.00061285496}
+    ReferenceRotation: {x: 0.06633441, y: 0.69883335, z: 0.18665917, w: 0.6873065}
+    forward: {x: 0.24511614, y: 0.5890613, z: -0.77001613}
+    right: {x: -0.9437578, y: 0.32676524, z: -0.050456468}
+    up: {x: -0.2218942, y: -0.7390745, z: -0.6360281}
   SpineTransforms: []
   BaseTransform: {fileID: 1182180015526756761}
   ForwardReference: {fileID: 0}
@@ -10589,7 +10589,7 @@ MonoBehaviour:
   UpdateRate: 0
   UseCorrections: 1
   MainPivotOffset: {x: 0, y: 0, z: 0}
-  PosSmoother: 0
+  PosSmoother: 0.278
   RotSmoother: 0
   MaxStretching: 1
   Slithery: 0.343
@@ -10603,7 +10603,7 @@ MonoBehaviour:
   MotionSpace: {fileID: 0}
   mainPivotOffsetTransform: {fileID: 0}
   SegmentsPivotOffset: {x: 0, y: 0, z: 0}
-  DistancesMultiplier: 1
+  DistancesMultiplier: 0.9
   GravityPower: {x: 0, y: 0, z: 0}
   UseCollisions: 0
   IncludedColliders: []
@@ -10756,7 +10756,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8613915315732272671}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.81, z: -0.1}
+  m_LocalPosition: {x: 0, y: -0.805, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7842780324959490311}
@@ -10833,14 +10833,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7236793391883600535}
-  m_LocalRotation: {x: -0.71609974, y: -0.16703682, z: -0.2574401, w: 0.6269166}
+  m_LocalRotation: {x: -0.6681431, y: -0.18454139, z: -0.24316303, w: 0.67852855}
   m_LocalPosition: {x: 0.644407, y: 0.4122066, z: 0.020168833}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6424033381371230376}
   m_Father: {fileID: 771320228138439061}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -94.825, y: -117.666, z: 82.426}
 --- !u!1001 &8409764579805697789
 PrefabInstance:
   m_ObjectHideFlags: 0
