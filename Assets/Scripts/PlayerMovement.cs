@@ -26,8 +26,8 @@ public class PlayerMovement : MonoBehaviour
     private bool _jumpInput = false;
     private bool _sprintInput = false;
 
-    private readonly float _movementSpeed = 5f;
-    private readonly float _shiftMultiplier = 1.5f;
+    private readonly float _movementSpeed = 3f;
+    private readonly float _shiftMultiplier = 2.5f;
 
     // Movement due only to physics. Only affects jumping.
     private Vector3 _physicsMovement = Vector3.zero;
@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 _currentMovementVector = Vector3.zero;
 
     // The rate at which _currentMovementVector is lerped to _targetMovementVector.
-    private readonly float _movementChangeSpeed = 3f;
+    private readonly float _movementChangeSpeed = 5f;
 
     // Jumping.
     // The downward push of gravity that is added to currentMovement.

@@ -18,12 +18,12 @@ using UnityEngine;
  * - Implement Ground Fitter.
  * - Have set positions for player conversations - TaskManager?
  * - Maybe change quest items so they're not affected by physics? - let player drop items
+ * - Make player pick up item by animation event, not on the button press
  * 
  * Issues:
  * - Need to fix player position during dialogue. - FSM within InDialogueState? Maybe transitions in, then goes to regular behavior?
  * - Immediately thinks I want to talk to spirit
  * - Maybe make MovingOnGroundState a composite FSM with walking and sprinting.
- * - Fix weird rotation from jumping.
  * - Player doesn't ever enter IdleState, Y vel is always -.1. This is messing up animations.
  * - More responsive movement, accelleration and deceleration feel slow, camera lerp feels slow.
  * - Have pickup and talk prompts easier to see, maybe more central? Maybe following characters?
@@ -31,8 +31,8 @@ using UnityEngine;
  * - People want more variety in systems, like collecting rewards from NPCs/other kinds of interaction with the game environment.
  * - People weren't that happy about NPC POV camera
  * - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
- * - Only first NPC animates when talking in a group conversation
  * - Numerous issues with animations.
+ * - Tail being annoying when I sprint
  * 
  */
 

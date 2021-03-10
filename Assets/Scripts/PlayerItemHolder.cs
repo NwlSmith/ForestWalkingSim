@@ -49,7 +49,7 @@ public class PlayerItemHolder : MonoBehaviour
     public void InputPressed()
     {
         // If the player has an item in their possession, drop it.
-        if (_holdingItem && _currentlyHeldItem.GetComponent<QuestItem>() == null)
+        if (_holdingItem)
         {
             DropItem();
             return;
@@ -91,6 +91,7 @@ public class PlayerItemHolder : MonoBehaviour
         _holdingItem = false;
         _currentlyHeldItem.DetachFromTransform();
         //if (itemsInCollider.Contains(currentlyHeldItem))
+        Services.PlayerAnimation.Pickup();
 
     }
 
@@ -101,5 +102,6 @@ public class PlayerItemHolder : MonoBehaviour
         _currentlyHeldItem = item;
         item.AttachToTransform(_itemAttachmentPoint);
         Services.UIManager.HideItemPickupPrompt();
+        Services.PlayerAnimation.Pickup();
     }
 }
