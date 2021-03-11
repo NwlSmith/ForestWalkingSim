@@ -34,7 +34,6 @@ public class UIManager : MonoBehaviour
     {
         _fsm = new FiniteStateMachine<UIManager>(this);
 
-
         HideAllUI();
     }
 
@@ -138,7 +137,10 @@ public class UIManager : MonoBehaviour
     // Normal play-time UI. Usually nothing, except possibly map, compass, and prompts to enter conversation and interact with objects.
     private class PlayState : UIState
     {
-        public override void OnEnter() { }
+        public override void OnEnter()
+        {
+            Services.UISound.PlayUISound(0);
+        }
 
         public override void Update() => base.Update();
 

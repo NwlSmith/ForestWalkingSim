@@ -1,7 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * Creator: Nate Smith
+ * Creation Date: 3/9/2021
+ * Description: Foot sound trigger.
+ * 
+ * Called during walking animations.
+ */
 public class StepSound : MonoBehaviour
 {
     public int nextSource = 0;

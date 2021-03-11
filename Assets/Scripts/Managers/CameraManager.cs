@@ -131,7 +131,10 @@ public class CameraManager : MonoBehaviour
         {
             Context.mainFollowCamera.Priority = 30;
             Context.playerCameraView.Priority = 20;
-            Context.npcCameraView.Priority = 10;
+            Context.npcCameraView.Priority    = 10;
+
+            Context._curVertRot = Context.targetVector.eulerAngles.x - 360f;
+            Context._curHorRot  = Context.targetVector.eulerAngles.y;
         }
 
         public override void Update() => base.Update();

@@ -137,6 +137,17 @@ public static class Services
         }
         private set => _saveManager = value;
     }
+
+    private static UISound _uiSound;
+    public static UISound UISound
+    {
+        get
+        {
+            Debug.Assert(_uiSound != null);
+            return _uiSound;
+        }
+        private set => _uiSound = value;
+    }
     #endregion
 
     #region Functions
@@ -154,6 +165,7 @@ public static class Services
         DialogueController = Object.FindObjectOfType<DialogueController>();
         QuestManager = Object.FindObjectOfType<QuestManager>();
         SaveManager = new SaveManager();
+        UISound = Object.FindObjectOfType<UISound>();
     }
     #endregion
 }
