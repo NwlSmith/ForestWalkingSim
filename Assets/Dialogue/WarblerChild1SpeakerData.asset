@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae53c7e3d7652c9499630172723dbc69, type: 3}
   m_Name: WarblerChild1SpeakerData
   m_EditorClassIdentifier: 
-  SpeakerName: Warbler Child 1
+  SpeakerName: Robin
   SpeakerColor: {r: 0.07058823, g: 0.67778563, b: 1, a: 1}
   SpeakerSounds:
   - {fileID: 8300000, guid: c94c84d927bd5644bbf64a44187f6f11, type: 3}

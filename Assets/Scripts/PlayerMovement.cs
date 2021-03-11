@@ -52,6 +52,10 @@ public class PlayerMovement : MonoBehaviour
     private readonly float _jumpCooldown = .5f;
     private float _curJumpCooldown = 0f;
 
+
+    private Vector3 raycastOriginOffset;
+    [SerializeField] private LayerMask groundLayers;
+
     // Components
 
     private CharacterController _charController;
@@ -71,6 +75,8 @@ public class PlayerMovement : MonoBehaviour
             Debug.LogWarning("Failed to retrieve _playerAnimation");
 
         _jumpSpeed = Mathf.Sqrt(_desiredJumpHeight * -2f * _gravity) * Time.fixedDeltaTime;
+
+        raycastOriginOffset = _charController.center - new Vector3(0, _charController.height/2.3f, 0f);
     }
 
     // Start is called before the first frame update
@@ -85,6 +91,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         _fsm.Update();
+        Debug.DrawRay(transform.position + raycastOriginOffset, Vector3.down, Color.magenta, 1f);
     }
 
     void FixedUpdate()
@@ -108,7 +115,7 @@ public class PlayerMovement : MonoBehaviour
     #region Triggers
 
     // Returns player to play mode.
-    public void EnterPlay() => _fsm.TransitionTo<IdleState>();
+    public void EnterPlay() => _fsm.TransitionTo<MovingOnGroundState>();
 
     // Forces the player to be idle.
     public void ForceIdle() => _fsm.TransitionTo<ForcedIdleState>();
@@ -131,11 +138,25 @@ public class PlayerMovement : MonoBehaviour
     }
 
     #endregion
+    #region Utilities
+
+    #endregion
 
     #region Utilities
 
     // Returns if the player is currently on the ground.
-    private bool OnGround => _charController.isGrounded;
+    private bool OnGround()
+    {
+
+        if (_charController.isGrounded)
+        {
+            return true;
+        }
+
+        Debug.DrawRay(transform.position + raycastOriginOffset, Vector3.down, Color.magenta, 1f);
+        RaycastHit hit;
+        return Physics.Raycast(transform.position + raycastOriginOffset, Vector3.down, out hit, .3f, groundLayers, QueryTriggerInteraction.Ignore);
+    }
 
     // Returns whether or not the player entered any ground movement inputs W, A, S, D, NOT space.
     private bool GroundMovementInputsEntered => _horizontalInput != 0f || _verticalInput != 0f;
@@ -157,6 +178,8 @@ public class PlayerMovement : MonoBehaviour
             //Context._currentMovementVector.y = 0f;
             
             Context._playerAnimation.Moving(false); // Maybe change to sit???
+
+            Context._targetMovementVector = Vector3.zero;
         }
 
         public override void Update()
@@ -164,12 +187,21 @@ public class PlayerMovement : MonoBehaviour
             base.Update();
 
             // Process inputs
-            if (Context.GroundMovementInputsEntered || Context._currentMovementVector != Vector3.zero)
+            if (Context.GroundMovementInputsEntered)
                 TransitionTo<MovingOnGroundState>();
-            else if (Context._jumpInput && Context._curJumpCooldown <= 0)
+            if (Context._jumpInput && Context._curJumpCooldown <= 0)
                 TransitionTo<JumpingState>();
-            else if (!Context.OnGround)
+        }
+
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+            if (!Context.OnGround())
                 TransitionTo<FallingState>();
+
+            Context._currentMovementVector = Vector3.Lerp(Context._currentMovementVector, Context._targetMovementVector, Context._movementChangeSpeed * Time.fixedDeltaTime);
+
+            Context._charController.Move(Context._currentMovementVector);
         }
 
         public override void OnExit()
@@ -245,18 +277,21 @@ public class PlayerMovement : MonoBehaviour
             base.Update();
 
             // Process inputs.
-            if (Context._currentMovementVector == Vector3.zero) // !Context.GroundMovementInputsEntered()
+            if (!Context.GroundMovementInputsEntered && Context.OnGround()) // Move to FixedUpdate
                 TransitionTo<IdleState>();
             else if (Context._jumpInput && Context._curJumpCooldown <= 0)
                 TransitionTo<JumpingState>();
-            else if (!Context.OnGround)
-                TransitionTo<FallingState>();
         }
 
         // Physics calculations.
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+
+            if (!Context.OnGround())
+                TransitionTo<FallingState>();
+
+
 
             Vector3 direction = new Vector3(Context._horizontalInput, 0f, Context._verticalInput).normalized;
 
@@ -320,7 +355,7 @@ public class PlayerMovement : MonoBehaviour
                 Context._charController.Move(Context._currentMovementVector);
                 yield return new WaitForFixedUpdate();
 
-                if (Context.OnGround)
+                if (Context.OnGround())
                 {
                     TransitionTo<IdleState>();
                 }
@@ -362,11 +397,9 @@ public class PlayerMovement : MonoBehaviour
         public override void Update()
         {
             base.Update();
-
-            // Process inputs in air?
-
+            
             // Detect if on the ground. If moving, transition to the moving state.
-            if (Context.OnGround)
+            if (Context.OnGround())
             {
                 if (Context.GroundMovementInputsEntered)
                     TransitionTo<MovingOnGroundState>();

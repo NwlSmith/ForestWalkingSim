@@ -13,7 +13,6 @@ using UnityEngine;
  * 
  * To do:
  * - Implement turtle quest
- * - Implement other animations
  * - Make pause call a pause animation function in PlayerAnimation.
  * - Implement Ground Fitter.
  * - Have set positions for player conversations - TaskManager?
@@ -32,6 +31,7 @@ using UnityEngine;
  * - People weren't that happy about NPC POV camera
  * - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
  * - Tail being annoying when I sprint
+ * - pausing while jumping stops upward movement
  * 
  */
 
