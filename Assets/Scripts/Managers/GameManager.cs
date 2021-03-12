@@ -18,6 +18,7 @@ using UnityEngine;
  * - Have set positions for player conversations - TaskManager?
  * - Maybe change quest items so they're not affected by physics? - let player drop items
  * - Make player pick up item by animation event, not on the button press
+ * - Place barriers blocking off areas from Heart. Make stage 1(?) lower them.
  * 
  * Issues:
  * - Need to fix player position during dialogue. - FSM within InDialogueState? Maybe transitions in, then goes to regular behavior?

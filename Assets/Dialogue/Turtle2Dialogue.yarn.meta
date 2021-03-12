@@ -1,0 +1,33 @@
+fileFormatVersion: 2
+guid: cb0d31835b844d843afa3a3e4777e69a
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 94073015eacc34c1d8fc6786e43d60ca, type: 3}
+  baseLanguageID: en-US
+  stringIDs:
+  - SpiritTemp (7)-Turtle2.Start-0
+  - SpiritTemp (7)-Turtle2.Start-1
+  - SpiritTemp (7)-Turtle2.Start-2
+  - SpiritTemp (7)-Turtle2.Start-3
+  - SpiritTemp (7)-Turtle2.Start-4
+  - SpiritTemp (7)-Turtle2.Start-5
+  - SpiritTemp (7)-Turtle2.Start-6
+  - SpiritTemp (7)-Turtle2.Start-7
+  - SpiritTemp (7)-Turtle2.Start-8
+  - SpiritTemp (7)-Turtle2.Start-9
+  - SpiritTemp (7)-Turtle2.Start-10
+  - SpiritTemp (7)-Turtle2.Start-11
+  - SpiritTemp (7)-Turtle2.Start-12
+  - SpiritTemp (7)-Turtle2.Start-13
+  - SpiritTemp (7)-Turtle2.Start-14
+  - SpiritTemp (7)-Turtle2.Start-15
+  compilationStatus: 1
+  isSuccesfullyCompiled: 1
+  compilationErrorMessage: 
+  baseLanguage: {fileID: 7128917941130120860, guid: cb0d31835b844d843afa3a3e4777e69a, type: 3}
+  localizations: []

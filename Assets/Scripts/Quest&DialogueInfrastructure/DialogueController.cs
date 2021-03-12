@@ -90,6 +90,13 @@ public class DialogueController : MonoBehaviour
 
     private void NPCSpeak(string [] parameters)
     {
+#if !UNITY_EDITOR
+        if (_curNPC.name.Equals("Turtle (home)") || _curNPC.name.Equals("Turtle (racetrack)"))
+            _yarnDialogueUI.textSpeed = .1f;
+        else
+            _yarnDialogueUI.textSpeed = .025f;
+#endif
+
         // Accommodate more than 1 npc, AND just 1 npc.
         _curMultiNPCNum = 0;
         MultiNPC multiNPC = _curNPC.GetComponent<MultiNPC>();
@@ -113,6 +120,7 @@ public class DialogueController : MonoBehaviour
 
     private void PlayerSpeak(string[] parameters)
     {
+        _yarnDialogueUI.textSpeed = .025f;
         // possibly fix character speaking problem?
         Services.CameraManager.SetTargetNPC(_curNPC);
 

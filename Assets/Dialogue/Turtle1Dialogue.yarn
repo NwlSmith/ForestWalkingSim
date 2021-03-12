@@ -1,0 +1,28 @@
+title: Turtle1.Start
+tags: 
+colorID: 0
+position: 292,551
+---
+<<if $quest_turtle_stage is 0>>
+    <<NPCSpeak>>
+    Hi my name is Turtle.
+    <<PlayerSpeak>>
+    That's cool.
+    Do you know where the Rain is?
+    <<NPCSpeak>>
+    yes.
+    But if you want me to tell you, you must beat me in a race.
+    <<PlayerSpeak>>
+    k.
+    <<NPCSpeak>>
+    Meet me at the pink tree around the corner from here.
+    <<PlayerSpeak>>
+    Thanks, I'll go there.
+    <<AdvanceQuest Turtle>>
+<<elseif $quest_turtle_stage is 1>>
+    <<NPCSpeak>>
+    I already told you to go to the pink tree.
+    <<PlayerSpeak>>
+    Thanks, I'll go there.
+<<endif>>
+===

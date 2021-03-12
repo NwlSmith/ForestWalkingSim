@@ -19,6 +19,8 @@ using UnityEngine;
 public class MainQuest : FSMQuest
 {
 
+    [SerializeField] private GameObject[] barrierFoliage;
+
     protected override void Awake()
     {
         base.Awake();
@@ -33,10 +35,6 @@ public class MainQuest : FSMQuest
         };
 
         startNextStage = _fsm.TransitionTo<Stage0State>;
-
-
-        //startNextStage = _fsm.TransitionTo<Stage0State>;
-        //moveBackStage = _fsm.TransitionTo<Stage0State>;
     }
 
     private void Start()
@@ -65,6 +63,7 @@ public class MainQuest : FSMQuest
             Services.QuestManager.AdvanceQuest("Warbler");
             Services.QuestManager.AdvanceQuest("Frog");
             Services.QuestManager.AdvanceQuest("Turtle");
+            // REMOVE BARRIERS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }
     }
 

@@ -12,6 +12,8 @@ using UnityEngine;
  */
 public abstract class FSMQuest : MonoBehaviour
 {
+    [SerializeField] public string QuestTag;
+
     [Serializable]
     public struct QuestStageData
     {

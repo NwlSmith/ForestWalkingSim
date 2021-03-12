@@ -1,0 +1,43 @@
+title: Turtle2.Start
+tags: 
+colorID: 0
+position: 566,546
+---
+<<if $quest_turtle_stage is 2>>
+    <<NPCSpeak>>
+    Okay, we'll race to the orange tree.
+    Think you can keep up with me?
+    <<PlayerSpeak>>
+    Yes.
+    <<NPCSpeak>>
+    Well then, lets see about that!
+    Three
+    Two
+    One
+    GO!
+    <<AdvanceQuest Turtle>>
+<<elseif $quest_turtle_stage is 1>>
+    <<NPCSpeak>>
+    Stage 1
+<<elseif $quest_turtle_stage is 3>>
+    <<NPCSpeak>>
+    Stage 3
+<<elseif $quest_turtle_stage is 4>>
+    <<NPCSpeak>>
+    Ha! I still got it!
+    <<PlayerSpeak>>
+    Dang.
+    Anyway, where's the Rain?
+    <<NPCSpeak>>
+    I keep it behind my house! Go get it!
+    <<AdvanceQuest Turtle>>
+<<elseif $quest_turtle_stage is 5>>
+    <<NPCSpeak>>
+    Ha! I still got it!
+    <<PlayerSpeak>>
+    Dang.
+    Anyway, where's the Rain?
+    <<NPCSpeak>>
+    I keep it behind my house! Go get it!
+<<endif>>
+===

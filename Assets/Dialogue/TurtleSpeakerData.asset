@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae53c7e3d7652c9499630172723dbc69, type: 3}
+  m_Name: TurtleSpeakerData
+  m_EditorClassIdentifier: 
+  SpeakerName: Turtle
+  SpeakerColor: {r: 0.003826994, g: 0.8113208, b: 0.025456209, a: 1}
+  SpeakerSounds:
+  - {fileID: 8300000, guid: c94c84d927bd5644bbf64a44187f6f11, type: 3}
