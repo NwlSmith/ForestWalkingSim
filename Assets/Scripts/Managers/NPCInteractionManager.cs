@@ -39,6 +39,6 @@ public class NPCInteractionManager : MonoBehaviour
 
     public void ExitDialogue()
     {
-        closestNPC.ExitDialogue();
+        closestNPC?.ExitDialogue();
     }
 }

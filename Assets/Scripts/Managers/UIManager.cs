@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private List<RectTransform> _dialogueEnterPromptUI;
 
     [SerializeField] private List<RectTransform> _dialogueUI;
+    [SerializeField] private List<RectTransform> _dialogueContinueUI;
     [SerializeField] private List<RectTransform> _pauseUI;
 
     [SerializeField] private List<RectTransform> _loadingOverlay;
@@ -65,19 +66,24 @@ public class UIManager : MonoBehaviour
 
     public void EnterDialogue() => _fsm.TransitionTo<InDialogueState>();
 
+    public void ShowContinueDialogue() => DisplayUI(_dialogueContinueUI);
+
+    public void HideContinueDialogue() => HideUI(_dialogueContinueUI);
+
     public void EnterPause() => _fsm.TransitionTo<PauseState>();
 
     public void EnterLoadSave() => _fsm.TransitionTo<LoadSaveState>();
 
     public void EnterStartMenu() => _fsm.TransitionTo<StartMenuState>();
 
-    public void ShowContinue() => DisplayUI(_continueButton);
+    public void ShowContinueGame() => DisplayUI(_continueButton);
 
-    public void HideContinue() => HideUI(_continueButton);
+    public void HideContinueGame() => HideUI(_continueButton);
 
     #endregion
 
     #region Utilities
+
     private void DisplayUI(List<RectTransform> UI)
     {
         foreach (RectTransform graphic in UI)
@@ -147,7 +153,6 @@ public class UIManager : MonoBehaviour
         
         private void IntroTasks()
         {
-            Debug.Log("IntroTasks !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             Task Start = new ActionTask(() => { Context.HideUI(Context._startOverlay); } );
             Task FadeInStart = new FadeStartMenu(Context, Context._startMenu, true);
             Task StartMusic = new ActionTask(() => { /* maybe start music here? */ });
@@ -159,7 +164,7 @@ public class UIManager : MonoBehaviour
 
         private class FadeStartMenu : Task
         {
-            private readonly float gapBetweenFadeIns = .75f;
+            private readonly float gapBetweenFadeIns = .5f;
             private readonly float gapBetweenFadeOuts = .25f;
             private float gapBetweenFade;
             private float elapsedTime = 0f;
@@ -197,6 +202,11 @@ public class UIManager : MonoBehaviour
                 if (elapsedTime >= gapBetweenFade) updateFunc();
             }
 
+            protected override void OnAbort()
+            {
+                FadeAllOut();
+            }
+
             private void FadeIn()
             {
 
@@ -217,6 +227,14 @@ public class UIManager : MonoBehaviour
                 uim.HideUI(startMenuItems[(int)curStage]);
                 curStage--;
                 elapsedTime = 0f;
+            }
+
+            private void FadeAllOut()
+            {
+                foreach (RectTransform trans in startMenuItems)
+                {
+                    uim.HideUI(startMenuItems[(int)curStage]);
+                }
             }
         }
 
@@ -264,6 +282,7 @@ public class UIManager : MonoBehaviour
 
         private IEnumerator DelayDisplayUI()
         {
+            Debug.Log("Displaying dialogue ui");
             yield return new WaitForSeconds(_maxTimeElapsedBeforeUI);
             Context.DisplayUI(Context._dialogueUI);
             Services.DialogueController.EnterDialogue();

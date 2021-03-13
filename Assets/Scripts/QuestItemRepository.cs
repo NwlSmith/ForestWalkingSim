@@ -22,19 +22,20 @@ public class QuestItemRepository : MonoBehaviour
             case QuestItem.QuestItemEnum.Seed:
                 if (_collectedSeed) return;
                 _collectedSeed = true;
-                Services.QuestManager.AdvanceQuest("Main");
+                Services.QuestManager.AdvanceQuest("Warbler");
                 break;
             case QuestItem.QuestItemEnum.Soil:
                 if (_collectedSoil) return;
                 _collectedSoil = true;
-                Services.QuestManager.AdvanceQuest("Main");
+                Services.QuestManager.AdvanceQuest("Frog");
                 break;
             case QuestItem.QuestItemEnum.Rain:
                 if (_collectedRain) return;
                 _collectedRain = true;
-                Services.QuestManager.AdvanceQuest("Main");
+                Services.QuestManager.AdvanceQuest("Turtle");
                 break;
         }
+        Services.QuestManager.AdvanceQuest("Main");
 
         StartCoroutine(CollectItem(item));
     }

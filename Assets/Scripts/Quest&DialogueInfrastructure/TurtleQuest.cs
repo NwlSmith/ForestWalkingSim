@@ -44,7 +44,7 @@ public class TurtleQuest : FSMQuest
         };
 
         startNextStage = _fsm.TransitionTo<Stage0State>;
-        
+
     }
 
     // Stage 0: Quest is spawned. Advance to stage 1 by talking to turtle.
@@ -83,10 +83,10 @@ public class TurtleQuest : FSMQuest
     // A task manager would work here... No need for update loop...
     private class Stage3State : QuestState
     {
-        private float _turtleSpeed = 5f;
-        private int _curTrans = 0;
+        private readonly float _turtleSpeed = 50f;
         private Rigidbody _turtleRB;
         private Animator _turtleAnim;
+        private readonly float _distFromTarget = 2f;
 
         private TaskManager _taskManager = new TaskManager();
 
@@ -104,37 +104,59 @@ public class TurtleQuest : FSMQuest
 
         private Task DefineTasks()
         {
-            Task start = new DelegateTask(
-                () =>
-                {
-                    _turtleAnim.SetBool("Running", true);
-                },
-                () =>
-                {
-                    _turtleRB.MovePosition(_turtleRB.transform.TransformDirection(_turtleRB.transform.forward));
-                    return true;
-                } // can add onsuccess handler
-            );
-            Task mid = new DelegateTask( // probably not efficient
-                () =>
-                {
-                    //_turtleRB.transform.forward -
-                },
-                () =>
-                {
-                    _turtleRB.MovePosition(_turtleRB.transform.TransformDirection(_turtleRB.transform.forward));
-                    return true;
-                }
-            );
+            Transform npcColliderTrans = _turtleRB.GetComponentInChildren<NPCCollider>().transform;
+            Vector3 initScale = npcColliderTrans.localScale;
+            Task start = new ActionTask( () =>
+            {
+                _turtleAnim.SetBool("Running", true);
+                // sound?
+                npcColliderTrans.localScale = Vector3.zero;
+            });
+            Task prev = start;
+
+            for (int i = 0; i < ((TurtleQuest)Context)._turtleRoute.Length; i++)
+            {
+                Task next = TurtleMove(((TurtleQuest)Context)._turtleRoute[i]);
+                prev = prev.Then(next);
+            }
+
+            Task finish = new ActionTask
+                (
+                    () => {
+                        _turtleAnim.SetBool("Running", false);
+                        npcColliderTrans.localScale = initScale;
+                        Services.QuestManager.AdvanceQuest(Context.QuestTag);
+                    }
+                );
+
+            prev.Then(finish);
 
 
             return start;
+        }
+
+        private DelegateTask TurtleMove(Transform target)
+        {
+            return new DelegateTask(
+                () => 
+                {
+                    Debug.Log("Going for target " + target.name + "!!!!!!!!!!!!!!!!!!!!!!");
+                    _turtleRB.transform.LookAt(target);
+                },
+                () =>
+                {
+                    _turtleRB.transform.LookAt(target);
+                    _turtleRB.MovePosition(_turtleRB.position + _turtleRB.transform.forward * _turtleSpeed * Time.deltaTime);
+                    return Vector3.Distance(_turtleRB.position, target.position) < _distFromTarget;
+                }
+            );
         }
 
         public override void Update()
         {
             base.Update();
             // MAKE THE TURTLE MOVE
+            _taskManager.Update();
         }
     }
 
