@@ -109,7 +109,7 @@ public class DelegateTask : Task
 	{
 		this.initialize = initialize;
 		this.update = update ?? (() => true);
-
+        /*
 		if (update != null)
 			this.update = update;
 		else
@@ -129,7 +129,7 @@ public class DelegateTask : Task
 			}
 
 			this.update = UpdateMethod;
-		}
+		}*/
 
 		this.onSuccess = onSuccess;
 		this.onFailure = onFailure;

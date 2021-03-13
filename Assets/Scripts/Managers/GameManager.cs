@@ -171,15 +171,7 @@ public class GameManager : MonoBehaviour
             Services.PlayerMovement.ForceIdle();
             Services.CameraManager.EnterStartMenu();
             Services.UIManager.EnterStartMenu();
-            if (!Services.SaveManager.SaveExists())
-            {
-                Debug.Log("Save does not exist");
-                Services.UIManager.HideContinue();
-            }
-            else
-            {
-                Services.UIManager.ShowContinue();
-            }
+            
             
         }
 

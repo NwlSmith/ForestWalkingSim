@@ -19,13 +19,19 @@ public class NPCCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Services.NPCInteractionManager.PlayerEncounteredNPC(parentNPC);
-        Services.UIManager.DisplayDialogueEnterPrompt();
+        if (other.CompareTag("Player"))
+        {
+            Services.NPCInteractionManager.PlayerEncounteredNPC(parentNPC);
+            Services.UIManager.DisplayDialogueEnterPrompt();
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Services.NPCInteractionManager.PlayerLeftNPC();
-        Services.UIManager.HideDialogueEnterPrompt();
+        if (other.CompareTag("Player"))
+        {
+            Services.NPCInteractionManager.PlayerLeftNPC();
+            Services.UIManager.HideDialogueEnterPrompt();
+        }
     }
 }

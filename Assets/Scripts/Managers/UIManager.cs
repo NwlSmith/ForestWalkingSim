@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
 {
     // The finite state machine of the current UIState.
     private FiniteStateMachine<UIManager> _fsm;
+    private TaskManager _taskManager = new TaskManager();
 
     [SerializeField] private List<RectTransform> _pickupItemUI;
     [SerializeField] private List<RectTransform> _dialogueEnterPromptUI;
@@ -24,7 +25,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private List<RectTransform> _dialogueUI;
     [SerializeField] private List<RectTransform> _pauseUI;
 
-    [SerializeField] private List<RectTransform> _overlay;
+    [SerializeField] private List<RectTransform> _loadingOverlay;
+    [SerializeField] private List<RectTransform> _startOverlay;
     [SerializeField] private List<RectTransform> _startMenu;
     [SerializeField] private List<RectTransform> _continueButton;
 
@@ -76,15 +78,41 @@ public class UIManager : MonoBehaviour
     {
         foreach (RectTransform graphic in UI)
         {
-            graphic.gameObject.SetActive(true);
+            Animator anim = graphic.GetComponent<Animator>();
+            if (anim != null)
+                anim.SetTrigger("FadeIn");
+            else
+                graphic.gameObject.SetActive(true);
         }
     }
     private void HideUI(List<RectTransform> UI)
     {
         foreach (RectTransform graphic in UI)
         {
-            graphic.gameObject.SetActive(false);
+            Animator anim = graphic.GetComponent<Animator>();
+            if (anim != null)
+                anim.SetTrigger("FadeOut");
+            else
+                graphic.gameObject.SetActive(false);
         }
+    }
+
+    private void DisplayUI(RectTransform UI)
+    {
+        Animator anim = UI.GetComponent<Animator>();
+        if (anim != null)
+            anim.SetTrigger("FadeIn");
+        else
+            UI.gameObject.SetActive(true);
+    }
+
+    private void HideUI(RectTransform UI)
+    {
+        Animator anim = UI.GetComponent<Animator>();
+        if (anim != null)
+            anim.SetTrigger("FadeOut");
+        else
+            UI.gameObject.SetActive(false);
     }
 
     private void HideAllUI()
@@ -93,6 +121,7 @@ public class UIManager : MonoBehaviour
         HideUI(_dialogueEnterPromptUI);
         HideUI(_dialogueUI);
         HideUI(_pauseUI);
+        HideUI(_loadingOverlay);
     }
     #endregion
 
@@ -106,16 +135,84 @@ public class UIManager : MonoBehaviour
     // Start Menu state.
     private class StartMenuState : UIState
     {
+
         public override void OnEnter()
         {
-            Context.DisplayUI(Context._startMenu);
+            Debug.Log("StartMenuState OnEnter !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            IntroTasks();
         }
 
-        public override void Update() => base.Update();
+        public override void Update()
+        {
+            base.Update();
+
+            Context._taskManager.Update();
+        }
 
         public override void OnExit()
         {
             Context.HideUI(Context._startMenu);
+            Context.HideContinue();
+        }
+        
+        private void IntroTasks()
+        {
+            Debug.Log("IntroTasks !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Task Start = new ActionTask(FadeOverlay());
+            Task Wait2Secs = new WaitTask(2);
+            Task FadeInStart = new FadeInStart(Context, Context._startMenu);
+            Task StartMusic = new ActionTask(() => { /* maybe start music here? */ });
+
+            Start.Then(Wait2Secs).Then(FadeInStart).Then(StartMusic);
+
+            Context._taskManager.Do(Start);
+        }
+
+        private System.Action FadeOverlay()
+        {
+            return () => 
+            {
+                Debug.Log("FadeOverlay task !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                Context.HideUI(Context._startOverlay);
+            };
+        }
+
+        private class FadeInStart : Task
+        {
+            private float gapBetweenFadeIns = 1f;
+            private float elapsedTime = 0f;
+            private enum StageToFadeInAtEndEnum { Title, NewGame, Continue, Quit };
+            private StageToFadeInAtEndEnum curStage = StageToFadeInAtEndEnum.Title;
+            private UIManager uim;
+            private List<RectTransform> startMenuItems;
+
+            public FadeInStart(UIManager uim, List<RectTransform> startMenuItems)
+            {
+                this.uim = uim;
+                this.startMenuItems = startMenuItems;
+            }
+
+            internal override void Update()
+            {
+                elapsedTime += Time.deltaTime;
+
+                if (elapsedTime >= gapBetweenFadeIns)
+                {
+                    if (curStage == StageToFadeInAtEndEnum.Continue && !Services.SaveManager.SaveExists()) curStage = StageToFadeInAtEndEnum.Quit; // Skip continue button.
+                    if (curStage == StageToFadeInAtEndEnum.Quit) SetStatus(TaskStatus.Success);
+
+                    CompleteIntermediateStage(startMenuItems[(int)curStage]);
+
+
+                }
+            }
+
+            private void CompleteIntermediateStage(RectTransform rectTransform)
+            {
+                uim.DisplayUI(rectTransform);
+                curStage++;
+                elapsedTime = 0f;
+            }
         }
     }
 
@@ -123,14 +220,14 @@ public class UIManager : MonoBehaviour
     private class LoadSaveState : UIState
     {
         public override void OnEnter() {
-            Context.DisplayUI(Context._overlay);
+            Context.DisplayUI(Context._loadingOverlay);
         }
 
         public override void Update() => base.Update();
 
         public override void OnExit()
         {
-            Context.HideUI(Context._overlay);
+            Context.HideUI(Context._loadingOverlay);
         }
     }
 

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UIButtonTextAnimationController
+  m_Controller: {fileID: 9100000, guid: f42661d87837e6a4aafd9d6caf402243, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 77c9968c2550267489af8e31cc374408, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 6917fda901d176f4e8a6de21b4090d54, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 2b5b4cac31b7d07428ab985f23cc4e47, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: ed964b0dbbb974942b05c6c0a88bcf97, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: c0a8dcc08801ca14c865bc189db43fce, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4da96080acf448947bc8c9e69d1c3d45, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: c7b6536820defaa458da93ff035077fc, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 00917e6b91f5a464eb4a3fa883323377, type: 2}
