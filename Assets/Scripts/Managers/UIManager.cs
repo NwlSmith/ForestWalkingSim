@@ -41,7 +41,11 @@ public class UIManager : MonoBehaviour
 
     void Start() => _fsm.TransitionTo<PlayState>();
 
-    private void Update() => _fsm.Update();
+    private void Update()
+    {
+        _fsm.Update();
+        _taskManager.Update();
+    }
     #endregion
 
     #region Triggers
@@ -77,31 +81,20 @@ public class UIManager : MonoBehaviour
     private void DisplayUI(List<RectTransform> UI)
     {
         foreach (RectTransform graphic in UI)
-        {
-            Animator anim = graphic.GetComponent<Animator>();
-            if (anim != null)
-                anim.SetTrigger("FadeIn");
-            else
-                graphic.gameObject.SetActive(true);
-        }
+            DisplayUI(graphic);
     }
+
     private void HideUI(List<RectTransform> UI)
     {
         foreach (RectTransform graphic in UI)
-        {
-            Animator anim = graphic.GetComponent<Animator>();
-            if (anim != null)
-                anim.SetTrigger("FadeOut");
-            else
-                graphic.gameObject.SetActive(false);
-        }
+            HideUI(graphic);
     }
 
     private void DisplayUI(RectTransform UI)
     {
         Animator anim = UI.GetComponent<Animator>();
         if (anim != null)
-            anim.SetTrigger("FadeIn");
+            anim.SetBool("Visible", true);
         else
             UI.gameObject.SetActive(true);
     }
@@ -110,7 +103,7 @@ public class UIManager : MonoBehaviour
     {
         Animator anim = UI.GetComponent<Animator>();
         if (anim != null)
-            anim.SetTrigger("FadeOut");
+            anim.SetBool("Visible", false);
         else
             UI.gameObject.SetActive(false);
     }
@@ -138,82 +131,95 @@ public class UIManager : MonoBehaviour
 
         public override void OnEnter()
         {
-            Debug.Log("StartMenuState OnEnter !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             IntroTasks();
         }
 
         public override void Update()
         {
             base.Update();
-
-            Context._taskManager.Update();
         }
 
         public override void OnExit()
         {
-            Context.HideUI(Context._startMenu);
-            Context.HideContinue();
+            Task start = new FadeStartMenu(Context, Context._startMenu, false);
+            Context._taskManager.Do(start);
         }
         
         private void IntroTasks()
         {
             Debug.Log("IntroTasks !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            Task Start = new ActionTask(FadeOverlay());
-            Task Wait2Secs = new WaitTask(2);
-            Task FadeInStart = new FadeInStart(Context, Context._startMenu);
+            Task Start = new ActionTask(() => { Context.HideUI(Context._startOverlay); } );
+            Task FadeInStart = new FadeStartMenu(Context, Context._startMenu, true);
             Task StartMusic = new ActionTask(() => { /* maybe start music here? */ });
 
-            Start.Then(Wait2Secs).Then(FadeInStart).Then(StartMusic);
+            Start.Then(FadeInStart).Then(StartMusic);
 
             Context._taskManager.Do(Start);
         }
 
-        private System.Action FadeOverlay()
+        private class FadeStartMenu : Task
         {
-            return () => 
-            {
-                Debug.Log("FadeOverlay task !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                Context.HideUI(Context._startOverlay);
-            };
-        }
-
-        private class FadeInStart : Task
-        {
-            private float gapBetweenFadeIns = 1f;
+            private readonly float gapBetweenFadeIns = .75f;
+            private readonly float gapBetweenFadeOuts = .25f;
+            private float gapBetweenFade;
             private float elapsedTime = 0f;
             private enum StageToFadeInAtEndEnum { Title, NewGame, Continue, Quit };
-            private StageToFadeInAtEndEnum curStage = StageToFadeInAtEndEnum.Title;
+            private StageToFadeInAtEndEnum curStage;
             private UIManager uim;
             private List<RectTransform> startMenuItems;
+            private delegate void UpdateFunc();
+            private UpdateFunc updateFunc;
 
-            public FadeInStart(UIManager uim, List<RectTransform> startMenuItems)
+            public FadeStartMenu(UIManager uim, List<RectTransform> startMenuItems, bool fadeIn)
             {
                 this.uim = uim;
                 this.startMenuItems = startMenuItems;
+
+                if (fadeIn)
+                {
+                    curStage = StageToFadeInAtEndEnum.Title;
+                    updateFunc = FadeIn;
+                    gapBetweenFade = gapBetweenFadeIns;
+                }
+                else
+                {
+                    Debug.Log("Fade out start");
+                    curStage = StageToFadeInAtEndEnum.Quit;
+                    updateFunc = FadeOut;
+                    gapBetweenFade = gapBetweenFadeOuts;
+                }
             }
 
             internal override void Update()
             {
                 elapsedTime += Time.deltaTime;
 
-                if (elapsedTime >= gapBetweenFadeIns)
-                {
-                    if (curStage == StageToFadeInAtEndEnum.Continue && !Services.SaveManager.SaveExists()) curStage = StageToFadeInAtEndEnum.Quit; // Skip continue button.
-                    if (curStage == StageToFadeInAtEndEnum.Quit) SetStatus(TaskStatus.Success);
-
-                    CompleteIntermediateStage(startMenuItems[(int)curStage]);
-
-
-                }
+                if (elapsedTime >= gapBetweenFade) updateFunc();
             }
 
-            private void CompleteIntermediateStage(RectTransform rectTransform)
+            private void FadeIn()
             {
-                uim.DisplayUI(rectTransform);
+
+                if (curStage == StageToFadeInAtEndEnum.Continue && !Services.SaveManager.SaveExists()) curStage = StageToFadeInAtEndEnum.Quit; // Skip continue button.
+                if (curStage == StageToFadeInAtEndEnum.Quit) SetStatus(TaskStatus.Success);
+
+                uim.DisplayUI(startMenuItems[(int)curStage]);
                 curStage++;
                 elapsedTime = 0f;
             }
+
+            private void FadeOut()
+            {
+                Debug.Log("Fade out update");
+                if (curStage == StageToFadeInAtEndEnum.Continue && !Services.SaveManager.SaveExists()) curStage = StageToFadeInAtEndEnum.NewGame; // Skip continue button.
+                if (curStage == StageToFadeInAtEndEnum.Title) SetStatus(TaskStatus.Success);
+
+                uim.HideUI(startMenuItems[(int)curStage]);
+                curStage--;
+                elapsedTime = 0f;
+            }
         }
+
     }
 
     // UI overlay shown while game is loading.
@@ -273,7 +279,11 @@ public class UIManager : MonoBehaviour
 
         public override void Update() => base.Update();
 
-        public override void OnExit() => Context.HideUI(Context._pauseUI);
+        public override void OnExit()
+        {
+            Debug.Log("Exiting pause in UIManager");
+            Context.HideUI(Context._pauseUI);
+        }
     }
     #endregion
 

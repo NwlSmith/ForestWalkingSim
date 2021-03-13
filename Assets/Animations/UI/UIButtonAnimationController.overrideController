@@ -6,7 +6,7 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: UIButtonTextAnimationController
+  m_Name: UIButtonAnimationController
   m_Controller: {fileID: 9100000, guid: f42661d87837e6a4aafd9d6caf402243, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: 77c9968c2550267489af8e31cc374408, type: 2}
