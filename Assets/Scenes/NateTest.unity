@@ -2046,10 +2046,10 @@ Animator:
   m_GameObject: {fileID: 192273021}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: d59d051a0c8491c4695d8acf6b1ab316, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6317d6c02391ce347b8a188c8edc8ce6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -10228,7 +10228,8 @@ MonoBehaviour:
   - {fileID: 1342162845691750169}
   - {fileID: 711624684}
   - {fileID: 1022826161}
-  - {fileID: 1973456451}
+  _dialogueContinueUI:
+  - {fileID: 1022826161}
   _pauseUI:
   - {fileID: 1342162845691750174}
   - {fileID: 1342162845691750189}
@@ -11795,6 +11796,11 @@ Transform:
   m_Father: {fileID: 222061610}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1200260388 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1342162845742851451, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
+  m_PrefabInstance: {fileID: 1342162845691750115}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1203177734
 GameObject:
   m_ObjectHideFlags: 0
@@ -19766,11 +19772,6 @@ MonoBehaviour:
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
---- !u!224 &1973456451 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 960303589, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
-  m_PrefabInstance: {fileID: 1342162845691750115}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1976616845
 GameObject:
   m_ObjectHideFlags: 0
@@ -22363,12 +22364,48 @@ PrefabInstance:
       value: LoadSave
       objectReference: {fileID: 0}
     - target: {fileID: 327323183, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
+      propertyPath: dialogueContainer
+      value: 
+      objectReference: {fileID: 1200260388}
+    - target: {fileID: 327323183, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
+      propertyPath: onLineStart.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 327323183, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
+      propertyPath: onLineStart.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1016919866}
+    - target: {fileID: 327323183, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
       propertyPath: onDialogueEnd.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1016919869}
     - target: {fileID: 327323183, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
+      propertyPath: onLineStart.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: HideContinueDialogue
+      objectReference: {fileID: 0}
+    - target: {fileID: 327323183, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
       propertyPath: onDialogueEnd.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ExitDialogue
+      objectReference: {fileID: 0}
+    - target: {fileID: 327323183, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
+      propertyPath: onLineFinishDisplaying.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 327323183, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
+      propertyPath: onLineFinishDisplaying.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1016919866}
+    - target: {fileID: 327323183, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
+      propertyPath: onLineFinishDisplaying.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ShowContinueDialogue
+      objectReference: {fileID: 0}
+    - target: {fileID: 327323183, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
+      propertyPath: onLineStart.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 327323183, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
+      propertyPath: onLineFinishDisplaying.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 650647149, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
       propertyPath: m_RootOrder
