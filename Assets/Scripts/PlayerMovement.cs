@@ -234,12 +234,51 @@ public class PlayerMovement : MonoBehaviour
     // Player is forced to pause movement.
     private class PauseState : GameState
     {
+
+        private delegate void FixedUpdateFunc();
+        private FixedUpdateFunc fixedUpdateFunc;
+
         public override void OnEnter()
         {
-            Context._playerAnimation.Moving(false); // Maybe change to sit???
+            if (!Context.OnGround())
+                fixedUpdateFunc = ContinueInAirMovement;
+            else
+            {
+                OnLand();
+            }
         }
 
-        public override void OnExit() { }
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+            fixedUpdateFunc();
+        }
+
+        private void ContinueInAirMovement()
+        {
+            
+            // Fall downwards
+            Context._currentMovementVector.y += Context._gravity * Time.fixedDeltaTime;
+
+            Context._charController.Move(Context._currentMovementVector);
+
+            if (Context.OnGround())
+            {
+                OnLand();
+            }
+            else if (Context._currentMovementVector.y < 0f)
+            {
+                Context._playerAnimation.Falling(true);
+            }
+        }
+
+        private void OnLand()
+        {
+            Context._playerAnimation.Falling(false);
+            Context._playerAnimation.Moving(false); // Maybe change to sit???
+            Context._currentMovementVector = Vector3.zero;
+            fixedUpdateFunc = () => { };
+        }
     }
 
     // Player is forced to remain idle, turns to look at NPC.

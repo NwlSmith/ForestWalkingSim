@@ -12,26 +12,22 @@ using UnityEngine;
  * Allows different game states to have different Update functions.
  * 
  * To do:
- * - Implement turtle quest
  * - Make pause call a pause animation function in PlayerAnimation.
  * - Implement Ground Fitter.
  * - Have set positions for player conversations - TaskManager?
  * - Maybe change quest items so they're not affected by physics? - let player drop items
  * - Make player pick up item by animation event, not on the button press
  * - Place barriers blocking off areas from Heart. Make stage 1(?) lower them.
+ * - Make walking animation line up with music maybe?
  * 
  * Issues:
  * - Need to fix player position during dialogue. - FSM within InDialogueState? Maybe transitions in, then goes to regular behavior?
  * - Immediately thinks I want to talk to spirit
- * - Maybe make MovingOnGroundState a composite FSM with walking and sprinting.
- * - Player doesn't ever enter IdleState, Y vel is always -.1. This is messing up animations.
- * - More responsive movement, accelleration and deceleration feel slow, camera lerp feels slow.
  * - Have pickup and talk prompts easier to see, maybe more central? Maybe following characters?
  * - "After I talk to the Frog and Toad and complete the Warbler quest, if I talk to Frog and Toad again I get hard-locked into dialogue."
  * - People want more variety in systems, like collecting rewards from NPCs/other kinds of interaction with the game environment.
  * - People weren't that happy about NPC POV camera
  * - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
- * - Tail being annoying when I sprint
  * - pausing while jumping stops upward movement
  * 
  */
