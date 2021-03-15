@@ -83,6 +83,10 @@ public class TurtleQuest : FSMQuest
     // A task manager would work here... No need for update loop...
     private class Stage3State : QuestState
     {
+        #region Const Strings.
+        private readonly int _running = Shader.PropertyToID("Running");
+        #endregion
+
         private readonly float _turtleSpeed = 50f;
         private Rigidbody _turtleRB;
         private Animator _turtleAnim;
@@ -95,20 +99,20 @@ public class TurtleQuest : FSMQuest
             _stageNum = 3;
             base.OnEnter();
 
-
             _turtleRB = ((TurtleQuest)Context)._turtleNPC.GetComponent<Rigidbody>();
             _turtleAnim = ((TurtleQuest)Context)._turtleNPC.GetComponentInChildren<Animator>();
 
-            _taskManager.Do(DefineTasks());
+            OnEnterTasks();
         }
 
-        private Task DefineTasks()
+        // Defines tasks for turtle movement.
+        private void OnEnterTasks()
         {
             Transform npcColliderTrans = _turtleRB.GetComponentInChildren<NPCCollider>().transform;
             Vector3 initScale = npcColliderTrans.localScale;
             Task start = new ActionTask( () =>
             {
-                _turtleAnim.SetBool("Running", true);
+                _turtleAnim.SetBool(_running, true);
                 // sound?
                 npcColliderTrans.localScale = Vector3.zero;
             });
@@ -131,8 +135,7 @@ public class TurtleQuest : FSMQuest
 
             prev.Then(finish);
 
-
-            return start;
+            _taskManager.Do(start);
         }
 
         private DelegateTask TurtleMove(Transform target)
@@ -140,7 +143,7 @@ public class TurtleQuest : FSMQuest
             return new DelegateTask(
                 () => 
                 {
-                    Debug.Log("Going for target " + target.name + "!!!!!!!!!!!!!!!!!!!!!!");
+                    Debug.Log("Going for target " + target.name);
                     _turtleRB.transform.LookAt(target);
                 },
                 () =>
@@ -155,7 +158,6 @@ public class TurtleQuest : FSMQuest
         public override void Update()
         {
             base.Update();
-            // MAKE THE TURTLE MOVE
             _taskManager.Update();
         }
     }

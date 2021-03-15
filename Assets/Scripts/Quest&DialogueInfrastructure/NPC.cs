@@ -13,20 +13,26 @@ using UnityEngine;
 public class NPC : MonoBehaviour
 {
 
+    #region Const Strings.
+    private readonly int _talk = Shader.PropertyToID("Talk");
+    private readonly int _inConvo = Shader.PropertyToID("InConversation");
+    #endregion
 
     public string YarnStartNode;
     public YarnProgram YarnDialogue;
     public NPCSpeakerData NPCSpeakerData;
+    public Transform dialoguePos;
 
     public Transform npcCameraViewPosition;// { get; private set; }
     [SerializeField] protected Transform playerCameraLookAtPosition;// { get; private set; }
 
+    [SerializeField] private GameObject _model;
     private Quaternion _initRot;
     private Animator _anim;
 
     private void Awake()
     {
-        _initRot = transform.rotation;
+        _initRot = _model.transform.rotation;
         _anim = GetComponentInChildren<Animator>();
     }
 
@@ -36,32 +42,40 @@ public class NPC : MonoBehaviour
             Services.DialogueController.AddYarnDialogue(YarnDialogue);
     }
 
+    private void OnEnable()
+    {
+        if (_initRot == null)
+        {
+            Debug.LogWarning("InitRot was null OnEnable");
+            _initRot = _model.transform.rotation;
+        }
+        if (_anim == null)
+        {
+            Debug.LogWarning("_anim was null OnEnable");
+            _anim = GetComponentInChildren<Animator>();
+        }
+    }
+
     public virtual void EnterDialogue(Transform playerPos)
     {
+        
         Vector3 lookPos = playerPos.position - transform.position;
         lookPos.y = 0;
-        transform.rotation = Quaternion.LookRotation(lookPos);
-        _anim.SetBool("InConversation", true);
+        _model.transform.rotation = Quaternion.LookRotation(lookPos);
+        if (!_anim)
+            _anim = GetComponentInChildren<Animator>();
+        _anim.SetBool(_inConvo, true);
     }
 
     public virtual void ExitDialogue()
     {
-        transform.rotation = _initRot;
-        _anim.SetBool("InConversation", false);
+        _model.transform.rotation = _initRot;
+        _anim.SetBool(_inConvo, false);
     }
 
-    public virtual void Speak(int npcNum = 0)
-    {
-        _anim.SetTrigger("Talk");
-    }
+    public virtual void Speak(int npcNum = 0) => _anim.SetTrigger(_talk);
 
-    public virtual NPCSpeakerData GetNPCSpeakerData(int npcNum = 0)
-    {
-        return NPCSpeakerData;
-    }
+    public virtual NPCSpeakerData GetNPCSpeakerData(int npcNum = 0) => NPCSpeakerData;
 
-    public virtual Transform GetPlayerCameraLookAtPosition(int num = 0)
-    {
-        return playerCameraLookAtPosition;
-    }
+    public virtual Transform GetPlayerCameraLookAtPosition(int num = 0) => playerCameraLookAtPosition;
 }

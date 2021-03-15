@@ -15,6 +15,11 @@ using Yarn.Unity;
 
 public class UIManager : MonoBehaviour
 {
+
+    #region Const Strings.
+    private readonly int _visible = Shader.PropertyToID("Visible");=
+    #endregion
+
     // The finite state machine of the current UIState.
     private FiniteStateMachine<UIManager> _fsm;
     private TaskManager _taskManager = new TaskManager();
@@ -100,7 +105,7 @@ public class UIManager : MonoBehaviour
     {
         Animator anim = UI.GetComponent<Animator>();
         if (anim != null)
-            anim.SetBool("Visible", true);
+            anim.SetBool(_visible, true);
         else
             UI.gameObject.SetActive(true);
     }
@@ -109,7 +114,7 @@ public class UIManager : MonoBehaviour
     {
         Animator anim = UI.GetComponent<Animator>();
         if (anim != null)
-            anim.SetBool("Visible", false);
+            anim.SetBool(_visible, false);
         else
             UI.gameObject.SetActive(false);
     }
