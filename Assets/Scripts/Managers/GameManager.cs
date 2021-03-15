@@ -17,9 +17,9 @@ using UnityEngine;
  * - Maybe change quest items so they're not affected by physics? - let player drop items
  * - Place barriers blocking off areas from Heart. Make stage 1(?) lower them.
  * - Make walking animation line up with music maybe?
+ * - Maybe make NPCCollider increase size when enter conversations, and decrease after?
  * 
  * Issues:
- * - Need to fix player position during dialogue. - FSM within InDialogueState? Maybe transitions in, then goes to regular behavior?
  * - Immediately thinks I want to talk to spirit
  * - Have pickup and talk prompts easier to see, maybe more central? Maybe following characters?
  * - "After I talk to the Frog and Toad and complete the Warbler quest, if I talk to Frog and Toad again I get hard-locked into dialogue."
@@ -27,7 +27,6 @@ using UnityEngine;
  * - People weren't that happy about NPC POV camera
  * - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
  * - Player can jump out of NPCCollider before dialogue, locking their game
- * - don't use string literals for animator
  * 
  */
 
