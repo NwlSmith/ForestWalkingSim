@@ -13,10 +13,8 @@ using UnityEngine;
  * 
  * To do:
  * - Make pause call a pause animation function in PlayerAnimation.
- * - Implement Ground Fitter.
- * - Have set positions for player conversations - TaskManager?
+ * - Implement Ground Fitter. - My own version. FImpossible studios thing is impossible to work with.
  * - Maybe change quest items so they're not affected by physics? - let player drop items
- * - Make player pick up item by animation event, not on the button press
  * - Place barriers blocking off areas from Heart. Make stage 1(?) lower them.
  * - Make walking animation line up with music maybe?
  * 
