@@ -27,6 +27,7 @@ using UnityEngine;
  * - People weren't that happy about NPC POV camera
  * - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
  * - Player can jump out of NPCCollider before dialogue, locking their game
+ * - don't use string literals for animator
  * 
  */
 

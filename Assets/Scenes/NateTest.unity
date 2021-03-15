@@ -10274,7 +10274,6 @@ GameObject:
   - component: {fileID: 1016919869}
   - component: {fileID: 1016919868}
   - component: {fileID: 1016919867}
-  - component: {fileID: 1016919866}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -10282,46 +10281,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
---- !u!114 &1016919866
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1016919865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f06d2b36ba2fe3549b20650ae2359ca4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _pickupItemUI:
-  - {fileID: 1359532862}
-  _dialogueEnterPromptUI:
-  - {fileID: 106045166}
-  _dialogueUI:
-  - {fileID: 898775663}
-  - {fileID: 1342162845691750169}
-  - {fileID: 711624684}
-  _dialogueContinueUI:
-  - {fileID: 1022826161}
-  _pauseUI:
-  - {fileID: 1342162845691750174}
-  - {fileID: 1342162845691750189}
-  - {fileID: 1342162845691750182}
-  - {fileID: 1342162845691750175}
-  _loadingOverlay:
-  - {fileID: 1318833}
-  - {fileID: 1270714119}
-  _startOverlay:
-  - {fileID: 2083254109}
-  _startMenu:
-  - {fileID: 1342162845691750166}
-  - {fileID: 775311917}
-  - {fileID: 1342162845691750159}
-  - {fileID: 2020548535}
-  - {fileID: 1342162845691750146}
-  _continueButton:
-  - {fileID: 2020548535}
 --- !u!114 &1016919867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18236,7 +18195,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1773292822, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
   m_PrefabInstance: {fileID: 1342162845691750115}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1342162845691750116}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76542485109114d4d96476737579e45e, type: 3}
@@ -22703,7 +22662,7 @@ PrefabInstance:
     - target: {fileID: 327323183, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
       propertyPath: onLineStart.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1016919866}
+      objectReference: {fileID: 1342162845691750118}
     - target: {fileID: 327323183, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
       propertyPath: onLineEnd.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -22743,7 +22702,7 @@ PrefabInstance:
     - target: {fileID: 327323183, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
       propertyPath: onLineFinishDisplaying.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1016919866}
+      objectReference: {fileID: 1342162845691750118}
     - target: {fileID: 327323183, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
       propertyPath: onLineEnd.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: DialogueController, Assembly-CSharp
@@ -23098,11 +23057,56 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
+--- !u!1 &1342162845691750116 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1342162846272141714, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
+  m_PrefabInstance: {fileID: 1342162845691750115}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1342162845691750117 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1355744575, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
   m_PrefabInstance: {fileID: 1342162845691750115}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1342162845691750118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342162845691750116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f06d2b36ba2fe3549b20650ae2359ca4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pickupItemUI:
+  - {fileID: 1359532862}
+  _dialogueEnterPromptUI:
+  - {fileID: 106045166}
+  _dialogueUI:
+  - {fileID: 898775663}
+  - {fileID: 1342162845691750169}
+  - {fileID: 711624684}
+  _dialogueContinueUI:
+  - {fileID: 1022826161}
+  _pauseUI:
+  - {fileID: 1342162845691750174}
+  - {fileID: 1342162845691750189}
+  - {fileID: 1342162845691750182}
+  - {fileID: 1342162845691750175}
+  _loadingOverlay:
+  - {fileID: 1318833}
+  - {fileID: 1270714119}
+  _startOverlay:
+  - {fileID: 2083254109}
+  _startMenu:
+  - {fileID: 1342162845691750166}
+  - {fileID: 775311917}
+  - {fileID: 1342162845691750159}
+  - {fileID: 2020548535}
+  - {fileID: 1342162845691750146}
+  _continueButton:
+  - {fileID: 2020548535}
 --- !u!1 &1342162845691750119 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 127140493, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
