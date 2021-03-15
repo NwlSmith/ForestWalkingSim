@@ -28,7 +28,7 @@ using UnityEngine;
  * - People want more variety in systems, like collecting rewards from NPCs/other kinds of interaction with the game environment.
  * - People weren't that happy about NPC POV camera
  * - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
- * - pausing while jumping stops upward movement
+ * - Player can jump out of NPCCollider before dialogue, locking their game
  * 
  */
 
@@ -37,11 +37,10 @@ public class GameManager : MonoBehaviour
 
     #region Variables
 
-    // This instance of the Game Manager.
-    public static GameManager instance = null;
-
     // The finite state machine of the current gamestate.
     private FiniteStateMachine<GameManager> _fsm;
+
+    private TaskManager _taskManager = new TaskManager();
 
     private bool _gameStarted = false;
 
@@ -52,11 +51,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // Ensure that there is only one instance of the GameManager.ger
-        if (instance == null)
-            instance = this;
-        else if (instance != this)
-            Destroy(gameObject);
 
         Services.InitializeServices(this);
 
@@ -71,6 +65,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         _fsm.Update();
+        _taskManager.Update();
     }
 
     #endregion
@@ -167,8 +162,6 @@ public class GameManager : MonoBehaviour
             Services.PlayerMovement.ForceIdle();
             Services.CameraManager.EnterStartMenu();
             Services.UIManager.EnterStartMenu();
-            
-            
         }
 
         public override void OnExit()
@@ -178,7 +171,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Possibly not needed?
+    // Probably not needed?
     private class StartPlay : GameState
     {
         public override void OnEnter()
@@ -261,15 +254,42 @@ public class GameManager : MonoBehaviour
 
     private class InDialogueState : GameState
     {
+        private float delay = .5f;
         public override void OnEnter()
         {
-            Debug.Log("GameManager: Entered InDialogueState");
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            Services.PlayerMovement.EnterDialogue(); // Change each of these - make them only entering into dialogue, then in Update, have a function to actually commence dialogue.
-            Services.CameraManager.EnterDialogue();
-            Services.UIManager.EnterDialogue();
-            Services.NPCInteractionManager.EnterDialogue();
+
+            float elapsedTime = 0f;
+            // Need to 
+            Task enterDialogue = new DelegateTask(() =>
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                Services.PlayerMovement.EnterDialogue();
+                Services.UIManager.HideDialogueEnterPrompt();
+            }, () =>
+            {
+                return Services.PlayerMovement.inPlaceForDialogue;
+            });
+
+            Task fadeIn = new DelegateTask(() =>
+            {
+                Services.CameraManager.EnterDialogue();
+                Services.UIManager.EnterDialogue();
+                elapsedTime = 0f;
+            }, () =>
+            {
+                elapsedTime += Time.deltaTime;
+                return elapsedTime > delay;
+            });
+
+            Task startConvo = new ActionTask(() =>
+            {
+                Services.DialogueController.EnterDialogue();
+            });
+
+            enterDialogue.Then(fadeIn).Then(startConvo);
+
+            Context._taskManager.Do(enterDialogue);
         }
 
         public override void Update()

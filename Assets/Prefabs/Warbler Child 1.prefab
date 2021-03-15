@@ -171,6 +171,7 @@ Transform:
   - {fileID: 6095983745718607330}
   - {fileID: 7334069574363862173}
   - {fileID: 1939302144133449674}
+  - {fileID: 3314511777450922955}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -189,6 +190,7 @@ MonoBehaviour:
   YarnStartNode: WarblerChild1.Start
   YarnDialogue: {fileID: 2480198943629176163, guid: fc7e7dc3eaa5acb49a29e2a9e7c29009, type: 3}
   NPCSpeakerData: {fileID: 11400000, guid: aef0d191e0e252840b1dd60b0bc15e52, type: 2}
+  dialoguePos: {fileID: 0}
   npcCameraViewPosition: {fileID: 1939302144133449674}
   playerCameraLookAtPosition: {fileID: 5947291625924813207}
 --- !u!82 &1939302144021369110
@@ -287,6 +289,36 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &5025815151086383547
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3314511777450922955}
+  m_Layer: 0
+  m_Name: DialoguePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3314511777450922955
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5025815151086383547}
+  m_LocalRotation: {x: -0, y: -0.70710665, z: -0, w: 0.70710695}
+  m_LocalPosition: {x: 0.106, y: -0.05399984, z: 2.647}
+  m_LocalScale: {x: 1.1999999, y: 1.1999999, z: 1.1999999}
+  m_Children: []
+  m_Father: {fileID: 6883261242874836416}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6098949776166264721
 GameObject:
   m_ObjectHideFlags: 0

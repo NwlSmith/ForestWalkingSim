@@ -63,6 +63,8 @@ public class DialogueController : MonoBehaviour
         InMemoryVariableStorage = GetComponent<InMemoryVariableStorage>();
         _audioSource = GetComponent<AudioSource>();
 
+        _dialogueText.text = "";
+
         AddYarnCommands();
     }
 
@@ -82,6 +84,7 @@ public class DialogueController : MonoBehaviour
 
     public void EnterDialogue()
     {
+        Services.NPCInteractionManager.EnterDialogue();
         _curNPC = Services.NPCInteractionManager.closestNPC;
         Debug.Log($"Starting dialogue: {_curNPC.YarnStartNode}");
         DialogueRunner.StartDialogue(_curNPC.YarnStartNode);
@@ -145,5 +148,15 @@ public class DialogueController : MonoBehaviour
 
         _audioSource.pitch = Random.Range(.9f, 1.1f);
         _audioSource.Play();
+    }
+
+    public void OnLineEnd()
+    {
+        _dialogueText.text = "";
+    }
+
+    public void OnDialogueEnd()
+    {
+        _speakerText.text = "";
     }
 }

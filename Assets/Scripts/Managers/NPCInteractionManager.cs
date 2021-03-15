@@ -32,6 +32,11 @@ public class NPCInteractionManager : MonoBehaviour
         }
     }
 
+    public Transform DialogueTrans()
+    {
+        return closestNPC.dialoguePos;
+    }
+
     public void EnterDialogue()
     {
         closestNPC.EnterDialogue(Services.PlayerMovement.transform);

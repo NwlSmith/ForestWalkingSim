@@ -17,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
 
     #region Variables
 
+    public bool inPlaceForDialogue = false;
+
     // The finite state machine of the current gamestate.
     private FiniteStateMachine<PlayerMovement> _fsm;
 
@@ -62,6 +64,8 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerAnimation _playerAnimation;
 
+    TaskManager _taskManager = new TaskManager();
+
     #endregion 
 
     #region Lifecycle Management
@@ -79,19 +83,14 @@ public class PlayerMovement : MonoBehaviour
         raycastOriginOffset = _charController.center - new Vector3(0, _charController.height/2.3f, 0f);
     }
 
-    // Start is called before the first frame update
     void Start() => _fsm.TransitionTo<IdleState>();
 
-    // Update is called once per frame
     void Update()
     {
-        if (_curJumpCooldown >= 0f)
-        {
-            _curJumpCooldown -= Time.deltaTime;
-        }
+        if (_curJumpCooldown >= 0f) _curJumpCooldown -= Time.deltaTime;
 
         _fsm.Update();
-        Debug.DrawRay(transform.position + raycastOriginOffset, Vector3.down, Color.magenta, 1f);
+
     }
 
     void FixedUpdate()
@@ -99,6 +98,7 @@ public class PlayerMovement : MonoBehaviour
         GameState curGS = ((GameState)_fsm.CurrentState);
         if (curGS != null)
             curGS.FixedUpdate();
+        _taskManager.Update();
     }
 
     // Updates the player movement inputs. Called in InputManager.
@@ -138,24 +138,14 @@ public class PlayerMovement : MonoBehaviour
     }
 
     #endregion
-    #region Utilities
-
-    #endregion
 
     #region Utilities
 
     // Returns if the player is currently on the ground.
     private bool OnGround()
     {
-
-        if (_charController.isGrounded)
-        {
-            return true;
-        }
-
-        Debug.DrawRay(transform.position + raycastOriginOffset, Vector3.down, Color.magenta, 1f);
-        RaycastHit hit;
-        return Physics.Raycast(transform.position + raycastOriginOffset, Vector3.down, out hit, .3f, groundLayers, QueryTriggerInteraction.Ignore);
+        if (_charController.isGrounded) return true;
+        return Physics.Raycast(transform.position + raycastOriginOffset, Vector3.down, out RaycastHit hit, .3f, groundLayers, QueryTriggerInteraction.Ignore);
     }
 
     // Returns whether or not the player entered any ground movement inputs W, A, S, D, NOT space.
@@ -174,7 +164,6 @@ public class PlayerMovement : MonoBehaviour
     {
         public override void OnEnter()
         {
-            Debug.Log("IdleState enter");
             //Context._currentMovementVector.y = 0f;
             
             Context._playerAnimation.Moving(false); // Maybe change to sit???
@@ -243,9 +232,7 @@ public class PlayerMovement : MonoBehaviour
             if (!Context.OnGround())
                 fixedUpdateFunc = ContinueInAirMovement;
             else
-            {
                 OnLand();
-            }
         }
 
         public override void FixedUpdate()
@@ -256,7 +243,6 @@ public class PlayerMovement : MonoBehaviour
 
         private void ContinueInAirMovement()
         {
-            
             // Fall downwards
             Context._currentMovementVector.y += Context._gravity * Time.fixedDeltaTime;
 
@@ -275,7 +261,7 @@ public class PlayerMovement : MonoBehaviour
         private void OnLand()
         {
             Context._playerAnimation.Falling(false);
-            Context._playerAnimation.Moving(false); // Maybe change to sit???
+            Context._playerAnimation.Moving(false);
             Context._currentMovementVector = Vector3.zero;
             fixedUpdateFunc = () => { };
         }
@@ -284,19 +270,126 @@ public class PlayerMovement : MonoBehaviour
     // Player is forced to remain idle, turns to look at NPC.
     private class InDialogueState : GameState
     {
+        private float elapsedTime = 0f;
+        private float maxTimeOnOneStep = 3f;
+        private float initRot;
+        private Vector3 initPos;
+        private float targetRot;
+        private Vector3 targetPos;
+        private float turningSmoothVel;
+
         public override void OnEnter()
         {
-            Context._playerAnimation.Moving(false); // Maybe change to sit???
+            Context.inPlaceForDialogue = false;
+            Task jumping = new DelegateTask(() => { }, ContinueUpwardAirMovement);
+            Task falling = new DelegateTask(() => { Context._playerAnimation.Falling(true); }, ContinueDownwardAirMovement);
+            Task rotateToPos = new DelegateTask(
+                () => {
+                    elapsedTime = 0f;
+                    Context._playerAnimation.Moving(true);
+                    Context._playerAnimation.Falling(false);
+                    targetRot = Quaternion.LookRotation((Services.NPCInteractionManager.DialogueTrans().position - Context.transform.position).normalized, Vector3.up).eulerAngles.y;
+                },
+                RotateToCorrectPos
+            );
+            Task moveToPos = new DelegateTask(
+                () => {
+                    elapsedTime = 0f;
+
+                    Context._playerAnimation.Falling(false);
+                    Context._playerAnimation.Sprinting(false);
+                    Context._currentMovementVector = Vector3.zero;
+                    initPos = Context.transform.position;
+                    targetPos = Services.NPCInteractionManager.DialogueTrans().position;
+                },
+                MoveToCorrectPos
+            );
+            Task rotateToNPC = new DelegateTask(
+                () => {
+                    elapsedTime = 0f;
+                    targetRot = Quaternion.LookRotation(Services.NPCInteractionManager.closestNPC.transform.position - Services.NPCInteractionManager.DialogueTrans().position, Vector3.up).eulerAngles.y;
+                },
+                RotateToCorrectPos,
+                OnCorrectPlace
+            );
+
+            jumping.Then(falling).Then(rotateToPos).Then(moveToPos).Then(rotateToNPC);
+            if (!Context.OnGround())
+                Context._taskManager.Do(jumping);
+            else
+                Context._taskManager.Do(rotateToPos);
+        }
+
+        private bool ContinueUpwardAirMovement()
+        {
+            AirMovement();
+            return Context.OnGround() || Context._currentMovementVector.y < 0f;
+        }
+
+        private bool ContinueDownwardAirMovement()
+        {
+            AirMovement();
+            return Context.OnGround();
+        }
+
+        private void AirMovement()
+        {
+            // Fall downwards
+            Context._currentMovementVector.y += Context._gravity * Time.fixedDeltaTime;
+            Context._charController.Move(Context._currentMovementVector);
+        }
+
+        private bool RotateToCorrectPos()
+        {
+            if (elapsedTime > maxTimeOnOneStep)
+            {
+                Debug.Log("RotateToCorrectPos failsafe triggered");
+                Context.transform.rotation = Quaternion.Euler(0, targetRot, 0); // failsafe
+            }
+            Context.transform.rotation = Quaternion.Euler(0f, Mathf.SmoothDampAngle(Context.transform.eulerAngles.y, targetRot, ref turningSmoothVel, .2f), 0f);
+            Context._charController.Move(Context.transform.forward * Context._movementSpeed * Time.fixedDeltaTime * .3f); // move forward slightly to make the spineAnimator not be so horrible.
+            return Quaternion.Angle(Context.transform.rotation, Quaternion.Euler(0, targetRot, 0)) < 5f;
+        }
+
+        private bool MoveToCorrectPos()
+        {
+            if (elapsedTime > maxTimeOnOneStep)
+            {
+                Debug.Log("MoveToCorrectPos failsafe triggered");
+                Context.transform.position = targetPos; // failsafe
+            }
+            targetRot = Quaternion.LookRotation((targetPos - Context.transform.position).normalized, Vector3.up).eulerAngles.y;
+            Context.transform.rotation = Quaternion.Euler(0f, Mathf.SmoothDampAngle(Context.transform.eulerAngles.y, targetRot, ref turningSmoothVel, .2f), 0f);
+
+            Context._currentMovementVector = Context.transform.forward * Context._movementSpeed * Time.fixedDeltaTime;
+            Context._currentMovementVector.y = Context._gravity;
+            Context._charController.Move(Context._currentMovementVector);
+            return Vector3.Distance(Context.transform.position, targetPos) < .5f;
+        }
+
+        private void OnCorrectPlace()
+        {
+            Context.inPlaceForDialogue = true;
+
+            Context._playerAnimation.Moving(false);
+            Context._playerAnimation.Falling(false);
 
             Context._currentMovementVector = Vector3.zero;
             Vector3 lookPos = Services.NPCInteractionManager.closestNPC.GetPlayerCameraLookAtPosition().position - Context.transform.position;
             lookPos.y = 0;
             Context.transform.rotation = Quaternion.LookRotation(lookPos);
-            // SET LOCATION? LERP TO LOCATION?
         }
-        
 
-        public override void OnExit() { }
+        public override void Update()
+        {
+            base.Update();
+            elapsedTime += Time.deltaTime;
+        }
+
+        public override void OnExit()
+        {
+            Context.inPlaceForDialogue = false;
+        }
     }
 
     // Player is currently moving on the ground.
@@ -306,7 +399,6 @@ public class PlayerMovement : MonoBehaviour
 
         public override void OnEnter()
         {
-            Debug.Log("MovingOnGround enter");
             //Context._currentMovementVector.y = Context._gravity * Time.fixedDeltaTime;
             Context._playerAnimation.Moving(true);
         }
@@ -428,9 +520,7 @@ public class PlayerMovement : MonoBehaviour
     {
         public override void OnEnter()
         {
-            Debug.Log("FallingState enter");
             Context._playerAnimation.Falling(true);
-
         }
 
         public override void Update()

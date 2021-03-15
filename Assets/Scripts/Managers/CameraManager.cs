@@ -93,8 +93,6 @@ public class CameraManager : MonoBehaviour
         npcCameraView.Priority = 20;
 
         // look at npc in question
-        Debug.Log($"In PlayerCameraView, Target npc is: {targetNPC}");
-
         playerCameraView.LookAt = targetNPC.GetPlayerCameraLookAtPosition();
     }
 
@@ -121,7 +119,13 @@ public class CameraManager : MonoBehaviour
     // Start menu state.
     private class StartMenuState : CameraState
     {
+        public override void OnExit()
+        {
+            base.OnExit();
 
+            Context._curVertRot = Context.targetVector.eulerAngles.x - 360f; // Causes issues.
+            Context._curHorRot = Context.targetVector.eulerAngles.y;
+        }
     }
 
     // Normal camera follow state.
@@ -132,9 +136,6 @@ public class CameraManager : MonoBehaviour
             Context.mainFollowCamera.Priority = 30;
             Context.playerCameraView.Priority = 20;
             Context.npcCameraView.Priority    = 10;
-
-            Context._curVertRot = Context.targetVector.eulerAngles.x - 360f;
-            Context._curHorRot  = Context.targetVector.eulerAngles.y;
         }
 
         public override void Update() => base.Update();

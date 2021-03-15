@@ -121,6 +121,7 @@ public class UIManager : MonoBehaviour
         HideUI(_dialogueUI);
         HideUI(_pauseUI);
         HideUI(_loadingOverlay);
+        HideUI(_dialogueContinueUI);
     }
     #endregion
 
@@ -168,7 +169,7 @@ public class UIManager : MonoBehaviour
             private readonly float gapBetweenFadeOuts = .25f;
             private float gapBetweenFade;
             private float elapsedTime = 0f;
-            private enum StageToFadeInAtEndEnum { Title, NewGame, Continue, Quit };
+            private enum StageToFadeInAtEndEnum { Title, Subtitle, NewGame, Continue, Quit };
             private StageToFadeInAtEndEnum curStage;
             private UIManager uim;
             private List<RectTransform> startMenuItems;
@@ -209,7 +210,6 @@ public class UIManager : MonoBehaviour
 
             private void FadeIn()
             {
-
                 if (curStage == StageToFadeInAtEndEnum.Continue && !Services.SaveManager.SaveExists()) curStage = StageToFadeInAtEndEnum.Quit; // Skip continue button.
                 if (curStage == StageToFadeInAtEndEnum.Quit) SetStatus(TaskStatus.Success);
 
@@ -220,7 +220,6 @@ public class UIManager : MonoBehaviour
 
             private void FadeOut()
             {
-                Debug.Log("Fade out update");
                 if (curStage == StageToFadeInAtEndEnum.Continue && !Services.SaveManager.SaveExists()) curStage = StageToFadeInAtEndEnum.NewGame; // Skip continue button.
                 if (curStage == StageToFadeInAtEndEnum.Title) SetStatus(TaskStatus.Success);
 
@@ -275,20 +274,17 @@ public class UIManager : MonoBehaviour
     // Player is in dialogue.
     private class InDialogueState : UIState
     {
-        private readonly float _maxTimeElapsedBeforeUI = 1f;
 
-        public override void OnEnter() => Context.StartCoroutine(DelayDisplayUI());
-
-
-        private IEnumerator DelayDisplayUI()
+        public override void OnEnter()
         {
-            Debug.Log("Displaying dialogue ui");
-            yield return new WaitForSeconds(_maxTimeElapsedBeforeUI);
             Context.DisplayUI(Context._dialogueUI);
-            Services.DialogueController.EnterDialogue();
         }
 
-        public override void OnExit() => Context.HideUI(Context._dialogueUI);
+        public override void OnExit()
+        {
+            Context.HideUI(Context._dialogueUI);
+            Context.HideUI(Context._dialogueContinueUI);
+        }
     }
 
     // Pause UI.

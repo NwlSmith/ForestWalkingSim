@@ -16,7 +16,7 @@ using UnityEngine;
 
 public class PlayerItemHolder : MonoBehaviour
 {
-
+    private bool _inProgress = false;
     private List<HoldableItem> _itemsInCollider = new List<HoldableItem>();
     public bool _holdingItem = false;
     public HoldableItem _currentlyHeldItem { get; private set; }
@@ -48,10 +48,11 @@ public class PlayerItemHolder : MonoBehaviour
 
     public void InputPressed()
     {
+        if (_inProgress) return;
         // If the player has an item in their possession, drop it.
         if (_holdingItem)
         {
-            DropItem();
+            StartCoroutine(DropItemEnum());
             return;
         }
 
@@ -61,7 +62,7 @@ public class PlayerItemHolder : MonoBehaviour
         
         HoldableItem closest = GetClosestItem();
 
-        PickUpItem(closest);
+        StartCoroutine(PickUpItemeEnum(closest));
     }
 
     private HoldableItem GetClosestItem()
@@ -85,23 +86,38 @@ public class PlayerItemHolder : MonoBehaviour
         return Vector3.Distance(item.transform.position, _itemAttachmentPoint.position);
     }
 
-    public void DropItem()
+    public IEnumerator DropItemEnum()
     {
+        _inProgress = true;
         Debug.Log("Dropping item");
-        _holdingItem = false;
-        _currentlyHeldItem.DetachFromTransform();
-        //if (itemsInCollider.Contains(currentlyHeldItem))
         Services.PlayerAnimation.Pickup();
-
+        yield return new WaitForSeconds(.33f);
+        DetachFromTransform();
+        _inProgress = false;
     }
 
-    public void PickUpItem(HoldableItem item)
+    public IEnumerator PickUpItemeEnum(HoldableItem item)
     {
+        _inProgress = true;
         Debug.Log("Picking up item");
-        _holdingItem = true;
         _currentlyHeldItem = item;
-        item.AttachToTransform(_itemAttachmentPoint);
         Services.UIManager.HideItemPickupPrompt();
         Services.PlayerAnimation.Pickup();
+        yield return new WaitForSeconds(.33f);
+
+        AttachToTransform(item);
+        _inProgress = false;
+    }
+
+    public void DetachFromTransform()
+    {
+        _holdingItem = false;
+        _currentlyHeldItem.DetachFromTransform();
+    }
+
+    public void AttachToTransform(HoldableItem item)
+    {
+        _holdingItem = true;
+        _currentlyHeldItem.AttachToTransform(_itemAttachmentPoint);
     }
 }

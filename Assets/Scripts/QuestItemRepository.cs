@@ -42,7 +42,7 @@ public class QuestItemRepository : MonoBehaviour
 
     private IEnumerator CollectItem(QuestItem item)
     {
-        Services.PlayerItemHolder.DropItem();
+        Services.PlayerItemHolder.DetachFromTransform();
         item.holdable = false;
         item.rb.isKinematic = true;
 

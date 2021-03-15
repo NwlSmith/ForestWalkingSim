@@ -234,7 +234,7 @@ public class SaveManager
                     Debug.LogWarning("Thought to be holding quest item, holding None quest item");
                     break;
             }
-            Services.PlayerItemHolder.PickUpItem(holding);
+            Services.PlayerItemHolder.AttachToTransform(holding);
         }
         
         Services.PlayerMovement.ForceTransform(data.playerData.position, data.playerData.rotation);
