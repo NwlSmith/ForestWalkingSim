@@ -39,6 +39,7 @@ public class HoldableItem : MonoBehaviour
     {
         rb.isKinematic = true;
         transform.position = newParent.position;
+        transform.rotation = newParent.rotation;
         transform.parent = newParent;
         beingHeld = true;
     }
