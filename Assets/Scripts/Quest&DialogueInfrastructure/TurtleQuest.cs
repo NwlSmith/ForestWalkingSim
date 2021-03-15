@@ -84,7 +84,7 @@ public class TurtleQuest : FSMQuest
     private class Stage3State : QuestState
     {
         #region Const Strings.
-        private readonly int _running = Shader.PropertyToID("Running");
+        private readonly int _running = Animator.StringToHash("Running");
         #endregion
 
         private readonly float _turtleSpeed = 50f;

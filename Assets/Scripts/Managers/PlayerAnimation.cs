@@ -12,13 +12,13 @@ public class PlayerAnimation : MonoBehaviour
 {
 
     #region Const Strings.
-    private readonly int _jump = Shader.PropertyToID("Jump");
-    private readonly int _moving = Shader.PropertyToID("Moving");
-    private readonly int _sprinting = Shader.PropertyToID("Sprinting");
-    private readonly int _falling = Shader.PropertyToID("Falling");
-    private readonly int _pickup = Shader.PropertyToID("Pickup");
-    private readonly int _talk = Shader.PropertyToID("Talk");
-    private readonly int _sitting = Shader.PropertyToID("Sitting");
+    private readonly int _jump = Animator.StringToHash("Jump");
+    private readonly int _moving = Animator.StringToHash("Moving");
+    private readonly int _sprinting = Animator.StringToHash("Sprinting");
+    private readonly int _falling = Animator.StringToHash("Falling");
+    private readonly int _pickup = Animator.StringToHash("Pickup");
+    private readonly int _talk = Animator.StringToHash("Talk");
+    private readonly int _sitting = Animator.StringToHash("Sitting");
     #endregion
 
     private Animator _animator;

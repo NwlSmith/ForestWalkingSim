@@ -14,8 +14,8 @@ public class NPC : MonoBehaviour
 {
 
     #region Const Strings.
-    private readonly int _talk = Shader.PropertyToID("Talk");
-    private readonly int _inConvo = Shader.PropertyToID("InConversation");
+    private readonly int _talk = Animator.StringToHash("Talk");
+    private readonly int _inConvo = Animator.StringToHash("InConversation");
     #endregion
 
     public string YarnStartNode;

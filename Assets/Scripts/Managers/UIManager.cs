@@ -17,7 +17,7 @@ public class UIManager : MonoBehaviour
 {
 
     #region Const Strings.
-    private readonly int _visible = Shader.PropertyToID("Visible");
+    private readonly int _visible = Animator.StringToHash("Visible");
     #endregion
 
     // The finite state machine of the current UIState.
