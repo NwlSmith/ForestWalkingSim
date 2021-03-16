@@ -356,7 +356,7 @@ public class PlayerMovement : MonoBehaviour
             if (elapsedTime > maxTimeOnOneStep)
             {
                 Debug.Log("MoveToCorrectPos failsafe triggered");
-                Context.transform.position = targetPos; // failsafe
+                Context.transform.position = targetPos; // failsafe DOESN'T WORK
             }
             targetRot = Quaternion.LookRotation((targetPos - Context.transform.position).normalized, Vector3.up).eulerAngles.y;
             Context.transform.rotation = Quaternion.Euler(0f, Mathf.SmoothDampAngle(Context.transform.eulerAngles.y, targetRot, ref turningSmoothVel, .2f), 0f);

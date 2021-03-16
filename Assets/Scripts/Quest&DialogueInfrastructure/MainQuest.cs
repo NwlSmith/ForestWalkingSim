@@ -63,7 +63,30 @@ public class MainQuest : FSMQuest
             Services.QuestManager.AdvanceQuest("Warbler");
             Services.QuestManager.AdvanceQuest("Frog");
             Services.QuestManager.AdvanceQuest("Turtle");
-            // REMOVE BARRIERS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+            if (((MainQuest)Context).barrierFoliage.Length > 0)
+                Context.StartCoroutine(LowerBarriers());
+        }
+
+        private IEnumerator LowerBarriers()
+        {
+            float elapsedTime = 0f;
+            float duration = 5f;
+            // play sound?
+
+            float initY = ((MainQuest)Context).barrierFoliage[0].transform.position.y;
+            float targetY = 4f;
+
+            while (elapsedTime < duration)
+            {
+                elapsedTime += Time.deltaTime;
+                float frac = elapsedTime / duration;
+                foreach (GameObject gameObject in ((MainQuest)Context).barrierFoliage)
+                {
+                    gameObject.transform.position = new Vector3(gameObject.transform.position.x, Mathf.Lerp(initY, targetY, frac), gameObject.transform.position.z);
+                }
+                yield return null;
+            }
         }
     }
 

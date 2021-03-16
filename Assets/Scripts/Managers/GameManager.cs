@@ -19,6 +19,7 @@ using UnityEngine;
  * - Make walking animation line up with music maybe?
  * - Maybe make NPCCollider increase size when enter conversations, and decrease after?
  * - Short delay between press continue and next dialogue.
+ * - Move rest of stuff in scene.
  * 
  * Issues:
  * - Immediately thinks I want to talk to spirit
@@ -28,6 +29,9 @@ using UnityEngine;
  * - People weren't that happy about NPC POV camera
  * - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
  * - Player can jump out of NPCCollider before dialogue, locking their game
+ * - Failsafe doesn't work
+ * - make sure player looks at center of characters? maybe make player turn to face each character
+ * - disable triggers when talking to characters?
  * 
  */
 

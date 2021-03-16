@@ -31,11 +31,13 @@ public abstract class FSMQuest : MonoBehaviour
         {
             foreach (GameObject go in _gameObjectsEnableOnStageEnter)
             {
-                go.SetActive(true);
+                if (go != null)
+                    go.SetActive(true);
             }
             foreach (GameObject go in _gameObjectsDisableOnStageEnter)
             {
-                go.SetActive(false);
+                if (go != null)
+                    go.SetActive(false);
             }
         }
     }
