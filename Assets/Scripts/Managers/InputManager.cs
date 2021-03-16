@@ -19,27 +19,39 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
 
+    #region String Cache.
+    private readonly string _pause = "Pause";
+    private readonly string _cancel = "Cancel";
+    private readonly string _hor = "Horizontal";
+    private readonly string _ver = "Vertical";
+    private readonly string _jump = "Jump";
+    private readonly string _sprint = "Sprint";
+    private readonly string _mouseX = "Mouse X";
+    private readonly string _mouseY = "Mouse Y";
+    private readonly string _interact = "Interact";
+    #endregion
+
     public void ProcessPlayInput()
     {
         // Intake pause instructions.
-        if (Input.GetButtonDown("Pause") || Input.GetButtonDown("Cancel"))
+        if (Input.GetButtonDown(_pause) || Input.GetButtonDown(_cancel))
         {
             Services.GameManager.Pause();
         }
 
         // Send movement inputs to player.
         Services.PlayerMovement.InputUpdate(
-            Input.GetAxis("Horizontal"),
-            Input.GetAxis("Vertical"),
-            Input.GetButtonDown("Jump"),
-            Input.GetButton("Sprint"));
+            Input.GetAxis(_hor),
+            Input.GetAxis(_ver),
+            Input.GetButtonDown(_jump),
+            Input.GetButton(_sprint));
 
         Services.CameraManager.InputUpdate(
-            Input.GetAxis("Mouse X"),
-            Input.GetAxis("Mouse Y"));
+            Input.GetAxis(_mouseX),
+            Input.GetAxis(_mouseY));
 
 
-        if (Input.GetButtonDown("Interact"))
+        if (Input.GetButtonDown(_interact))
         {
             Services.PlayerItemHolder.InputPressed(); // CREATE HIERARCHY BETWEEN THESE TWO - Only one should be used at once.
             Services.NPCInteractionManager.InputPressed();
@@ -48,7 +60,7 @@ public class InputManager : MonoBehaviour
 
     public void ProcessPauseMenuInput()
     {
-        if (Input.GetButtonDown("Pause"))
+        if (Input.GetButtonDown(_pause))
         {
             Services.GameManager.Unpause();
         }
