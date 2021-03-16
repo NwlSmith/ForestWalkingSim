@@ -28,7 +28,7 @@ public class UISound : MonoBehaviour
     public void PlayUISound(int i)
     {
         _audioSource.clip = _buttonToClip[i];
-        _audioSource.pitch = Random.Range(.9f, 1.1f);
+        //_audioSource.pitch = Random.Range(.9f, 1.1f);
         _audioSource.Play();
     }
 }

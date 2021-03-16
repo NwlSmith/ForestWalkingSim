@@ -133,6 +133,15 @@ public class DialogueController : MonoBehaviour
         _isPlayerSpeaking = true;
     }
 
+    public void OnContinue() => StartCoroutine(ContinueDialogueAfterDelay());
+
+    private IEnumerator ContinueDialogueAfterDelay()
+    {
+        OnLineEnd();
+        yield return new WaitForSeconds(.25f);
+        DialogueUIManager.MarkLineComplete();
+    }
+
     public void OnLineStart()
     {
         if (_isPlayerSpeaking)
@@ -150,13 +159,7 @@ public class DialogueController : MonoBehaviour
         _audioSource.Play();
     }
 
-    public void OnLineEnd()
-    {
-        _dialogueText.text = "";
-    }
+    public void OnLineEnd() => _dialogueText.text = "";
 
-    public void OnDialogueEnd()
-    {
-        _speakerText.text = "";
-    }
+    public void OnDialogueEnd() => _speakerText.text = "";
 }

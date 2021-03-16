@@ -18,6 +18,7 @@ using UnityEngine;
  * - Place barriers blocking off areas from Heart. Make stage 1(?) lower them.
  * - Make walking animation line up with music maybe?
  * - Maybe make NPCCollider increase size when enter conversations, and decrease after?
+ * - Short delay between press continue and next dialogue.
  * 
  * Issues:
  * - Immediately thinks I want to talk to spirit
