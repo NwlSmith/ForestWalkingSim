@@ -4,25 +4,45 @@ colorID: 0
 position: 292,551
 ---
 <<if $quest_turtle_stage is 0>>
-    <<NPCSpeak>>
-    Hi my name is Turtle.
     <<PlayerSpeak>>
-    That's cool.
-    Do you know where the Rain is?
+    Hello there!
     <<NPCSpeak>>
-    yes.
-    But if you want me to tell you, you must beat me in a race.
+    Why hello to you, deary.
     <<PlayerSpeak>>
-    k.
+    I'm told you can point me in the direction of The Rain.
     <<NPCSpeak>>
-    Meet me at the pink tree around the corner from here.
+    That I can, young one.
     <<PlayerSpeak>>
-    Thanks, I'll go there.
+    Fantastic! Where should I go?
+    <<NPCSpeak>>
+    Now, now. Before I take you to The Rain, I have a request.
+    <<PlayerSpeak>>
+    I'd be happy to help.
+    <<NPCSpeak>>
+    You seem like a spry young creature, do I have that right?
+    <<PlayerSpeak>>
+    You could say that.
+    <<NPCSpeak>>
+    Well then, if you’re such a speed demon, how about a race?
+    <<PlayerSpeak>>
+    Um... I suppose so...
+    <<NPCSpeak>>
+    What's the matter, sweetheart?
+    Afraid you'll lose?
+    <<PlayerSpeak>>
+    Not exactly.
+    <<NPCSpeak>>
+    In that case, how about it?
+    <<PlayerSpeak>>
+    If you say so!
+    <<NPCSpeak>>
+    Excellent! Meet me by the pink tree around the corner.
+    We'll see who the real speed demon is!
     <<AdvanceQuest Turtle>>
 <<elseif $quest_turtle_stage is 1>>
-    <<NPCSpeak>>
-    I already told you to go to the pink tree.
     <<PlayerSpeak>>
-    Thanks, I'll go there.
+    Sorry ma'am, where am I supposed to go?
+    <<NPCSpeak>>
+    Head to the pink tree around the corner so we can get this show on the road!
 <<endif>>
 ===

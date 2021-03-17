@@ -5,13 +5,22 @@ position: -1519,947
 ---
 <<if $quest_frog_stage gt 1>>
     <<NPCSpeak>>
-    Hi again, my name is Frog.
-    Have you seen Toad?
+    Ah, there you are!
     <<PlayerSpeak>>
-    No.
+    Hello again!
     <<NPCSpeak>>
-    Okay bye.
+    Say, you wouldn't happen to know where Toad ran off to would you?
     <<PlayerSpeak>>
-    Bye.
+    I'm afraid not, sir.
+    <<NPCSpeak>>
+    I see. Well, I'm sure he's just fine.
+    I'm prone to worrying about this and that!
+    <<PlayerSpeak>>
+    I certainly know the feeling. I'm sure he'll be back soon enough!
+    <<NPCSpeak>>
+    Of course, of course.
+    Take care, young one!
+    <<PlayerSpeak>>
+    Thank you for your help!
 <<endif>>
 ===

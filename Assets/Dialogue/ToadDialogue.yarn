@@ -4,21 +4,55 @@ colorID: 0
 position: -1085,626
 ---
 <<if $quest_frog_stage is 1>>
-    <<NPCSpeak>>
-    Hi again, my name is Toad.
     <<PlayerSpeak>>
-    That's cool.
-    Do you know where the Soil is?
+    Oh, hello Toad.
     <<NPCSpeak>>
-    yes.
-    It's by the pine tree.
+    Yes, hello.
     <<PlayerSpeak>>
-    Thanks, I'll go there.
+    What brings you here?
+    Is Carp around?
+    <<NPCSpeak>>
+    Ah, right.
+    Now, I must ask that you keep what I am about to say between us.
+    <<PlayerSpeak>>
+    I'll take this secret to my grave!
+    <<NPCSpeak>>
+    Excellent. By the pine tree is a flower.
+    <<PlayerSpeak>>
+    A very pretty one, I'm sure.
+    <<NPCSpeak>>
+    Correct.
+    I have been cultivating this flower for some time now.
+    Frog and I will be celebrating our anniversary shortly, and I intend to give him this flower as a gift.
+    <<PlayerSpeak>>
+    How thoughtful! How many years has it been?
+    <<NPCSpeak>>
+    In truth, my friend, I could not tell you.
+    It feels as though we have known each other for a lifetime.
+    <<PlayerSpeak>>
+    And The Soil?
+    <<NPCSpeak>>
+    Ah, yes. I have planted the flower in the particular Soil you are looking for.
+    It is highly conducive to growth.
+    <<PlayerSpeak>>
+    Oh my, do you still need it?
+    <<NPCSpeak>>
+    Plenty to go around. Please, take some.
+    It's unlikely to disturb my gift too much.
+    <<PlayerSpeak>>
+    I appreciate your willingness to give it up.
+    <<NPCSpeak>>
+    And I appreciate your discretion on the matter.
+    <<PlayerSpeak>>
+    My lips are sealed.
+    <<NPCSpeak>>
+    Very good.
     <<AdvanceQuest Frog>>
 <<elseif $quest_frog_stage is 2>>
     <<NPCSpeak>>
-    I already told you to go to the Pine tree.
+    I insist, take some of The Soil. This flower will have plenty left to grow in.
+    You will find it by the pine tree.
     <<PlayerSpeak>>
-    Thanks, I'll go there.
+    Thank you, I'll go there.
 <<endif>>
 ===

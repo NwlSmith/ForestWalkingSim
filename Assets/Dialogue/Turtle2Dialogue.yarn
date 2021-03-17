@@ -4,17 +4,22 @@ colorID: 0
 position: 566,546
 ---
 <<if $quest_turtle_stage is 2>>
-    <<NPCSpeak>>
-    Okay, we'll race to the orange tree.
-    Think you can keep up with me?
     <<PlayerSpeak>>
-    Yes.
+    Whoa, how did you get here so quick?
     <<NPCSpeak>>
-    Well then, lets see about that!
-    Three
-    Two
-    One
-    GO!
+    I know a few... shortcuts.
+    <<PlayerSpeak>>
+    Sure, I believe that.
+    <<NPCSpeak>>
+    Well then, are you ready?
+    <<PlayerSpeak>>
+    Born ready!
+    <<NPCSpeak>>
+    Hope you're hungry for a heaping plate of dust, slowpoke!
+    Three!
+    Two!
+    One!
+    Go!
     <<AdvanceQuest Turtle>>
 <<elseif $quest_turtle_stage is 1>>
     <<NPCSpeak>>
@@ -23,21 +28,36 @@ position: 566,546
     <<NPCSpeak>>
     Stage 3
 <<elseif $quest_turtle_stage is 4>>
-    <<NPCSpeak>>
-    Ha! I still got it!
     <<PlayerSpeak>>
-    Dang.
-    Anyway, where's the Rain?
+    You're a formidable opponent!
     <<NPCSpeak>>
-    I keep it behind my house! Go get it!
+    Darn tootin!
+    These are my woods, hotshot.
+    <<PlayerSpeak>>
+    Certainly seems that way.
+    <<NPCSpeak>>
+    In any case, thank you for humoring an old lady.
+    <<PlayerSpeak>>
+    It was an honor!
+    <<NPCSpeak>>
+    You're too kind, young one.
+    <<PlayerSpeak>>
+    Will you show me where The Rain is?
+    <<NPCSpeak>>
+    Of course, dear.
+    Just head around to the back of my house, that's where I tend to keep it.
+    <<PlayerSpeak>>
+    Thank you so much!
+    I'll have to train up and come back for another round sometime.
+    <<NPCSpeak>>
+    That you will!
     <<AdvanceQuest Turtle>>
 <<elseif $quest_turtle_stage is 5>>
-    <<NPCSpeak>>
-    Ha! I still got it!
     <<PlayerSpeak>>
-    Dang.
-    Anyway, where's the Rain?
+    Could you remind me where The Rain is?
     <<NPCSpeak>>
-    I keep it behind my house! Go get it!
+    Check behind my house, it should be there.
+    <<PlayerSpeak>>
+    Thank you!
 <<endif>>
 ===
