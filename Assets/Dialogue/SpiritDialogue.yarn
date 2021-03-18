@@ -5,23 +5,66 @@ position: 153,208
 ---
 <<if $quest_main_stage is 0>>
     <<NPCSpeak>>
-    Hello. I am the forest spirit.
-    I do lots of foresty things, so that's pretty cool.
+    I’m glad you’re here.
     <<PlayerSpeak>>
-    Yeah, that's cool.
+    How did you know I’d be coming?
     <<NPCSpeak>>
-    Thank you. Anyway, you should start stage 1 of the quest.
+    I’m the protector of this forest. I know all who come and go here. I’m the one who sent for you in the first place.
+    <<PlayerSpeak>>
+    Why?
+    <<NPCSpeak>>
+    Things aren't what they used to be, ever since the fire. I want to fix things, but I’m afraid I’ve grown too weak to even leave the forest’s center.
+    You, on the other hand, are young and full of light. I could feel your energy from miles away.
+    <<PlayerSpeak>>
+    What can I do to help?
+    <<NPCSpeak>>
+    There are three magic items—the Soil, the Seed, and the Rain. They’re the only thing that can quickly rejuvenate an area this badly burned. Bring them back here.
+    The creatures of the forest know where they are, so talk to them.
+    <<PlayerSpeak>>
+    I’ll do what I can.
+    <<NPCSpeak>>
+    Thank you. Stop by again if you need any help.
     <<set $quest_main_stage to 1>>
     <<AdvanceQuest Main>>
 <<elseif $quest_main_stage gt 0 and $quest_main_stage lt 4>>
-    <<NPCSpeak>>
-    You know what you need to do.
     <<PlayerSpeak>>
-    You are right. Bye!
+    Could you remind me of my task?
+    <<NPCSpeak>>
+    Find the Soil, the Seed, and the Rain. Bring them back here.
+    Last I heard, the Seed was in the hands of the birds, the Rain was being kept by a turtle, and the Soil was with a lovely elderly couple.
 <<elseif $quest_main_stage is 4>>
-    <<NPCSpeak>>
-    Congrats. You finished the game.
     <<PlayerSpeak>>
-    Thank you!
+    This is the final item.
+    <<NPCSpeak>>
+    So it is.
+    <<PlayerSpeak>>
+    What do we do now?
+    <<NPCSpeak>>
+    Now, I use the last of my remaining energy to bring the forest back.
+    <<PlayerSpeak>>
+    What!? Are you going to be okay?
+    <<NPCSpeak>>
+    ...
+    Say, where are you headed after this?
+    <<PlayerSpeak>>
+    I'll probably move onto somewhere else where I can be helpful.
+    <<NPCSpeak>>
+    What if I told you that you could keep helping out right here?
+    <<PlayerSpeak>>
+    Well, I'd ask what you meant.
+    <<NPCSpeak>>
+    I hate to even ask. But if you have nowhere to go...
+    Would you keep an eye on the forest when I'm gone?
+    <<PlayerSpeak>>
+    That's a big responsibility.
+    I'll do my best.
+    <<NPCSpeak>>
+    Thank you.
+    <<PlayerSpeak>>
+    I guess that's it then.
+    <<NPCSpeak>>
+    So it seems.
+    Thank you again for what you've done for us.
+    The creatures here don't know it, but they'll continue to live another day thanks to you.
 <<endif>>
 ===

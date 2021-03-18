@@ -4,41 +4,62 @@ colorID: 0
 position: -184,215
 ---
 <<if $quest_warbler_stage is 0>>
-    <<NPCSpeak>>
-    Hello. I am the warbler mom.
-    I do lots of birdy things, so that's pretty cool.
     <<PlayerSpeak>>
-    Yeah, that's cool.
+    Excuse me, could I ask —
     <<NPCSpeak>>
-    Thank you. Anyway, you should start stage 1 of the warbler quest.
-    Please find my children.
+    Listen, I’d love to help you, but I’ve got bigger problems right now. Three of my babies are missing! I’d go look for them, but I can’t leave my other children here alone…
+    <<PlayerSpeak>>
+    I could help you look.
+    <<NPCSpeak>>
+    Would you really do that for me? Well, now I feel bad for being so rude. What was it that you were going to ask?
+    <<PlayerSpeak>>
+    I’m looking for The Seed.
+    <<NPCSpeak>>
+    Wait, you’re looking for that? I just confiscated it from my kids this morning. They've been chewing on that thing nonstop!
+    Maybe we can help each other…
+    If you find my three daughters, I'll give you the Seed.
+    <<PlayerSpeak>>
+    I’ll do what I can to help. Do you know where they might be?
+    <<NPCSpeak>>
+    No, but they can't have gone too far.
+    Thanks a lot, stranger. You’ll know them when you see them - they look just like me!
     <<AdvanceQuest Warbler>>
 <<elseif $quest_warbler_stage is 1>>
     <<NPCSpeak>>
-    Please find my children.
+    Have you found anything?
     <<PlayerSpeak>>
-    Okay!
+    Not yet, but I'll keep looking.
+    <<NPCSpeak>>
+    Thank you again for helping to find my babies. You're very kind!
 <<elseif $quest_warbler_stage is 2>>
     <<NPCSpeak>>
-    Thank you for finding one of my children, I still have 2 left.
+    One of my children made their way back to me!
+    This is a great start, but I've got two more.
     <<PlayerSpeak>>
-    Okay!
+    I'll go look.
 <<elseif $quest_warbler_stage is 3>>
     <<NPCSpeak>>
-    Thank you for finding two of my children, I still have 1 left.
+    Thank you for finding two of my children! There's still one missing.
     <<PlayerSpeak>>
-    Okay!
+    I'm on it.
 <<elseif $quest_warbler_stage is 4>>
     <<NPCSpeak>>
-    You've found all my children!
-    Go get the seed!
+    You’re back!
+    You’re a lifesaver! All three of my children made their way back to me safely thanks to you.
+    And somehow they seem to have learnt their lesson about sneaking off. Not sure how you did it.
     <<PlayerSpeak>>
-    Okay!
+    I’m happy to help. Now, if I could ask —
+    <<NPCSpeak>>
+    Oh, the Seed, of course.
+    Here you go. When you see the guardian of the forest again, say hi for me!
     <<AdvanceQuest Warbler>>
 <<elseif $quest_warbler_stage gt 4>>
-    <<NPCSpeak>>
-    Bring the seed to the spirit dude.
     <<PlayerSpeak>>
-    Thank you!
+    What am I supposed to be doing again?
+    <<NPCSpeak>>
+    Hey, you’re the one who wanted the Seed, not me! But I'd say your best bet is to head back to the heart of the forest.
+    The spirit guardian knows about all this magic stuff more than I do.
+    <<PlayerSpeak>>
+    I’ll go there then. Thanks!
 <<endif>>
 ===
