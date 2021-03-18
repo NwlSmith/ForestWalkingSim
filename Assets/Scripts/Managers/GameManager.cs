@@ -32,6 +32,7 @@ using UnityEngine;
  * - Failsafe doesn't work
  * - make sure player looks at center of characters? maybe make player turn to face each character
  * - disable triggers when talking to characters?
+ * - fix taskmanager for InDialogueState
  * 
  */
 

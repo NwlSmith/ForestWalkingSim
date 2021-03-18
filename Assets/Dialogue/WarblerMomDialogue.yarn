@@ -4,18 +4,25 @@ colorID: 0
 position: -184,215
 ---
 <<if $quest_warbler_stage is 0>>
+    <<NPCSpeak>>
+    Now where could they be?...
     <<PlayerSpeak>>
     Excuse me, could I ask —
     <<NPCSpeak>>
-    Listen, I’d love to help you, but I’ve got bigger problems right now. Three of my babies are missing! I’d go look for them, but I can’t leave my other children here alone…
+    Listen, I’d love to help you, but I’ve got bigger problems right now.
+    Three of my babies are missing! I’d go look for them, but I can’t leave my other children here alone…
     <<PlayerSpeak>>
     I could help you look.
     <<NPCSpeak>>
-    Would you really do that for me? Well, now I feel bad for being so rude. What was it that you were going to ask?
+    Would you really do that for me?
+    Well, now I feel bad for being so rude.
+    What was it that you were going to ask?
     <<PlayerSpeak>>
     I’m looking for The Seed.
     <<NPCSpeak>>
-    Wait, you’re looking for that? I just confiscated it from my kids this morning. They've been chewing on that thing nonstop!
+    Wait, you’re looking for that?
+    I just confiscated it from my kids this morning.
+    They've been chewing on that thing nonstop!
     Maybe we can help each other…
     If you find my three daughters, I'll give you the Seed.
     <<PlayerSpeak>>
