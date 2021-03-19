@@ -4,6 +4,8 @@ colorID: 0
 position: 566,546
 ---
 <<if $quest_turtle_stage is 2>>
+    <<NPCSpeak>>
+    Hi there deary.
     <<PlayerSpeak>>
     Whoa, how did you get here so quick?
     <<NPCSpeak>>

@@ -33,6 +33,7 @@ using UnityEngine;
  * - make sure player looks at center of characters? maybe make player turn to face each character
  * - disable triggers when talking to characters?
  * - fix taskmanager for InDialogueState
+ * - Include ability to skip through dialogue.
  * 
  */
 

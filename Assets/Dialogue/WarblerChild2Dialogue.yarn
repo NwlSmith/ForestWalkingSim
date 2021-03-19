@@ -24,6 +24,7 @@ position: -773,288
         If I were a mean fox, I would have gobbled you up already.
         <<NPCSpeak>>
         Should I be afraid of you?
+        <<PlayerSpeak>>
         Not if you do as I say.
         <<NPCSpeak>>
         Fine… Your scary talk is freaking me out anyway. It’s time for me to go home.
