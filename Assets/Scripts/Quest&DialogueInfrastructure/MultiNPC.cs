@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 /*
  * Creator: Nate Smith
@@ -26,18 +24,9 @@ public class MultiNPC : NPC
             npc.ExitDialogue();
     }
 
-    public override void Speak(int npcNum = 0)
-    {
-        npcs[npcNum].Speak();
-    }
+    public override void Speak(int npcNum = 0) => npcs[npcNum].Speak();
 
-    public override NPCSpeakerData GetNPCSpeakerData(int npcNum = 0)
-    {
-        return npcs[npcNum].GetNPCSpeakerData();
-    }
+    public override NPCSpeakerData GetNPCSpeakerData(int npcNum = 0) => npcs[npcNum].GetNPCSpeakerData();
 
-    public override Transform GetPlayerCameraLookAtPosition(int num = 0)
-    {
-        return npcs[num].GetPlayerCameraLookAtPosition();
-    }
+    public override Transform GetPlayerCameraLookAtPosition(int num = 0) => npcs[num].GetPlayerCameraLookAtPosition();
 }

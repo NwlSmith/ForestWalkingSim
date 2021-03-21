@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 /*
@@ -121,8 +119,6 @@ public class CameraManager : MonoBehaviour
     {
         public override void OnExit()
         {
-            base.OnExit();
-
             Context._curVertRot = Context.targetVector.eulerAngles.x - 360f; // Causes issues.
             Context._curHorRot = Context.targetVector.eulerAngles.y;
         }
@@ -138,12 +134,8 @@ public class CameraManager : MonoBehaviour
             Context.npcCameraView.Priority    = 10;
         }
 
-        public override void Update() => base.Update();
-
         public override void LateUpdate()
         {
-            base.LateUpdate();
-
             // Calculate new vertical rotation.
             Context._curVertRot -= Context._mouseY * Context.mouseSensitivity * Time.deltaTime;
             Context._curVertRot = Mathf.Clamp(Context._curVertRot, Context._minVert, Context._maxVert);
@@ -155,8 +147,6 @@ public class CameraManager : MonoBehaviour
             Context.targetVector.eulerAngles = new Vector3(Context._curVertRot, Context._curHorRot, 0);
 
         }
-
-        public override void OnExit() { }
     }
 
     // Paused camera state.
@@ -173,8 +163,6 @@ public class CameraManager : MonoBehaviour
     private class InDialogueState : CameraState
     {
         public override void OnEnter() => Context.PlayerCameraView();
-
-        public override void Update() { base.Update(); }
     }
 
     // Placeholder for cutscene state.

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 /*
  * Creator: Nate Smith
@@ -35,17 +33,25 @@ public class PlayerAnimation : MonoBehaviour
         }
     }
 
+    #region Checks.
+
+    public bool IsMoving => _animator.GetBool(_moving);
+
+    public bool IsSprinting => _animator.GetBool(_sprinting);
+
+    public bool IsFalling => _animator.GetBool(_falling);
+
+    public bool IsSitting => _animator.GetBool(_sitting);
+
+    #endregion
+
     #region Triggers.
 
     public void Moving(bool isMoving)
     {
-        if (isMoving)
-            _spineAnimator.SpineAnimatorAmount = .5f;
-        else
-        {
-            _spineAnimator.SpineAnimatorAmount = 0f;
-        }
-        _animator.SetBool("Moving", isMoving);
+        if (isMoving) _spineAnimator.SpineAnimatorAmount = .5f;
+        else _spineAnimator.SpineAnimatorAmount = 0f;
+        _animator.SetBool(_moving, isMoving);
     }
 
     public void Sprinting(bool isSprinting) => _animator.SetBool(_sprinting, isSprinting);
@@ -56,10 +62,7 @@ public class PlayerAnimation : MonoBehaviour
         _spineAnimator.SpineAnimatorAmount = 0f;
     }
 
-    public void Falling(bool isFalling)
-    {
-        _animator.SetBool(_falling, isFalling);
-    }
+    public void Falling(bool isFalling) => _animator.SetBool(_falling, isFalling);
 
     public void Pickup() => _animator.SetTrigger(_pickup);
 

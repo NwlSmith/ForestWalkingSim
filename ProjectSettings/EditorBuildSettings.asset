@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/InitialLevel.unity
+    guid: e7612edc41c31614cab9296b54f68069
+  - enabled: 1
     path: Assets/Scenes/NateTest.unity
     guid: fe968eab6c002a54fbd67cc10504f3d9
   m_configObjects: {}

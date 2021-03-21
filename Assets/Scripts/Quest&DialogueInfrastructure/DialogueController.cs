@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Yarn.Unity;
 using TMPro;
@@ -78,7 +77,7 @@ public class DialogueController : MonoBehaviour
     // Injects a Yarn Dialogue file into Yarn.
     public void AddYarnDialogue(YarnProgram yarnDialogue)
     {
-        Debug.Log($"Adding dialogue: {yarnDialogue.name}");
+        Logger.Debug($"Adding dialogue: {yarnDialogue.name}");
         DialogueRunner.Add(yarnDialogue);
     }
 
@@ -86,7 +85,7 @@ public class DialogueController : MonoBehaviour
     {
         Services.NPCInteractionManager.EnterDialogue();
         _curNPC = Services.NPCInteractionManager.closestNPC;
-        Debug.Log($"Starting dialogue: {_curNPC.YarnStartNode}");
+        Logger.Debug($"Starting dialogue: {_curNPC.YarnStartNode}");
         DialogueRunner.StartDialogue(_curNPC.YarnStartNode);
         NPCSpeak(null);
     }
@@ -107,12 +106,12 @@ public class DialogueController : MonoBehaviour
         {
             if (parameters != null && parameters.Length > 0)
             {
-                Debug.Log($"parameters on {_curNPC.name} = {parameters[0]}");
+                Logger.Debug($"parameters on {_curNPC.name} = {parameters[0]}");
                 _curMultiNPCNum = int.Parse(parameters[0]);
                 Services.CameraManager.SetTargetNPC(multiNPC.npcs[_curMultiNPCNum]);
             }
             else
-                Debug.Log($"no parameters on {_curNPC.name}");
+                Logger.Debug($"no parameters on {_curNPC.name}");
         }
 
         _speakerText.text = _curNPC.GetNPCSpeakerData(_curMultiNPCNum).SpeakerName;

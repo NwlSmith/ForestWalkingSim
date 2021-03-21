@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using Yarn.Unity;
 
 /*
  * Creator: Nate Smith
@@ -45,13 +42,14 @@ public class UIManager : MonoBehaviour
         HideAllUI();
     }
 
-    void Start() => _fsm.TransitionTo<PlayState>();
+    private void Start() => _fsm.TransitionTo<PlayState>();
 
     private void Update()
     {
         _fsm.Update();
         _taskManager.Update();
     }
+
     #endregion
 
     #region Triggers
@@ -134,32 +132,20 @@ public class UIManager : MonoBehaviour
 
     private abstract class UIState : FiniteStateMachine<UIManager>.State
     {
-        
+
     }
 
     // Start Menu state.
     private class StartMenuState : UIState
     {
 
-        public override void OnEnter()
-        {
-            IntroTasks();
-        }
+        public override void OnEnter() => IntroTasks();
 
-        public override void Update()
-        {
-            base.Update();
-        }
+        public override void OnExit() => Context._taskManager.Do(new FadeStartMenu(Context, Context._startMenu, false));
 
-        public override void OnExit()
-        {
-            Task start = new FadeStartMenu(Context, Context._startMenu, false);
-            Context._taskManager.Do(start);
-        }
-        
         private void IntroTasks()
         {
-            Task Start = new ActionTask(() => { Context.HideUI(Context._startOverlay); } );
+            Task Start = new ActionTask(() => { Context.HideUI(Context._startOverlay); });
             Task FadeInStart = new FadeStartMenu(Context, Context._startMenu, true);
             Task StartMusic = new ActionTask(() => { /* maybe start music here? */ });
 
@@ -194,7 +180,7 @@ public class UIManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Fade out start");
+                    Logger.Debug("Fade out start");
                     curStage = StageToFadeInAtEndEnum.Quit;
                     updateFunc = FadeOut;
                     gapBetweenFade = gapBetweenFadeOuts;
@@ -247,27 +233,15 @@ public class UIManager : MonoBehaviour
     // UI overlay shown while game is loading.
     private class LoadSaveState : UIState
     {
-        public override void OnEnter() {
-            Context.DisplayUI(Context._loadingOverlay);
-        }
+        public override void OnEnter() => Context.DisplayUI(Context._loadingOverlay);
 
-        public override void Update() => base.Update();
-
-        public override void OnExit()
-        {
-            Context.HideUI(Context._loadingOverlay);
-        }
+        public override void OnExit() => Context.HideUI(Context._loadingOverlay);
     }
 
     // Normal play-time UI. Usually nothing, except possibly map, compass, and prompts to enter conversation and interact with objects.
     private class PlayState : UIState
     {
-        public override void OnEnter()
-        {
-            Services.UISound.PlayUISound(0);
-        }
-
-        public override void Update() => base.Update();
+        public override void OnEnter() => Services.UISound.PlayUISound(0);
 
         public override void OnExit()
         {
@@ -280,10 +254,7 @@ public class UIManager : MonoBehaviour
     private class InDialogueState : UIState
     {
 
-        public override void OnEnter()
-        {
-            Context.DisplayUI(Context._dialogueUI);
-        }
+        public override void OnEnter() => Context.DisplayUI(Context._dialogueUI);
 
         public override void OnExit()
         {
@@ -297,13 +268,7 @@ public class UIManager : MonoBehaviour
     {
         public override void OnEnter() => Context.DisplayUI(Context._pauseUI);
 
-        public override void Update() => base.Update();
-
-        public override void OnExit()
-        {
-            Debug.Log("Exiting pause in UIManager");
-            Context.HideUI(Context._pauseUI);
-        }
+        public override void OnExit() => Context.HideUI(Context._pauseUI);
     }
     #endregion
 

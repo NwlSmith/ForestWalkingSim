@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /*
@@ -13,13 +12,10 @@ using UnityEngine;
  * 
  * To do:
  * - Make pause call a pause animation function in PlayerAnimation.
- * - Implement Ground Fitter. - My own version. FImpossible studios thing is impossible to work with.
  * - Maybe change quest items so they're not affected by physics? - let player drop items
- * - Place barriers blocking off areas from Heart. Make stage 1(?) lower them.
  * - Make walking animation line up with music maybe?
  * - Maybe make NPCCollider increase size when enter conversations, and decrease after?
- * - Short delay between press continue and next dialogue.
- * - Move rest of stuff in scene.
+ * - In URPExampleAssets > Settings > UniversalRenderPipeline Shadow Max distance was initially 50
  * 
  * Issues:
  * - Immediately thinks I want to talk to spirit
@@ -33,7 +29,7 @@ using UnityEngine;
  * - make sure player looks at center of characters? maybe make player turn to face each character
  * - disable triggers when talking to characters?
  * - fix taskmanager for InDialogueState
- * - Include ability to skip through dialogue.
+ * - Include ability to skip through dialogue. Add button that makes things faster?
  * 
  */
 
@@ -98,7 +94,7 @@ public class GameManager : MonoBehaviour
             if (Services.SaveManager.SaveExists())
                 StartCoroutine(LoadSaveCO());
             else
-                Debug.Log("Trying to load a save that does not exist");
+                Logger.Debug("Trying to load a save that does not exist");
         }
         else
         {
@@ -163,7 +159,7 @@ public class GameManager : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            Debug.Log("GameManager: Entered StartMenu");
+            Logger.Debug("GameManager: Entered StartMenu");
             Services.PlayerMovement.ForceIdle();
             Services.CameraManager.EnterStartMenu();
             Services.UIManager.EnterStartMenu();
@@ -181,7 +177,7 @@ public class GameManager : MonoBehaviour
     {
         public override void OnEnter()
         {
-            Debug.Log("GameManager: Entered StartPlay");
+            Logger.Debug("GameManager: Entered StartPlay");
         }
 
         public override void Update()
@@ -204,7 +200,7 @@ public class GameManager : MonoBehaviour
     {
         public override void OnEnter()
         {
-            Debug.Log("GameManager: Entered PlayState");
+            Logger.Debug("GameManager: Entered PlayState");
             Services.PlayerMovement.EnterPlay();
             Services.CameraManager.EnterPlay();
             Services.UIManager.EnterPlay();
@@ -224,7 +220,7 @@ public class GameManager : MonoBehaviour
     {
         public override void OnEnter()
         {
-            Debug.Log("GameManager: Entered Pause");
+            Logger.Debug("GameManager: Entered Pause");
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 

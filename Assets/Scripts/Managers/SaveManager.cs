@@ -1,7 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 /*
  * Creator: Nate Smith
  * Creation Date: 3/4/2021
@@ -35,7 +35,7 @@ public class SaveManager
     private QuestItem rainItem;
     #endregion
 
-    #region Serialized Quest Data.
+    #region Serialized Game State Data.
     [System.Serializable]
     public class Data
     {
@@ -87,7 +87,7 @@ public class SaveManager
 
         if (questItems.Length != 3)
         {
-            Debug.LogWarning($"Error retrieving questItems. {questItems.Length} were found.");
+            Logger.Warning($"Error retrieving questItems. {questItems.Length} were found.");
         }
         else
         {
@@ -129,7 +129,7 @@ public class SaveManager
 
         PlayerData playerData = new PlayerData
         {
-            position = new Vector3(37.5f, 0.8299999237060547f, 0f),
+            position = new Vector3(369.7f, 32.45f, 411.16f),
             rotation = new Quaternion(0f, 0f, 0f, 1f)
         };
 
@@ -145,7 +145,8 @@ public class SaveManager
             warblerChildrenStatus = warblerChildrenStatus
         };
 
-        string saveDataJson = JsonUtility.ToJson(saveData, true);
+        string saveDataJson = JsonUtility.ToJson(saveData, false);
+        //SaveFromString("/save_default.save", saveData);
         File.WriteAllText(Application.dataPath + "/save_default.json", saveDataJson);
     }
 
@@ -202,8 +203,18 @@ public class SaveManager
             warblerChildrenStatus = warblerChildrenStatus
         };
 
-        string saveDataJson = JsonUtility.ToJson(saveData, true);
+        string saveDataJson = JsonUtility.ToJson(saveData, false);
+        BinaryFormatter bf = new BinaryFormatter();
+        //SaveFromString("/save.save", saveData);
         File.WriteAllText(Application.dataPath + "/save.json", saveDataJson);
+    }
+
+    private void SaveFromString(string fileName, Data data)
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream fs = new FileStream(Application.dataPath + fileName, FileMode.Create);
+        bf.Serialize(fs, data);
+        fs.Close();
     }
 
     public IEnumerator LoadDataCO()
@@ -231,7 +242,7 @@ public class SaveManager
                     holding = rainItem;
                     break;
                 case QuestItem.QuestItemEnum.None:
-                    Debug.LogWarning("Thought to be holding quest item, holding None quest item");
+                    Logger.Warning("Thought to be holding quest item, holding None quest item");
                     break;
             }
             Services.PlayerItemHolder.AttachToTransform(holding);
@@ -247,8 +258,8 @@ public class SaveManager
                 yield return null;
             }
         }
-
-        // Move item to player holder.
+        
     }
+    
     #endregion
 }

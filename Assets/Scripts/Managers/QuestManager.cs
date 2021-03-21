@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /*
@@ -42,13 +41,13 @@ public class QuestManager : MonoBehaviour
         // Quest name is parameter 0
         if (parameters.Length <= 0)
         {
-            Debug.LogWarning("Cannot advance quest because the Yarn Command contained no quest parameter string");
+            Logger.Warning("Cannot advance quest because the Yarn Command contained no quest parameter string");
             return;
         }
         string key = parameters[0];
         if (!_questDictionary.ContainsKey(parameters[0]))
         {
-            Debug.LogWarning($"Quest dictionary does not contain quest {key}");
+            Logger.Warning($"Quest dictionary does not contain quest {key}");
             return;
         }
         _questDictionary[key].AdvanceQuestStage();

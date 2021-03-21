@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 /*
  * Creator: Nate Smith
@@ -46,19 +44,18 @@ public class NPC : MonoBehaviour
     {
         if (_initRot == null)
         {
-            Debug.LogWarning("InitRot was null OnEnable");
+            Logger.Warning("InitRot was null OnEnable");
             _initRot = _model.transform.rotation;
         }
         if (_anim == null)
         {
-            Debug.LogWarning("_anim was null OnEnable");
+            Logger.Warning("_anim was null OnEnable");
             _anim = GetComponentInChildren<Animator>();
         }
     }
 
     public virtual void EnterDialogue(Transform playerPos)
     {
-        
         Vector3 lookPos = playerPos.position - transform.position;
         lookPos.y = 0;
         _model.transform.rotation = Quaternion.LookRotation(lookPos);

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /*
@@ -76,24 +74,22 @@ public class PlayerMovement : MonoBehaviour
         _charController = GetComponent<CharacterController>();
         _playerAnimation = GetComponent<PlayerAnimation>();
         if (_playerAnimation == null)
-            Debug.LogWarning("Failed to retrieve _playerAnimation");
+            Logger.Warning("Failed to retrieve _playerAnimation");
 
         _jumpSpeed = Mathf.Sqrt(_desiredJumpHeight * -2f * _gravity) * Time.fixedDeltaTime;
 
         raycastOriginOffset = _charController.center - new Vector3(0, _charController.height/2.3f, 0f);
     }
 
-    void Start() => _fsm.TransitionTo<IdleState>();
+    private void Start() => _fsm.TransitionTo<IdleState>();
 
-    void Update()
+    private void Update()
     {
         if (_curJumpCooldown >= 0f) _curJumpCooldown -= Time.deltaTime;
-
         _fsm.Update();
-
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         GameState curGS = ((GameState)_fsm.CurrentState);
         if (curGS != null)
@@ -142,6 +138,7 @@ public class PlayerMovement : MonoBehaviour
     #region Utilities
 
     // Returns if the player is currently on the ground.
+    // Used two different checks (one faster, one raycast) to ensure correctness.
     private bool OnGround()
     {
         if (_charController.isGrounded) return true;
@@ -164,17 +161,12 @@ public class PlayerMovement : MonoBehaviour
     {
         public override void OnEnter()
         {
-            //Context._currentMovementVector.y = 0f;
-            
-            Context._playerAnimation.Moving(false); // Maybe change to sit???
-
+            Context._playerAnimation.Moving(false);
             Context._targetMovementVector = Vector3.zero;
         }
 
         public override void Update()
         {
-            base.Update();
-
             // Process inputs
             if (Context.GroundMovementInputsEntered)
                 TransitionTo<MovingOnGroundState>();
@@ -184,18 +176,11 @@ public class PlayerMovement : MonoBehaviour
 
         public override void FixedUpdate()
         {
-            base.FixedUpdate();
             if (!Context.OnGround())
                 TransitionTo<FallingState>();
 
             Context._currentMovementVector = Vector3.Lerp(Context._currentMovementVector, Context._targetMovementVector, Context._movementChangeSpeed * Time.fixedDeltaTime);
-
             Context._charController.Move(Context._currentMovementVector);
-        }
-
-        public override void OnExit()
-        {
-
         }
     }
 
@@ -209,15 +194,7 @@ public class PlayerMovement : MonoBehaviour
             Context._playerAnimation.Sitting(true);
         }
 
-        public override void Update() => base.Update();
-
-        // Physics calculations.
-        public override void FixedUpdate() => base.FixedUpdate();
-
-        public override void OnExit()
-        {
-            Context._playerAnimation.Sitting(false); // Maybe change to sit???
-        }
+        public override void OnExit() => Context._playerAnimation.Sitting(false); // Maybe change to sit???
     }
     
     // Player is forced to pause movement.
@@ -235,11 +212,7 @@ public class PlayerMovement : MonoBehaviour
                 OnLand();
         }
 
-        public override void FixedUpdate()
-        {
-            base.FixedUpdate();
-            fixedUpdateFunc();
-        }
+        public override void FixedUpdate() => fixedUpdateFunc();
 
         private void ContinueInAirMovement()
         {
@@ -252,7 +225,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 OnLand();
             }
-            else if (Context._currentMovementVector.y < 0f)
+            else if (Context._currentMovementVector.y < 0f && Context._playerAnimation.IsFalling)
             {
                 Context._playerAnimation.Falling(true);
             }
@@ -270,17 +243,20 @@ public class PlayerMovement : MonoBehaviour
     // Player is forced to remain idle, turns to look at NPC.
     private class InDialogueState : GameState
     {
+        #region Variables.
         private float elapsedTime = 0f;
-        private float maxTimeOnOneStep = 3f;
-        private float initRot;
+        private readonly float maxTimeOnOneStep = 3f;
         private Vector3 initPos;
         private float targetRot;
         private Vector3 targetPos;
         private float turningSmoothVel;
+        #endregion
 
         public override void OnEnter()
         {
             Context.inPlaceForDialogue = false;
+
+            // Define dialogue entry tasks.
             Task jumping = new DelegateTask(() => { }, ContinueUpwardAirMovement);
             Task falling = new DelegateTask(() => { Context._playerAnimation.Falling(true); }, ContinueDownwardAirMovement);
             Task rotateToPos = new DelegateTask(
@@ -288,10 +264,11 @@ public class PlayerMovement : MonoBehaviour
                     elapsedTime = 0f;
                     Context._playerAnimation.Moving(true);
                     Context._playerAnimation.Falling(false);
-                    targetRot = Quaternion.LookRotation((Services.NPCInteractionManager.DialogueTrans().position - Context.transform.position).normalized, Vector3.up).eulerAngles.y;
+                    targetRot = Quaternion.LookRotation((Services.NPCInteractionManager.DialogueTrans.position - Context.transform.position).normalized, Vector3.up).eulerAngles.y;
                 },
                 RotateToCorrectPos
             );
+
             Task moveToPos = new DelegateTask(
                 () => {
                     elapsedTime = 0f;
@@ -300,14 +277,14 @@ public class PlayerMovement : MonoBehaviour
                     Context._playerAnimation.Sprinting(false);
                     Context._currentMovementVector = Vector3.zero;
                     initPos = Context.transform.position;
-                    targetPos = Services.NPCInteractionManager.DialogueTrans().position;
+                    targetPos = Services.NPCInteractionManager.DialogueTrans.position;
                 },
                 MoveToCorrectPos
             );
             Task rotateToNPC = new DelegateTask(
                 () => {
                     elapsedTime = 0f;
-                    targetRot = Quaternion.LookRotation(Services.NPCInteractionManager.closestNPC.transform.position - Services.NPCInteractionManager.DialogueTrans().position, Vector3.up).eulerAngles.y;
+                    targetRot = Quaternion.LookRotation(Services.NPCInteractionManager.closestNPC.transform.position - Services.NPCInteractionManager.DialogueTrans.position, Vector3.up).eulerAngles.y;
                 },
                 RotateToCorrectPos,
                 OnCorrectPlace
@@ -343,7 +320,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (elapsedTime > maxTimeOnOneStep)
             {
-                Debug.Log("RotateToCorrectPos failsafe triggered");
+                Logger.Warning("RotateToCorrectPos failsafe triggered");
                 Context.transform.rotation = Quaternion.Euler(0, targetRot, 0); // failsafe
             }
             Context.transform.rotation = Quaternion.Euler(0f, Mathf.SmoothDampAngle(Context.transform.eulerAngles.y, targetRot, ref turningSmoothVel, .2f), 0f);
@@ -355,8 +332,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (elapsedTime > maxTimeOnOneStep)
             {
-                Debug.Log("MoveToCorrectPos failsafe triggered");
-                Context.transform.position = targetPos; // failsafe DOESN'T WORK
+                Logger.Warning("MoveToCorrectPos failsafe triggered");
+                Context.ForceTransform(targetPos, Context.transform.rotation);
             }
             targetRot = Quaternion.LookRotation((targetPos - Context.transform.position).normalized, Vector3.up).eulerAngles.y;
             Context.transform.rotation = Quaternion.Euler(0f, Mathf.SmoothDampAngle(Context.transform.eulerAngles.y, targetRot, ref turningSmoothVel, .2f), 0f);
@@ -380,16 +357,9 @@ public class PlayerMovement : MonoBehaviour
             Context.transform.rotation = Quaternion.LookRotation(lookPos);
         }
 
-        public override void Update()
-        {
-            base.Update();
-            elapsedTime += Time.deltaTime;
-        }
+        public override void Update() => elapsedTime += Time.deltaTime;
 
-        public override void OnExit()
-        {
-            Context.inPlaceForDialogue = false;
-        }
+        public override void OnExit() => Context.inPlaceForDialogue = false;
     }
 
     // Player is currently moving on the ground.
@@ -397,16 +367,10 @@ public class PlayerMovement : MonoBehaviour
     {
         private float turningSmoothVel;
 
-        public override void OnEnter()
-        {
-            //Context._currentMovementVector.y = Context._gravity * Time.fixedDeltaTime;
-            Context._playerAnimation.Moving(true);
-        }
+        public override void OnEnter() => Context._playerAnimation.Moving(true);
 
         public override void Update()
         {
-            base.Update();
-
             // Process inputs.
             if (!Context.GroundMovementInputsEntered && Context.OnGround()) // Move to FixedUpdate
                 TransitionTo<IdleState>();
@@ -417,12 +381,9 @@ public class PlayerMovement : MonoBehaviour
         // Physics calculations.
         public override void FixedUpdate()
         {
-            base.FixedUpdate();
-
             if (!Context.OnGround())
                 TransitionTo<FallingState>();
-
-
+            
 
             Vector3 direction = new Vector3(Context._horizontalInput, 0f, Context._verticalInput).normalized;
 
@@ -450,83 +411,64 @@ public class PlayerMovement : MonoBehaviour
             // Finally, move the character to that vector.
             Context._charController.Move(Context._currentMovementVector);
         }
-
-        public override void OnExit() { }
     }
 
     // Player is currently jumping. Possibly change into 2 states - a jump charging state and a released jump state.
     private class JumpingState : GameState
     {
-        private Coroutine jumpCO = null;
-
         public override void OnEnter()
         {
-            //Debug.Log("JumpingState enter");
-            
             Context._curJumpCooldown = Context._jumpCooldown;
             
             Context._charController.Move(Context._currentMovementVector);
             Context._playerAnimation.Jump();
-            jumpCO = Context.StartCoroutine(JumpAfterTime());
+            JumpTasks();
         }
 
-        private IEnumerator JumpAfterTime()
+        private void JumpTasks()
         {
-            yield return new WaitForSeconds(.33f);
-            Vector3 jumpVector = Context.transform.forward * Context._jumpForwardDistance;// + Vector3.up * Context._upwardJumpSpeed;
-            Context._currentMovementVector += jumpVector * Time.fixedDeltaTime;
-            Context._currentMovementVector.y = Context._jumpSpeed;
+            WaitTask waitForTime = new WaitTask(.33f);
 
-            // Replace FixedUpdate
-            while (true)
-            {
-                // Fall downwards
-                Context._currentMovementVector.y += Context._gravity * Time.fixedDeltaTime;
-
-                Context._charController.Move(Context._currentMovementVector);
-                yield return new WaitForFixedUpdate();
-
-                if (Context.OnGround())
+            DelegateTask jump = new DelegateTask(
+                () =>
                 {
-                    TransitionTo<IdleState>();
-                }
-                else if (Context._currentMovementVector.y < 0f)
+                    Vector3 jumpVector = Context.transform.forward * Context._jumpForwardDistance;// + Vector3.up * Context._upwardJumpSpeed;
+                    Context._currentMovementVector += jumpVector * Time.fixedDeltaTime;
+                    Context._currentMovementVector.y = Context._jumpSpeed;
+                },
+                () =>
                 {
-                    TransitionTo<FallingState>();
-                }
-            }
-        }
+                    // Fall downwards
+                    Context._currentMovementVector.y += Context._gravity * Time.fixedDeltaTime;
 
-        public override void Update()
-        {
-            base.Update();
+                    Context._charController.Move(Context._currentMovementVector);
 
-            // Process inputs in air?
+                    if (Context.OnGround())
+                    {
+                        TransitionTo<IdleState>();
+                        return true;
+                    }
+                    else if (Context._currentMovementVector.y < 0f)
+                    {
+                        TransitionTo<FallingState>();
+                        return true;
+                    }
+                    return false;
+                });
 
-            // Detect if on the ground or moving down.
-            //Debug.Log("Current movement vector " + Context._currentMovementVector.y);
+            waitForTime.Then(jump);
 
-            
-        }
-
-        public override void OnExit()
-        {
-            Context.StopCoroutine(jumpCO);
+            Context._taskManager.Do(waitForTime);
         }
     }
 
     // Player is currently falling.
     private class FallingState : GameState
     {
-        public override void OnEnter()
-        {
-            Context._playerAnimation.Falling(true);
-        }
+        public override void OnEnter() => Context._playerAnimation.Falling(true);
 
         public override void Update()
         {
-            base.Update();
-            
             // Detect if on the ground. If moving, transition to the moving state.
             if (Context.OnGround())
             {
@@ -540,18 +482,14 @@ public class PlayerMovement : MonoBehaviour
         // Physics calculations.
         public override void FixedUpdate()
         {
-            base.FixedUpdate();
-
             // Fall downwards
             Context._currentMovementVector.y += Context._gravity * Time.fixedDeltaTime;
 
             Context._charController.Move(Context._currentMovementVector);
         }
 
-        public override void OnExit()
-        {
-            Context._playerAnimation.Falling(false);
-        }
+        public override void OnExit() => Context._playerAnimation.Falling(false);
+
     }
     #endregion
 

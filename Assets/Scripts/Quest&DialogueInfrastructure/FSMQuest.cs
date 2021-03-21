@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 /*
  * Creator: Nate Smith
@@ -48,9 +46,6 @@ public abstract class FSMQuest : MonoBehaviour
     protected delegate void StartNextStage();
     protected StartNextStage startNextStage;
 
-    protected delegate void MoveBackStage();
-    protected MoveBackStage moveBackStage;
-
     protected StartNextStage[] startNextStages;
 
     // The finite state machine of the current gamestate.
@@ -58,12 +53,9 @@ public abstract class FSMQuest : MonoBehaviour
 
     #region Lifecycle Management
 
-    protected virtual void Awake()
-    {
-        _fsm = new FiniteStateMachine<FSMQuest>(this);
-    }
+    protected virtual void Awake() => _fsm = new FiniteStateMachine<FSMQuest>(this);
 
-    void Update()
+    private void Update()
     {
         if (_fsm.CurrentState != null)
             _fsm.Update();
@@ -75,16 +67,16 @@ public abstract class FSMQuest : MonoBehaviour
 
     public void AdvanceQuestStage()
     {
-        //Debug.Log($"Attempting to advance to quest stage {_questStage + 1} of {name}.");
+        //Logger.Debug($"Attempting to advance to quest stage {_questStage + 1} of {name}.");
         if (_questStage + 1 < _questStates.Length)
         {
-            Debug.Log($"Advancing quest stage.");
+            Logger.Debug($"Advancing quest stage.");
             startNextStage();
             _fsm.Update();
         }
         else
         {
-            Debug.LogWarning($"Attempting to advance quest stage of {name} past the number of quest stages, ({_questStates.Length}).");
+            Logger.Warning($"Attempting to advance quest stage of {name} past the number of quest stages, ({_questStates.Length}).");
         }
     }
 
@@ -96,7 +88,7 @@ public abstract class FSMQuest : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"Attempting to move quest stage of {name} back before 0");
+            Logger.Warning($"Attempting to move quest stage of {name} back before 0");
         }
     }
 
@@ -107,9 +99,8 @@ public abstract class FSMQuest : MonoBehaviour
         protected int _stageNum = -1;
         public override void OnEnter()
         {
-            base.OnEnter();
             if (_stageNum < 0) return;
-            Debug.Log($"Quest stage {_stageNum} of {Context.name} started");
+            Logger.Debug($"Quest stage {_stageNum} of {Context.name} started");
             Context._questStage = _stageNum;
             Context._questStates[_stageNum].OnStageEnter();
 

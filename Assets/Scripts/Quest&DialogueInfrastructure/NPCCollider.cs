@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 /*
  * Creator: Nate Smith
@@ -12,10 +10,7 @@ public class NPCCollider : MonoBehaviour
 {
     private NPC parentNPC;
 
-    private void Awake()
-    {
-        parentNPC = GetComponentInParent<NPC>();
-    }
+    private void Awake() => parentNPC = GetComponentInParent<NPC>();
 
     private void OnTriggerEnter(Collider other)
     {

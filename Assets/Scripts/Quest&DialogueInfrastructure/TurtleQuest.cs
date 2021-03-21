@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 /*
  * Creator: Nate Smith
@@ -155,11 +153,7 @@ public class TurtleQuest : FSMQuest
             );
         }
 
-        public override void Update()
-        {
-            base.Update();
-            _taskManager.Update();
-        }
+        public override void Update() => _taskManager.Update();
     }
 
     // Stage 4: Talk to turtle at finish line. Advance to stage 5 by talking to turtle.

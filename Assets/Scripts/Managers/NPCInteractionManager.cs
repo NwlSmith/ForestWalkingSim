@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 /*
  * Creator: Nate Smith
@@ -32,18 +30,9 @@ public class NPCInteractionManager : MonoBehaviour
         }
     }
 
-    public Transform DialogueTrans()
-    {
-        return closestNPC.dialoguePos;
-    }
+    public Transform DialogueTrans => closestNPC.dialoguePos;
 
-    public void EnterDialogue()
-    {
-        closestNPC.EnterDialogue(Services.PlayerMovement.transform);
-    }
+    public void EnterDialogue() => closestNPC.EnterDialogue(Services.PlayerMovement.transform);
 
-    public void ExitDialogue()
-    {
-        closestNPC?.ExitDialogue();
-    }
+    public void ExitDialogue() => closestNPC?.ExitDialogue();
 }

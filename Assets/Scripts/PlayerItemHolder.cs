@@ -81,10 +81,7 @@ public class PlayerItemHolder : MonoBehaviour
         return closest;
     }
 
-    private float DistanceTo(HoldableItem item)
-    {
-        return Vector3.Distance(item.transform.position, _itemAttachmentPoint.position);
-    }
+    private float DistanceTo(HoldableItem item) => Vector3.Distance(item.transform.position, _itemAttachmentPoint.position);
 
     public IEnumerator DropItemEnum()
     {
