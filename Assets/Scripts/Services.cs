@@ -154,14 +154,14 @@ public static class Services
     {
         GameManager = gm;
         UIManager = Object.FindObjectOfType<UIManager>();
-        InputManager = Object.FindObjectOfType<InputManager>();
+        InputManager = new InputManager();
         PlayerMovement = Object.FindObjectOfType<PlayerMovement>();
         PlayerAnimation = Object.FindObjectOfType<PlayerAnimation>();
         CameraManager = Object.FindObjectOfType<CameraManager>();
         PlayerItemHolder = Object.FindObjectOfType<PlayerItemHolder>();
         NPCInteractionManager = Object.FindObjectOfType<NPCInteractionManager>();
         DialogueController = Object.FindObjectOfType<DialogueController>();
-        QuestManager = Object.FindObjectOfType<QuestManager>();
+        QuestManager = new QuestManager();// Object.FindObjectOfType<QuestManager>();
         SaveManager = new SaveManager();
         UISound = Object.FindObjectOfType<UISound>();
     }

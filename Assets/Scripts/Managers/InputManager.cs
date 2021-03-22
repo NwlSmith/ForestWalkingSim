@@ -11,10 +11,9 @@ using UnityEngine;
  * 
  * Issues:
  * - Need hierachy between entering conversation and picking up items.
- * - 
  */
 
-public class InputManager : MonoBehaviour
+public class InputManager
 {
 
     #region String Cache.

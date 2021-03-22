@@ -5,12 +5,12 @@ using UnityEngine;
  * Creation Date: 2/26/2021
  * Description: Manager class that controls logic across quests.
  */
-public class QuestManager : MonoBehaviour
+public class QuestManager
 {
     [SerializeField] private Dictionary<string, FSMQuest> _questDictionary = new Dictionary<string, FSMQuest>();
     [SerializeField] private Dictionary<string, string> _stringToStageDictionary = new Dictionary<string, string>();
 
-    private void Start()
+    public QuestManager()
     {
         AddQuestsToDictionary();
         Services.DialogueController.DialogueRunner.AddCommandHandler("AdvanceQuest", AdvanceQuest);
@@ -18,22 +18,21 @@ public class QuestManager : MonoBehaviour
 
     private void AddQuestsToDictionary()
     {
-        FSMQuest main = FindObjectOfType<MainQuest>();
+        FSMQuest main = Object.FindObjectOfType<MainQuest>();
         _questDictionary.Add("Main", main);
         _stringToStageDictionary.Add("Main", "$quest_main_stage");
 
-        FSMQuest warbler = FindObjectOfType<WarblerQuest>();
+        FSMQuest warbler = Object.FindObjectOfType<WarblerQuest>();
         _questDictionary.Add("Warbler", warbler);
         _stringToStageDictionary.Add("Warbler", "$quest_warbler_stage");
 
-        FSMQuest frog = FindObjectOfType<FrogQuest>();
+        FSMQuest frog = Object.FindObjectOfType<FrogQuest>();
         _questDictionary.Add("Frog", frog);
         _stringToStageDictionary.Add("Frog", "$quest_frog_stage");
 
-        FSMQuest turtle = FindObjectOfType<TurtleQuest>();
+        FSMQuest turtle = Object.FindObjectOfType<TurtleQuest>();
         _questDictionary.Add("Turtle", turtle);
         _stringToStageDictionary.Add("Turtle", "$quest_turtle_stage");
-
     }
 
     public void AdvanceQuest(string[] parameters)

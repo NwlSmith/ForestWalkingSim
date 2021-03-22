@@ -16,8 +16,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 public class SaveManager
 {
     #region Const Strings.
-    private const string saveName = "/save.save";
-    private const string saveDefaultName = "/save_default.save";
+    private const string saveName = "/cur.save";
+    private const string saveDefaultName = "/default.save";
     private const string questStageMain = "Main";
     private const string questStageWarbler = "Warbler";
     private const string questStageFrog = "Frog";

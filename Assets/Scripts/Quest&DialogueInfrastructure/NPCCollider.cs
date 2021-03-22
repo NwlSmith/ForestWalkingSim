@@ -10,23 +10,39 @@ public class NPCCollider : MonoBehaviour
 {
     private NPC parentNPC;
 
-    private void Awake() => parentNPC = GetComponentInParent<NPC>();
+    private float _initRadius;
+    private float _enteredMultiplier = 1.2f;
+
+    private CapsuleCollider _collider;
+
+    private void Awake()
+    {
+        parentNPC = GetComponentInParent<NPC>();
+        _collider = GetComponent<CapsuleCollider>();
+        _initRadius = _collider.radius;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            Services.NPCInteractionManager.PlayerEncounteredNPC(parentNPC);
-            Services.UIManager.DisplayDialogueEnterPrompt();
-        }
+        if (other.CompareTag("Player")) EncounteredPlayer();
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            Services.NPCInteractionManager.PlayerLeftNPC();
-            Services.UIManager.HideDialogueEnterPrompt();
-        }
+        if (other.CompareTag("Player")) PlayerLeft();
+    }
+
+    private void EncounteredPlayer()
+    {
+        Services.NPCInteractionManager.PlayerEncounteredNPC(parentNPC);
+        Services.UIManager.DisplayDialogueEnterPrompt();
+        _collider.radius = _initRadius * _enteredMultiplier;
+    }
+
+    private void PlayerLeft()
+    {
+        Services.NPCInteractionManager.PlayerLeftNPC();
+        Services.UIManager.HideDialogueEnterPrompt();
+        _collider.radius = _initRadius;
     }
 }

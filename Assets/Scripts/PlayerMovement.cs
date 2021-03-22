@@ -244,6 +244,8 @@ public class PlayerMovement : MonoBehaviour
     private class InDialogueState : GameState
     {
         #region Variables.
+        private Transform targetTrans;
+        private Transform targetNPC;
         private float elapsedTime = 0f;
         private readonly float maxTimeOnOneStep = 3f;
         private Vector3 initPos;
@@ -256,15 +258,21 @@ public class PlayerMovement : MonoBehaviour
         {
             Context.inPlaceForDialogue = false;
 
+            targetTrans = Services.NPCInteractionManager.DialogueTrans;
+            targetNPC = Services.NPCInteractionManager.closestNPC.transform;
+
             // Define dialogue entry tasks.
-            Task jumping = new DelegateTask(() => { }, ContinueUpwardAirMovement);
+            Task jumping = new DelegateTask(() => {
+                Context._currentMovementVector.x = 0;
+                Context._currentMovementVector.z = 0;
+            }, ContinueUpwardAirMovement);
             Task falling = new DelegateTask(() => { Context._playerAnimation.Falling(true); }, ContinueDownwardAirMovement);
             Task rotateToPos = new DelegateTask(
                 () => {
                     elapsedTime = 0f;
                     Context._playerAnimation.Moving(true);
                     Context._playerAnimation.Falling(false);
-                    targetRot = Quaternion.LookRotation((Services.NPCInteractionManager.DialogueTrans.position - Context.transform.position).normalized, Vector3.up).eulerAngles.y;
+                    targetRot = Quaternion.LookRotation((targetTrans.position - Context.transform.position).normalized, Vector3.up).eulerAngles.y;
                 },
                 RotateToCorrectPos
             );
@@ -277,14 +285,14 @@ public class PlayerMovement : MonoBehaviour
                     Context._playerAnimation.Sprinting(false);
                     Context._currentMovementVector = Vector3.zero;
                     initPos = Context.transform.position;
-                    targetPos = Services.NPCInteractionManager.DialogueTrans.position;
+                    targetPos = targetTrans.position;
                 },
                 MoveToCorrectPos
             );
             Task rotateToNPC = new DelegateTask(
                 () => {
                     elapsedTime = 0f;
-                    targetRot = Quaternion.LookRotation(Services.NPCInteractionManager.closestNPC.transform.position - Services.NPCInteractionManager.DialogueTrans.position, Vector3.up).eulerAngles.y;
+                    targetRot = Quaternion.LookRotation(targetNPC.position - targetTrans.position, Vector3.up).eulerAngles.y;
                 },
                 RotateToCorrectPos,
                 OnCorrectPlace
@@ -321,7 +329,7 @@ public class PlayerMovement : MonoBehaviour
             if (elapsedTime > maxTimeOnOneStep)
             {
                 Logger.Warning("RotateToCorrectPos failsafe triggered");
-                Context.transform.rotation = Quaternion.Euler(0, targetRot, 0); // failsafe
+                Context.ForceTransform(Context.transform.position, Quaternion.Euler(0, targetRot, 0)); // failsafe
             }
             Context.transform.rotation = Quaternion.Euler(0f, Mathf.SmoothDampAngle(Context.transform.eulerAngles.y, targetRot, ref turningSmoothVel, .2f), 0f);
             Context._charController.Move(Context.transform.forward * Context._movementSpeed * Time.fixedDeltaTime * .3f); // move forward slightly to make the spineAnimator not be so horrible.
@@ -427,7 +435,14 @@ public class PlayerMovement : MonoBehaviour
 
         private void JumpTasks()
         {
-            WaitTask waitForTime = new WaitTask(.33f);
+            float elapsedTime = 0f;
+            float duration = 0.33f;
+            DelegateTask moveAndWait = new DelegateTask(() => { }, () => 
+            {
+                elapsedTime += Time.fixedDeltaTime;
+                Context._charController.Move(Context._currentMovementVector * .3f);
+                return elapsedTime > duration;
+            });
 
             DelegateTask jump = new DelegateTask(
                 () =>
@@ -456,9 +471,9 @@ public class PlayerMovement : MonoBehaviour
                     return false;
                 });
 
-            waitForTime.Then(jump);
+            moveAndWait.Then(jump);
 
-            Context._taskManager.Do(waitForTime);
+            Context._taskManager.Do(moveAndWait);
         }
     }
 

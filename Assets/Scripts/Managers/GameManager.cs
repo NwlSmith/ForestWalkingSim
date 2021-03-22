@@ -24,12 +24,12 @@ using UnityEngine;
  * - People want more variety in systems, like collecting rewards from NPCs/other kinds of interaction with the game environment.
  * - People weren't that happy about NPC POV camera
  * - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
- * - Player can jump out of NPCCollider before dialogue, locking their game
+ * - Player can jump out of NPCCollider before dialogue, locking their game - Hopefully fixed?
  * - Failsafe doesn't work
  * - make sure player looks at center of characters? maybe make player turn to face each character
  * - disable triggers when talking to characters?
- * - fix taskmanager for InDialogueState
- * - Include ability to skip through dialogue. Add button that makes things faster?
+ * - Add E for dialogue sprite above characters instead of prompt in bottom right
+ * - "When I pause and click “main menu”, it doesn’t do anything." ??? Probably has to do with saving
  * 
  */
 
@@ -45,14 +45,12 @@ public class GameManager : MonoBehaviour
 
     private bool _gameStarted = false;
 
-
     #endregion 
 
     #region Lifecycle Management
 
     private void Awake()
     {
-
         Services.InitializeServices(this);
 
         _fsm = new FiniteStateMachine<GameManager>(this);

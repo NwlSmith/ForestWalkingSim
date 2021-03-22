@@ -25,7 +25,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private List<RectTransform> _dialogueEnterPromptUI;
 
     [SerializeField] private List<RectTransform> _dialogueUI;
-    [SerializeField] private List<RectTransform> _dialogueContinueUI;
+    [SerializeField] private UnityEngine.UI.Button _dialogueContinueButton;
+    [SerializeField] private UnityEngine.UI.Button _dialogueSkipButton;
     [SerializeField] private List<RectTransform> _pauseUI;
 
     [SerializeField] private List<RectTransform> _loadingOverlay;
@@ -69,9 +70,21 @@ public class UIManager : MonoBehaviour
 
     public void EnterDialogue() => _fsm.TransitionTo<InDialogueState>();
 
-    public void ShowContinueDialogue() => DisplayUI(_dialogueContinueUI);
+    public void ShowContinueDialogue()
+    {
+        DisplayUI(_dialogueContinueButton);
+        _dialogueContinueButton.Select();
+    }
 
-    public void HideContinueDialogue() => HideUI(_dialogueContinueUI);
+    public void HideContinueDialogue() => HideUI(_dialogueContinueButton);
+
+    public void ShowSkipDialogue()
+    {
+        DisplayUI(_dialogueSkipButton);
+        _dialogueSkipButton.Select();
+    }
+
+    public void HideSkipDialogue() => HideUI(_dialogueSkipButton);
 
     public void EnterPause() => _fsm.TransitionTo<PauseState>();
 
@@ -99,6 +112,24 @@ public class UIManager : MonoBehaviour
             HideUI(graphic);
     }
 
+    private void DisplayUI(UnityEngine.UI.Button UI)
+    {
+        Animator anim = UI.GetComponent<Animator>();
+        if (anim != null)
+            anim.SetBool(_visible, true);
+        else
+            UI.gameObject.SetActive(true);
+    }
+
+    private void HideUI(UnityEngine.UI.Button UI)
+    {
+        Animator anim = UI.GetComponent<Animator>();
+        if (anim != null)
+            anim.SetBool(_visible, false);
+        else
+            UI.gameObject.SetActive(false);
+    }
+
     private void DisplayUI(RectTransform UI)
     {
         Animator anim = UI.GetComponent<Animator>();
@@ -124,8 +155,10 @@ public class UIManager : MonoBehaviour
         HideUI(_dialogueUI);
         HideUI(_pauseUI);
         HideUI(_loadingOverlay);
-        HideUI(_dialogueContinueUI);
+        HideUI(_dialogueContinueButton);
+        HideUI(_dialogueSkipButton);
     }
+
     #endregion
 
     #region States
@@ -259,7 +292,8 @@ public class UIManager : MonoBehaviour
         public override void OnExit()
         {
             Context.HideUI(Context._dialogueUI);
-            Context.HideUI(Context._dialogueContinueUI);
+            Context.HideUI(Context._dialogueContinueButton);
+            Context.HideUI(Context._dialogueSkipButton);
         }
     }
 

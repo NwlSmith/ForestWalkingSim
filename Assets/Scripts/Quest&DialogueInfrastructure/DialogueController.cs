@@ -45,6 +45,10 @@ public class DialogueController : MonoBehaviour
         private set => _inMemoryVariableStorage = value;
     }
 
+    [SerializeField] private float _turtleTextSpeed = .1f;
+    [SerializeField] private float _regularTextSpeed = .025f;
+    [SerializeField] private float _speedupTextSpeed = .003f;
+
     private NPC _curNPC;
     private int _curMultiNPCNum = 0;
 
@@ -80,6 +84,8 @@ public class DialogueController : MonoBehaviour
         Logger.Debug($"Adding dialogue: {yarnDialogue.name}");
         DialogueRunner.Add(yarnDialogue);
     }
+
+    private void ResetTextSpeed() => _yarnDialogueUI.textSpeed = !_isPlayerSpeaking && (_curNPC.name.Equals("Turtle (home)") || _curNPC.name.Equals("Turtle (racetrack)")) ? _turtleTextSpeed : _regularTextSpeed;
 
     public void EnterDialogue()
     {
@@ -132,8 +138,6 @@ public class DialogueController : MonoBehaviour
         _isPlayerSpeaking = true;
     }
 
-    public void OnContinue() => StartCoroutine(ContinueDialogueAfterDelay());
-
     private IEnumerator ContinueDialogueAfterDelay()
     {
         Services.UIManager.HideContinueDialogue();
@@ -142,8 +146,16 @@ public class DialogueController : MonoBehaviour
         DialogueUIManager.MarkLineComplete();
     }
 
+    #region Event responses.
+
+    public void OnContinue() => StartCoroutine(ContinueDialogueAfterDelay());
+
+    public void OnSkipDialogue() => _yarnDialogueUI.textSpeed = _speedupTextSpeed;
+
     public void OnLineStart()
     {
+        ResetTextSpeed();
+
         if (_isPlayerSpeaking)
         {
             _audioSource.clip = _playerSpeakerData.GetAudioClip();
@@ -162,4 +174,6 @@ public class DialogueController : MonoBehaviour
     public void OnLineEnd() => _dialogueText.text = "";
 
     public void OnDialogueEnd() => _speakerText.text = "";
+
+    #endregion
 }
