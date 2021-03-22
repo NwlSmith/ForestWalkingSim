@@ -15,7 +15,9 @@ using System.Runtime.Serialization.Formatters.Binary;
  */
 public class SaveManager
 {
-    #region Const Quest Strings.
+    #region Const Strings.
+    private const string saveName = "/save.save";
+    private const string saveDefaultName = "/save_default.save";
     private const string questStageMain = "Main";
     private const string questStageWarbler = "Warbler";
     private const string questStageFrog = "Frog";
@@ -55,8 +57,8 @@ public class SaveManager
     [System.Serializable]
     public class PlayerData
     {
-        public Vector3 position;
-        public Quaternion rotation;
+        public float[] position;
+        public float[] rotation;
     }
 
     [System.Serializable]
@@ -110,7 +112,7 @@ public class SaveManager
             }
         }
 
-        if (!File.Exists(Application.dataPath + "/save_default.json"))
+        if (!File.Exists(Application.dataPath + saveDefaultName))
             CreateDefaultSave();
     }
     #endregion
@@ -129,8 +131,8 @@ public class SaveManager
 
         PlayerData playerData = new PlayerData
         {
-            position = new Vector3(369.7f, 32.45f, 411.16f),
-            rotation = new Quaternion(0f, 0f, 0f, 1f)
+            position = ToArray(new Vector3(369.7f, 32.45f, 411.16f)),
+            rotation = ToArray(new Quaternion(0f, 0f, 0f, 1f))
         };
 
         PlayerHolding playerHolding = new PlayerHolding { itemHolding = QuestItem.QuestItemEnum.None };
@@ -145,24 +147,19 @@ public class SaveManager
             warblerChildrenStatus = warblerChildrenStatus
         };
 
-        string saveDataJson = JsonUtility.ToJson(saveData, false);
-        //SaveFromString("/save_default.save", saveData);
-        File.WriteAllText(Application.dataPath + "/save_default.json", saveDataJson);
+        SerializeData(saveDefaultName, saveData);
+        //SerializeJson(saveDefaultName, saveData);
     }
 
     public bool SaveExists()
     {
-        if (!File.Exists(Application.dataPath + "/save.json")) return false;
-        string defaultSaveString = File.ReadAllText(Application.dataPath + "/save_default.json");
-        string saveString = File.ReadAllText(Application.dataPath + "/save.json");
+        if (!File.Exists(Application.dataPath + saveName)) return false;
+        string defaultSaveString = File.ReadAllText(Application.dataPath + saveDefaultName);
+        string saveString = File.ReadAllText(Application.dataPath + saveName);
         return !defaultSaveString.Equals(saveString); // If they are equal, then there is no distinct save file.
     }
 
-    public void NewGameSave()
-    {
-        string saveString = File.ReadAllText(Application.dataPath + "/save_default.json");
-        File.WriteAllText(Application.dataPath + "/save.json", saveString);
-    }
+    public void NewGameSave() => SerializeData(saveName, DeserializeData(saveDefaultName));
 
     public void SaveData()
     {
@@ -177,8 +174,8 @@ public class SaveManager
 
         PlayerData playerData = new PlayerData
         {
-            position = Services.PlayerMovement.transform.position,
-            rotation = Services.PlayerMovement.transform.rotation
+            position = ToArray(Services.PlayerMovement.transform.position),
+            rotation = ToArray(Services.PlayerMovement.transform.rotation)
         };
         
         PlayerHolding playerHolding = new PlayerHolding {
@@ -186,7 +183,6 @@ public class SaveManager
             Services.PlayerItemHolder._currentlyHeldItem.GetComponent<QuestItem>().itemEnum :
             QuestItem.QuestItemEnum.None
         };
-
 
         Yarn.Unity.InMemoryVariableStorage questMemory = Services.DialogueController.InMemoryVariableStorage;
 
@@ -203,24 +199,15 @@ public class SaveManager
             warblerChildrenStatus = warblerChildrenStatus
         };
 
-        string saveDataJson = JsonUtility.ToJson(saveData, false);
-        BinaryFormatter bf = new BinaryFormatter();
-        //SaveFromString("/save.save", saveData);
-        File.WriteAllText(Application.dataPath + "/save.json", saveDataJson);
-    }
+        SerializeData(saveName, saveData);
 
-    private void SaveFromString(string fileName, Data data)
-    {
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream fs = new FileStream(Application.dataPath + fileName, FileMode.Create);
-        bf.Serialize(fs, data);
-        fs.Close();
+        //SerializeJson(saveName, saveData);
     }
 
     public IEnumerator LoadDataCO()
     {
-        string saveString = File.ReadAllText(Application.dataPath + "/save.json");
-        Data data = JsonUtility.FromJson<Data>(saveString);
+        //DeserializeJson(saveName);
+        Data data = DeserializeData(saveName);
 
         Yarn.Unity.InMemoryVariableStorage questMemory = Services.DialogueController.InMemoryVariableStorage;
         questMemory.SetValue(child1String, data.warblerChildrenStatus.foundChild1);
@@ -248,7 +235,7 @@ public class SaveManager
             Services.PlayerItemHolder.AttachToTransform(holding);
         }
         
-        Services.PlayerMovement.ForceTransform(data.playerData.position, data.playerData.rotation);
+        Services.PlayerMovement.ForceTransform(ToVec3(data.playerData.position), ToQuat(data.playerData.rotation));
 
         foreach (QuestStageData questStageData in data.questStageData)
         {
@@ -260,6 +247,39 @@ public class SaveManager
         }
         
     }
-    
+
+    #endregion
+
+    #region Utilities.
+
+    private void SerializeJson(string fileName, Data data) => File.WriteAllText(Application.dataPath + fileName, JsonUtility.ToJson(data, false));
+
+    private Data DeserializeJson(string fileName) => JsonUtility.FromJson<Data>(File.ReadAllText(Application.dataPath + fileName));
+
+    private void SerializeData(string fileName, Data data)
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream fs = new FileStream(Application.dataPath + fileName, FileMode.Create);
+        bf.Serialize(fs, data);
+        fs.Close();
+    }
+
+    private Data DeserializeData(string fileName)
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream fs = new FileStream(Application.dataPath + fileName, FileMode.Open);
+        Data newData = (Data)bf.Deserialize(fs);
+        fs.Close();
+        return newData;
+    }
+
+    private Vector3 ToVec3(float[] floats) => new Vector3(floats[0], floats[1], floats[2]);
+
+    private Quaternion ToQuat(float[] floats) => new Quaternion(floats[0], floats[1], floats[2], floats[3]);
+
+    private float[] ToArray(Vector3 vec) => new float[3] { vec.x, vec.y, vec.z };
+
+    private float[] ToArray(Quaternion quat) => new float[4] { quat.x, quat.y, quat.z, quat.w };
+
     #endregion
 }
