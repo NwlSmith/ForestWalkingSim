@@ -35,6 +35,8 @@ public class CameraManager : MonoBehaviour
     private readonly float _minVert = -30f;
     private readonly float _maxVert = 30f;
 
+    private Camera _mainCamera;
+
     private NPC targetNPC = null;
 
     private void Awake()
@@ -42,6 +44,8 @@ public class CameraManager : MonoBehaviour
         mainFollowCamera.Follow = targetVector;
 
         _fsm = new FiniteStateMachine<CameraManager>(this);
+
+        _mainCamera = Camera.main;
     }
 
     void Start() => _fsm.TransitionTo<PlayState>();
@@ -80,6 +84,8 @@ public class CameraManager : MonoBehaviour
 
     public float CameraYAngle => targetVector.eulerAngles.y;
 
+    public Transform MainFollowCameraPos => mainFollowCamera.transform;
+
     // Must be called upon initiating dialogue with an NPC.
     public void SetTargetNPC(NPC newTarget) => targetNPC = newTarget;
 
@@ -106,6 +112,8 @@ public class CameraManager : MonoBehaviour
         // look at player
         npcCameraView.LookAt = npcCameraTarget;
     }
+
+    public Camera MainCamera => _mainCamera;
 
     #region States
 

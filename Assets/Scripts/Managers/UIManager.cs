@@ -58,13 +58,28 @@ public class UIManager : MonoBehaviour
 
     public void HideItemPickupPrompt() => HideUI(_pickupItemUI);
 
-    public void DisplayDialogueEnterPrompt()
+    public void DisplayDialogueEnterPrompt(NPC npc)
     {
         if (_fsm.CurrentState.GetType() != typeof(InDialogueState))
-            DisplayUI(_dialogueEnterPromptUI);
+        {
+
+            Logger.Debug("Displaying dialogue prompt from UIManager");
+            _dialogueEnterPromptUI[0].gameObject.SetActive(true);
+        }
     }
 
-    public void HideDialogueEnterPrompt() => HideUI(_dialogueEnterPromptUI);
+    public void PositionDialogueEntryPrompt(Vector3 position)
+    {
+        if (!_dialogueEnterPromptUI[0].gameObject.activeSelf) return;
+
+        _dialogueEnterPromptUI[0].transform.position = Services.CameraManager.MainCamera.WorldToScreenPoint(position);
+    }
+
+    public void HideDialogueEnterPrompt()
+    {
+        //Services.NPCInteractionManager.closestNPC?.HideDialoguePrompt();
+        _dialogueEnterPromptUI[0].gameObject.SetActive(false);
+    }
 
     public void EnterPlay() => _fsm.TransitionTo<PlayState>();
 

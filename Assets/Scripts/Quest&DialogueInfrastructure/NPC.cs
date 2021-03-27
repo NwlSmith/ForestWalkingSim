@@ -25,6 +25,7 @@ public class NPC : MonoBehaviour
     [SerializeField] protected Transform playerCameraLookAtPosition;// { get; private set; }
 
     [SerializeField] private GameObject _model;
+    [SerializeField] private Transform _dialogueEnterPrompt;
     private Quaternion _initRot;
     private Animator _anim;
 
@@ -32,6 +33,8 @@ public class NPC : MonoBehaviour
     {
         _initRot = _model.transform.rotation;
         _anim = GetComponentInChildren<Animator>();
+        if (_dialogueEnterPrompt)
+            _dialogueEnterPrompt.gameObject.SetActive(false);
     }
 
     private void Start()
@@ -52,6 +55,22 @@ public class NPC : MonoBehaviour
             Logger.Warning("_anim was null OnEnable");
             _anim = GetComponentInChildren<Animator>();
         }
+    }
+
+    public void DisplayDialoguePrompt()
+    {
+        Logger.Debug("Displaying dialogue prompt from NPC");
+        Services.UIManager.DisplayDialogueEnterPrompt(this);
+        //_dialogueEnterPrompt.gameObject.SetActive(true);
+    }
+
+    public void PositionDialoguePrompt() => Services.UIManager.PositionDialogueEntryPrompt(_dialogueEnterPrompt.position);
+
+    public void HideDialoguePrompt()
+    {
+        Logger.Debug("HideDialoguePrompt from NPC");
+        Services.UIManager.HideDialogueEnterPrompt();
+        //_dialogueEnterPrompt.gameObject.SetActive(false);
     }
 
     public virtual void EnterDialogue(Transform playerPos)

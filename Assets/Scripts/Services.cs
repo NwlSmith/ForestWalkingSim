@@ -159,6 +159,8 @@ public static class Services
     }
     #endregion
 
+    public static readonly string PlayerTag = "Player";
+
     #region Functions
 
     public static void InitializeServices(GameManager gm)

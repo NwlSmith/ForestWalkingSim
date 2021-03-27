@@ -24,25 +24,29 @@ public class NPCCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) EncounteredPlayer();
+        if (other.CompareTag(Services.PlayerTag)) EncounteredPlayer();
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag(Services.PlayerTag)) parentNPC.PositionDialoguePrompt();
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player")) PlayerLeft();
+        if (other.CompareTag(Services.PlayerTag)) PlayerLeft();
     }
 
     private void EncounteredPlayer()
     {
         Services.NPCInteractionManager.PlayerEncounteredNPC(parentNPC);
-        Services.UIManager.DisplayDialogueEnterPrompt();
         _collider.radius = _initRadius * _enteredMultiplier;
     }
 
     private void PlayerLeft()
     {
+        parentNPC.HideDialoguePrompt();
         Services.NPCInteractionManager.PlayerLeftNPC();
-        Services.UIManager.HideDialogueEnterPrompt();
         _collider.radius = _initRadius;
     }
 }
