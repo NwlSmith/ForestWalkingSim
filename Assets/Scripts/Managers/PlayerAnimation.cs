@@ -6,7 +6,7 @@ using UnityEngine;
  * 
  * Most of this animation will use Rigidbodies. I can't guarantee it'll look perfect but I'm giving it a good try.
  */
-public class PlayerAnimation : MonoBehaviour
+public class PlayerAnimation
 {
 
     #region Const Strings.
@@ -22,10 +22,10 @@ public class PlayerAnimation : MonoBehaviour
     private Animator _animator;
     private FIMSpace.FSpine.FSpineAnimator _spineAnimator;
 
-    private void Awake()
+    public PlayerAnimation()
     {
-        _animator = GetComponentInChildren<Animator>();
-        _spineAnimator = GetComponent<FIMSpace.FSpine.FSpineAnimator>();
+        _animator = Services.PlayerMovement.GetComponentInChildren<Animator>();
+        _spineAnimator = Services.PlayerMovement.GetComponent<FIMSpace.FSpine.FSpineAnimator>();
 
         if (_animator == null)
         {

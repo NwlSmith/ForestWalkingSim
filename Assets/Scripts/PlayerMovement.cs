@@ -72,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _fsm = new FiniteStateMachine<PlayerMovement>(this);
         _charController = GetComponent<CharacterController>();
-        _playerAnimation = GetComponent<PlayerAnimation>();
+        _playerAnimation = Services.PlayerAnimation;
         if (_playerAnimation == null)
             Logger.Warning("Failed to retrieve _playerAnimation");
 
