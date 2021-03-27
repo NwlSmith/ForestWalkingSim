@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using Cinemachine;
 /*
@@ -23,6 +24,7 @@ public class CameraManager : MonoBehaviour
     
     [SerializeField] private Transform npcCameraTarget;
     [SerializeField] private Transform targetVector;
+    [SerializeField] private CinemachineVirtualCamera startCamera;
     [SerializeField] private CinemachineVirtualCamera mainFollowCamera;
     [SerializeField] private CinemachineVirtualCamera playerCameraView;
     [SerializeField] private CinemachineVirtualCamera npcCameraView;
@@ -125,10 +127,16 @@ public class CameraManager : MonoBehaviour
     // Start menu state.
     private class StartMenuState : CameraState
     {
+        public override void OnEnter()
+        {
+            Context.startCamera.Priority = 40;
+        }
+
         public override void OnExit()
         {
             Context._curVertRot = Context.targetVector.eulerAngles.x - 360f; // Causes issues.
             Context._curHorRot = Context.targetVector.eulerAngles.y;
+            Context.startCamera.Priority = 0;
         }
     }
 
