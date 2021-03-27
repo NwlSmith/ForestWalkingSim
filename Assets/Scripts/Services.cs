@@ -146,6 +146,17 @@ public static class Services
         }
         private set => _uiSound = value;
     }
+
+    private static SpacialAudioManager _spacialAudioManager;
+    public static SpacialAudioManager SpacialAudioManager
+    {
+        get
+        {
+            Debug.Assert(_spacialAudioManager != null);
+            return _spacialAudioManager;
+        }
+        private set => _spacialAudioManager = value;
+    }
     #endregion
 
     #region Functions
@@ -156,14 +167,15 @@ public static class Services
         UIManager = Object.FindObjectOfType<UIManager>();
         InputManager = new InputManager();
         PlayerMovement = Object.FindObjectOfType<PlayerMovement>();
-        PlayerAnimation = Object.FindObjectOfType<PlayerAnimation>();
+        PlayerAnimation = new PlayerAnimation();
         CameraManager = Object.FindObjectOfType<CameraManager>();
         PlayerItemHolder = Object.FindObjectOfType<PlayerItemHolder>();
         NPCInteractionManager = Object.FindObjectOfType<NPCInteractionManager>();
         DialogueController = Object.FindObjectOfType<DialogueController>();
-        QuestManager = new QuestManager();// Object.FindObjectOfType<QuestManager>();
+        QuestManager = new QuestManager();
         SaveManager = new SaveManager();
         UISound = Object.FindObjectOfType<UISound>();
+        SpacialAudioManager = Object.FindObjectOfType<SpacialAudioManager>();
     }
     #endregion
 }
