@@ -26,14 +26,14 @@ public class HoldableItem : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    public void DetachFromTransform()
+    public virtual void DetachFromTransform()
     {
         rb.isKinematic = false;
         transform.parent = transform.root.parent;
         beingHeld = false;
     }
 
-    public void AttachToTransform(Transform newParent)
+    public virtual void AttachToTransform(Transform newParent)
     {
         rb.isKinematic = true;
         transform.position = newParent.position;
