@@ -15,7 +15,7 @@ TagManager:
   - PlayerModel
   - PlayerPhysics
   - HoldableObject
-  - 
+  - InvisibleBarrier
   - 
   - 
   - 

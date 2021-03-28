@@ -175,7 +175,7 @@ public static class Services
         PlayerItemHolder = Object.FindObjectOfType<PlayerItemHolder>();
         NPCInteractionManager = Object.FindObjectOfType<NPCInteractionManager>();
         DialogueController = Object.FindObjectOfType<DialogueController>();
-        QuestManager = new QuestManager();
+        QuestManager = new QuestManager(); // Must be created AFTER DialogueController
         SaveManager = new SaveManager();
         UISound = Object.FindObjectOfType<UISound>();
         SpacialAudioManager = Object.FindObjectOfType<SpacialAudioManager>();

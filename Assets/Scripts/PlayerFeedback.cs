@@ -10,6 +10,8 @@ public class PlayerFeedback : MonoBehaviour
 {
     public int nextSource = 0;
     private AudioSource[] audioSources = new AudioSource[4];
+    [SerializeField] private AudioClip jumpClip;
+    [SerializeField] private AudioClip landClip;
     [SerializeField] private AudioClip[] grassClips;
     [SerializeField] private AudioClip[] dirtClips;
     [SerializeField] private AudioClip[] gravelClips;
@@ -24,6 +26,8 @@ public class PlayerFeedback : MonoBehaviour
             audioSources[i].playOnAwake = false;
             audioSources[i].clip = grassClips[0];
             audioSources[i].volume = audioVolume;
+            audioSources[i].maxDistance = 10f;
+            audioSources[i].spatialBlend = 0f;
         }
     }
 
@@ -31,9 +35,40 @@ public class PlayerFeedback : MonoBehaviour
     {
         audioSources[nextSource].clip = grassClips[Random.Range(0, grassClips.Length)];
         audioSources[nextSource].Play();
-        nextSource++;
-        nextSource = nextSource % audioSources.Length;
+        IncrementNextSource();
 
         particles[foot].Play();
+    }
+
+    private void IncrementNextSource() => nextSource = (1 + nextSource) % audioSources.Length;
+
+    public void JumpEvent()
+    {
+        audioSources[nextSource].clip = jumpClip;
+        audioSources[nextSource].Play();
+        IncrementNextSource();
+
+        particles[0].Play();
+        particles[2].Play();
+    }
+
+    public void LandEvent1()
+    {
+        audioSources[nextSource].clip = landClip;
+        audioSources[nextSource].Play();
+        IncrementNextSource();
+
+        particles[1].Play();
+        particles[3].Play();
+    }
+
+    public void LandEvent2()
+    {
+        audioSources[nextSource].clip = landClip;
+        audioSources[nextSource].Play();
+        IncrementNextSource();
+
+        particles[0].Play();
+        particles[2].Play();
     }
 }
