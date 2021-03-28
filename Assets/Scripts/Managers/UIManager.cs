@@ -21,8 +21,8 @@ public class UIManager : MonoBehaviour
     private FiniteStateMachine<UIManager> _fsm;
     private TaskManager _taskManager = new TaskManager();
 
-    [SerializeField] private List<RectTransform> _pickupItemUI;
-    [SerializeField] private List<RectTransform> _dialogueEnterPromptUI;
+    [SerializeField] private RectTransform _pickupItemUI;
+    [SerializeField] private RectTransform _dialogueEnterPromptUI;
 
     [SerializeField] private List<RectTransform> _dialogueUI;
     [SerializeField] private UnityEngine.UI.Button _dialogueContinueButton;
@@ -54,32 +54,25 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region Triggers
+
     public void DisplayItemPickupPrompt() => DisplayUI(_pickupItemUI);
+
+    public void PositionItemPrompt(Vector3 position) => _pickupItemUI.transform.position = Services.CameraManager.MainCamera.WorldToScreenPoint(position) + Vector3.up;
 
     public void HideItemPickupPrompt() => HideUI(_pickupItemUI);
 
-    public void DisplayDialogueEnterPrompt(NPC npc)
+    public void DisplayDialogueEnterPrompt()
     {
         if (_fsm.CurrentState.GetType() != typeof(InDialogueState))
         {
-
             Logger.Debug("Displaying dialogue prompt from UIManager");
-            _dialogueEnterPromptUI[0].gameObject.SetActive(true);
+            DisplayUI(_dialogueEnterPromptUI);
         }
     }
 
-    public void PositionDialogueEntryPrompt(Vector3 position)
-    {
-        if (!_dialogueEnterPromptUI[0].gameObject.activeSelf) return;
+    public void PositionDialogueEntryPrompt(Vector3 position) => _dialogueEnterPromptUI.transform.position = Services.CameraManager.MainCamera.WorldToScreenPoint(position);
 
-        _dialogueEnterPromptUI[0].transform.position = Services.CameraManager.MainCamera.WorldToScreenPoint(position);
-    }
-
-    public void HideDialogueEnterPrompt()
-    {
-        //Services.NPCInteractionManager.closestNPC?.HideDialoguePrompt();
-        _dialogueEnterPromptUI[0].gameObject.SetActive(false);
-    }
+    public void HideDialogueEnterPrompt() => HideUI(_dialogueEnterPromptUI);
 
     public void EnterPlay() => _fsm.TransitionTo<PlayState>();
 

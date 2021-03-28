@@ -21,16 +21,37 @@ public class HoldableItem : MonoBehaviour
 
     public Rigidbody rb { get; private set; }
 
+    protected Vector3 pickupPromptOffset = new Vector3(0, 1, 0);
+
+    [SerializeField] protected static LayerMask layerMask = 17;
+
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
+
+    public Vector3 PickupPromptOffset => transform.position + pickupPromptOffset;
 
     public virtual void DetachFromTransform()
     {
         rb.isKinematic = false;
         transform.parent = transform.root.parent;
         beingHeld = false;
+
+        ResetPosition();
+    }
+
+    protected void ResetPosition()
+    {
+        transform.rotation = Quaternion.identity;
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 5f, layerMask, QueryTriggerInteraction.Ignore))
+        {
+            transform.position = hit.point + Vector3.up;
+        }
+        else
+        {
+            Logger.Warning($"Item {name} was dropped, raycast did not hit the ground.");
+        }
     }
 
     public virtual void AttachToTransform(Transform newParent)

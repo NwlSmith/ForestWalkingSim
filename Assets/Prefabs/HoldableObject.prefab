@@ -9,13 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 326831263406715025}
-  - component: {fileID: 326831263406715020}
+  - component: {fileID: 5449289364621332513}
   - component: {fileID: 326831263406715018}
   - component: {fileID: 7281961224406541022}
   - component: {fileID: 2960559672806678908}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HoldableObject
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35,8 +35,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &326831263406715020
-SphereCollider:
+--- !u!136 &5449289364621332513
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -45,8 +45,9 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
   m_Radius: 0.5
+  m_Height: 12
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &326831263406715018
 Rigidbody:

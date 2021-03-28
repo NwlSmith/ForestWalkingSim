@@ -160,6 +160,7 @@ public static class Services
     #endregion
 
     public static readonly string PlayerTag = "Player";
+    public static readonly string ItemTag = "Item";
 
     #region Functions
 

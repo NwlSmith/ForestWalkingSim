@@ -45,7 +45,6 @@ public class NPCCollider : MonoBehaviour
 
     private void PlayerLeft()
     {
-        parentNPC.HideDialoguePrompt();
         Services.NPCInteractionManager.PlayerLeftNPC();
         _collider.radius = _initRadius;
     }

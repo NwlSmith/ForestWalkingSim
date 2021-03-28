@@ -31,6 +31,7 @@ public class QuestItem : HoldableItem
         transform.parent = transform.root.parent;
         beingHeld = false;
         animator.SetBool(_held, false);
+        ResetPosition();
     }
 
     public override void AttachToTransform(Transform newParent)
@@ -40,6 +41,5 @@ public class QuestItem : HoldableItem
         transform.parent = newParent;
         beingHeld = true;
         animator.SetBool(_held, true);
-
     }
 }

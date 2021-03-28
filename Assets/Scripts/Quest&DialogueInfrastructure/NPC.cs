@@ -57,22 +57,8 @@ public class NPC : MonoBehaviour
         }
     }
 
-    public void DisplayDialoguePrompt()
-    {
-        Logger.Debug("Displaying dialogue prompt from NPC");
-        Services.UIManager.DisplayDialogueEnterPrompt(this);
-        //_dialogueEnterPrompt.gameObject.SetActive(true);
-    }
-
     public void PositionDialoguePrompt() => Services.UIManager.PositionDialogueEntryPrompt(_dialogueEnterPrompt.position);
-
-    public void HideDialoguePrompt()
-    {
-        Logger.Debug("HideDialoguePrompt from NPC");
-        Services.UIManager.HideDialogueEnterPrompt();
-        //_dialogueEnterPrompt.gameObject.SetActive(false);
-    }
-
+    
     public virtual void EnterDialogue(Transform playerPos)
     {
         Vector3 lookPos = playerPos.position - transform.position;

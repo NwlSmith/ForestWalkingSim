@@ -34,6 +34,18 @@ public class PlayerItemHolder : MonoBehaviour
         Services.UIManager.DisplayItemPickupPrompt();
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag(Services.ItemTag) && _itemsInCollider.Count > 0) Services.UIManager.PositionItemPrompt(_itemsInCollider[0].PickupPromptOffset);
+    }
+
+    public Vector3 ClosestItemPosition()
+    {
+        if (_itemsInCollider.Count == 0) return Vector3.zero;
+
+        return GetClosestItem().transform.position;
+    }
+
     private void OnTriggerExit(Collider other)
     {
         HoldableItem holdableItem = other.GetComponent<HoldableItem>();

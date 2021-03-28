@@ -13,7 +13,7 @@ public class NPCInteractionManager : MonoBehaviour
     {
         closestNPC = npc;
         Logger.Debug("Displaying entry prompt from NPCInteractionManager");
-        Services.UIManager.DisplayDialogueEnterPrompt(closestNPC);
+        Services.UIManager.DisplayDialogueEnterPrompt();
     }
 
     public void PlayerLeftNPC()
