@@ -10,7 +10,7 @@ using UnityEngine;
 public class QuestItem : HoldableItem
 {
     #region Const Strings.
-    private readonly int _held = Animator.StringToHash("Held");
+    private static readonly int _held = Animator.StringToHash("Held");
     #endregion
 
     public enum QuestItemEnum { Seed, Soil, Rain, None };

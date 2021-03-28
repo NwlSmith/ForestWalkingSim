@@ -12,8 +12,8 @@ public class NPC : MonoBehaviour
 {
 
     #region Const Strings.
-    private readonly int _talk = Animator.StringToHash("Talk");
-    private readonly int _inConvo = Animator.StringToHash("InConversation");
+    private static readonly int _talk = Animator.StringToHash("Talk");
+    private static readonly int _inConvo = Animator.StringToHash("InConversation");
     #endregion
 
     public string YarnStartNode;
@@ -29,12 +29,16 @@ public class NPC : MonoBehaviour
     private Quaternion _initRot;
     private Animator _anim;
 
+    protected NPCCollider _NPCCollider;
+
     private void Awake()
     {
         _initRot = _model.transform.rotation;
         _anim = GetComponentInChildren<Animator>();
         if (_dialogueEnterPrompt)
             _dialogueEnterPrompt.gameObject.SetActive(false);
+
+        _NPCCollider = GetComponentInChildren<NPCCollider>();
     }
 
     private void Start()
@@ -67,12 +71,15 @@ public class NPC : MonoBehaviour
         if (!_anim)
             _anim = GetComponentInChildren<Animator>();
         _anim.SetBool(_inConvo, true);
+
+        _NPCCollider.Disappear();
     }
 
     public virtual void ExitDialogue()
     {
         _model.transform.rotation = _initRot;
         _anim.SetBool(_inConvo, false);
+        _NPCCollider.Appear();
     }
 
     public virtual void Speak(int npcNum = 0) => _anim.SetTrigger(_talk);

@@ -20,15 +20,10 @@ using UnityEngine;
  * - Make turtle go to quest area.
  * 
  * Issues:
- * - Immediately thinks I want to talk to spirit
- * - "After I talk to the Frog and Toad and complete the Warbler quest, if I talk to Frog and Toad again I get hard-locked into dialogue."
+ * - Immediately thinks I want to talk to spirit - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
  * - People want more variety in systems, like collecting rewards from NPCs/other kinds of interaction with the game environment.
  * - People weren't that happy about NPC POV camera
- * - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
- * - Player can jump out of NPCCollider before dialogue, locking their game - Hopefully fixed?
- * - Failsafe doesn't work - Hopefully fixed?
  * - make sure player looks at center of characters? maybe make player turn to face each character
- * - disable triggers when talking to characters?
  * - "When I pause and click “main menu”, it doesn’t do anything." ??? Fix mac save issue.
  * 
  */

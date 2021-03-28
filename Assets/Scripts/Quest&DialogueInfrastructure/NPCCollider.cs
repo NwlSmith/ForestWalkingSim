@@ -8,18 +8,25 @@ using UnityEngine;
  */
 public class NPCCollider : MonoBehaviour
 {
+
+    #region Const Strings.
+    private static readonly int _visible = Animator.StringToHash("Visible");
+    #endregion
+
     private NPC parentNPC;
 
     private float _initRadius;
     private float _enteredMultiplier = 1.2f;
 
     private CapsuleCollider _collider;
+    private Animator _animator;
 
     private void Awake()
     {
         parentNPC = GetComponentInParent<NPC>();
         _collider = GetComponent<CapsuleCollider>();
         _initRadius = _collider.radius;
+        _animator = GetComponentInParent<Animator>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -48,4 +55,8 @@ public class NPCCollider : MonoBehaviour
         Services.NPCInteractionManager.PlayerLeftNPC();
         _collider.radius = _initRadius;
     }
+
+    public void Appear() => _animator.SetBool(_visible, true);
+
+    public void Disappear() => _animator.SetBool(_visible, false);
 }
