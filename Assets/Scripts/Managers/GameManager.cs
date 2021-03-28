@@ -15,7 +15,6 @@ using UnityEngine;
  * - Maybe change quest items so they're not affected by physics? - let player drop items
  * - Make walking animation line up with music maybe?
  * - In URPExampleAssets > Settings > UniversalRenderPipeline Shadow Max distance was initially 50
- * - Move player camera back
  * - glitch with turtle quest
  * - Make children go to mother.
  * - Make turtle go to quest area.
@@ -30,9 +29,7 @@ using UnityEngine;
  * - Failsafe doesn't work - Hopefully fixed?
  * - make sure player looks at center of characters? maybe make player turn to face each character
  * - disable triggers when talking to characters?
- * - Add E for dialogue sprite above characters instead of prompt in bottom right - Have pickup and talk prompts easier to see, maybe more central? Maybe following characters?
  * - "When I pause and click “main menu”, it doesn’t do anything." ??? Fix mac save issue.
- * - Make camera lag behind player
  * 
  */
 
