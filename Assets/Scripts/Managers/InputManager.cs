@@ -57,6 +57,16 @@ public class InputManager
 
     public void ProcessPauseMenuInput()
     {
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.M))
+            Services.QuestManager.AdvanceQuest("Main");
+        if (Input.GetKeyDown(KeyCode.N))
+            Services.QuestManager.AdvanceQuest("Warbler");
+        if (Input.GetKeyDown(KeyCode.F))
+            Services.QuestManager.AdvanceQuest("Frog");
+        if (Input.GetKeyDown(KeyCode.T))
+            Services.QuestManager.AdvanceQuest("Turtle");
+#endif
         if (Input.GetButtonDown(_pause))
         {
             Services.GameManager.Unpause();

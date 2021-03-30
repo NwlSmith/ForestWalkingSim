@@ -47,7 +47,7 @@ public class DialogueController : MonoBehaviour
 
     [SerializeField] private float _turtleTextSpeed = .1f;
     [SerializeField] private float _regularTextSpeed = .025f;
-    [SerializeField] private float _speedupTextSpeed = .003f;
+    [SerializeField] private float _speedupTextSpeed = .001f;
 
     private NPC _curNPC;
     private int _curMultiNPCNum = 0;

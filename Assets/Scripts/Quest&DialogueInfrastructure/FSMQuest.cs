@@ -55,7 +55,7 @@ public abstract class FSMQuest : MonoBehaviour
 
     protected virtual void Awake() => _fsm = new FiniteStateMachine<FSMQuest>(this);
 
-    private void Update()
+    protected virtual void Update()
     {
         if (_fsm.CurrentState != null)
             _fsm.Update();

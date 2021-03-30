@@ -1,3 +1,4 @@
+using UnityEngine;
 /*
  * Creator: Nate Smith
  * Creation Date: 2/26/2021
@@ -19,6 +20,31 @@
  */
 public class WarblerQuest : FSMQuest
 {
+    #region Const Strings.
+    private readonly int _moving = Animator.StringToHash("Moving");
+    private const string child1String = "$found_warbler_child_1";
+    private const string child2String = "$found_warbler_child_2";
+    private const string child3String = "$found_warbler_child_3";
+    #endregion
+
+    [System.Serializable]
+    private class WarblerRoute
+    {
+        [SerializeField] public Transform[] route;
+        public int Length => route.Length;
+    }
+
+    [SerializeField] private NPC[] _warblerNPC;
+
+    [SerializeField] private WarblerRoute[] _warblerRoutes = new WarblerRoute[3];
+    private int _curWarblerNum;
+
+    private readonly float _warblerSpeed = 4f;
+    private readonly float _distFromTarget = .35f;
+
+    private bool[] warblerFound = { false, false, false };
+
+    private TaskManager _taskManager = new TaskManager();
 
     protected override void Awake()
     {
@@ -37,6 +63,97 @@ public class WarblerQuest : FSMQuest
 
         startNextStage = _fsm.TransitionTo<Stage0State>;
     }
+
+    private int GetTriggeredWarbler()
+    {
+        Yarn.Unity.InMemoryVariableStorage questMemory = Services.DialogueController.InMemoryVariableStorage;
+        bool foundChild1 = questMemory.GetValue(child1String).AsBool;
+        bool foundChild2 = questMemory.GetValue(child2String).AsBool;
+        bool foundChild3 = questMemory.GetValue(child3String).AsBool;
+
+        if (foundChild1 && !warblerFound[0])
+        {
+            warblerFound[0] = true;
+            return 0;
+        }
+        else if (foundChild2 && !warblerFound[1])
+        {
+            warblerFound[1] = true;
+            return 1;
+        }
+        else if (foundChild3 && !warblerFound[2])
+        {
+            warblerFound[2] = true;
+            return 2;
+        }
+
+        Logger.Warning("No warblers have been found, yet GetTriggeredWarbler was called");
+        return 0;
+    }
+
+
+    // Defines tasks for turtle movement.
+    private void SendTriggeredBirdHome()
+    {
+        _curWarblerNum = GetTriggeredWarbler();
+        NPC childNPC = _warblerNPC[_curWarblerNum];
+        childNPC.GetComponentInChildren<NPCCollider>().transform.localScale = Vector3.zero;
+        Task start = new ActionTask(() =>
+        {
+            childNPC.GetComponentInChildren<Animator>().SetBool(_moving, true);
+            // sound?
+        });
+        Task prev = start;
+
+        for (int i = 0; i < _warblerRoutes[_curWarblerNum].Length; i++)
+        {
+            Task next = WarblerMove(childNPC.transform, _warblerRoutes[_curWarblerNum].route[i]);
+            prev = prev.Then(next);
+        }
+
+        Task finish = new ActionTask
+            (
+                () => {
+                    childNPC.gameObject.SetActive(false);
+                }
+            );
+
+        prev.Then(finish);
+
+        _taskManager.Do(start);
+    }
+
+    private float turningSmoothVel;
+
+    private DelegateTask WarblerMove(Transform npc, Transform target)
+    {
+        return new DelegateTask(
+            () =>
+            {
+                Debug.Log("Going for target " + target.name);
+            },
+            () =>
+            {
+                float targetAngle = Quaternion.LookRotation((target.position - npc.position).normalized, Vector3.up).eulerAngles.y;
+                float angle = Mathf.SmoothDampAngle(npc.eulerAngles.y, targetAngle, ref turningSmoothVel, .1f);
+                npc.rotation = Quaternion.Euler(0f, angle, 0f);
+                
+                npc.position = npc.position + npc.forward * _warblerSpeed * Time.deltaTime;
+                if (target.position.y > npc.position.y + .25f)
+                {
+                    npc.position = npc.position + npc.up * _warblerSpeed * Time.deltaTime;
+                } else if (target.position.y < npc.position.y - .25f)
+                {
+                    npc.position = npc.position - npc.up * _warblerSpeed * Time.deltaTime;
+                }
+
+                return Vector3.Distance(npc.position, target.position) < _distFromTarget;
+            }
+        );
+    }
+
+    protected override void Update() => _taskManager.Update();
+
 
     // Stage 0: Quest is spawned. Advance to stage 1 by talking to the mamma warbler.
     private class Stage0State : QuestState
@@ -65,6 +182,8 @@ public class WarblerQuest : FSMQuest
         {
             _stageNum = 2;
             base.OnEnter();
+
+            ((WarblerQuest)Context).SendTriggeredBirdHome();
         }
     }
 
@@ -75,6 +194,8 @@ public class WarblerQuest : FSMQuest
         {
             _stageNum = 3;
             base.OnEnter();
+
+            ((WarblerQuest)Context).SendTriggeredBirdHome();
         }
     }
 
@@ -85,6 +206,8 @@ public class WarblerQuest : FSMQuest
         {
             _stageNum = 4;
             base.OnEnter();
+
+            ((WarblerQuest)Context).SendTriggeredBirdHome();
         }
     }
 

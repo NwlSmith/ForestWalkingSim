@@ -78,7 +78,6 @@ public class TurtleQuest : FSMQuest
     // Stage 3: Talk to turtle at start line. She says she wants to race you. Count down then make turtle move forward super slow. Advance to stage 4 by either turning corner or turtle crosses finish line.
     // Need to: Move toward 1 transform, then the next, then the next, until it reaches the end, then advance quest.
     // If player gets ahead, need to speed ahead?
-    // A task manager would work here... No need for update loop...
     private class Stage3State : QuestState
     {
         #region Const Strings.

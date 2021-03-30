@@ -16,8 +16,11 @@ using UnityEngine;
  * - Make walking animation line up with music maybe?
  * - In URPExampleAssets > Settings > UniversalRenderPipeline Shadow Max distance was initially 50
  * - glitch with turtle quest
- * - Make children go to mother.
  * - Make turtle go to quest area.
+ * - Feedback for main quest stuff
+ *  - Have scripted thing where player stops moving, camera stops moving, camera looks at item, item floats into tree, then up, emit particles and play sound.
+ * - Remove quest debug stuff in InputManager!
+ * - Make tail more expressive!
  * 
  * Issues:
  * - Immediately thinks I want to talk to spirit - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
@@ -104,28 +107,19 @@ public class GameManager : MonoBehaviour
     }
 
     // Called on Pause.
-    public void Pause()
-    {
-        _fsm.TransitionTo<PauseState>();
-    }
+    public void Pause() => _fsm.TransitionTo<PauseState>();
 
     // Called on Unpause.
-    public void Unpause()
-    {
-        _fsm.TransitionTo<PlayState>();
-    }
+    public void Unpause() => _fsm.TransitionTo<PlayState>();
 
     // Called on Enter dialogue.
-    public void EnterDialogue()
-    {
-        _fsm.TransitionTo<InDialogueState>();
-    }
+    public void EnterDialogue() => _fsm.TransitionTo<InDialogueState>();
 
     // Called on Exit dialogue.
-    public void ExitDialogue()
-    {
-        _fsm.TransitionTo<PlayState>();
-    }
+    public void ExitDialogue() => _fsm.TransitionTo<PlayState>();
+
+    // Called on Quest item trigger.
+    public void MidrollCutscene() => _fsm.TransitionTo<MidCutsceneState>();
 
     // Called when the player goes to main menu.
     public void MainMenu()
@@ -135,10 +129,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Called on Quit.
-    public void Quit()
-    {
-        Application.Quit();
-    }
+    public void Quit() => Application.Quit();
 
     #endregion
 
@@ -227,13 +218,6 @@ public class GameManager : MonoBehaviour
             base.Update();
 
             Services.InputManager.ProcessPauseMenuInput();
-
-            // This will be moved to InputManager.
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                // Pause
-                TransitionTo<PlayState>();
-            }
         }
 
         public override void OnExit()
@@ -253,11 +237,69 @@ public class GameManager : MonoBehaviour
         {
 
             float elapsedTime = 0f;
-            // Need to 
             Task enterDialogue = new DelegateTask(() =>
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+                Services.PlayerMovement.EnterDialogue();
+                Services.UIManager.HideDialogueEnterPrompt();
+            }, () =>
+            {
+                return Services.PlayerMovement.inPlaceForDialogue;
+            });
+
+            Task fadeIn = new DelegateTask(() =>
+            {
+                Services.CameraManager.EnterDialogue();
+                Services.UIManager.EnterDialogue();
+                elapsedTime = 0f;
+            }, () =>
+            {
+                elapsedTime += Time.deltaTime;
+                return elapsedTime > delay;
+            });
+
+            Task startConvo = new ActionTask(() =>
+            {
+                Services.DialogueController.EnterDialogue();
+            });
+
+            enterDialogue.Then(fadeIn).Then(startConvo);
+
+            Context._taskManager.Do(enterDialogue);
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            Services.InputManager.ProcessDialogueInput();
+
+        }
+
+        public override void OnExit()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            Services.PlayerMovement.EnterPlay(); // These aren't needed
+            Services.CameraManager.EnterPlay();
+            Services.UIManager.EnterPlay();
+            Services.NPCInteractionManager.ExitDialogue();
+        }
+    }
+
+    // Use delegates to control player movement, show item taken away, and coordinate UI and sound.
+    private class MidCutsceneState : GameState
+    {
+        private float delay = .5f;
+        public override void OnEnter()
+        {
+
+            float elapsedTime = 0f;
+            // Need to 
+            Task enterDialogue = new DelegateTask(() =>
+            {
                 Services.PlayerMovement.EnterDialogue();
                 Services.UIManager.HideDialogueEnterPrompt();
             }, () =>

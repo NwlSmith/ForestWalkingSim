@@ -458,6 +458,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 23692060}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &26064635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 26064636}
+  m_Layer: 0
+  m_Name: Warbler 1 Route (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &26064636
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26064635}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136333}
+  m_LocalPosition: {x: 526.13, y: 24.51, z: 401.75}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &26255834
 GameObject:
   m_ObjectHideFlags: 0
@@ -4471,6 +4501,36 @@ Transform:
   m_Father: {fileID: 2001386629}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &222908671
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 222908672}
+  m_Layer: 0
+  m_Name: Warbler 1 Route (7)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &222908672
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 222908671}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017285347}
+  m_LocalPosition: {x: 560.97003, y: 21.090002, z: 452.6}
+  m_LocalScale: {x: 1.1000001, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &223507336
 GameObject:
   m_ObjectHideFlags: 0
@@ -4939,6 +4999,36 @@ Transform:
   m_Father: {fileID: 771511921}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &265389885
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 265389886}
+  m_Layer: 0
+  m_Name: Warbler 2 Route (0)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &265389886
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265389885}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136332}
+  m_LocalPosition: {x: 565.971, y: 23.486, z: 338.414}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &266857062
 GameObject:
   m_ObjectHideFlags: 0
@@ -5285,6 +5375,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 277015362}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &278664783
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 278664784}
+  m_Layer: 0
+  m_Name: Warbler 2 Route (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &278664784
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278664783}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136332}
+  m_LocalPosition: {x: 562.84, y: 21.883, z: 348}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &282714121
 GameObject:
   m_ObjectHideFlags: 0
@@ -6563,6 +6683,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 50, y: 10, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &342981435
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 342981436}
+  m_Layer: 0
+  m_Name: Warbler 2 Route (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &342981436
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 342981435}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136332}
+  m_LocalPosition: {x: 562.71, y: 21.883, z: 340.75}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &343353290
 GameObject:
   m_ObjectHideFlags: 0
@@ -9771,6 +9921,36 @@ Transform:
   m_Father: {fileID: 1085968022}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &487030338
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 487030339}
+  m_Layer: 0
+  m_Name: Warbler 2 Route (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &487030339
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 487030338}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136332}
+  m_LocalPosition: {x: 564.1, y: 21.883, z: 357.48}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &490684036
 GameObject:
   m_ObjectHideFlags: 0
@@ -10164,6 +10344,90 @@ Transform:
   m_Father: {fileID: 7791906197447396016}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &501642460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 501642461}
+  m_Layer: 0
+  m_Name: Warbler Routes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &501642461
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501642460}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 932014040}
+  - {fileID: 26064636}
+  - {fileID: 507286479}
+  - {fileID: 874656464}
+  - {fileID: 943060171}
+  - {fileID: 1737653614}
+  - {fileID: 714442453}
+  - {fileID: 222908672}
+  - {fileID: 265389886}
+  - {fileID: 903046719}
+  - {fileID: 342981436}
+  - {fileID: 278664784}
+  - {fileID: 487030339}
+  - {fileID: 533802030}
+  - {fileID: 2111256426}
+  - {fileID: 1520482483}
+  - {fileID: 1489905753}
+  - {fileID: 1407359012}
+  - {fileID: 1215289190}
+  - {fileID: 1250172015}
+  - {fileID: 1988012945}
+  - {fileID: 959418429}
+  - {fileID: 938412836}
+  - {fileID: 1274644777}
+  m_Father: {fileID: 1368042436}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &507286478
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 507286479}
+  m_Layer: 0
+  m_Name: Warbler 1 Route (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &507286479
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507286478}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136333}
+  m_LocalPosition: {x: 524.304, y: 21.87, z: 404.1}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &508238964
 GameObject:
   m_ObjectHideFlags: 0
@@ -10472,6 +10736,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2267728835593981332, guid: adeeb27a523e4ff458e79218e50eee17, type: 3}
   m_PrefabInstance: {fileID: 526163890}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &526163893 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8676138768233629009, guid: adeeb27a523e4ff458e79218e50eee17, type: 3}
+  m_PrefabInstance: {fileID: 526163890}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526163892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d13090bcc2b3bfb4b8bbd5841cb75d06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &529110091
 GameObject:
   m_ObjectHideFlags: 0
@@ -10657,6 +10932,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 50, y: 10, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &533802029
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 533802030}
+  m_Layer: 0
+  m_Name: Warbler 2 Route (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &533802030
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533802029}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136332}
+  m_LocalPosition: {x: 565.2, y: 21.883, z: 364.73}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &540308311
 GameObject:
   m_ObjectHideFlags: 0
@@ -12861,6 +13166,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2267728835593981332, guid: adeeb27a523e4ff458e79218e50eee17, type: 3}
   m_PrefabInstance: {fileID: 647400797}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &647400800 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8676138768233629009, guid: adeeb27a523e4ff458e79218e50eee17, type: 3}
+  m_PrefabInstance: {fileID: 647400797}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647400799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d13090bcc2b3bfb4b8bbd5841cb75d06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &653260035
 GameObject:
   m_ObjectHideFlags: 0
@@ -14050,6 +14366,36 @@ Transform:
   - {fileID: 1347350475}
   m_Father: {fileID: 1472554254}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &714442452
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 714442453}
+  m_Layer: 0
+  m_Name: Warbler 1 Route (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &714442453
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714442452}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136333}
+  m_LocalPosition: {x: 527.71, y: 24.15, z: 427.74}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &717783431
 GameObject:
@@ -18540,6 +18886,36 @@ MonoBehaviour:
   Axis2D: 0
   Tangle: 0
   AnimateRoll: 0
+--- !u!1 &874656463
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 874656464}
+  m_Layer: 0
+  m_Name: Warbler 1 Route (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &874656464
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874656463}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136333}
+  m_LocalPosition: {x: 524.304, y: 21.09, z: 408.6}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &878050988
 GameObject:
   m_ObjectHideFlags: 0
@@ -19171,6 +19547,36 @@ Transform:
   m_Father: {fileID: 89930150}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &903046718
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 903046719}
+  m_Layer: 0
+  m_Name: Warbler 2 Route (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &903046719
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903046718}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136332}
+  m_LocalPosition: {x: 565.21, y: 21.883, z: 338.75}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &908103685
 GameObject:
   m_ObjectHideFlags: 0
@@ -19679,6 +20085,36 @@ Transform:
   m_Father: {fileID: 1074792070}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &932014039
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 932014040}
+  m_Layer: 0
+  m_Name: Warbler 1 Route (0)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &932014040
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932014039}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136333}
+  m_LocalPosition: {x: 525.304, y: 24.51, z: 400.755}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &932888075
 GameObject:
   m_ObjectHideFlags: 0
@@ -19774,6 +20210,66 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 932888075}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &938412835
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 938412836}
+  m_Layer: 0
+  m_Name: Warbler 3 Route (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &938412836
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938412835}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136332}
+  m_LocalPosition: {x: 589.07, y: 24.8, z: 481.48}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 22
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &943060170
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 943060171}
+  m_Layer: 0
+  m_Name: Warbler 1 Route (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &943060171
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943060170}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136333}
+  m_LocalPosition: {x: 527.554, y: 21.09, z: 416.6}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &946577726
 GameObject:
   m_ObjectHideFlags: 0
@@ -20028,6 +20524,36 @@ Transform:
   - {fileID: 540308312}
   m_Father: {fileID: 1962250012}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &959418428
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 959418429}
+  m_Layer: 0
+  m_Name: Warbler 3 Route (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &959418429
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959418428}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136332}
+  m_LocalPosition: {x: 595.1, y: 20.9, z: 485.1}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &969473407
 GameObject:
@@ -24177,6 +24703,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1212544566}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1215289189
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1215289190}
+  m_Layer: 0
+  m_Name: Warbler 3 Route (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1215289190
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215289189}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136332}
+  m_LocalPosition: {x: 620.17, y: 25.53, z: 519.46}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1218129274
 GameObject:
   m_ObjectHideFlags: 0
@@ -25602,6 +26158,36 @@ Transform:
   m_Father: {fileID: 1251613679}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1250172014
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1250172015}
+  m_Layer: 0
+  m_Name: Warbler 3 Route (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1250172015
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250172014}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136332}
+  m_LocalPosition: {x: 620.17, y: 20.9, z: 517.72}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1251009341
 GameObject:
   m_ObjectHideFlags: 0
@@ -25854,6 +26440,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1270463890}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1274644776
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1274644777}
+  m_Layer: 0
+  m_Name: Warbler 3 Route (7)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1274644777
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274644776}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136332}
+  m_LocalPosition: {x: 580.34, y: 24.8, z: 479}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 23
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1275127692
 GameObject:
   m_ObjectHideFlags: 0
@@ -27220,6 +27836,38 @@ MonoBehaviour:
     - {fileID: 1347406853}
     _textAddedToLog: 
   _questStage: 0
+  _warblerNPC:
+  - {fileID: 1939302143028329229}
+  - {fileID: 526163893}
+  - {fileID: 647400800}
+  _warblerRoutes:
+  - route:
+    - {fileID: 932014040}
+    - {fileID: 26064636}
+    - {fileID: 507286479}
+    - {fileID: 874656464}
+    - {fileID: 943060171}
+    - {fileID: 1737653614}
+    - {fileID: 714442453}
+    - {fileID: 222908672}
+  - route:
+    - {fileID: 265389886}
+    - {fileID: 903046719}
+    - {fileID: 342981436}
+    - {fileID: 278664784}
+    - {fileID: 487030339}
+    - {fileID: 533802030}
+    - {fileID: 2111256426}
+    - {fileID: 1520482483}
+  - route:
+    - {fileID: 1489905753}
+    - {fileID: 1407359012}
+    - {fileID: 1215289190}
+    - {fileID: 1250172015}
+    - {fileID: 1988012945}
+    - {fileID: 959418429}
+    - {fileID: 938412836}
+    - {fileID: 1274644777}
 --- !u!4 &1368042436
 Transform:
   m_ObjectHideFlags: 0
@@ -27236,6 +27884,7 @@ Transform:
   - {fileID: 526163891}
   - {fileID: 647400798}
   - {fileID: 1347406854}
+  - {fileID: 501642461}
   m_Father: {fileID: 1118805854}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -27960,6 +28609,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1399391898}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1407359011
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1407359012}
+  m_Layer: 0
+  m_Name: Warbler 3 Route (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1407359012
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407359011}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136332}
+  m_LocalPosition: {x: 619.26, y: 29.23, z: 520.667}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1409690614
 GameObject:
   m_ObjectHideFlags: 0
@@ -29989,6 +30668,36 @@ Transform:
   m_Father: {fileID: 1414720201}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1489905752
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1489905753}
+  m_Layer: 0
+  m_Name: Warbler 3 Route (0)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1489905753
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489905752}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136332}
+  m_LocalPosition: {x: 619.26, y: 30.36, z: 521.5}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1490799769
 GameObject:
   m_ObjectHideFlags: 0
@@ -30586,6 +31295,36 @@ Transform:
   m_Father: {fileID: 370871239}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: -3, y: 0, z: 3}
+--- !u!1 &1520482482
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1520482483}
+  m_Layer: 0
+  m_Name: Warbler 2 Route (7)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1520482483
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520482482}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136332}
+  m_LocalPosition: {x: 566.2399, y: 25.16, z: 394.65}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1524197496
 GameObject:
   m_ObjectHideFlags: 0
@@ -34111,6 +34850,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1736301159}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1737653613
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1737653614}
+  m_Layer: 0
+  m_Name: Warbler 1 Route (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1737653614
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737653613}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136333}
+  m_LocalPosition: {x: 527.71, y: 24.15, z: 421.24}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1738328315
 GameObject:
   m_ObjectHideFlags: 0
@@ -38991,6 +39760,36 @@ Transform:
   m_Father: {fileID: 608120695}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1988012944
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1988012945}
+  m_Layer: 0
+  m_Name: Warbler 3 Route (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1988012945
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988012944}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136332}
+  m_LocalPosition: {x: 612.92004, y: 20.9, z: 506.46994}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1988158532
 GameObject:
   m_ObjectHideFlags: 0
@@ -41443,6 +42242,36 @@ Transform:
   m_Father: {fileID: 1415872500}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2111256425
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2111256426}
+  m_Layer: 0
+  m_Name: Warbler 2 Route (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2111256426
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111256425}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000017136332}
+  m_LocalPosition: {x: 566.49, y: 25.16, z: 371.73}
+  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 501642461}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2114411344
 GameObject:
   m_ObjectHideFlags: 0
@@ -43234,7 +44063,7 @@ PrefabInstance:
       objectReference: {fileID: 1016919869}
     - target: {fileID: 327323186, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
       propertyPath: _speedupTextSpeed
-      value: 0.003
+      value: 0.001
       objectReference: {fileID: 0}
     - target: {fileID: 960303590, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
       propertyPath: m_text
@@ -43889,6 +44718,17 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 977670247323277842, guid: adeeb27a523e4ff458e79218e50eee17, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: adeeb27a523e4ff458e79218e50eee17, type: 3}
+--- !u!114 &1939302143028329229 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8676138768233629009, guid: adeeb27a523e4ff458e79218e50eee17, type: 3}
+  m_PrefabInstance: {fileID: 1939302143028329228}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401205584049092248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d13090bcc2b3bfb4b8bbd5841cb75d06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!82 &1939302143379228662
 AudioSource:
   m_ObjectHideFlags: 0
