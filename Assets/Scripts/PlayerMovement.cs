@@ -15,10 +15,8 @@ public class PlayerMovement : MonoBehaviour
 
     #region Variables
 
-    public bool inPlaceForDialogue = false;
+    public bool inPlaceForSequence = false;
 
-    // The finite state machine of the current gamestate.
-    private FiniteStateMachine<PlayerMovement> _fsm;
 
     // Stored inputs
     private float _horizontalInput = 0f;
@@ -38,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
 
     // The rate at which _currentMovementVector is lerped to _targetMovementVector.
     private readonly float _movementChangeSpeed = 5f;
+    private float turningSmoothVel;
 
     // Jumping.
     // The downward push of gravity that is added to currentMovement.
@@ -62,7 +61,10 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerAnimation _playerAnimation;
 
-    TaskManager _taskManager = new TaskManager();
+    // The finite state machine of the current gamestate.
+    private FiniteStateMachine<PlayerMovement> _fsm;
+
+    private TaskManager _taskManager = new TaskManager();
 
     #endregion 
 
@@ -85,6 +87,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        elapsedTime += Time.deltaTime;
         if (_curJumpCooldown >= 0f) _curJumpCooldown -= Time.deltaTime;
         _fsm.Update();
     }
@@ -111,7 +114,11 @@ public class PlayerMovement : MonoBehaviour
     #region Triggers
 
     // Returns player to play mode.
-    public void EnterPlay() => _fsm.TransitionTo<MovingOnGroundState>();
+    public void EnterPlay()
+    {
+        Debug.Log("ENTERING PLAY TRIGGERED!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        _fsm.TransitionTo<MovingOnGroundState>();
+    }
 
     // Forces the player to be idle.
     public void ForceIdle() => _fsm.TransitionTo<ForcedIdleState>();
@@ -125,13 +132,8 @@ public class PlayerMovement : MonoBehaviour
     // Forces the player to be idle and faces toward NPC.
     public void EnterDialogue() => _fsm.TransitionTo<InDialogueState>();
 
-    public void ForceTransform(Vector3 pos, Quaternion rot)
-    {
-        _charController.enabled = false;
-        transform.position = pos;
-        transform.rotation = rot;
-        _charController.enabled = true;
-    }
+    // Forces the player to walk up to the designated cutscene point and wait there.
+    public void EnterMidCutscene() => _fsm.TransitionTo<MidCutsceneState>();
 
     #endregion
 
@@ -147,6 +149,139 @@ public class PlayerMovement : MonoBehaviour
 
     // Returns whether or not the player entered any ground movement inputs W, A, S, D, NOT space.
     private bool GroundMovementInputsEntered => _horizontalInput != 0f || _verticalInput != 0f;
+
+    public void ForceTransform(Vector3 pos, Quaternion rot)
+    {
+        _charController.enabled = false;
+        transform.position = pos;
+        transform.rotation = rot;
+        _charController.enabled = true;
+    }
+
+    #endregion
+
+    #region Automated Movement Delegates.
+
+    private float elapsedTime = 0f;
+    private readonly float maxTimeOnOneStep = 3f;
+    private Vector3 initPos;
+    private float targetRot;
+    private Vector3 targetPos;
+
+    private Task PlayerMoveToTransform(Transform targetPositionTrans, Transform targetDirectionTrans, Transform finalTarget)
+    {
+        // Define dialogue entry tasks.
+        Task jumping = new DelegateTask(() => {
+            _currentMovementVector.x = 0;
+            _currentMovementVector.z = 0;
+        }, ContinueUpwardAirMovement);
+        Task falling = new DelegateTask(() => { _playerAnimation.Falling(true); }, ContinueDownwardAirMovement);
+        Task rotateToPos = new DelegateTask(
+            () => {
+                elapsedTime = 0f;
+                _playerAnimation.Moving(true);
+                _playerAnimation.Falling(false);
+                targetRot = Quaternion.LookRotation((targetPositionTrans.position - transform.position).normalized, Vector3.up).eulerAngles.y;
+            },
+            RotateToCorrectPos
+        );
+
+        Task moveToPos = new DelegateTask(
+            () => {
+                elapsedTime = 0f;
+
+                _playerAnimation.Falling(false);
+                _playerAnimation.Sprinting(false);
+                _currentMovementVector = Vector3.zero;
+                initPos = transform.position;
+                targetPos = targetPositionTrans.position;
+            },
+            MoveToCorrectPos
+        );
+        Task rotateToTarget = new DelegateTask(
+            () => {
+                elapsedTime = 0f;
+                targetRot = Quaternion.LookRotation(targetDirectionTrans.position - transform.position, Vector3.up).eulerAngles.y;
+            },
+            RotateToCorrectPos,
+            () => { OnCorrectPlace(finalTarget); }
+        );
+
+
+        jumping.Then(falling).Then(rotateToPos).Then(moveToPos).Then(rotateToTarget);
+        if (!OnGround())
+            return jumping;
+        else
+            return rotateToPos;
+    }
+
+    private bool ContinueUpwardAirMovement()
+    {
+        AirMovement();
+        return OnGround() || _currentMovementVector.y < 0f;
+    }
+
+    private bool ContinueDownwardAirMovement()
+    {
+        AirMovement();
+        return OnGround();
+    }
+
+    private void AirMovement()
+    {
+        // Fall downwards
+        _currentMovementVector.y += _gravity * Time.fixedDeltaTime;
+        _charController.Move(_currentMovementVector);
+    }
+
+    private bool RotateToCorrectPos()
+    {
+        if (elapsedTime > maxTimeOnOneStep)
+        {
+            Logger.Warning("RotateToCorrectPos failsafe triggered");
+            ForceTransform(transform.position, Quaternion.Euler(0, targetRot, 0)); // failsafe
+        }
+        transform.rotation = Quaternion.Euler(0f, Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref turningSmoothVel, .1f), 0f);
+        _charController.Move(transform.forward * _movementSpeed * Time.fixedDeltaTime * .1f); // move forward slightly to make the spineAnimator not be so horrible.
+        return Quaternion.Angle(transform.rotation, Quaternion.Euler(0, targetRot, 0)) < 5f;
+    }
+
+    private bool MoveToCorrectPos()
+    {
+        if (elapsedTime > maxTimeOnOneStep)
+        {
+            Logger.Warning("MoveToCorrectPos failsafe triggered");
+            ForceTransform(targetPos, transform.rotation);
+        }
+        targetRot = Quaternion.LookRotation((targetPos - transform.position).normalized, Vector3.up).eulerAngles.y;
+        transform.rotation = Quaternion.Euler(0f, Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref turningSmoothVel, .1f), 0f);
+
+        _currentMovementVector = transform.forward * _movementSpeed * Time.fixedDeltaTime;
+        _currentMovementVector.y = _gravity;
+        _charController.Move(_currentMovementVector);
+        return Vector3.Distance(transform.position, targetPos) < .5f;
+    }
+
+    private void OnCorrectPlace(Transform target)
+    {
+        inPlaceForSequence = true;
+
+        _playerAnimation.Moving(false);
+        _playerAnimation.Falling(false);
+
+        _currentMovementVector = Vector3.zero;
+        Vector3 lookPos = target.position - transform.position; // WRONG
+        lookPos.y = 0;
+        transform.rotation = Quaternion.LookRotation(lookPos);
+    }
+
+    private Task LastTask(Task curTask)
+    {
+        if (curTask.NextTask == null)
+            return curTask;
+        else
+            return LastTask(curTask.NextTask);
+    }
 
     #endregion
 
@@ -243,137 +378,28 @@ public class PlayerMovement : MonoBehaviour
     // Player is forced to remain idle, turns to look at NPC.
     private class InDialogueState : GameState
     {
-        #region Variables.
-        private Transform targetTrans;
-        private Transform targetNPC;
-        private float elapsedTime = 0f;
-        private readonly float maxTimeOnOneStep = 3f;
-        private Vector3 initPos;
-        private float targetRot;
-        private Vector3 targetPos;
-        private float turningSmoothVel;
-        #endregion
 
         public override void OnEnter()
         {
-            Context.inPlaceForDialogue = false;
+            Context.inPlaceForSequence = false;
 
-            targetTrans = Services.NPCInteractionManager.DialogueTrans;
-            targetNPC = Services.NPCInteractionManager.closestNPC.transform;
-
-            // Define dialogue entry tasks.
-            Task jumping = new DelegateTask(() => {
-                Context._currentMovementVector.x = 0;
-                Context._currentMovementVector.z = 0;
-            }, ContinueUpwardAirMovement);
-            Task falling = new DelegateTask(() => { Context._playerAnimation.Falling(true); }, ContinueDownwardAirMovement);
-            Task rotateToPos = new DelegateTask(
-                () => {
-                    elapsedTime = 0f;
-                    Context._playerAnimation.Moving(true);
-                    Context._playerAnimation.Falling(false);
-                    targetRot = Quaternion.LookRotation((targetTrans.position - Context.transform.position).normalized, Vector3.up).eulerAngles.y;
-                },
-                RotateToCorrectPos
-            );
-
-            Task moveToPos = new DelegateTask(
-                () => {
-                    elapsedTime = 0f;
-
-                    Context._playerAnimation.Falling(false);
-                    Context._playerAnimation.Sprinting(false);
-                    Context._currentMovementVector = Vector3.zero;
-                    initPos = Context.transform.position;
-                    targetPos = targetTrans.position;
-                },
-                MoveToCorrectPos
-            );
-            Task rotateToNPC = new DelegateTask(
-                () => {
-                    elapsedTime = 0f;
-                    targetRot = Quaternion.LookRotation(targetNPC.position - targetTrans.position, Vector3.up).eulerAngles.y;
-                },
-                RotateToCorrectPos,
-                OnCorrectPlace
-            );
-
-            jumping.Then(falling).Then(rotateToPos).Then(moveToPos).Then(rotateToNPC);
-            if (!Context.OnGround())
-                Context._taskManager.Do(jumping);
-            else
-                Context._taskManager.Do(rotateToPos);
-        }
-
-        private bool ContinueUpwardAirMovement()
-        {
-            AirMovement();
-            return Context.OnGround() || Context._currentMovementVector.y < 0f;
-        }
-
-        private bool ContinueDownwardAirMovement()
-        {
-            AirMovement();
-            return Context.OnGround();
-        }
-
-        private void AirMovement()
-        {
-            // Fall downwards
-            Context._currentMovementVector.y += Context._gravity * Time.fixedDeltaTime;
-            Context._charController.Move(Context._currentMovementVector);
-        }
-
-        private bool RotateToCorrectPos()
-        {
-            if (elapsedTime > maxTimeOnOneStep)
+            if (Context._taskManager.HasTasks())
             {
-                Logger.Warning("RotateToCorrectPos failsafe triggered");
-                Context.ForceTransform(Context.transform.position, Quaternion.Euler(0, targetRot, 0)); // failsafe
+                Services.NPCInteractionManager.FindClosestNPC();
             }
-            Context.transform.rotation = Quaternion.Euler(0f, Mathf.SmoothDampAngle(Context.transform.eulerAngles.y, targetRot, ref turningSmoothVel, .2f), 0f);
-            Context._charController.Move(Context.transform.forward * Context._movementSpeed * Time.fixedDeltaTime * .3f); // move forward slightly to make the spineAnimator not be so horrible.
-            return Quaternion.Angle(Context.transform.rotation, Quaternion.Euler(0, targetRot, 0)) < 5f;
+            
+            Context._taskManager.Do(Context.PlayerMoveToTransform(
+                Services.NPCInteractionManager.DialogueTrans,
+                Services.NPCInteractionManager.closestNPC.transform,
+                Services.NPCInteractionManager.closestNPC.GetPlayerCameraLookAtPosition()));
         }
 
-        private bool MoveToCorrectPos()
-        {
-            if (elapsedTime > maxTimeOnOneStep)
-            {
-                Logger.Warning("MoveToCorrectPos failsafe triggered");
-                Context.ForceTransform(targetPos, Context.transform.rotation);
-            }
-            targetRot = Quaternion.LookRotation((targetPos - Context.transform.position).normalized, Vector3.up).eulerAngles.y;
-            Context.transform.rotation = Quaternion.Euler(0f, Mathf.SmoothDampAngle(Context.transform.eulerAngles.y, targetRot, ref turningSmoothVel, .2f), 0f);
-
-            Context._currentMovementVector = Context.transform.forward * Context._movementSpeed * Time.fixedDeltaTime;
-            Context._currentMovementVector.y = Context._gravity;
-            Context._charController.Move(Context._currentMovementVector);
-            return Vector3.Distance(Context.transform.position, targetPos) < .5f;
-        }
-
-        private void OnCorrectPlace()
-        {
-            Context.inPlaceForDialogue = true;
-
-            Context._playerAnimation.Moving(false);
-            Context._playerAnimation.Falling(false);
-
-            Context._currentMovementVector = Vector3.zero;
-            Vector3 lookPos = Services.NPCInteractionManager.closestNPC.GetPlayerCameraLookAtPosition().position - Context.transform.position;
-            lookPos.y = 0;
-            Context.transform.rotation = Quaternion.LookRotation(lookPos);
-        }
-
-        public override void Update() => elapsedTime += Time.deltaTime;
-
-        public override void OnExit() => Context.inPlaceForDialogue = false;
+        public override void OnExit() => Context.inPlaceForSequence = false;
     }
 
     // Player is currently moving on the ground.
     private class MovingOnGroundState : GameState
     {
-        private float turningSmoothVel;
 
         public override void OnEnter() => Context._playerAnimation.Moving(true);
 
@@ -399,7 +425,7 @@ public class PlayerMovement : MonoBehaviour
             if (direction.sqrMagnitude >= .1f)
             {
                 float targetAngle = Mathf.Atan2(Context._horizontalInput, Context._verticalInput) * Mathf.Rad2Deg + Services.CameraManager.CameraYAngle;
-                float angle = Mathf.SmoothDampAngle(Context.transform.eulerAngles.y, targetAngle, ref turningSmoothVel, .2f);
+                float angle = Mathf.SmoothDampAngle(Context.transform.eulerAngles.y, targetAngle, ref Context.turningSmoothVel, .2f);
                 Context.transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
                 Context._targetMovementVector = (Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward).normalized * Context._movementSpeed * Time.fixedDeltaTime * (Context._sprintInput ? Context._shiftMultiplier : 1f);
@@ -448,27 +474,42 @@ public class PlayerMovement : MonoBehaviour
                 () =>
                 {
                     Vector3 jumpVector = Context.transform.forward * Context._jumpForwardDistance;// + Vector3.up * Context._upwardJumpSpeed;
-                    Context._currentMovementVector += jumpVector * Time.fixedDeltaTime;
+                    Context._currentMovementVector += jumpVector * Time.deltaTime;
                     Context._currentMovementVector.y = Context._jumpSpeed;
                 },
                 () =>
                 {
                     // Fall downwards
-                    Context._currentMovementVector.y += Context._gravity * Time.fixedDeltaTime;
+                    Context._currentMovementVector.y += Context._gravity * Time.deltaTime;
 
                     Context._charController.Move(Context._currentMovementVector);
 
-                    if (Context.OnGround())
+                    if (Context.OnGround() || Context._currentMovementVector.y < 0f)
                     {
-                        TransitionTo<IdleState>();
                         return true;
+                    }
+                    return false;
+                },
+                () =>
+                {
+                    if (Context._fsm.CurrentState.GetType() == typeof(InDialogueState))
+                    {
+                        Logger.Warning("Jump task finished outside of NPC area. Transitioning to InDialogueState.");
+                        TransitionTo<InDialogueState>();
+                    }
+                    else if (Context._fsm.CurrentState.GetType() == typeof(MidCutsceneState))
+                    {
+                        Logger.Warning("Jump task finished outside of NPC area. Transitioning to MidCutsceneState.");
+                        TransitionTo<MidCutsceneState>();
                     }
                     else if (Context._currentMovementVector.y < 0f)
                     {
                         TransitionTo<FallingState>();
-                        return true;
                     }
-                    return false;
+                    else
+                    {
+                        TransitionTo<IdleState>();
+                    }
                 });
 
             moveAndWait.Then(jump);
@@ -506,6 +547,49 @@ public class PlayerMovement : MonoBehaviour
         public override void OnExit() => Context._playerAnimation.Falling(false);
 
     }
+
+
+    // Player is forced to remain idle, turns to look at NPC.
+    private class MidCutsceneState : GameState
+    {
+
+        public override void OnEnter()
+        {
+            Context.inPlaceForSequence = false;
+
+            Task moveToInitPos = Context.PlayerMoveToTransform(
+                Services.QuestItemRepository.TargetStep1PlayerPosition, // Position target for player
+                Services.QuestItemRepository.TargetItemPosition, // direction target for player
+                Services.QuestItemRepository.TargetItemPosition); // Not totally sure.
+
+            Task phase2Start = Context.LastTask(moveToInitPos);
+            //phase2Start
+
+            Task reset1 = new ActionTask(() => { Context.inPlaceForSequence = false; });
+
+            Task moveToMidPos = Context.PlayerMoveToTransform(
+                Services.QuestItemRepository.TargetStep2PlayerPosition,
+                Services.QuestItemRepository.TargetItemPosition,
+                Services.QuestItemRepository.TargetItemPosition);
+
+            phase2Start.Then(reset1).Then(moveToMidPos);
+
+            Task phase3Start = Context.LastTask(moveToMidPos);
+            Task reset2 = new ActionTask(() => { Context.inPlaceForSequence = false; });
+            Task wait4Secs = new WaitTask(4f);
+            Task forceFinalTransform = new ActionTask(() => { Context.ForceTransform(Services.QuestItemRepository.TargetStep3PlayerPosition.position, Services.QuestItemRepository.TargetStep3PlayerPosition.rotation); });
+            //Task wait5Secs = new WaitTask(5f);
+            //Task exitSequence = new ActionTask(() => { Context.EnterPlay(); Debug.Log("exitSequence!!!!!!!!!!!!!!!!!!!"); });
+
+            phase3Start.Then(reset2).Then(wait4Secs).Then(forceFinalTransform);//.Then(wait5Secs).Then(exitSequence);
+
+            Context._taskManager.Do(moveToInitPos);
+        }
+        
+
+        public override void OnExit() => Context.inPlaceForSequence = false;
+    }
+
     #endregion
 
 }

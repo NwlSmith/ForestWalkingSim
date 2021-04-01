@@ -66,6 +66,8 @@ public class InputManager
             Services.QuestManager.AdvanceQuest("Frog");
         if (Input.GetKeyDown(KeyCode.T))
             Services.QuestManager.AdvanceQuest("Turtle");
+        if (Input.GetKeyDown(KeyCode.H))
+            Services.PlayerMovement.ForceTransform(new Vector3(460, 21, 506), Quaternion.identity);
 #endif
         if (Input.GetButtonDown(_pause))
         {

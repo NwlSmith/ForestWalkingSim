@@ -17,12 +17,12 @@ public class QuestItem : HoldableItem
 
     public QuestItemEnum itemEnum;
 
-    private Animator animator;
+    private Animator _animator;
 
     protected override void Awake()
     {
         base.Awake();
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
     }
     // Need to implement non-droppable code.
 
@@ -30,7 +30,7 @@ public class QuestItem : HoldableItem
     {
         transform.parent = transform.root.parent;
         beingHeld = false;
-        animator.SetBool(_held, false);
+        _animator.SetBool(_held, false);
         ResetPosition();
     }
 
@@ -40,6 +40,14 @@ public class QuestItem : HoldableItem
         transform.rotation = newParent.rotation;
         transform.parent = newParent;
         beingHeld = true;
-        animator.SetBool(_held, true);
+        _animator.SetBool(_held, true);
     }
+
+    public void Disappear()
+    {
+        transform.localScale = Vector3.zero;
+        GetComponent<Collider>().enabled = false;
+        _animator.enabled = false;
+    }
+
 }

@@ -21,18 +21,19 @@ public class UIManager : MonoBehaviour
     private FiniteStateMachine<UIManager> _fsm;
     private TaskManager _taskManager = new TaskManager();
 
-    [SerializeField] private RectTransform _pickupItemUI;
-    [SerializeField] private RectTransform _dialogueEnterPromptUI;
+    [SerializeField] private RectTransform         _pickupItemUI;
+    [SerializeField] private RectTransform         _dialogueEnterPromptUI;
 
-    [SerializeField] private List<RectTransform> _dialogueUI;
+    [SerializeField] private List<RectTransform>   _dialogueUI;
     [SerializeField] private UnityEngine.UI.Button _dialogueContinueButton;
     [SerializeField] private UnityEngine.UI.Button _dialogueSkipButton;
-    [SerializeField] private List<RectTransform> _pauseUI;
+    [SerializeField] private List<RectTransform>   _pauseUI;
 
-    [SerializeField] private List<RectTransform> _loadingOverlay;
-    [SerializeField] private List<RectTransform> _startOverlay;
-    [SerializeField] private List<RectTransform> _startMenu;
-    [SerializeField] private List<RectTransform> _continueButton;
+    [SerializeField] private RectTransform         _cutsceneFadeOverlay;
+    [SerializeField] private List<RectTransform>   _loadingOverlay;
+    [SerializeField] private List<RectTransform>   _startOverlay;
+    [SerializeField] private List<RectTransform>   _startMenu;
+    [SerializeField] private List<RectTransform>   _continueButton;
 
 
     #region Lifecycle Management
@@ -103,6 +104,10 @@ public class UIManager : MonoBehaviour
     public void ShowContinueGame() => DisplayUI(_continueButton);
 
     public void HideContinueGame() => HideUI(_continueButton);
+
+    public void CutsceneFadeIn() => DisplayUI(_cutsceneFadeOverlay);
+
+    public void CutsceneFadeOut() => HideUI(_cutsceneFadeOverlay);
 
     #endregion
 

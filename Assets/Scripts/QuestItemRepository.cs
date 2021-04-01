@@ -3,15 +3,35 @@ using UnityEngine;
 
 public class QuestItemRepository : MonoBehaviour
 {
+    #region String Cache.
+    private readonly string _midSequence = "MidSequence";
+    private readonly string _endSequence = "EndSequence";
+    #endregion
 
     private bool _collectedSeed = false;
     private bool _collectedSoil = false;
     private bool _collectedRain = false;
 
     [SerializeField] private Transform targetItemPosition;
+    [SerializeField] private Transform targetStep1PlayerPosition;
+    [SerializeField] private Transform targetStep2PlayerPosition;
+    [SerializeField] private Transform targetStep3PlayerPosition;
+
+    [SerializeField] private Transform itemHolder;
+
+    private Animator _animator;
+
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+    }
+
+    public QuestItem currentQuestItem { get; private set; }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!other.CompareTag("Item")) return;
+
         QuestItem item = other.GetComponent<QuestItem>();
 
         if (item == null) return;
@@ -36,8 +56,18 @@ public class QuestItemRepository : MonoBehaviour
         }
         Services.QuestManager.AdvanceQuest("Main");
 
-        StartCoroutine(CollectItem(item));
+        currentQuestItem = item;
+
+        Services.GameManager.MidrollCutscene();
+        
     }
+
+    public Transform TargetItemPosition => targetItemPosition;
+    public Transform TargetStep1PlayerPosition => targetStep1PlayerPosition;
+    public Transform TargetStep2PlayerPosition => targetStep2PlayerPosition;
+    public Transform TargetStep3PlayerPosition => targetStep3PlayerPosition;
+
+    public void StartSequence() => StartCoroutine(CollectItem(currentQuestItem));
 
     private IEnumerator CollectItem(QuestItem item)
     {
@@ -45,28 +75,23 @@ public class QuestItemRepository : MonoBehaviour
         item.holdable = false;
         item.rb.isKinematic = true;
 
-        item.transform.SetParent(transform);
+        item.transform.SetParent(itemHolder);
 
-        const float duration = 1f;
+        // Lerp to correct position...
+        const float duration = .5f;
         float elapsedTime = 0f;
         Vector3 initPos = item.transform.position;
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
-            item.rb.position = Vector3.Slerp(initPos, targetItemPosition.position, elapsedTime / duration);
+            item.transform.position = Vector3.Lerp(initPos, itemHolder.position, elapsedTime / duration);
             yield return null;
         }
 
-        item.transform.position = targetItemPosition.position;
-
-        elapsedTime = 0f;
-        Vector3 initScale = item.transform.localScale;
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            item.transform.localScale = Vector3.Slerp(initScale, Vector3.zero, elapsedTime / duration);
-            yield return null;
-        }
+        item.transform.position = itemHolder.position;
+        // And animator handles the rest!
+        _animator.SetTrigger(_midSequence);
     }
 
+    public void RemoveObject() => currentQuestItem.Disappear();
 }

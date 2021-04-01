@@ -46,7 +46,7 @@ public class HoldableItem : MonoBehaviour
         transform.rotation = Quaternion.identity;
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 5f, layerMask, QueryTriggerInteraction.Ignore))
         {
-            transform.position = hit.point + Vector3.up;
+            transform.position = hit.point + Vector3.up / 2;
         }
         else
         {

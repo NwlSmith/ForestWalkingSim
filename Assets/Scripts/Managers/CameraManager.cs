@@ -19,6 +19,7 @@ public class CameraManager : MonoBehaviour
 
     // The finite state machine of the current CameraState.
     private FiniteStateMachine<CameraManager> _fsm;
+    private TaskManager _taskManager = new TaskManager();
 
     public float mouseSensitivity = 200f;
     
@@ -28,6 +29,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera mainFollowCamera;
     [SerializeField] private CinemachineVirtualCamera playerCameraView;
     [SerializeField] private CinemachineVirtualCamera npcCameraView;
+    [SerializeField] private CinemachineVirtualCamera cutsceneCamera;
 
     // Ingame camera movement.
     private float _curVertRot = 0f;
@@ -36,10 +38,9 @@ public class CameraManager : MonoBehaviour
     private float _mouseX = 0f;
     private readonly float _minVert = -30f;
     private readonly float _maxVert = 30f;
-
-    private Camera _mainCamera;
-
     private NPC targetNPC = null;
+
+    public Camera MainCamera { get; private set; }
 
     private void Awake()
     {
@@ -47,12 +48,16 @@ public class CameraManager : MonoBehaviour
 
         _fsm = new FiniteStateMachine<CameraManager>(this);
 
-        _mainCamera = Camera.main;
+        MainCamera = Camera.main;
     }
 
     void Start() => _fsm.TransitionTo<PlayState>();
 
-    private void Update() => _fsm.Update();
+    private void Update()
+    {
+        _fsm.Update();
+        _taskManager.Update();
+    }
 
     private void LateUpdate()
     {
@@ -76,6 +81,8 @@ public class CameraManager : MonoBehaviour
         _fsm.TransitionTo<InDialogueState>();
         SetTargetNPC(Services.NPCInteractionManager.closestNPC);
     }
+
+    public void EnterMidCutscene() => _fsm.TransitionTo<MidCutsceneState>();
 
     // Updates the camera movement inputs. Called in InputManager.
     public void InputUpdate(float mouseX, float mouseY)
@@ -115,7 +122,6 @@ public class CameraManager : MonoBehaviour
         npcCameraView.LookAt = npcCameraTarget;
     }
 
-    public Camera MainCamera => _mainCamera;
 
     #region States
 
@@ -182,13 +188,58 @@ public class CameraManager : MonoBehaviour
     }
 
     // Placeholder for cutscene state.
-    private class CutsceneState : CameraState
+    private class MidCutsceneState : CameraState
     {
-        public override void OnEnter() { }
 
-        public override void Update() { base.Update(); }
+        private float elapsedTime = 0f;
+        private float introDuration = 2f;
+        public override void OnEnter()
+        {
+            Context.cutsceneCamera.LookAt = Services.QuestItemRepository.currentQuestItem.transform;
 
-        public override void OnExit() { }
+            Context.cutsceneCamera.Priority = 50;
+            DelegateTask moveCameraBehindPlayer1 = new DelegateTask(
+                () => {
+                    elapsedTime = 0f;
+                },
+                () => {
+                    elapsedTime += Time.deltaTime;
+                    Context.targetVector.localRotation = Quaternion.Slerp(Context.targetVector.localRotation, Quaternion.Euler(Vector3.zero), elapsedTime / introDuration);
+                    return elapsedTime > introDuration;
+                },
+                () => {
+                    Context.targetVector.localEulerAngles = Vector3.zero;
+                    Context.cutsceneCamera.Priority = 50;
+                }
+                );
+
+            WaitTask waitFor6Seconds = new WaitTask(8f);
+
+            DelegateTask moveCameraBehindPlayer2 = new DelegateTask(
+                () => {
+                    elapsedTime = 0f;
+                    Context.cutsceneCamera.Priority = 10;
+                },
+                () => {
+                    elapsedTime += Time.deltaTime;
+                    Context.targetVector.localRotation = Quaternion.Slerp(Context.targetVector.localRotation, Quaternion.Euler(Vector3.zero), elapsedTime / introDuration);
+                    return elapsedTime > introDuration;
+                },
+                () => {
+                    Context.targetVector.localEulerAngles = Vector3.zero;
+                }
+                );
+
+            moveCameraBehindPlayer1.Then(waitFor6Seconds).Then(moveCameraBehindPlayer2);
+            Context._taskManager.Do(moveCameraBehindPlayer1);
+        }
+
+        public override void OnExit()
+        {
+            Context._curVertRot = 0;
+            Context._curHorRot = 0;
+            Context.targetVector.localEulerAngles = Vector3.zero;
+        }
     }
     
     #endregion

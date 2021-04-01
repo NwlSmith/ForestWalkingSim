@@ -157,6 +157,17 @@ public static class Services
         }
         private set => _spacialAudioManager = value;
     }
+
+    private static QuestItemRepository _questItemRepository;
+    public static QuestItemRepository QuestItemRepository
+    {
+        get
+        {
+            Debug.Assert(_questItemRepository != null);
+            return _questItemRepository;
+        }
+        private set => _questItemRepository = value;
+    }
     #endregion
 
     public static readonly string PlayerTag = "Player";
@@ -179,6 +190,7 @@ public static class Services
         SaveManager = new SaveManager();
         UISound = Object.FindObjectOfType<UISound>();
         SpacialAudioManager = Object.FindObjectOfType<SpacialAudioManager>();
+        QuestItemRepository = Object.FindObjectOfType<QuestItemRepository>();
     }
     #endregion
 }

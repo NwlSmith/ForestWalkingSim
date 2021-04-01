@@ -31,6 +31,35 @@ public class NPCInteractionManager : MonoBehaviour
         }
     }
 
+    public void FindClosestNPC()
+    {
+        Logger.Warning("Failsafe: Someone called FindClosestNPC() on NPCInteractionManager");
+        NPC[] npcs = FindObjectsOfType<NPC>();
+        float closestDist = 10000f;
+        NPC closeNPC = null;
+
+        foreach (NPC npc in npcs)
+        {
+            float curDist = Vector3.Distance(transform.position, npc.transform.position);
+            if (curDist < closestDist)
+            {
+                closestDist = curDist;
+                MultiNPC multi = npc.GetComponentInParent<MultiNPC>();
+                if (multi != null)
+                {
+                    closeNPC = multi;
+                }
+                else
+                {
+                    closeNPC = npc;
+                }
+            }
+        }
+
+        PlayerEncounteredNPC(closeNPC);
+        Logger.Warning($"ClosestNPC = {closeNPC.name}");
+    }
+
     public Transform DialogueTrans => closestNPC.dialoguePos;
 
     public void EnterDialogue() => closestNPC.EnterDialogue(Services.PlayerMovement.transform);

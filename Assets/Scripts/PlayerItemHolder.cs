@@ -64,7 +64,7 @@ public class PlayerItemHolder : MonoBehaviour
         // If the player has an item in their possession, drop it.
         if (_holdingItem)
         {
-            StartCoroutine(DropItemEnum());
+            DropItem();
             return;
         }
 
@@ -95,7 +95,9 @@ public class PlayerItemHolder : MonoBehaviour
 
     private float DistanceTo(HoldableItem item) => Vector3.Distance(item.transform.position, _itemAttachmentPoint.position);
 
-    public IEnumerator DropItemEnum()
+    public void DropItem() => StartCoroutine(DropItemEnum());
+
+    private IEnumerator DropItemEnum()
     {
         _inProgress = true;
         Debug.Log("Dropping item");
