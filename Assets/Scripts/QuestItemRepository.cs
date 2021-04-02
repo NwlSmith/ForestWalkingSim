@@ -15,7 +15,8 @@ public class QuestItemRepository : MonoBehaviour
     [SerializeField] private Transform targetItemPosition;
     [SerializeField] private Transform targetStep1PlayerPosition;
     [SerializeField] private Transform targetStep2PlayerPosition;
-    [SerializeField] private Transform targetStep3PlayerPosition;
+    [SerializeField] private Transform targetStep3PlayerPosition; // For mid cutscenes
+    [SerializeField] private Transform targetStep4PlayerPosition; // For end cutscene
 
     [SerializeField] private Transform itemHolder;
 
@@ -66,6 +67,7 @@ public class QuestItemRepository : MonoBehaviour
     public Transform TargetStep1PlayerPosition => targetStep1PlayerPosition;
     public Transform TargetStep2PlayerPosition => targetStep2PlayerPosition;
     public Transform TargetStep3PlayerPosition => targetStep3PlayerPosition;
+    public Transform TargetStep4PlayerPosition => targetStep4PlayerPosition;
 
     public void StartSequence() => StartCoroutine(CollectItem(currentQuestItem));
 

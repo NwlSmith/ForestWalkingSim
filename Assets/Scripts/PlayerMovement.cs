@@ -131,6 +131,8 @@ public class PlayerMovement : MonoBehaviour
     // Forces the player to walk up to the designated cutscene point and wait there.
     public void EnterMidCutscene() => _fsm.TransitionTo<MidCutsceneState>();
 
+    public void EnterEndCutscene() => _fsm.TransitionTo<EndCutsceneState>();
+
     #endregion
 
     #region Utilities
@@ -580,6 +582,47 @@ public class PlayerMovement : MonoBehaviour
             Context._taskManager.Do(moveToInitPos);
         }
         
+
+        public override void OnExit() => Context.inPlaceForSequence = false;
+    }
+
+    // Player is forced to remain idle, turns to look at NPC.
+    private class EndCutsceneState : GameState
+    {
+
+        public override void OnEnter()
+        {
+            Context.inPlaceForSequence = false;
+
+            Task moveToInitPos = Context.PlayerMoveToTransform(
+                Services.QuestItemRepository.TargetStep1PlayerPosition, // Position target for player
+                Services.QuestItemRepository.TargetItemPosition, // direction target for player
+                Services.QuestItemRepository.TargetItemPosition); // Not totally sure.
+
+            Task phase2Start = Context.LastTask(moveToInitPos);
+            //phase2Start
+
+            Task reset1 = new ActionTask(() => { Context.inPlaceForSequence = false; });
+
+            Task moveToMidPos = Context.PlayerMoveToTransform(
+                Services.QuestItemRepository.TargetStep2PlayerPosition,
+                Services.QuestItemRepository.TargetItemPosition,
+                Services.QuestItemRepository.TargetItemPosition);
+
+            phase2Start.Then(reset1).Then(moveToMidPos);
+
+            Task phase3Start = Context.LastTask(moveToMidPos);
+            Task reset2 = new ActionTask(() => { Context.inPlaceForSequence = false; });
+            Task wait4Secs = new WaitTask(4f);
+            Task forceFinalTransform = new ActionTask(() => { Context.ForceTransform(Services.QuestItemRepository.TargetStep4PlayerPosition.position, Services.QuestItemRepository.TargetStep4PlayerPosition.rotation); });
+            //Task wait5Secs = new WaitTask(5f);
+            //Task exitSequence = new ActionTask(() => { Context.EnterPlay(); Debug.Log("exitSequence!!!!!!!!!!!!!!!!!!!"); });
+
+            phase3Start.Then(reset2).Then(wait4Secs).Then(forceFinalTransform);//.Then(wait5Secs).Then(exitSequence);
+
+            Context._taskManager.Do(moveToInitPos);
+        }
+
 
         public override void OnExit() => Context.inPlaceForSequence = false;
     }

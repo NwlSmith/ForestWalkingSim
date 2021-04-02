@@ -13,7 +13,9 @@ using UnityEngine;
  * 
  * Stage 3: Advance to stage 4 by finding all of the items and bringing them to the Heart.
  * 
- * Stage 4: Finish the game, trigger cutscene.
+ * Stage 4: Trigger cutscene. Put player in front of Spirit. Advance to stage 4 by talking to spirit.
+ * 
+ * Stage 5: Finish the game.
  */
 public class MainQuest : FSMQuest
 {
@@ -30,6 +32,7 @@ public class MainQuest : FSMQuest
             _fsm.TransitionTo<Stage2State>,
             _fsm.TransitionTo<Stage3State>,
             _fsm.TransitionTo<Stage4State>,
+            _fsm.TransitionTo<Stage5State>,
             _fsm.TransitionTo<Stage0State>
         };
 
@@ -111,7 +114,7 @@ public class MainQuest : FSMQuest
         }
     }
 
-    // Stage 4: Finish the game, trigger cutscene.
+    // Stage 4: Trigger cutscene. Put player in front of Spirit. Advance to stage 4 by talking to spirit.
     private class Stage4State : QuestState
     {
         public override void OnEnter()
@@ -119,6 +122,18 @@ public class MainQuest : FSMQuest
             _stageNum = 4;
             base.OnEnter();
             Services.GameManager.EndCutscene();
+            // TRIGGER END CUTSCENE.
+        }
+    }
+
+    // Stage 5: Finish the game.
+    private class Stage5State : QuestState
+    {
+        public override void OnEnter()
+        {
+            _stageNum = 5;
+            base.OnEnter();
+            Services.GameManager.EndGame();
             // TRIGGER END CUTSCENE.
         }
     }

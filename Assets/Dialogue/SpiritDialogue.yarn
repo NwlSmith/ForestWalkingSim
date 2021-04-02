@@ -37,16 +37,17 @@ position: 153,208
     <<set $quest_main_stage to 1>>
     <<AdvanceQuest Main>>
 <<elseif $quest_main_stage gt 0 and $quest_main_stage lt 4>>
+    <<NPCSpeak>>
+    Hello again.
     <<PlayerSpeak>>
     Could you remind me of my task?
     <<NPCSpeak>>
     Find the Soil, the Seed, and the Rain. Bring them back here.
     Last I heard, The Seed was in the hands of the birds, The Rain was being kept by a turtle, and The Soil was with a lovely elderly couple.
 <<elseif $quest_main_stage is 4>>
-    <<PlayerSpeak>>
-    This is the final item.
     <<NPCSpeak>>
-    So it is.
+    This is the final item.
+    With this, the forest can be made whole again.
     <<PlayerSpeak>>
     What do we do now?
     <<NPCSpeak>>
@@ -72,5 +73,6 @@ position: 153,208
     Thank you again for what you've done for us.
     The creatures here may not know it, but they'll be able to live out the rest of their lives in peace thanks to you.
     Goodbye...
+    <<AdvanceQuest Main>>
 <<endif>>
 ===

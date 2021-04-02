@@ -10,6 +10,8 @@ position: -773,288
     Sorry little one, I can't play right now.
 <<elseif $quest_warbler_stage gt 0 and $quest_warbler_stage lt 4>>
     <<if $found_warbler_child_2 is false>>
+        <<NPCSpeak>>
+        Hi there! Who're you?
         <<PlayerSpeak>>
         You should get back home to your grandmother, little bird.
         <<NPCSpeak>>

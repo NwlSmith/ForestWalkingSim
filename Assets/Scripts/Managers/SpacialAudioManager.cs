@@ -14,7 +14,7 @@ public class SpacialAudioManager : MonoBehaviour
     public enum AreaEnum { Start, Heart, Warbler, Frogs, Turtle };
     private AreaEnum _currentArea = AreaEnum.Start;
     private int _curASIndex = 0;
-    [SerializeField] private int _musicVolume = 1;
+    [SerializeField] private float _musicVolume = .8f;
     private AudioSource[] _audioSources = new AudioSource[2];
     [SerializeField] private AudioClip _startSong;
     [SerializeField] private AudioClip _heartSong;

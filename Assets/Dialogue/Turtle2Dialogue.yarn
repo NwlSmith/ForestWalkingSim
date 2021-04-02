@@ -16,8 +16,20 @@ position: 566,546
     Well then, are you ready?
     <<PlayerSpeak>>
     Born ready!
+    But, um... Where are we racing to?
     <<NPCSpeak>>
-    Hope you're hungry for a heaping plate of dust, slowpoke!
+    Ah of course, I almost forgot.
+    You see that long stretch of land next to us?
+    <<PlayerSpeak>>
+    Yes.
+    <<NPCSpeak>>
+    Well at the other end of this area is a large pink tree surrounded by moss covered stones.
+    Beat me there, and I will give you what you want.
+    Think you can manage?
+    <<PlayerSpeak>>
+    I think I can handle it.
+    <<NPCSpeak>>
+    Well, I hope you're hungry for a heaping plate of dust, slowpoke!
     Three!
     Two!
     One!
@@ -30,6 +42,8 @@ position: 566,546
     <<NPCSpeak>>
     Stage 3
 <<elseif $quest_turtle_stage is 4>>
+    <<NPCSpeak>>
+    Nice of you to show up!
     <<PlayerSpeak>>
     You're a formidable opponent!
     <<NPCSpeak>>
@@ -47,7 +61,8 @@ position: 566,546
     Will you show me where The Rain is?
     <<NPCSpeak>>
     Of course, dear.
-    Just head around to the back of my house, that's where I tend to keep it.
+    If you go in the direction of the large tree at the Heart of the Forest, around the corner, you'll find your way back to my house. 
+    Head around to the back of my house, that's where I tend to keep it.
     <<PlayerSpeak>>
     Thank you so much!
     I'll have to train up and come back for another round sometime.

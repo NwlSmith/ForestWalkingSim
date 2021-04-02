@@ -4,11 +4,10 @@ colorID: 0
 position: -1085,626
 ---
 <<if $quest_frog_stage is 1>>
-    <<PlayerSpeak>>
-    Oh, hello Toad.
     <<NPCSpeak>>
-    Yes, hello.
+    Hello Fox!
     <<PlayerSpeak>>
+    Hello Toad.
     What brings you here?
     Is Carp around?
     <<NPCSpeak>>

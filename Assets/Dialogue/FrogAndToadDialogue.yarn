@@ -39,8 +39,10 @@ position: -1338,671
     Any time! And please, do come by again.
     <<AdvanceQuest Frog>>
 <<elseif $quest_frog_stage is 1>>
+    <<NPCSpeak 0>>
+    Back again?
     <<PlayerSpeak>>
-    Pardon me, could you please remind me where I have to go?
+    Yes, sorry, could you please remind me where I have to go?
     <<NPCSpeak 1>>
     Certainly. Simply continue down the path to your right, and you will find Carp's pond.
     <<PlayerSpeak>>

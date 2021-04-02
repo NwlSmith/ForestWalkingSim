@@ -15,10 +15,6 @@ using UnityEngine.SceneManagement;
  * - Make walking animation line up with music maybe?
  * - In URPExampleAssets > Settings > UniversalRenderPipeline Shadow Max distance was initially 50
  * - Make turtle go to quest area.
- * - Remove quest debug stuff in InputManager!
- * - remove sawyer's middle name
- * - have player exit cutscene in front of spirit
- * - fix crash with multiple npc discussions
  * 
  * Issues:
  * - Immediately thinks I want to talk to spirit - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
@@ -40,6 +36,7 @@ public class GameManager : MonoBehaviour
     private TaskManager _taskManager = new TaskManager();
 
     private bool _gameStarted = false;
+    private bool _endingGame = false;
 
     #endregion 
 
@@ -114,12 +111,20 @@ public class GameManager : MonoBehaviour
     public void EnterDialogue() => _fsm.TransitionTo<InDialogueState>();
 
     // Called on Exit dialogue.
-    public void ReturnToPlay() => _fsm.TransitionTo<PlayState>();
+    public void ReturnToPlay()
+    {
+        if (_endingGame)
+            EndGame();
+        else
+            _fsm.TransitionTo<PlayState>();
+    }
 
     // Called on Quest item trigger.
     public void MidrollCutscene() => _fsm.TransitionTo<MidCutsceneState>();
 
     public void EndCutscene() => _fsm.TransitionTo<EndCutsceneState>();
+
+    public void EndGame() => _fsm.TransitionTo<EndGameState>();
 
     // Called when the player goes to main menu.
     public void MainMenu()
@@ -184,6 +189,10 @@ public class GameManager : MonoBehaviour
     {
         public override void OnEnter()
         {
+            if (Context._endingGame)
+            {
+                TransitionTo<EndGameState>();
+            }
             Logger.Debug("GameManager: Entered PlayState");
             Services.PlayerMovement.EnterPlay();
             Services.CameraManager.EnterPlay();
@@ -298,6 +307,7 @@ public class GameManager : MonoBehaviour
                 Services.CameraManager.EnterMidCutscene();
             }, () =>
             {
+                Services.UIManager.HideItemPickupPrompt();
                 return Services.PlayerMovement.inPlaceForSequence;
             });
 
@@ -310,6 +320,7 @@ public class GameManager : MonoBehaviour
                 // Trigger music?
             }, () =>
             {
+                Services.UIManager.HideItemPickupPrompt();
                 return Services.PlayerMovement.inPlaceForSequence;
             }, () =>
             {
@@ -368,6 +379,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Use delegates to control player movement, show item taken away, and coordinate UI and sound.
+    // FIX COMMENTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     private class EndCutsceneState : GameState
     {
         /*
@@ -386,7 +398,7 @@ public class GameManager : MonoBehaviour
             // 1. Move player to position. Move camera behind player. ~2s
             Task enterSequence = new DelegateTask(() =>
             {
-                Services.PlayerMovement.EnterMidCutscene();
+                Services.PlayerMovement.EnterEndCutscene();
                 Services.CameraManager.EnterMidCutscene();
             }, () =>
             {
@@ -427,25 +439,61 @@ public class GameManager : MonoBehaviour
                 Services.UIManager.CutsceneFadeIn();
             });
 
-            // 5. stay there for a sec as music fades. 
-            Task waitForTime4 = new WaitTask(4f);
+            // 5. stay there for a sec as music fades. Place player into new position. 3s
+            Task waitForTime4 = new WaitTask(4.5f);
 
             // 6. Fade back in and have player turned around as environment changes are triggered. 2s
             ActionTask fifthSequence = new ActionTask(() =>
             {
-                SceneManager.LoadScene(2);
+                Services.PlayerAnimation.Sitting(true);
+                // Fade in?
+                Services.UIManager.CutsceneFadeOut();
             });
 
-            enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence);
+            Task waitForTime5 = new WaitTask(3f);
+            // 7. 1 sec later have player get up and return to normal controls. 1s
+            ActionTask sixthSequence = new ActionTask(() =>
+            {
+                Context._endingGame = true;
+                Services.PlayerAnimation.Sitting(false);
+                Services.NPCInteractionManager.FindClosestNPC();
+                Services.GameManager.EnterDialogue();
+            });
+
+            enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(sixthSequence);
 
             Context._taskManager.Do(enterSequence);
         }
 
+    }
+
+    // Use delegates to control player movement, show item taken away, and coordinate UI and sound.
+    // FIX COMMENTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    private class EndGameState : GameState
+    {
+        public override void OnEnter()
+        {
+            Debug.Log("Entering EndGameState!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Services.PlayerMovement.ForceIdle();
+            Services.PlayerAnimation.Sitting(true);
+            Services.CameraManager.EnterPause();
+            Services.UIManager.CutsceneFadeIn();
+            Task waitForTime = new WaitTask(4.5f);
+
+            // 1. Move player to position. Move camera behind player. ~2s
+            Task endGame = new ActionTask(() =>
+            {
+                SceneManager.LoadScene(2);
+            });
+
+            waitForTime.Then(endGame);
+
+            Context._taskManager.Do(waitForTime);
+        }
+
         public override void OnExit()
         {
-            Services.PlayerMovement.EnterPlay(); // These aren't needed
-            Services.CameraManager.EnterPlay();
-            Services.UIManager.EnterPlay();
+            Debug.Log("LEAVING EndGameState!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
     }
 
