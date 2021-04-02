@@ -4,18 +4,22 @@ colorID: 0
 position: -99,-73
 ---
 <<NPCSpeak 0>>
-Mom
+You’re back!
+All three of my grandbabies made their way back to me safely thanks to you.
+And somehow they seem to have learned their lesson about sneaking off. Not sure how you did it.
+Kids, say thank you to the nice fox.
 <<NPCSpeak 1>>
-Child1
+Thank you!
 <<NPCSpeak 2>>
-Child2
+I'm still scared of you...
 <<NPCSpeak 3>>
-Child3
+Thanks.
 <<PlayerSpeak>>
-Yeah, that's cool.
+I’m happy to help. Now, if I could ask —
 <<NPCSpeak 0>>
-The seed is over by the pine tree. Bring it to the really big tree.
+Ah, The Seed, of course! It's over there by the pine tree.
+If you run into that big fancy fox with all the different tails, say hi from me!
 <<PlayerSpeak>>
-Thanks!
+I will!
 <<AdvanceQuest Warbler>>
 ===
