@@ -89,23 +89,25 @@ public class MainQuest : FSMQuest
         }
     }
 
-    // Stage 2: Each quest is spawned. Advance to stage 3 by finding 2 of the items and bringing them to the Heart.
+    // Stage 2: Advance to stage 3 by finding 2 of the items and bringing them to the Heart.
     private class Stage2State : QuestState
     {
         public override void OnEnter()
         {
             _stageNum = 2;
             base.OnEnter();
+            Services.GameManager.MidrollCutscene();
         }
     }
 
-    // Stage 3: Each quest is spawned. Advance to stage 4 by finding all of the items and bringing them to the Heart.
+    // Stage 3: Advance to stage 4 by finding all of the items and bringing them to the Heart.
     private class Stage3State : QuestState
     {
         public override void OnEnter()
         {
             _stageNum = 3;
             base.OnEnter();
+            Services.GameManager.MidrollCutscene();
         }
     }
 
@@ -116,6 +118,7 @@ public class MainQuest : FSMQuest
         {
             _stageNum = 4;
             base.OnEnter();
+            Services.GameManager.EndCutscene();
             // TRIGGER END CUTSCENE.
         }
     }

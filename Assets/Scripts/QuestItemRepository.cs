@@ -58,7 +58,7 @@ public class QuestItemRepository : MonoBehaviour
 
         currentQuestItem = item;
 
-        Services.GameManager.MidrollCutscene();
+        
         
     }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /*
  * Creator: Nate Smith
@@ -15,6 +16,9 @@ using UnityEngine;
  * - In URPExampleAssets > Settings > UniversalRenderPipeline Shadow Max distance was initially 50
  * - Make turtle go to quest area.
  * - Remove quest debug stuff in InputManager!
+ * - remove sawyer's middle name
+ * - have player exit cutscene in front of spirit
+ * - fix crash with multiple npc discussions
  * 
  * Issues:
  * - Immediately thinks I want to talk to spirit - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
@@ -114,6 +118,8 @@ public class GameManager : MonoBehaviour
 
     // Called on Quest item trigger.
     public void MidrollCutscene() => _fsm.TransitionTo<MidCutsceneState>();
+
+    public void EndCutscene() => _fsm.TransitionTo<EndCutsceneState>();
 
     // Called when the player goes to main menu.
     public void MainMenu()
@@ -349,6 +355,88 @@ public class GameManager : MonoBehaviour
             });
 
             enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(sixthSequence);
+
+            Context._taskManager.Do(enterSequence);
+        }
+
+        public override void OnExit()
+        {
+            Services.PlayerMovement.EnterPlay(); // These aren't needed
+            Services.CameraManager.EnterPlay();
+            Services.UIManager.EnterPlay();
+        }
+    }
+
+    // Use delegates to control player movement, show item taken away, and coordinate UI and sound.
+    private class EndCutsceneState : GameState
+    {
+        /*
+         * 1. Move player to position. Move camera behind player. ~2s
+         * 2. Move Camera to cutsceneCamera, have camera slowly focus on item. Make player walk to tree. ~2s
+         * 3. Trigger Quest item repository to take item, trigger sounds and particle effects, smoothly animate it into position and have large particle effect. 2s
+         * 4. Fade to white? black? 2s
+         * 5. stay there for a sec as music fades. Place player into new position. 3s
+         * 6. Fade back in and have player turned around as environment changes are triggered. 2s
+         * 7. 1 sec later have player get up and return to normal controls. 1s // turns around!
+         */
+
+        public override void OnEnter()
+        {
+
+            // 1. Move player to position. Move camera behind player. ~2s
+            Task enterSequence = new DelegateTask(() =>
+            {
+                Services.PlayerMovement.EnterMidCutscene();
+                Services.CameraManager.EnterMidCutscene();
+            }, () =>
+            {
+                return Services.PlayerMovement.inPlaceForSequence;
+            });
+
+            Task waitForTime1 = new WaitTask(1f);
+
+            // 2. Move Camera to cutsceneCamera, have camera slowly focus on item. Make player walk to tree. ~2s
+            Task secondSequence = new DelegateTask(() =>
+            {
+                // Trigger particles?
+                // Trigger music?
+            }, () =>
+            {
+                return Services.PlayerMovement.inPlaceForSequence;
+            }, () =>
+            {
+                Services.PlayerItemHolder.DropItem();
+            });
+
+            Task waitForTime2 = new WaitTask(.66f);
+
+            // 3.Trigger Quest item repository to take item, trigger sounds and particle effects, smoothly animate it into position and have large particle effect. 2s
+            ActionTask thirdSequence = new ActionTask(() =>
+            {
+                Services.QuestItemRepository.StartSequence();
+                // Quest item Repository takes Item.
+                // trigger other stuff.
+            });
+
+            Task waitForTime3 = new WaitTask(1.5f);
+
+            // 4. Fade to white? black? 2s
+            ActionTask fourthSequence = new ActionTask(() =>
+            {
+                // Fade out?
+                Services.UIManager.CutsceneFadeIn();
+            });
+
+            // 5. stay there for a sec as music fades. 
+            Task waitForTime4 = new WaitTask(4f);
+
+            // 6. Fade back in and have player turned around as environment changes are triggered. 2s
+            ActionTask fifthSequence = new ActionTask(() =>
+            {
+                SceneManager.LoadScene(2);
+            });
+
+            enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence);
 
             Context._taskManager.Do(enterSequence);
         }

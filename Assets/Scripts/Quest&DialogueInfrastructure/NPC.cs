@@ -72,14 +72,16 @@ public class NPC : MonoBehaviour
             _anim = GetComponentInChildren<Animator>();
         _anim.SetBool(_inConvo, true);
 
-        _NPCCollider.Disappear();
+        if (_NPCCollider != null)
+            _NPCCollider.Disappear(); // CAUSED CRASH
     }
 
     public virtual void ExitDialogue()
     {
         _model.transform.rotation = _initRot;
         _anim.SetBool(_inConvo, false);
-        _NPCCollider.Appear();
+        if (_NPCCollider != null)
+            _NPCCollider.Appear();
     }
 
     public virtual void Speak(int npcNum = 0) => _anim.SetTrigger(_talk);
