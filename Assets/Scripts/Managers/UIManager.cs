@@ -66,7 +66,6 @@ public class UIManager : MonoBehaviour
     {
         if (_fsm.CurrentState.GetType() != typeof(InDialogueState))
         {
-            Logger.Debug("Displaying dialogue prompt from UIManager");
             DisplayUI(_dialogueEnterPromptUI);
         }
     }

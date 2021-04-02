@@ -38,6 +38,7 @@ public class TurtleQuest : FSMQuest
             _fsm.TransitionTo<Stage3State>,
             _fsm.TransitionTo<Stage4State>,
             _fsm.TransitionTo<Stage5State>,
+            _fsm.TransitionTo<Stage6State>,
             _fsm.TransitionTo<Stage0State>
         };
 
@@ -105,13 +106,13 @@ public class TurtleQuest : FSMQuest
         // Defines tasks for turtle movement.
         private void OnEnterTasks()
         {
-            Transform npcColliderTrans = _turtleRB.GetComponentInChildren<NPCCollider>().transform;
-            Vector3 initScale = npcColliderTrans.localScale;
+            NPCCollider npcCollider = _turtleRB.GetComponentInChildren<NPCCollider>();
+            Vector3 initScale = npcCollider.transform.localScale;
             Task start = new ActionTask( () =>
             {
                 _turtleAnim.SetBool(_running, true);
                 // sound?
-                npcColliderTrans.localScale = Vector3.zero;
+                npcCollider.transform.localScale = Vector3.zero;
             });
             Task prev = start;
 
@@ -125,7 +126,8 @@ public class TurtleQuest : FSMQuest
                 (
                     () => {
                         _turtleAnim.SetBool("Running", false);
-                        npcColliderTrans.localScale = initScale;
+                        npcCollider.transform.localScale = initScale; // causes problems
+                        npcCollider.Appear(); // causes problems
                         Services.QuestManager.AdvanceQuest(Context.QuestTag);
                     }
                 );

@@ -78,7 +78,7 @@ public class QuestItemRepository : MonoBehaviour
         item.transform.SetParent(itemHolder);
 
         // Lerp to correct position...
-        const float duration = .5f;
+        const float duration = .25f;
         float elapsedTime = 0f;
         Vector3 initPos = item.transform.position;
         while (elapsedTime < duration)

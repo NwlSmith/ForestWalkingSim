@@ -92,7 +92,7 @@ public class SpacialAudioManager : MonoBehaviour
         AudioSource _curAS = _audioSources[_curASIndex];
         _curAS.clip = areaToClip[areaEnum];
         _curAS.Play();
-        _curAS.time = OtherAS.time % OtherAS.clip.length;
+        _curAS.time = OtherAS.time % _curAS.clip.length;
         _currentArea = areaEnum;
         return new DelegateTask(
             () => { },

@@ -114,11 +114,7 @@ public class PlayerMovement : MonoBehaviour
     #region Triggers
 
     // Returns player to play mode.
-    public void EnterPlay()
-    {
-        Debug.Log("ENTERING PLAY TRIGGERED!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        _fsm.TransitionTo<MovingOnGroundState>();
-    }
+    public void EnterPlay() => _fsm.TransitionTo<MovingOnGroundState>();
 
     // Forces the player to be idle.
     public void ForceIdle() => _fsm.TransitionTo<ForcedIdleState>();
@@ -144,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
     private bool OnGround()
     {
         if (_charController.isGrounded) return true;
-        return Physics.Raycast(transform.position + raycastOriginOffset, Vector3.down, out RaycastHit hit, .3f, groundLayers, QueryTriggerInteraction.Ignore);
+        return Physics.Raycast(transform.position + raycastOriginOffset, Vector3.down, out RaycastHit hit, .4f, groundLayers, QueryTriggerInteraction.Ignore);
     }
 
     // Returns whether or not the player entered any ground movement inputs W, A, S, D, NOT space.
@@ -494,13 +490,11 @@ public class PlayerMovement : MonoBehaviour
                 {
                     if (Context._fsm.CurrentState.GetType() == typeof(InDialogueState))
                     {
-                        Logger.Warning("Jump task finished outside of NPC area. Transitioning to InDialogueState.");
-                        TransitionTo<InDialogueState>();
+                        Logger.Warning("Jump task finished outside of NPC area.");
                     }
                     else if (Context._fsm.CurrentState.GetType() == typeof(MidCutsceneState))
                     {
                         Logger.Warning("Jump task finished outside of NPC area. Transitioning to MidCutsceneState.");
-                        TransitionTo<MidCutsceneState>();
                     }
                     else if (Context._currentMovementVector.y < 0f)
                     {

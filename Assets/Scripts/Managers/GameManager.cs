@@ -11,16 +11,10 @@ using UnityEngine;
  * Allows different game states to have different Update functions.
  * 
  * To do:
- * - Make pause call a pause animation function in PlayerAnimation.
- * - Maybe change quest items so they're not affected by physics? - let player drop items
  * - Make walking animation line up with music maybe?
  * - In URPExampleAssets > Settings > UniversalRenderPipeline Shadow Max distance was initially 50
- * - glitch with turtle quest
  * - Make turtle go to quest area.
- * - Feedback for main quest stuff
- *  - Have scripted thing where player stops moving, camera stops moving, camera looks at item, item floats into tree, then up, emit particles and play sound.
  * - Remove quest debug stuff in InputManager!
- * - Make tail more expressive!
  * 
  * Issues:
  * - Immediately thinks I want to talk to spirit - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
@@ -285,7 +279,7 @@ public class GameManager : MonoBehaviour
          * 4. Fade to white? black? 2s
          * 5. stay there for a sec as music fades. Place player into new position. 3s
          * 6. Fade back in and have player turned around as environment changes are triggered. 2s
-         * 7. 1 sec later have player get up and return to normal controls. 1s
+         * 7. 1 sec later have player get up and return to normal controls. 1s // turns around!
          */
 
         public override void OnEnter()
@@ -301,7 +295,7 @@ public class GameManager : MonoBehaviour
                 return Services.PlayerMovement.inPlaceForSequence;
             });
 
-            Task waitForTime1 = new WaitTask(.01f);
+            Task waitForTime1 = new WaitTask(1f);
 
             // 2. Move Camera to cutsceneCamera, have camera slowly focus on item. Make player walk to tree. ~2s
             Task secondSequence = new DelegateTask(() =>
@@ -326,7 +320,7 @@ public class GameManager : MonoBehaviour
                 // trigger other stuff.
             });
 
-            Task waitForTime3 = new WaitTask(2f);
+            Task waitForTime3 = new WaitTask(1.5f);
 
             // 4. Fade to white? black? 2s
             ActionTask fourthSequence = new ActionTask(() =>
@@ -336,7 +330,7 @@ public class GameManager : MonoBehaviour
             });
 
             // 5. stay there for a sec as music fades. Place player into new position. 3s
-            Task waitForTime4 = new WaitTask(4f);
+            Task waitForTime4 = new WaitTask(4.5f);
 
             // 6. Fade back in and have player turned around as environment changes are triggered. 2s
             ActionTask fifthSequence = new ActionTask(() =>

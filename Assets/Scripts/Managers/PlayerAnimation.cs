@@ -50,7 +50,7 @@ public class PlayerAnimation
     public void Moving(bool isMoving)
     {
         if (isMoving) _spineAnimator.SpineAnimatorAmount = .5f;
-        else _spineAnimator.SpineAnimatorAmount = 0f;
+        //else _spineAnimator.SpineAnimatorAmount = 0f;
         _animator.SetBool(_moving, isMoving);
     }
 

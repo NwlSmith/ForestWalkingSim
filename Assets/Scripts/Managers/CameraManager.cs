@@ -213,7 +213,7 @@ public class CameraManager : MonoBehaviour
                 }
                 );
 
-            WaitTask waitFor6Seconds = new WaitTask(8f);
+            WaitTask waitFor6Seconds = new WaitTask(5.5f);
 
             DelegateTask moveCameraBehindPlayer2 = new DelegateTask(
                 () => {
@@ -236,8 +236,8 @@ public class CameraManager : MonoBehaviour
 
         public override void OnExit()
         {
-            Context._curVertRot = 0;
-            Context._curHorRot = 0;
+            Context._curVertRot = 0; // Causes issues.
+            Context._curHorRot = Context.targetVector.eulerAngles.y;
             Context.targetVector.localEulerAngles = Vector3.zero;
         }
     }

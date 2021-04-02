@@ -12,7 +12,6 @@ public class NPCInteractionManager : MonoBehaviour
     public void PlayerEncounteredNPC(NPC npc)
     {
         closestNPC = npc;
-        Logger.Debug("Displaying entry prompt from NPCInteractionManager");
         Services.UIManager.DisplayDialogueEnterPrompt();
     }
 
