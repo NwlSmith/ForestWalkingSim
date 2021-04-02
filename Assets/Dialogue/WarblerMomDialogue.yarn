@@ -5,67 +5,62 @@ position: -184,215
 ---
 <<if $quest_warbler_stage is 0>>
     <<NPCSpeak>>
-    Now where could they be?...
+    Oh boy, oh boy...
     <<PlayerSpeak>>
     Excuse me, could I ask —
     <<NPCSpeak>>
-    Listen, I’d love to help you, but I’ve got bigger problems right now.
-    Three of my babies are missing! I’d go look for them, but I can’t leave my other children here alone…
+    Sorry, sweetie, I’d love to help you, but I’ve got bigger fish to fry! 
+    My three grandbabies must've snuck off in all the commotion.
+    I tried to look for them, but these old wings don’t work like they used to...
+    Say.
+    You look pretty spry.
+    I hate to ask, but would you help me?
     <<PlayerSpeak>>
-    I could help you look.
+    Of course. I'll help you find your children.
     <<NPCSpeak>>
-    Would you really do that for me?
-    Well, now I feel bad for being so rude.
+    Really? Well, now I feel bad for being so rude!
     What was it that you were going to ask?
+    I'll help you out however I can.
     <<PlayerSpeak>>
-    I’m looking for The Seed.
+    I'm looking for The Seed so I can regrow the heart of the forest.
     <<NPCSpeak>>
     Wait, you’re looking for that?
-    I just confiscated it from my kids this morning.
-    They've been chewing on that thing nonstop!
-    Maybe we can help each other…
-    If you find my three daughters, I'll give you the Seed.
+    It's been in the family for generations...
+    ...but I suppose I can part with it, since you're doing so much to help me.
+    Besides, fixing the forest is certainly a worthy enough cause!
     <<PlayerSpeak>>
-    I’ll do what I can to help. Do you know where they might be?
+    Do you know where they might be?
     <<NPCSpeak>>
     No, but they can't have gone too far.
-    Thanks a lot, stranger. You’ll know them when you see them - they look just like me!
+    You’ll know them when you see them. They look just like me!
     <<AdvanceQuest Warbler>>
 <<elseif $quest_warbler_stage is 1>>
     <<NPCSpeak>>
-    Have you found anything?
+    Any luck finding my grandchildren?
     <<PlayerSpeak>>
     Not yet, but I'll keep looking.
     <<NPCSpeak>>
-    Thank you again for helping to find my babies. You're very kind!
+    Thanks again for offering to help. You're very kind!
 <<elseif $quest_warbler_stage is 2>>
     <<NPCSpeak>>
-    One of my children made their way back to me!
-    This is a great start, but I've got two more.
+    One of my babies is back!
+    It's a great start, but I've got two more.
     <<PlayerSpeak>>
     I'll go look.
 <<elseif $quest_warbler_stage is 3>>
     <<NPCSpeak>>
-    Thank you for finding two of my children! There's still one missing.
+    You're a miracle worker! Just one more!
     <<PlayerSpeak>>
     I'm on it.
 <<elseif $quest_warbler_stage is 4>>
-    <<NPCSpeak>>
-    You’re back!
-    You’re a lifesaver! All three of my children made their way back to me safely thanks to you.
-    And somehow they seem to have learnt their lesson about sneaking off. Not sure how you did it.
-    <<PlayerSpeak>>
-    I’m happy to help. Now, if I could ask —
-    <<NPCSpeak>>
-    Oh, the Seed, of course.
-    Here you go. When you see the guardian of the forest again, say hi for me!
     <<AdvanceQuest Warbler>>
 <<elseif $quest_warbler_stage gt 4>>
     <<PlayerSpeak>>
     What am I supposed to be doing again?
     <<NPCSpeak>>
-    Hey, you’re the one who wanted the Seed, not me! But I'd say your best bet is to head back to the heart of the forest.
-    The spirit guardian knows about all this magic stuff more than I do.
+    Hey, you’re the one who wanted the Seed, not me!
+    The forest guardian with all the different tails knows about all this magic stuff more than I do.
+    I'd say that's your best bet.
     <<PlayerSpeak>>
     I’ll go there then. Thanks!
 <<endif>>

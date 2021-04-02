@@ -7,19 +7,29 @@ position: 153,208
     <<NPCSpeak>>
     I’m glad you’re here.
     <<PlayerSpeak>>
-    How did you know I’d be coming?
+    You knew I was coming?
+    How can that be? I didn't even know I was coming.
     <<NPCSpeak>>
-    I’m the protector of this forest. I know all who come and go here. I’m the one who sent for you in the first place.
+    I’m the one who sent for you in the first place.
     <<PlayerSpeak>>
+    Wait... you brought me here?
     Why?
     <<NPCSpeak>>
-    Things aren't what they used to be, ever since the fire. I want to fix things, but I’m afraid I’ve grown too weak to even leave the forest’s center.
+    I’m the guardian of this forest community.
+    Recently, the forest was devastated by a horrible fire.
+    But I'm afraid even before that, things haven't been as great they once were.
+    I’ve grown too old and weak to even leave the forest’s center.
     You, on the other hand, are young and full of light. I could feel your energy from miles away.
+    If you would assist me in restoring the forest, I would be so very grateful.
     <<PlayerSpeak>>
-    What can I do to help?
+    I'm not sure if I can help with something that big...
     <<NPCSpeak>>
-    There are three magic items—the Soil, the Seed, and the Rain. They’re the only thing that can quickly rejuvenate an area this badly burned. Bring them back here.
-    The creatures of the forest know where they are, so talk to them.
+    All you would need to do is find The Soil, the Seed, and the Rain.
+    <<PlayerSpeak>>
+    It's that easy?
+    <<NPCSpeak>>
+    Well, no. But I can handle it from there.
+    The creatures of the forest know where these items are, so talk to them.
     <<PlayerSpeak>>
     I’ll do what I can.
     <<NPCSpeak>>
@@ -31,7 +41,7 @@ position: 153,208
     Could you remind me of my task?
     <<NPCSpeak>>
     Find the Soil, the Seed, and the Rain. Bring them back here.
-    Last I heard, the Seed was in the hands of the birds, the Rain was being kept by a turtle, and the Soil was with a lovely elderly couple.
+    Last I heard, The Seed was in the hands of the birds, The Rain was being kept by a turtle, and The Soil was with a lovely elderly couple.
 <<elseif $quest_main_stage is 4>>
     <<PlayerSpeak>>
     This is the final item.
@@ -56,15 +66,11 @@ position: 153,208
     I hate to even ask. But if you have nowhere to go...
     Would you keep an eye on the forest when I'm gone?
     <<PlayerSpeak>>
-    That's a big responsibility.
-    I'll do my best.
+    That's a big responsibility...
+    But I'll do my best.
     <<NPCSpeak>>
-    Thank you.
-    <<PlayerSpeak>>
-    I guess that's it then.
-    <<NPCSpeak>>
-    So it seems.
     Thank you again for what you've done for us.
-    The creatures here don't know it, but they'll continue to live another day thanks to you.
+    The creatures here may not know it, but they'll be able to live out the rest of their lives in peace thanks to you.
+    Goodbye...
 <<endif>>
 ===

@@ -11,9 +11,10 @@ position: -773,288
 <<elseif $quest_warbler_stage gt 0 and $quest_warbler_stage lt 4>>
     <<if $found_warbler_child_2 is false>>
         <<PlayerSpeak>>
-        Little bird! You should get back home to your mother.
+        You should get back home to your grandmother, little bird.
         <<NPCSpeak>>
-        That doesn’t sound like much fun. Ever since she took the Seed away, I’ve been bored out of my mind.
+        That doesn’t sound like much fun!
+        Ever since she stopped letting me play with the seed, I’ve been bored out of my mind.
         Going home would just make me even more bored.
         <<PlayerSpeak>>
         Not everything is supposed to be fun. Your mom is worried about you.
@@ -27,7 +28,7 @@ position: -773,288
         <<PlayerSpeak>>
         Not if you do as I say.
         <<NPCSpeak>>
-        Fine… Your scary talk is freaking me out anyway. It’s time for me to go home.
+        Fine... Your scary talk is freaking me out anyway. It’s time for me to go home.
         <<set $found_warbler_child_2 to true>>
         <<AdvanceQuest Warbler>>
     <<else>>

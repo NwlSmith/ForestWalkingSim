@@ -9,17 +9,18 @@ position: -491,284
 <<elseif $quest_warbler_stage gt 0 and $quest_warbler_stage lt 4>>
     <<if $found_warbler_child_1 is false>>
         <<NPCSpeak>>
-        Hello… Could you help me?
+        Hello... Could you help me?
         I’m lost and can’t find my way home.
         <<PlayerSpeak>>
-        Your mother sent me to find you, little one.
+        Your grandmother sent me to find you.
         <<NPCSpeak>>
         Really? That sounds just like her! She can always sense when I’m in trouble.
-        She’s a great mom.
+        She’s a great lady.
         <<PlayerSpeak>>
         Your home is just around the corner.
         <<NPCSpeak>>
-        Is it really? I guess my sense of direction could really use some work.
+        Is it really?
+        My sense of direction has never been good...
         Thanks, stranger. I won't wander off again.
         <<set $found_warbler_child_1 to true>>
         <<AdvanceQuest Warbler>>
