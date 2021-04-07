@@ -15,8 +15,6 @@ using UnityEngine.SceneManagement;
  * - Make walking animation line up with music maybe?
  * - In URPExampleAssets > Settings > UniversalRenderPipeline Shadow Max distance was initially 50
  * - Make turtle go to quest area.
- * - I encountered a problem where pressing E at the end of the bird quest kept bringing me back to talk to them despite them being gone
- * - On the large cylindrical stone next to the turtle race entrance, you can climb what seems to be an invisible staircase to the top of the walls
  * - The camera is a bit frustrating to work with, I found myself constantly adjusting it after moving a few steps.
  *      If it is possible, I think you should lock the camera behind the fox and then see if you can have another key that enables you to adjust the camera if you so desire. - Bad idea
  * - I also found myself phasing through a lot of the landscapes
@@ -25,11 +23,11 @@ using UnityEngine.SceneManagement;
  * - Since talking and picking up uses the same button, it causes issue when I try to pick up objects near NPC.
  *      I feel it would be nice to have the game distinguish the pick up action and the talk action by having it show on screen "press E to pick up" instead of just showing the button. 
  * - I hope the jump does not stop the momentum from sprinting. 
- * - The game keep bringing me to the bird conversation when I try to pick up the acorn/seed. All birds also disappeared during those conversations.
  * - I can no longer control the fox or press any button after I planted the seed. The game is still running, but it does not reacting to any key(include the esc) I pressed.
  * - have pressing main menu just restart the scene lol
  * - BUG: If one goes to main menu after starting a game before doing anything, the game may reset the variables but the fox stays in place, therefore not really restarting the game. The Continue button stays on the screen, but cannot be clicked. 
  * - Move dialogue entry prompt position lower for some characters.
+ * - Make dialogue skips instantaneous
  * 
  * Issues:
  * - Immediately thinks I want to talk to spirit - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
@@ -145,7 +143,12 @@ public class GameManager : MonoBehaviour
     public void MainMenu()
     {
         Services.SaveManager.SaveData();
-        _fsm.TransitionTo<StartMenu>();
+
+        Task save = new ActionTask(() => { Services.SaveManager.SaveData(); });
+        Task wait = new WaitTask(.5f);
+        Task finish = new ActionTask(() => { SceneManager.LoadScene(1); });
+        save.Then(wait).Then(finish);
+        _taskManager.Do(save);
     }
 
     // Called on Quit.
