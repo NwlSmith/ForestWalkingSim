@@ -24,10 +24,7 @@ using UnityEngine.SceneManagement;
  *      I feel it would be nice to have the game distinguish the pick up action and the talk action by having it show on screen "press E to pick up" instead of just showing the button. 
  * - I hope the jump does not stop the momentum from sprinting. 
  * - I can no longer control the fox or press any button after I planted the seed. The game is still running, but it does not reacting to any key(include the esc) I pressed.
- * - have pressing main menu just restart the scene lol
- * - BUG: If one goes to main menu after starting a game before doing anything, the game may reset the variables but the fox stays in place, therefore not really restarting the game. The Continue button stays on the screen, but cannot be clicked. 
  * - Move dialogue entry prompt position lower for some characters.
- * - Make dialogue skips instantaneous
  * 
  * Issues:
  * - Immediately thinks I want to talk to spirit - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing

@@ -42,8 +42,32 @@ position: 153,208
     <<PlayerSpeak>>
     Could you remind me of my task?
     <<NPCSpeak>>
-    Find the Soil, the Seed, and the Rain. Bring them back here.
-    Last I heard, The Seed was in the hands of the birds, The Rain was being kept by a turtle, and The Soil was with a lovely elderly couple.
+    You must restore the forest.
+    <<if $found_seed is false>>
+        You must find the Seed, which will be reborn as a new Heart.
+        I believe the Warblers have taken it to their nest.
+    <<else>>
+        Finding the Seed was of vital importance.
+    <<endif>>
+    <<if $found_soil is false>>
+        You must find the Soil, to cultivate a new life for these woods.
+        A couple of amphibians were entrusted with it, last I heard...
+    <<else>>
+        You found the Soil, and now the land is healing.
+    <<endif>>
+    <<if $found_rain is false>>
+        You must find the Rain, to wash away the pain.
+        The wise Turtle has kept it safe for us.
+    <<else>>
+        The Rain is washing away our troubles.
+        Thank you for this.
+    <<endif>>
+    <<if $quest_main_stage is 3>>
+        Find this last item and we will be forever in your debt.
+    <<else>>
+        Find these items.
+        Bring them back here.
+    <<endif>>
 <<elseif $quest_main_stage is 4>>
     <<NPCSpeak>>
     This is the final item.

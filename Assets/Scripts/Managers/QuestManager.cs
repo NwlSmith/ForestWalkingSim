@@ -8,7 +8,7 @@ using UnityEngine;
 public class QuestManager
 {
     [SerializeField] private Dictionary<string, FSMQuest> _questDictionary = new Dictionary<string, FSMQuest>();
-    [SerializeField] private Dictionary<string, string> _stringToStageDictionary = new Dictionary<string, string>();
+    [SerializeField] private Dictionary<string, string> _stringToYarnVarDictionary = new Dictionary<string, string>();
 
     public QuestManager()
     {
@@ -20,19 +20,23 @@ public class QuestManager
     {
         FSMQuest main = Object.FindObjectOfType<MainQuest>();
         _questDictionary.Add("Main", main);
-        _stringToStageDictionary.Add("Main", "$quest_main_stage");
+        _stringToYarnVarDictionary.Add("Main", "$quest_main_stage");
 
         FSMQuest warbler = Object.FindObjectOfType<WarblerQuest>();
         _questDictionary.Add("Warbler", warbler);
-        _stringToStageDictionary.Add("Warbler", "$quest_warbler_stage");
+        _stringToYarnVarDictionary.Add("Warbler", "$quest_warbler_stage");
 
         FSMQuest frog = Object.FindObjectOfType<FrogQuest>();
         _questDictionary.Add("Frog", frog);
-        _stringToStageDictionary.Add("Frog", "$quest_frog_stage");
+        _stringToYarnVarDictionary.Add("Frog", "$quest_frog_stage");
 
         FSMQuest turtle = Object.FindObjectOfType<TurtleQuest>();
         _questDictionary.Add("Turtle", turtle);
-        _stringToStageDictionary.Add("Turtle", "$quest_turtle_stage");
+        _stringToYarnVarDictionary.Add("Turtle", "$quest_turtle_stage");
+
+        _stringToYarnVarDictionary.Add("Seed", "$found_seed");
+        _stringToYarnVarDictionary.Add("Soil", "$found_soil");
+        _stringToYarnVarDictionary.Add("Rain", "$found_rain");
     }
 
     public void AdvanceQuest(string[] parameters)
@@ -63,5 +67,7 @@ public class QuestManager
     /*
      * Keys are "Main", "Warbler", "Frog", "Turtle", not "$quest_main_stage"
      */
-    public void AdvanceQuestMemoryVar(string key) => Services.DialogueController.InMemoryVariableStorage.SetValue(_stringToStageDictionary[key], _questDictionary[key].QuestStage);
+    public void AdvanceQuestMemoryVar(string key) => Services.DialogueController.InMemoryVariableStorage.SetValue(_stringToYarnVarDictionary[key], _questDictionary[key].QuestStage);
+
+    public void FoundItemQuestMemoryVar(string key) => Services.DialogueController.InMemoryVariableStorage.SetValue(_stringToYarnVarDictionary[key], true);
 }

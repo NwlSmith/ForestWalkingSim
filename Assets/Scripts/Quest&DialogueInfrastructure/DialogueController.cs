@@ -47,7 +47,6 @@ public class DialogueController : MonoBehaviour
 
     [SerializeField] private float _turtleTextSpeed = .1f;
     [SerializeField] private float _regularTextSpeed = .025f;
-    [SerializeField] private float _speedupTextSpeed = .001f;
 
     private NPC _curNPC;
     private int _curMultiNPCNum = 0;
@@ -150,8 +149,6 @@ public class DialogueController : MonoBehaviour
 
     public void OnContinue() => StartCoroutine(ContinueDialogueAfterDelay());
 
-    public void OnSkipDialogue() => _yarnDialogueUI.textSpeed = _speedupTextSpeed;
-
     public void OnLineStart()
     {
         ResetTextSpeed();
@@ -176,4 +173,5 @@ public class DialogueController : MonoBehaviour
     public void OnDialogueEnd() => _speakerText.text = "";
 
     #endregion
+
 }

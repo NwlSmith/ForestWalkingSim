@@ -25,6 +25,9 @@ public class SaveManager
     private const string child1String = "$found_warbler_child_1";
     private const string child2String = "$found_warbler_child_2";
     private const string child3String = "$found_warbler_child_3";
+    private const string seedString = "$found_seed";
+    private const string soilString = "$found_soil";
+    private const string rainString = "$found_rain";
     #endregion
 
     #region Quest and Item GameObjects.
@@ -45,6 +48,7 @@ public class SaveManager
         public PlayerData playerData;
         public PlayerHolding playerHolding;
         public WarblerChildrenStatus warblerChildrenStatus;
+        public ItemStatus itemStatus;
     }
 
     [System.Serializable]
@@ -73,6 +77,14 @@ public class SaveManager
         public bool foundChild1;
         public bool foundChild2;
         public bool foundChild3;
+    }
+
+    [System.Serializable]
+    public class ItemStatus
+    {
+        public bool foundSeed;
+        public bool foundSoil;
+        public bool foundRain;
     }
     #endregion
 
@@ -139,12 +151,15 @@ public class SaveManager
 
         WarblerChildrenStatus warblerChildrenStatus = new WarblerChildrenStatus { foundChild1 = false, foundChild2 = false, foundChild3 = false };
 
+        ItemStatus itemStatus = new ItemStatus { foundSeed = false, foundSoil = false, foundRain = false };
+
         Data saveData = new Data
         {
             questStageData = questStagesArray,
             playerData = playerData,
             playerHolding = playerHolding,
-            warblerChildrenStatus = warblerChildrenStatus
+            warblerChildrenStatus = warblerChildrenStatus,
+            itemStatus = itemStatus
         };
 
         SerializeData(saveDefaultName, saveData);
@@ -192,11 +207,18 @@ public class SaveManager
             foundChild3 = questMemory.GetValue(child3String).AsBool
         };
 
+        ItemStatus itemStatus = new ItemStatus {
+            foundSeed = questMemory.GetValue(seedString).AsBool,
+            foundSoil = questMemory.GetValue(soilString).AsBool,
+            foundRain = questMemory.GetValue(rainString).AsBool
+        };
+
         Data saveData = new Data {
             questStageData = questStagesArray,
             playerData = playerData,
             playerHolding = playerHolding,
-            warblerChildrenStatus = warblerChildrenStatus
+            warblerChildrenStatus = warblerChildrenStatus,
+            itemStatus = itemStatus
         };
 
         SerializeData(saveName, saveData);
@@ -213,6 +235,10 @@ public class SaveManager
         questMemory.SetValue(child1String, data.warblerChildrenStatus.foundChild1);
         questMemory.SetValue(child2String, data.warblerChildrenStatus.foundChild2);
         questMemory.SetValue(child3String, data.warblerChildrenStatus.foundChild3);
+
+        questMemory.SetValue(seedString, data.itemStatus.foundSeed);
+        questMemory.SetValue(soilString, data.itemStatus.foundSoil);
+        questMemory.SetValue(rainString, data.itemStatus.foundRain);
 
         if (data.playerHolding.itemHolding != QuestItem.QuestItemEnum.None)
         {
