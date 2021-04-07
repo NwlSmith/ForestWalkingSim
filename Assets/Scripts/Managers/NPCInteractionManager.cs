@@ -6,7 +6,7 @@ using UnityEngine;
  */
 public class NPCInteractionManager : MonoBehaviour
 {
-
+    private const float closestDistForNPCEncounter = 50f;
     public NPC closestNPC = null;
 
     public void PlayerEncounteredNPC(NPC npc)
@@ -23,18 +23,23 @@ public class NPCInteractionManager : MonoBehaviour
 
     public void InputPressed()
     {
-        if (closestNPC != null)
+        if (closestNPC == null)
+            return;
+        else if (Vector3.Distance(transform.position, closestNPC.transform.position) > closestDistForNPCEncounter)
         {
-            // Enter Dialogue
-            Services.GameManager.EnterDialogue();
+            PlayerLeftNPC();
+            return;
         }
+        // Enter Dialogue
+        Services.GameManager.EnterDialogue();
+        
     }
 
     public void FindClosestNPC()
     {
         Logger.Warning("Failsafe: Someone called FindClosestNPC() on NPCInteractionManager");
         NPC[] npcs = FindObjectsOfType<NPC>();
-        float closestDist = 10000f;
+        float closestDist = 75f;
         NPC closeNPC = null;
 
         foreach (NPC npc in npcs)
@@ -54,7 +59,8 @@ public class NPCInteractionManager : MonoBehaviour
                 }
             }
         }
-
+        if (closeNPC == null)
+            return;
         PlayerEncounteredNPC(closeNPC);
         Logger.Warning($"ClosestNPC = {closeNPC.name}");
     }

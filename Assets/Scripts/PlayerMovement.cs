@@ -142,7 +142,9 @@ public class PlayerMovement : MonoBehaviour
     private bool OnGround()
     {
         if (_charController.isGrounded) return true;
-        return Physics.Raycast(transform.position + raycastOriginOffset, Vector3.down, out RaycastHit hit, .4f, groundLayers, QueryTriggerInteraction.Ignore);
+        if (Physics.Raycast(transform.position + raycastOriginOffset, Vector3.down, out RaycastHit hit, .4f, groundLayers, QueryTriggerInteraction.Ignore))
+            return Vector3.Angle(hit.normal, Vector3.up) <= _charController.slopeLimit;
+        return false;
     }
 
     // Returns whether or not the player entered any ground movement inputs W, A, S, D, NOT space.
@@ -438,7 +440,10 @@ public class PlayerMovement : MonoBehaviour
             Context._currentMovementVector = Vector3.Lerp(Context._currentMovementVector, Context._targetMovementVector, Context._movementChangeSpeed * Time.fixedDeltaTime);
 
             // Fall downwards
-            Context._currentMovementVector.y = 4 * Context._gravity * Time.fixedDeltaTime;
+            if (Context._currentMovementVector.y > 0)
+                Context._currentMovementVector.y -= Context._gravity * Time.fixedDeltaTime;
+            else
+                Context._currentMovementVector.y = 4 * Context._gravity * Time.fixedDeltaTime;
 
             // Finally, move the character to that vector.
             Context._charController.Move(Context._currentMovementVector);
@@ -482,7 +487,7 @@ public class PlayerMovement : MonoBehaviour
 
                     Context._charController.Move(Context._currentMovementVector);
 
-                    if (Context.OnGround() || Context._currentMovementVector.y < 0f)
+                    if (Context.OnGround() || Context._currentMovementVector.y <= 0f)
                     {
                         return true;
                     }
@@ -501,6 +506,10 @@ public class PlayerMovement : MonoBehaviour
                     else if (Context._currentMovementVector.y < 0f)
                     {
                         TransitionTo<FallingState>();
+                    }
+                    else if (Context.GroundMovementInputsEntered)
+                    {
+                        TransitionTo<MovingOnGroundState>();
                     }
                     else
                     {

@@ -18,6 +18,7 @@ public class PlayerItemHolder : MonoBehaviour
 {
     private bool _inProgress = false;
     private List<HoldableItem> _itemsInCollider = new List<HoldableItem>();
+    public bool canPickUpItem = false;
     public bool _holdingItem = false;
     public HoldableItem _currentlyHeldItem { get; private set; }
     [SerializeField] private Transform _itemAttachmentPoint;
@@ -30,6 +31,8 @@ public class PlayerItemHolder : MonoBehaviour
         if (_itemsInCollider.Contains(holdableItem)) return;
 
         _itemsInCollider.Add(holdableItem);
+
+        canPickUpItem = true;
 
         Services.UIManager.DisplayItemPickupPrompt();
     }
@@ -55,7 +58,10 @@ public class PlayerItemHolder : MonoBehaviour
             _itemsInCollider.Remove(holdableItem);
 
         if (_itemsInCollider.Count <= 0)
+        {
             Services.UIManager.HideItemPickupPrompt();
+            canPickUpItem = false;
+        }
     }
 
     public void InputPressed()

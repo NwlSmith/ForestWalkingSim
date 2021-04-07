@@ -9597,25 +9597,6 @@ Transform:
   m_Father: {fileID: 1818514827}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &436882152 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -7029948723529949830, guid: a2e8b5cdf5f7b4b2d9bcc53e000c0b08, type: 3}
-  m_PrefabInstance: {fileID: 384311155}
-  m_PrefabAsset: {fileID: 0}
---- !u!136 &436882154
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 436882152}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 5.5198274
-  m_Direction: 2
-  m_Center: {x: 0.3, y: 0.2, z: 1.61}
 --- !u!1 &437732393 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 326831263406715019, guid: 79a4b449fe8c65644a4f538fbdf36f03, type: 3}
@@ -15335,25 +15316,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5294576e8d75745f496adba3256ade8c, type: 3}
   m_PrefabInstance: {fileID: 656027988}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &656027990 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -8391222552659086748, guid: 5294576e8d75745f496adba3256ade8c, type: 3}
-  m_PrefabInstance: {fileID: 656027988}
-  m_PrefabAsset: {fileID: 0}
---- !u!136 &656027991
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 656027990}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.6
-  m_Height: 12.744233
-  m_Direction: 1
-  m_Center: {x: -1.91, y: 1.6095611, z: -0.84777844}
 --- !u!1 &659637755
 GameObject:
   m_ObjectHideFlags: 0
@@ -53943,6 +53905,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 1342162846272141714, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1342162846272141718, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -54037,12 +54003,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6258288685326092402, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
       propertyPath: m_text
-      value: By Alekai McAdam, Raveena Panja, Nate Smith, Sawyer Smith, & Luna Wu
+      value: By Alekai McAdam, Raveena Panja, Nate Smith, Sawyer Smith, Luna Wu,
+        & Frank Zhang
       objectReference: {fileID: 0}
     - target: {fileID: 6258288685326092402, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
       propertyPath: m_fontAsset
       value: 
       objectReference: {fileID: 11400000, guid: f3e2c11082afc0c40b1c37815ebb543b, type: 2}
+    - target: {fileID: 6258288685326092402, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
+      propertyPath: m_isRightToLeft
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6258288685326092402, guid: c928d665370dad3488d9c1bcca6c55e7, type: 3}
       propertyPath: m_sharedMaterial
       value: 

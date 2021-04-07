@@ -50,8 +50,10 @@ public class InputManager
 
         if (Input.GetButtonDown(_interact))
         {
-            Services.PlayerItemHolder.InputPressed(); // CREATE HIERARCHY BETWEEN THESE TWO - Only one should be used at once.
-            Services.NPCInteractionManager.InputPressed();
+            if (Services.PlayerItemHolder.canPickUpItem || Services.PlayerItemHolder._holdingItem)
+                Services.PlayerItemHolder.InputPressed(); // CREATE HIERARCHY BETWEEN THESE TWO - Only one should be used at once.
+            else
+                Services.NPCInteractionManager.InputPressed();
         }
     }
 
