@@ -4,49 +4,61 @@ colorID: 0
 position: 292,551
 ---
 <<if $quest_turtle_stage is 0>>
-    <<NPCSpeak>>
+    <<PlayerSpeak>>
     Hello there!
-    <<PlayerSpeak>>
-    Hi! You must be the Turtle?
-    I'm told you can point me in the direction of The Rain.
     <<NPCSpeak>>
-    That I can, young one.
+    Why hello to you too, deary.
+    Fine weather out today, no?
     <<PlayerSpeak>>
-    Fantastic! Where should I go?
+    Aside from the devastating fire that just swept through, I suppose so!
     <<NPCSpeak>>
-    Now, now. Before I take you to The Rain, I have a request.
+    Things of that nature come and go, there's nothing to worry about.
+    These woods are still as beautiful as ever.
     <<PlayerSpeak>>
-    I'd be happy to help.
+    Weren't you afraid?
     <<NPCSpeak>>
-    You seem like a spry young creature, do I have that right?
+    Of what?
     <<PlayerSpeak>>
-    You could say that.
+    Of losing your home?
+    Of dying?
     <<NPCSpeak>>
-    Well then, if you're such a speed demon, how about a race?
+    What's there to be afraid of, darling?
+    This place won't be going anywhere anytime soon.
+    We may see some excitement from time to time, but the forest is still here.
+    Can't get away from me anyways, I'm just too quick!
     <<PlayerSpeak>>
-    Um... I suppose so...
+    Is that so?
     <<NPCSpeak>>
-    What's the matter, sweetheart?
-    Afraid you'll lose?
+    Perhaps at one point.
+    Ask Frog and Toad, they'll tell you that I used to be the fastest thing in these woods!
     <<PlayerSpeak>>
-    Not exactly.
+    Well that's certainly a surprise to me!
     <<NPCSpeak>>
-    In that case, how about it?
+    Don't believe me?
     <<PlayerSpeak>>
-    If you say so!
+    Well...
     <<NPCSpeak>>
-    Excellent! To your left there is a path that curves to the right, then curves to the left.
-    I will be at the pink tree around the corner from there.
+    Now, now, I've heard that "well" before, sweetheart.
+    I was the reigning speed champ for quite some time!
+    It's gotten harder to hold that title, but I think I've still got something left in me.
     <<PlayerSpeak>>
-    Great, I think I can manage.
+    How about a quick jog?
+    I'd love to see what you've got.
     <<NPCSpeak>>
-    We'll see who the real speed demon is!
+    You flatter me, but I'm an old lady now.
+    Oldest in these woods, as a matter of fact.
+    Still, I suppose it might be worth taking a good lap.
+    <<PlayerSpeak>>
+    That's the spirit!
+    <<NPCSpeak>>
+    Head to your left and you'll see a path that curves to the right, then back to the left.
+    I'll be at the pink tree around the corner, meet me there.
     <<AdvanceQuest Turtle>>
 <<elseif $quest_turtle_stage is 1>>
     <<PlayerSpeak>>
     Sorry ma'am, where am I supposed to go?
     <<NPCSpeak>>
-    Head to your left. There is a path that curves to the right, then curves to the left.
-    I will be at the pink tree around the corner from there.
+    Head to your left and you'll see a path that curves to the right, then back to the left.
+    I'll be at the pink tree around the corner, you can meet me there.
 <<endif>>
 ===

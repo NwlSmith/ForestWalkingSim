@@ -11,32 +11,84 @@ position: -1338,671
     <<PlayerSpeak>>
     Hello!
     <<NPCSpeak 0>>
-    What brings you to our neck of the woods?
-    <<PlayerSpeak>>
-    I'm told you gentlemen could show me where The Soil is.
+    It's a relief to see a new face.
+    Not many strangers in these woods after the fire.
     <<NPCSpeak 1>>
-    Of course, we know where it is.
+    Just terrible.
+    <<PlayerSpeak>>
+    I can imagine.
+    <<NPCSpeak 0>>
+    Not to mention the timing!
+    There's a big event on the horizon.
+    Isn't that right, Toad?
+    <<NPCSpeak 1>>
+    Is there?
+    <<NPCSpeak 0>>
+    Toad!
+    <<NPCSpeak 1>>
+    Frog!
+    <<PlayerSpeak>>
+    Gentlemen!
+    I'm sure there's a simple misunderstanding.
+    What's coming up, Frog?
+    <<NPCSpeak 0>>
+    Surely our friend Toad should remember our approaching anniversary?
+    <<PlayerSpeak>>
+    Oh, congratulations!
+    <<NPCSpeak 1>>
+    Ah, yes, that big event.
+    It's been a confusing time.
+    <<NPCSpeak 0>>
+    It certainly has been.
+    <<NPCSpeak 1>>
+    My apologies.
+    <<PlayerSpeak>>
+    How long have you two known each other?
+    <<NPCSpeak 0>>
+    Who can truly say?
+    It feels as though we've known each other as long as we've been alive.
+    <<NPCSpeak 1>>
+    Quite.
+    <<PlayerSpeak>>
+    That's a long time!
+    <<NPCSpeak 1>>
+    A pleasant time, to be sure.
+    <<NPCSpeak 0>>
+    Our neighbor Turtle was planning a small get-together in the heart of the woods.
+    <<NPCSpeak 1>>
+    A shame we may never see it!
+    Perhaps next year.
+    <<PlayerSpeak>>
+    I'm actually hoping to restore these woods.
+    <<PlayerSpeak>>
+    If you two could help me out it would be much appreciated.
+    <<NPCSpeak 0>>
+    We'd be happy to lend a hand!
+    <<NPCSpeak 1>>
+    Certainly.
+    <<PlayerSpeak>>
+    I'm looking for the Soil, if you have any information.
+    <<NPCSpeak 1>>
+    Yes, we know where it is.
     <<NPCSpeak 0>>
     We do?
     <<NPCSpeak 1>>
     We do.
     <<PlayerSpeak>>
-    Great! Could you give me directions?
+    Great!
+    Could you give me directions?
     <<NPCSpeak 1>>
     Our neighbor Carp should have it.
+    He's an old friend of ours, let him know we sent you.
     <<NPCSpeak 0>>
-    Ah, right, yes. He's a real treat, I think you'll like him.
+    If you carry on down the path to your right, you'll spot another pond.
+    He ought to be swimming around in there somewhere.
     <<PlayerSpeak>>
-    I look forward to meeting him! Where can I find him?
+    Thank you for the information!
+    This forest should be returned to its former glory in no time at all.
     <<NPCSpeak 0>>
-    If you keep going down the path to your right, you'll find another pond.
-    He should be swimming around in there somewhere.
-    <<NPCSpeak 1>>
-    He can be a shy fellow, give him some time to open up.
-    <<PlayerSpeak>>
-    I appreciate the help!
-    <<NPCSpeak 0>>
-    Any time! And please, do come by again.
+    Any time!
+    And please, do come by again.
     <<AdvanceQuest Frog>>
 <<elseif $quest_frog_stage is 1>>
     <<NPCSpeak 0>>

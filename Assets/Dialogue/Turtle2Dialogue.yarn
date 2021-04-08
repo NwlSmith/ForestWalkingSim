@@ -4,36 +4,24 @@ colorID: 0
 position: 566,546
 ---
 <<if $quest_turtle_stage is 2>>
-    <<NPCSpeak>>
-    Hi there deary.
     <<PlayerSpeak>>
-    Whoa, how did you get here so quick?
+    Wow, you got here quick.
     <<NPCSpeak>>
-    I know a few... shortcuts.
+    I know a few...
+    Shortcuts.
     <<PlayerSpeak>>
     Sure, I believe that.
     <<NPCSpeak>>
     Well then, are you ready?
     <<PlayerSpeak>>
     Born ready!
-    But, um... Where are we racing to?
     <<NPCSpeak>>
-    Ah of course, I almost forgot.
-    You see that long stretch of land next to us?
+    We'll be heading just around the bend here, passing by the water to our right, and meeting up down at the pink tree surrounded by rocks.
+    Got that?
     <<PlayerSpeak>>
-    Yes.
+    Sounds good to me!
     <<NPCSpeak>>
-    Well at the other end of this area is a large pink tree surrounded by moss covered stones.
-    Beat me there, and I will give you what you want.
-    Think you can manage?
-    <<PlayerSpeak>>
-    I think I can handle it.
-    <<NPCSpeak>>
-    Well, I hope you're hungry for a heaping plate of dust, slowpoke!
-    Three!
-    Two!
-    One!
-    Go!
+    Off we go!
     <<AdvanceQuest Turtle>>
 <<elseif $quest_turtle_stage is 1>>
     <<NPCSpeak>>
@@ -42,30 +30,57 @@ position: 566,546
     <<NPCSpeak>>
     Stage 3
 <<elseif $quest_turtle_stage is 4>>
-    <<NPCSpeak>>
-    Nice of you to show up!
     <<PlayerSpeak>>
-    You're a formidable opponent!
+    You really kept pace back there!
     <<NPCSpeak>>
-    Darn tootin!
-    These are my woods, hotshot.
+    What can I say?
+    I'm not dead just yet!
     <<PlayerSpeak>>
-    Certainly seems that way.
+    Certainly not!
     <<NPCSpeak>>
+    How strange it is to pass by this forest in this state.
+    I'm not as fast as I once was, and the trees have been stripped of their blossoming leaves.
+    What a way to go out.
+    <<PlayerSpeak>>
+    It'll all come back, it always does.
+    <<NPCSpeak>>
+    Maybe so, my sweet.
     In any case, thank you for humoring an old lady.
     <<PlayerSpeak>>
-    It was an honor!
+    It was an honor to run alongside you.
     <<NPCSpeak>>
-    You're too kind, young one.
+    Oh hush!
+    I've been here for who knows how long.
+    All lights fade eventually.
     <<PlayerSpeak>>
-    Will you show me where The Rain is?
+    Sure, but there's no need to resign to your fate like that is there?
     <<NPCSpeak>>
-    Of course, dear.
-    If you go in the direction of the large tree at the Heart of the Forest, around the corner, you'll find your way back to my house. 
-    Head around to the back of my house, that's where I tend to keep it.
+    Who's resigning?
+    I've had a rich and full life, and I've no doubt that whatever is left of it will be as well.
+    One day I won't be able to run any further at all, but I've done more than enough running in my time.
+    In the meantime, I suppose something ought to be done about all this damage.
+    <<PlayerSpeak>>
+    Actually, I've been trying to put together the things we need to clean things up around here!
+    In fact, I'm told you could point me in the direction of the Rain?
+    <<NPCSpeak>>
+    Ah, yes, right!
+    I most certainly could.
+    Go back to where you first found me, it should be just behind my home.
     <<PlayerSpeak>>
     Thank you so much!
-    I'll have to train up and come back for another round sometime.
+    We'll have these woods looking as good as new.
+    <<NPCSpeak>>
+    It's a beautiful place, really.
+    You should have seen the state of this forest before the fire.
+    I'm not one to ramble on about faded glory, but it was really something.
+    <<PlayerSpeak>>
+    I'll have it looking just the way you remember it, I promise.
+    <<NPCSpeak>>
+    I suppose I should let you get back to work, then.
+    <<PlayerSpeak>>
+    Yeah, I should be on my way.
+    Thank you for the run, though!
+    I'll have to come back for another one someday.
     <<NPCSpeak>>
     That you will!
     <<AdvanceQuest Turtle>>
@@ -73,7 +88,7 @@ position: 566,546
     <<PlayerSpeak>>
     Could you remind me where The Rain is?
     <<NPCSpeak>>
-    Check behind my house, it should be there.
+    Check behind my house where you first found me, it should be there.
     <<PlayerSpeak>>
     Thank you!
 <<endif>>
