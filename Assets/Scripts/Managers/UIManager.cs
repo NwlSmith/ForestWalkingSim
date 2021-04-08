@@ -35,6 +35,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private List<RectTransform>   _startMenu;
     [SerializeField] private List<RectTransform>   _continueButton;
 
+    [SerializeField] private RectTransform _questlogHolder;
+    [SerializeField] private TMPro.TextMeshProUGUI _mainQuestLog;
+    [SerializeField] private TMPro.TextMeshProUGUI _warblerQuestLog;
+    [SerializeField] private TMPro.TextMeshProUGUI _frogQuestLog;
+    [SerializeField] private TMPro.TextMeshProUGUI _turtleQuestLog;
+
+    private Dictionary<string, TMPro.TextMeshProUGUI> _questTagToLog = new Dictionary<string, TMPro.TextMeshProUGUI>();
+
 
     #region Lifecycle Management
     private void Awake()
@@ -42,6 +50,16 @@ public class UIManager : MonoBehaviour
         _fsm = new FiniteStateMachine<UIManager>(this);
 
         HideAllUI();
+
+        CreateDictionary();
+    }
+
+    private void CreateDictionary()
+    {
+        _questTagToLog.Add("Main", _mainQuestLog);
+        _questTagToLog.Add("Warbler", _warblerQuestLog);
+        _questTagToLog.Add("Frog", _frogQuestLog);
+        _questTagToLog.Add("Turtle", _turtleQuestLog);
     }
 
     private void Start() => _fsm.TransitionTo<PlayState>();
@@ -153,6 +171,8 @@ public class UIManager : MonoBehaviour
 
     private void HideUI(RectTransform UI)
     {
+        if (UI == null)
+            return;
         Animator anim = UI.GetComponent<Animator>();
         if (anim != null)
             anim.SetBool(_visible, false);
@@ -169,6 +189,14 @@ public class UIManager : MonoBehaviour
         HideUI(_loadingOverlay);
         HideUI(_dialogueContinueButton);
         HideUI(_dialogueSkipButton);
+        HideUI(_questlogHolder);
+    }
+
+    public void SetQuestlogText(string questTag, string newText)
+    {
+        Debug.LogWarning($"tag = {questTag} text = {newText}");
+        if (_questTagToLog.ContainsKey(questTag) && _questTagToLog[questTag] != null)
+            _questTagToLog[questTag].text = newText;
     }
 
     #endregion
@@ -312,9 +340,17 @@ public class UIManager : MonoBehaviour
     // Pause UI.
     private class PauseState : UIState
     {
-        public override void OnEnter() => Context.DisplayUI(Context._pauseUI);
+        public override void OnEnter()
+        {
+            Context.DisplayUI(Context._pauseUI);
+            Context.DisplayUI(Context._questlogHolder);
+        }
 
-        public override void OnExit() => Context.HideUI(Context._pauseUI);
+        public override void OnExit()
+        {
+            Context.HideUI(Context._pauseUI);
+            Context.HideUI(Context._questlogHolder);
+        }
     }
     #endregion
 

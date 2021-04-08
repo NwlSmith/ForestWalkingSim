@@ -18,10 +18,6 @@ using UnityEngine.SceneManagement;
  * - The camera is a bit frustrating to work with, I found myself constantly adjusting it after moving a few steps.
  *      If it is possible, I think you should lock the camera behind the fox and then see if you can have another key that enables you to adjust the camera if you so desire. - Bad idea
  * - I also found myself phasing through a lot of the landscapes
- * - I would like to have some text UI for the quests. I understand you can talk to the NPC to remind you the quest.
- *      But I still feel like have something like the quest text UI in game as an option will help guide the player.
- * - Since talking and picking up uses the same button, it causes issue when I try to pick up objects near NPC.
- *      I feel it would be nice to have the game distinguish the pick up action and the talk action by having it show on screen "press E to pick up" instead of just showing the button. 
  * - I hope the jump does not stop the momentum from sprinting. 
  * - I can no longer control the fox or press any button after I planted the seed. The game is still running, but it does not reacting to any key(include the esc) I pressed.
  * - Move dialogue entry prompt position lower for some characters.

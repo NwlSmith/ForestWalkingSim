@@ -8,9 +8,9 @@ public class QuestItemRepository : MonoBehaviour
     private readonly string _endSequence = "EndSequence";
     #endregion
 
-    private bool _collectedSeed = false;
-    private bool _collectedSoil = false;
-    private bool _collectedRain = false;
+    public bool _collectedSeed { get; private set; } = false;
+    public bool _collectedSoil { get; private set; } = false;
+    public bool _collectedRain { get; private set; } = false;
 
     [SerializeField] private Transform targetItemPosition;
     [SerializeField] private Transform targetStep1PlayerPosition;

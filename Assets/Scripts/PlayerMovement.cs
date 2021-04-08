@@ -109,6 +109,14 @@ public class PlayerMovement : MonoBehaviour
         _sprintInput = sprint;
     }
 
+    public void ResetInputs()
+    {
+        _horizontalInput = 0f;
+        _verticalInput = 0f;
+        _jumpInput = false;
+        _sprintInput = false;
+    }
+
     #endregion
 
     #region Triggers
@@ -291,34 +299,6 @@ public class PlayerMovement : MonoBehaviour
         public virtual void FixedUpdate() { }
     }
 
-    // Player not inputting any inputs, but they are allowed to move if they want to.
-    private class IdleState : GameState
-    {
-        public override void OnEnter()
-        {
-            Context._playerAnimation.Moving(false);
-            Context._targetMovementVector = Vector3.zero;
-        }
-
-        public override void Update()
-        {
-            // Process inputs
-            if (Context.GroundMovementInputsEntered)
-                TransitionTo<MovingOnGroundState>();
-            if (Context._jumpInput && Context._curJumpCooldown <= 0)
-                TransitionTo<JumpingState>();
-        }
-
-        public override void FixedUpdate()
-        {
-            if (!Context.OnGround())
-                TransitionTo<FallingState>();
-
-            Context._currentMovementVector = Vector3.Lerp(Context._currentMovementVector, Context._targetMovementVector, Context._movementChangeSpeed * Time.fixedDeltaTime);
-            Context._charController.Move(Context._currentMovementVector);
-        }
-    }
-
     // Player is forced to remain idle until told otherwise.
     private class ForcedIdleState : GameState
     {
@@ -327,6 +307,7 @@ public class PlayerMovement : MonoBehaviour
             Context._currentMovementVector = Vector3.zero;
             Context._playerAnimation.Moving(false);
             Context._playerAnimation.Sitting(true);
+            Context.ResetInputs();
         }
 
         public override void OnExit() => Context._playerAnimation.Sitting(false); // Maybe change to sit???
@@ -341,6 +322,7 @@ public class PlayerMovement : MonoBehaviour
 
         public override void OnEnter()
         {
+            Context.ResetInputs();
             if (!Context.OnGround())
                 fixedUpdateFunc = ContinueInAirMovement;
             else
@@ -395,6 +377,35 @@ public class PlayerMovement : MonoBehaviour
         }
 
         public override void OnExit() => Context.inPlaceForSequence = false;
+    }
+
+    
+    // Player not inputting any inputs, but they are allowed to move if they want to.
+    private class IdleState : GameState
+    {
+        public override void OnEnter()
+        {
+            Context._playerAnimation.Moving(false);
+            Context._targetMovementVector = Vector3.zero;
+        }
+
+        public override void Update()
+        {
+            // Process inputs
+            if (Context.GroundMovementInputsEntered)
+                TransitionTo<MovingOnGroundState>();
+            if (Context._jumpInput && Context._curJumpCooldown <= 0)
+                TransitionTo<JumpingState>();
+        }
+
+        public override void FixedUpdate()
+        {
+            if (!Context.OnGround())
+                TransitionTo<FallingState>();
+
+            Context._currentMovementVector = Vector3.Lerp(Context._currentMovementVector, Context._targetMovementVector, Context._movementChangeSpeed * Time.fixedDeltaTime);
+            Context._charController.Move(Context._currentMovementVector);
+        }
     }
 
     // Player is currently moving on the ground.
@@ -495,13 +506,10 @@ public class PlayerMovement : MonoBehaviour
                 },
                 () =>
                 {
-                    if (Context._fsm.CurrentState.GetType() == typeof(InDialogueState))
+                    System.Type type = Context._fsm.CurrentState.GetType();
+                    if (type == typeof(InDialogueState) || type == typeof(MidCutsceneState) || type == typeof(ForcedIdleState))
                     {
-                        Logger.Warning("Jump task finished outside of NPC area.");
-                    }
-                    else if (Context._fsm.CurrentState.GetType() == typeof(MidCutsceneState))
-                    {
-                        Logger.Warning("Jump task finished outside of NPC area. Transitioning to MidCutsceneState.");
+                        Logger.Warning($"Jump task finished outside of NPC area. Currently in {type.FullName}.");
                     }
                     else if (Context._currentMovementVector.y < 0f)
                     {
@@ -560,6 +568,8 @@ public class PlayerMovement : MonoBehaviour
 
         public override void OnEnter()
         {
+            Context.ResetInputs();
+
             Context.inPlaceForSequence = false;
 
             Task moveToInitPos = Context.PlayerMoveToTransform(
@@ -602,6 +612,8 @@ public class PlayerMovement : MonoBehaviour
         public override void OnEnter()
         {
             Context.inPlaceForSequence = false;
+
+            Context.ResetInputs();
 
             Task moveToInitPos = Context.PlayerMoveToTransform(
                 Services.QuestItemRepository.TargetStep1PlayerPosition, // Position target for player

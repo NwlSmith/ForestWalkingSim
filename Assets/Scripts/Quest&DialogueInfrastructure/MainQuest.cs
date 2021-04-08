@@ -39,6 +39,36 @@ public class MainQuest : FSMQuest
         startNextStage = _fsm.TransitionTo<Stage0State>;
     }
 
+    private string ConstructLogString()
+    {
+        string toReturn = "Find ";
+        if (!Services.QuestItemRepository._collectedSeed)
+        {
+            toReturn += " the Seed";
+            if (!Services.QuestItemRepository._collectedSoil)
+            {
+                toReturn += ", and the Soil";
+            }
+            if (!Services.QuestItemRepository._collectedRain)
+            {
+                toReturn += ", and the Rain";
+            }
+        } else if (!Services.QuestItemRepository._collectedSoil)
+        {
+            toReturn += " the Soil";
+            if (!Services.QuestItemRepository._collectedRain)
+            {
+                toReturn += ", and the Rain";
+            }
+        } else if (!Services.QuestItemRepository._collectedRain)
+        {
+            toReturn += " the Rain";
+        }
+        toReturn += ".";
+
+        return toReturn;
+    }
+
     private void Start()
     {
         startNextStage();
@@ -100,6 +130,7 @@ public class MainQuest : FSMQuest
             _stageNum = 2;
             base.OnEnter();
             Services.GameManager.MidrollCutscene();
+            ((MainQuest)Context).SetCurrentQuestLog(((MainQuest)Context).ConstructLogString());
         }
     }
 
@@ -111,6 +142,7 @@ public class MainQuest : FSMQuest
             _stageNum = 3;
             base.OnEnter();
             Services.GameManager.MidrollCutscene();
+            ((MainQuest)Context).SetCurrentQuestLog(((MainQuest)Context).ConstructLogString());
         }
     }
 

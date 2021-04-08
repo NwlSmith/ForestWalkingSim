@@ -23,7 +23,7 @@ public abstract class FSMQuest : MonoBehaviour
         // This text will be added to the conversation log at the beginning of this quest stage.
         [Header("Added to text log.")]
         [TextArea(10,100)]
-        [SerializeField] private string _textAddedToLog;
+        public string _textAddedToLog;
 
         public void OnStageEnter()
         {
@@ -92,6 +92,8 @@ public abstract class FSMQuest : MonoBehaviour
         }
     }
 
+    protected void SetCurrentQuestLog(string newString) => _questStates[_questStage]._textAddedToLog = newString;
+
     #region States
 
     protected abstract class QuestState : FiniteStateMachine<FSMQuest>.State
@@ -103,6 +105,8 @@ public abstract class FSMQuest : MonoBehaviour
             Logger.Debug($"Quest stage {_stageNum} of {Context.name} started");
             Context._questStage = _stageNum;
             Context._questStates[_stageNum].OnStageEnter();
+
+            Services.UIManager.SetQuestlogText(Context.QuestTag, Context._questStates[_stageNum]._textAddedToLog);
 
             Context.startNextStage = Context.startNextStages[_stageNum];
         }
