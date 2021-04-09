@@ -303,7 +303,11 @@ public class UIManager : MonoBehaviour
         {
             Task Start = new ActionTask(() => { Context.HideUI(Context._startOverlay); });
             Task FadeInStart = new FadeStartMenu(Context, Context._startMenu, true);
-            Task StartMusic = new ActionTask(() => { /* maybe start music here? */ });
+            Task StartMusic = new ActionTask(() =>
+            {
+                /* maybe start music here? */
+                // Highlight start button
+            });
 
             Start.Then(FadeInStart).Then(StartMusic);
 

@@ -152,7 +152,7 @@ public class CameraManager : MonoBehaviour
     // Normal camera follow state.
     private class PlayState : CameraState
     {
-        private readonly float _recenterCameraTime = 5f;
+        private readonly float _recenterCameraTime = 5f; // Set to -1 for controllers?
         private readonly float _recenterCameraSpeed = .5f;
         private readonly float _orbitCameraTime = 15f;
         private readonly float _orbitCameraSpeed = 20f;
