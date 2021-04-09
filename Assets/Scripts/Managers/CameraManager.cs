@@ -19,7 +19,7 @@ public class CameraManager : MonoBehaviour
 
     // The finite state machine of the current CameraState.
     private FiniteStateMachine<CameraManager> _fsm;
-    private TaskManager _taskManager = new TaskManager();
+    private readonly TaskManager _taskManager = new TaskManager();
 
     public float mouseSensitivity = 200f;
     
@@ -36,6 +36,9 @@ public class CameraManager : MonoBehaviour
     private float _curHorRot = 0f;
     private float _mouseY = 0f;
     private float _mouseX = 0f;
+    private float _recenterTimeReset = 0f;
+    private readonly float _recenterCameraTime = 2000f; // RECENTER TIME!!!!!!!!!!!!!!!!!!!!!!!!!
+    private readonly Vector3 _recenterTarget = new Vector3(5f, 0f, 0f);
     private readonly float _minVert = -30f;
     private readonly float _maxVert = 30f;
     private NPC targetNPC = null;
@@ -87,6 +90,8 @@ public class CameraManager : MonoBehaviour
     // Updates the camera movement inputs. Called in InputManager.
     public void InputUpdate(float mouseX, float mouseY)
     {
+        if (_mouseX != mouseX || _mouseY != mouseY)
+            _recenterTimeReset = Time.time;
         _mouseX = mouseX;
         _mouseY = mouseY;
     }
@@ -149,6 +154,9 @@ public class CameraManager : MonoBehaviour
     // Normal camera follow state.
     private class PlayState : CameraState
     {
+
+        private float turningSmoothVel;
+
         public override void OnEnter()
         {
             Context.mainFollowCamera.Priority = 30;
@@ -158,16 +166,24 @@ public class CameraManager : MonoBehaviour
 
         public override void LateUpdate()
         {
-            // Calculate new vertical rotation.
-            Context._curVertRot -= Context._mouseY * Context.mouseSensitivity * Time.deltaTime;
-            Context._curVertRot = Mathf.Clamp(Context._curVertRot, Context._minVert, Context._maxVert);
+            if (Time.time - Context._recenterTimeReset < Context._recenterCameraTime)
+            {
+                // Calculate new vertical rotation.
+                Context._curVertRot -= Context._mouseY * Context.mouseSensitivity * Time.deltaTime;
+                Context._curVertRot = Mathf.Clamp(Context._curVertRot, Context._minVert, Context._maxVert);
 
-            // Calculate new horizontal rotation.
-            Context._curHorRot += Context._mouseX * Context.mouseSensitivity * Time.deltaTime;
+                // Calculate new horizontal rotation.
+                Context._curHorRot += Context._mouseX * Context.mouseSensitivity * Time.deltaTime;
 
-            // Calculate new rotate targetVector.
-            Context.targetVector.eulerAngles = new Vector3(Context._curVertRot, Context._curHorRot, 0);
-
+                // Calculate new rotate targetVector.
+                Context.targetVector.eulerAngles = new Vector3(Context._curVertRot, Context._curHorRot, 0);
+            }
+            else
+            {
+                Context.targetVector.localRotation = Quaternion.Slerp(Context.targetVector.localRotation, Quaternion.Euler(Context._recenterTarget), 1.5f * Time.deltaTime);
+                Context._curVertRot = Context.targetVector.eulerAngles.x;
+                Context._curHorRot = Context.targetVector.eulerAngles.y;
+            }
         }
     }
 
