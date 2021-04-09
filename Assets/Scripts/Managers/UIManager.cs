@@ -43,6 +43,7 @@ public class UIManager : MonoBehaviour
 
     private Dictionary<string, TMPro.TextMeshProUGUI> _questTagToLog = new Dictionary<string, TMPro.TextMeshProUGUI>();
 
+    private bool _updatingQuestLog = false;
 
     #region Lifecycle Management
     private void Awake()
@@ -160,6 +161,24 @@ public class UIManager : MonoBehaviour
             UI.gameObject.SetActive(false);
     }
 
+    private void DisplayUI(TMPro.TextMeshProUGUI UI)
+    {
+        Animator anim = UI.GetComponent<Animator>();
+        if (anim != null)
+            anim.SetBool(_visible, true);
+        else
+            UI.gameObject.SetActive(true);
+    }
+
+    private void HideUI(TMPro.TextMeshProUGUI UI)
+    {
+        Animator anim = UI.GetComponent<Animator>();
+        if (anim != null)
+            anim.SetBool(_visible, false);
+        else
+            UI.gameObject.SetActive(false);
+    }
+
     private void DisplayUI(RectTransform UI)
     {
         Animator anim = UI.GetComponent<Animator>();
@@ -195,8 +214,72 @@ public class UIManager : MonoBehaviour
     public void SetQuestlogText(string questTag, string newText)
     {
         Debug.LogWarning($"tag = {questTag} text = {newText}");
-        if (_questTagToLog.ContainsKey(questTag) && _questTagToLog[questTag] != null)
+        if (_questTagToLog.ContainsKey(questTag) && _questTagToLog[questTag] == null)
+            return;
+
+        if (newText.Equals("") || newText.Equals("Find out what happened to the forest"))
+        {
             _questTagToLog[questTag].text = newText;
+            return;
+        }
+
+        Task displayHolder = new ActionTask(() =>
+        {
+            DisplayQuestLogUI();
+        });
+
+        Task wait1 = new WaitTask(.5f);
+
+        Task triggerTextAnim = new ActionTask(() =>
+        {
+            HideUI(_questTagToLog[questTag]);
+        });
+
+        Task wait2 = new WaitTask(.5f);
+
+        Task setText = new ActionTask(() =>
+        {
+            _questTagToLog[questTag].text = newText;
+            DisplayUI(_questTagToLog[questTag]);
+        });
+
+        Task wait3 = new WaitTask(1.5f);
+
+        Task hideHolder = new ActionTask(() =>
+        {
+            HideQuestLogUI();
+            _updatingQuestLog = false;
+        });
+
+        if (_updatingQuestLog)
+        {
+            wait1.Then(triggerTextAnim).Then(wait2).Then(setText);
+            _taskManager.Do(wait1);
+        }
+        else
+        {
+            _updatingQuestLog = true;
+            displayHolder.Then(wait1).Then(triggerTextAnim).Then(wait2).Then(setText).Then(wait3).Then(hideHolder);
+            _taskManager.Do(displayHolder);
+        }
+    }
+
+    private void DisplayQuestLogUI()
+    {
+        DisplayUI(_questlogHolder);
+        DisplayUI(_mainQuestLog);
+        DisplayUI(_warblerQuestLog);
+        DisplayUI(_frogQuestLog);
+        DisplayUI(_turtleQuestLog);
+    }
+
+    private void HideQuestLogUI()
+    {
+        HideUI(_questlogHolder);
+        HideUI(_mainQuestLog);
+        HideUI(_warblerQuestLog);
+        HideUI(_frogQuestLog);
+        HideUI(_turtleQuestLog);
     }
 
     #endregion
@@ -343,13 +426,13 @@ public class UIManager : MonoBehaviour
         public override void OnEnter()
         {
             Context.DisplayUI(Context._pauseUI);
-            Context.DisplayUI(Context._questlogHolder);
+            Context.DisplayQuestLogUI();
         }
 
         public override void OnExit()
         {
             Context.HideUI(Context._pauseUI);
-            Context.HideUI(Context._questlogHolder);
+            Context.HideQuestLogUI();
         }
     }
     #endregion

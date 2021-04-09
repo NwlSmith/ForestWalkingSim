@@ -62,6 +62,14 @@ public class WarblerQuest : FSMQuest
         };
 
         startNextStage = _fsm.TransitionTo<Stage0State>;
+
+        foreach (WarblerRoute route in _warblerRoutes)
+        {
+            foreach (Transform t in route.route)
+            {
+                t.GetComponent<MeshRenderer>().enabled = false;
+            }
+        }
     }
 
     private int GetTriggeredWarbler()
@@ -93,9 +101,12 @@ public class WarblerQuest : FSMQuest
 
 
     // Defines tasks for turtle movement.
-    private void SendTriggeredBirdHome()
+    private void SendTriggeredBirdHome(int _curWarblerNum = -1, bool disableAtEnd = false)
     {
-        _curWarblerNum = GetTriggeredWarbler();
+        if (_curWarblerNum == -1)
+            _curWarblerNum = GetTriggeredWarbler();
+
+
         NPC childNPC = _warblerNPC[_curWarblerNum];
         childNPC.GetComponentInChildren<NPCCollider>().transform.localScale = Vector3.zero;
         Task start = new ActionTask(() =>
@@ -111,12 +122,13 @@ public class WarblerQuest : FSMQuest
             prev = prev.Then(next);
         }
 
-        Task finish = new ActionTask
-            (
-                () => {
-                    childNPC.gameObject.SetActive(false);
-                }
-            );
+        Task finish = new ActionTask(() =>
+        {
+            if (disableAtEnd)
+                childNPC.gameObject.SetActive(false);
+            childNPC.GetComponentInChildren<Animator>().SetBool(_moving, false);
+            childNPC.transform.rotation = _warblerRoutes[_curWarblerNum].route[_warblerRoutes[_curWarblerNum].route.Length - 1].rotation;
+        });
 
         prev.Then(finish);
 
@@ -207,7 +219,17 @@ public class WarblerQuest : FSMQuest
             _stageNum = 4;
             base.OnEnter();
 
-            ((WarblerQuest)Context).SendTriggeredBirdHome();
+            int lastWarbler = ((WarblerQuest)Context).GetTriggeredWarbler();
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (i != lastWarbler)
+                {
+                    ((WarblerQuest)Context)._warblerNPC[i].gameObject.SetActive(false);
+                }
+            }
+
+            ((WarblerQuest)Context).SendTriggeredBirdHome(lastWarbler, true);
         }
     }
 

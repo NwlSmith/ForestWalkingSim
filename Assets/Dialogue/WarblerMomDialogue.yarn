@@ -43,13 +43,25 @@ position: -184,215
     Thanks again for offering to help. You're very kind!
 <<elseif $quest_warbler_stage is 2>>
     <<NPCSpeak>>
+    <<if $found_warbler_child_1 is true>>
+        You found Robin! Thank you so much!
+    <<elseif $found_warbler_child_2 is true>>
+        You found Wren! Thank you so much!
+    <<elseif $found_warbler_child_1 is true>>
+        You found Piper! Thank you so much!
+    <<endif>>
     One of my babies is back!
     It's a great start, but I've got two more.
     <<PlayerSpeak>>
     I'll go look.
 <<elseif $quest_warbler_stage is 3>>
     <<NPCSpeak>>
-    You're a miracle worker! Just one more!
+    You're a miracle worker! 
+    Thank you gor finding these two!
+    <<PlayerSpeak>>
+    It's no problem!
+    <<NPCSpeak>>
+    Just one more!
     <<PlayerSpeak>>
     I'm on it.
 <<elseif $quest_warbler_stage is 4>>
