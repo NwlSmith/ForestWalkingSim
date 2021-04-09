@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     #region Variables
 
     public bool inPlaceForSequence = false;
+    public bool moving = false;
 
 
     // Stored inputs
@@ -440,6 +441,7 @@ public class PlayerMovement : MonoBehaviour
         {
             public override void OnEnter()
             {
+                Cont.moving = false;
                 Cont._playerAnimation.Moving(false);
                 Cont._targetMovementVector = Vector3.zero;
             }
@@ -467,7 +469,11 @@ public class PlayerMovement : MonoBehaviour
         private class MovingOnGroundState : MovementState
         {
 
-            public override void OnEnter() => Cont._playerAnimation.Moving(true);
+            public override void OnEnter()
+            {
+                Cont.moving = true;
+                Cont._playerAnimation.Moving(true);
+            }
 
             public override void Update()
             {
