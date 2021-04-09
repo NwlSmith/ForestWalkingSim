@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
         raycastOriginOffset = _charController.center - new Vector3(0, _charController.height/2.3f, 0f);
     }
 
-    private void Start() => _fsm.TransitionTo<IdleState>();
+    private void Start() => _fsm.TransitionTo<LocomotionState>();
 
     private void Update()
     {
@@ -122,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
     #region Triggers
 
     // Returns player to play mode.
-    public void EnterPlay() => _fsm.TransitionTo<MovingOnGroundState>();
+    public void EnterPlay() => _fsm.TransitionTo<LocomotionState>();
 
     // Forces the player to be idle.
     public void ForceIdle() => _fsm.TransitionTo<ForcedIdleState>();
@@ -379,187 +379,241 @@ public class PlayerMovement : MonoBehaviour
         public override void OnExit() => Context.inPlaceForSequence = false;
     }
 
-    
-    // Player not inputting any inputs, but they are allowed to move if they want to.
-    private class IdleState : GameState
+    private class LocomotionState : GameState
     {
+
+        // The finite state machine of the current gamestate.
+        private FiniteStateMachine<LocomotionState> _fsm;
+        
+        public LocomotionState()
+        {
+            Debug.Log("LOCOMOTION STATE CONSTRUCTOR!!!");
+            _fsm = new FiniteStateMachine<LocomotionState>(this);
+        }
+
+        #region Lifecycle Management.
         public override void OnEnter()
         {
+
             Context._playerAnimation.Moving(false);
             Context._targetMovementVector = Vector3.zero;
-        }
 
-        public override void Update()
-        {
             // Process inputs
             if (Context.GroundMovementInputsEntered)
-                TransitionTo<MovingOnGroundState>();
-            if (Context._jumpInput && Context._curJumpCooldown <= 0)
-                TransitionTo<JumpingState>();
-        }
-
-        public override void FixedUpdate()
-        {
-            if (!Context.OnGround())
-                TransitionTo<FallingState>();
-
-            Context._currentMovementVector = Vector3.Lerp(Context._currentMovementVector, Context._targetMovementVector, Context._movementChangeSpeed * Time.fixedDeltaTime);
-            Context._charController.Move(Context._currentMovementVector);
-        }
-    }
-
-    // Player is currently moving on the ground.
-    private class MovingOnGroundState : GameState
-    {
-
-        public override void OnEnter() => Context._playerAnimation.Moving(true);
-
-        public override void Update()
-        {
-            // Process inputs.
-            if (!Context.GroundMovementInputsEntered && Context.OnGround()) // Move to FixedUpdate
-                TransitionTo<IdleState>();
+                _fsm.TransitionTo<MovingOnGroundState>();
             else if (Context._jumpInput && Context._curJumpCooldown <= 0)
-                TransitionTo<JumpingState>();
+                _fsm.TransitionTo<JumpingState>();
+            else if (!Context.OnGround())
+                _fsm.TransitionTo<FallingState>();
+            else
+                _fsm.TransitionTo<IdleState>();
         }
 
-        // Physics calculations.
+        public override void Update() => _fsm.Update();
+
         public override void FixedUpdate()
         {
-            if (!Context.OnGround())
-                TransitionTo<FallingState>();
-            
-
-            Vector3 direction = new Vector3(Context._horizontalInput, 0f, Context._verticalInput).normalized;
-
-            // If the player has entered input, calculate the forward angle and move the target movement.
-            if (direction.sqrMagnitude >= .1f)
-            {
-                float targetAngle = Mathf.Atan2(Context._horizontalInput, Context._verticalInput) * Mathf.Rad2Deg + Services.CameraManager.CameraYAngle;
-                float angle = Mathf.SmoothDampAngle(Context.transform.eulerAngles.y, targetAngle, ref Context.turningSmoothVel, .2f);
-                Context.transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
-                Context._targetMovementVector = (Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward).normalized * Context._movementSpeed * Time.fixedDeltaTime * (Context._sprintInput ? Context._shiftMultiplier : 1f);
-                Context._playerAnimation.Sprinting(Context._sprintInput);
-            }
-            else
-            {
-                Context._targetMovementVector = Vector3.zero;
-            }
-
-            // Lerp the current movement toward the targetmovement
-            Context._currentMovementVector = Vector3.Lerp(Context._currentMovementVector, Context._targetMovementVector, Context._movementChangeSpeed * Time.fixedDeltaTime);
-
-            // Fall downwards
-            if (Context._currentMovementVector.y > 0)
-                Context._currentMovementVector.y -= Context._gravity * Time.fixedDeltaTime;
-            else
-                Context._currentMovementVector.y = 4 * Context._gravity * Time.fixedDeltaTime;
-
-            // Finally, move the character to that vector.
-            Context._charController.Move(Context._currentMovementVector);
-        }
-    }
-
-    // Player is currently jumping. Possibly change into 2 states - a jump charging state and a released jump state.
-    private class JumpingState : GameState
-    {
-        public override void OnEnter()
-        {
-            Context._curJumpCooldown = Context._jumpCooldown;
-            
-            Context._charController.Move(Context._currentMovementVector);
-            Context._playerAnimation.Jump();
-            JumpTasks();
+            MovementState curGS = ((MovementState)_fsm.CurrentState);
+            if (curGS != null)
+                curGS.FixedUpdate();
         }
 
-        private void JumpTasks()
+        #endregion
+
+        #region States.
+
+        private abstract class MovementState : FiniteStateMachine<LocomotionState>.State
         {
-            float elapsedTime = 0f;
-            float duration = 0.33f;
-            DelegateTask moveAndWait = new DelegateTask(() => { }, () => 
+            public virtual void FixedUpdate() { }
+
+            protected PlayerMovement Cont => Context.Context;
+        }
+
+        // Player not inputting any inputs, but they are allowed to move if they want to.
+        private class IdleState : MovementState
+        {
+            public override void OnEnter()
             {
-                elapsedTime += Time.fixedDeltaTime;
-                Context._charController.Move(Context._currentMovementVector * .3f);
-                return elapsedTime > duration;
-            });
+                Cont._playerAnimation.Moving(false);
+                Cont._targetMovementVector = Vector3.zero;
+            }
 
-            DelegateTask jump = new DelegateTask(
-                () =>
-                {
-                    Vector3 jumpVector = Context.transform.forward * Context._jumpForwardDistance;// + Vector3.up * Context._upwardJumpSpeed;
-                    Context._currentMovementVector += jumpVector * Time.deltaTime;
-                    Context._currentMovementVector.y = Context._jumpSpeed;
-                },
-                () =>
-                {
-                    // Fall downwards
-                    Context._currentMovementVector.y += Context._gravity * Time.deltaTime;
+            public override void Update()
+            {
+                // Process inputs
+                if (Cont.GroundMovementInputsEntered)
+                    TransitionTo<MovingOnGroundState>();
+                if (Cont._jumpInput && Cont._curJumpCooldown <= 0)
+                    TransitionTo<JumpingState>();
+            }
 
-                    Context._charController.Move(Context._currentMovementVector);
+            public override void FixedUpdate()
+            {
+                if (!Cont.OnGround())
+                    TransitionTo<FallingState>();
 
-                    if (Context.OnGround() || Context._currentMovementVector.y <= 0f)
-                    {
-                        return true;
-                    }
-                    return false;
-                },
-                () =>
+                Cont._currentMovementVector = Vector3.Lerp(Cont._currentMovementVector, Cont._targetMovementVector, Cont._movementChangeSpeed * Time.fixedDeltaTime);
+                Cont._charController.Move(Cont._currentMovementVector);
+            }
+        }
+
+        // Player is currently moving on the ground.
+        private class MovingOnGroundState : MovementState
+        {
+
+            public override void OnEnter() => Cont._playerAnimation.Moving(true);
+
+            public override void Update()
+            {
+                // Process inputs.
+                if (!Cont.GroundMovementInputsEntered && Cont.OnGround()) // Move to FixedUpdate
+                    TransitionTo<IdleState>();
+                else if (Cont._jumpInput && Cont._curJumpCooldown <= 0)
+                    TransitionTo<JumpingState>();
+            }
+
+            // Physics calculations.
+            public override void FixedUpdate()
+            {
+                if (!Cont.OnGround())
+                    TransitionTo<FallingState>();
+
+
+                Vector3 direction = new Vector3(Cont._horizontalInput, 0f, Cont._verticalInput).normalized;
+
+                // If the player has entered input, calculate the forward angle and move the target movement.
+                if (direction.sqrMagnitude >= .1f)
                 {
-                    System.Type type = Context._fsm.CurrentState.GetType();
-                    if (type == typeof(InDialogueState) || type == typeof(MidCutsceneState) || type == typeof(ForcedIdleState))
-                    {
-                        Logger.Warning($"Jump task finished outside of NPC area. Currently in {type.FullName}.");
-                    }
-                    else if (Context._currentMovementVector.y < 0f)
-                    {
-                        TransitionTo<FallingState>();
-                    }
-                    else if (Context.GroundMovementInputsEntered)
-                    {
-                        TransitionTo<MovingOnGroundState>();
-                    }
-                    else
-                    {
-                        TransitionTo<IdleState>();
-                    }
+                    float targetAngle = Mathf.Atan2(Cont._horizontalInput, Cont._verticalInput) * Mathf.Rad2Deg + Services.CameraManager.CameraYAngle;
+                    float angle = Mathf.SmoothDampAngle(Cont.transform.eulerAngles.y, targetAngle, ref Cont.turningSmoothVel, .2f);
+                    Cont.transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+                    Cont._targetMovementVector = (Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward).normalized * Cont._movementSpeed * Time.fixedDeltaTime * (Cont._sprintInput ? Cont._shiftMultiplier : 1f);
+                    Cont._playerAnimation.Sprinting(Cont._sprintInput);
+                }
+                else
+                {
+                    Cont._targetMovementVector = Vector3.zero;
+                }
+
+                // Lerp the current movement toward the targetmovement
+                Cont._currentMovementVector = Vector3.Lerp(Cont._currentMovementVector, Cont._targetMovementVector, Cont._movementChangeSpeed * Time.fixedDeltaTime);
+
+                // Fall downwards
+                if (Cont._currentMovementVector.y > 0)
+                    Cont._currentMovementVector.y -= Cont._gravity * Time.fixedDeltaTime;
+                else
+                    Cont._currentMovementVector.y = 4 * Cont._gravity * Time.fixedDeltaTime;
+
+
+                Cont._charController.Move(Cont._currentMovementVector);
+            }
+        }
+
+        // Player is currently jumping. Possibly change into 2 states - a jump charging state and a released jump state.
+        private class JumpingState : MovementState
+        {
+
+            private const float _jumpingMovementMultiplier = .4f;
+
+            public override void OnEnter()
+            {
+                Cont._curJumpCooldown = Cont._jumpCooldown;
+
+                Cont._charController.Move(Cont._currentMovementVector);
+                Cont._playerAnimation.Jump();
+                JumpTasks();
+            }
+
+            private void JumpTasks()
+            {
+                float elapsedTime = 0f;
+                float duration = 0.33f;
+                DelegateTask moveAndWait = new DelegateTask(() => { }, () =>
+                {
+                    elapsedTime += Time.fixedDeltaTime;
+                    Cont._charController.Move(Cont._currentMovementVector * _jumpingMovementMultiplier);
+                    return elapsedTime > duration;
                 });
 
-            moveAndWait.Then(jump);
+                DelegateTask jump = new DelegateTask(
+                    () =>
+                    {
+                        Vector3 jumpVector = Cont.transform.forward * Cont._jumpForwardDistance;// + Vector3.up * Cont._upwardJumpSpeed;
+                        Cont._currentMovementVector += jumpVector * Time.deltaTime;
+                        Cont._currentMovementVector.y = Cont._jumpSpeed;
+                    },
+                    () =>
+                    {
+                        // Fall downwards
+                        Cont._currentMovementVector.y += Cont._gravity * Time.deltaTime;
+                        Cont._charController.Move(Cont._currentMovementVector);
+                        if (Cont.OnGround() || Cont._currentMovementVector.y <= 0f)
+                        {
+                            return true;
+                        }
+                        return false;
+                    },
+                    () =>
+                    {
+                        System.Type type = Cont._fsm.CurrentState.GetType();
+                        if (type == typeof(InDialogueState) || type == typeof(MidCutsceneState) || type == typeof(ForcedIdleState))
+                        {
+                            Logger.Warning($"Jump task finished outside of NPC area. Currently in {type.FullName}.");
+                        }
+                        else if (Cont._currentMovementVector.y < 0f)
+                        {
+                            TransitionTo<FallingState>();
+                        }
+                        else if (Cont.GroundMovementInputsEntered)
+                        {
+                            TransitionTo<MovingOnGroundState>();
+                        }
+                        else
+                        {
+                            TransitionTo<IdleState>();
+                        }
+                    });
 
-            Context._taskManager.Do(moveAndWait);
-        }
-    }
+                moveAndWait.Then(jump);
 
-    // Player is currently falling.
-    private class FallingState : GameState
-    {
-        public override void OnEnter() => Context._playerAnimation.Falling(true);
-
-        public override void Update()
-        {
-            // Detect if on the ground. If moving, transition to the moving state.
-            if (Context.OnGround())
-            {
-                if (Context.GroundMovementInputsEntered)
-                    TransitionTo<MovingOnGroundState>();
-                else
-                    TransitionTo<IdleState>();
+                Cont._taskManager.Do(moveAndWait);
             }
         }
 
-        // Physics calculations.
-        public override void FixedUpdate()
+        // Player is currently falling.
+        private class FallingState : MovementState
         {
-            // Fall downwards
-            Context._currentMovementVector.y += Context._gravity * Time.fixedDeltaTime;
+            public override void OnEnter() => Cont._playerAnimation.Falling(true);
 
-            Context._charController.Move(Context._currentMovementVector);
+            public override void Update()
+            {
+                // Detect if on the ground. If moving, transition to the moving state.
+                if (Cont.OnGround())
+                {
+                    if (Cont.GroundMovementInputsEntered)
+                        TransitionTo<MovingOnGroundState>();
+                    else
+                        TransitionTo<IdleState>();
+                }
+            }
+
+            // Physics calculations.
+            public override void FixedUpdate()
+            {
+                // Fall downwards
+                Cont._currentMovementVector.y += Cont._gravity * Time.fixedDeltaTime;
+                Cont._charController.Move(Cont._currentMovementVector);
+            }
+
+            public override void OnExit() => Cont._playerAnimation.Falling(false);
+
         }
 
-        public override void OnExit() => Context._playerAnimation.Falling(false);
-
+        #endregion
     }
+
+    
 
 
     // Player is forced to remain idle, turns to look at NPC.
@@ -599,6 +653,11 @@ public class PlayerMovement : MonoBehaviour
             phase3Start.Then(reset2).Then(wait4Secs).Then(forceFinalTransform);//.Then(wait5Secs).Then(exitSequence);
 
             Context._taskManager.Do(moveToInitPos);
+        }
+
+        private Task CutsceneTask()
+        {
+
         }
         
 

@@ -128,9 +128,9 @@ public class MainQuest : FSMQuest
         public override void OnEnter()
         {
             _stageNum = 2;
+            ((MainQuest)Context).SetCurrentQuestLog(((MainQuest)Context).ConstructLogString());
             base.OnEnter();
             Services.GameManager.MidrollCutscene();
-            ((MainQuest)Context).SetCurrentQuestLog(((MainQuest)Context).ConstructLogString());
         }
     }
 
@@ -140,9 +140,9 @@ public class MainQuest : FSMQuest
         public override void OnEnter()
         {
             _stageNum = 3;
+            ((MainQuest)Context).SetCurrentQuestLog(((MainQuest)Context).ConstructLogString());
             base.OnEnter();
             Services.GameManager.MidrollCutscene();
-            ((MainQuest)Context).SetCurrentQuestLog(((MainQuest)Context).ConstructLogString());
         }
     }
 

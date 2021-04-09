@@ -43,7 +43,11 @@ public class TurtleQuest : FSMQuest
         };
 
         startNextStage = _fsm.TransitionTo<Stage0State>;
-
+        
+        foreach (Transform route in _turtleRoute)
+        {
+            route.GetComponent<MeshRenderer>().enabled = false;
+        }
     }
 
     // Stage 0: Quest is spawned. Advance to stage 1 by talking to turtle.
@@ -85,7 +89,7 @@ public class TurtleQuest : FSMQuest
         private readonly int _running = Animator.StringToHash("Running");
         #endregion
 
-        private readonly float _turtleSpeed = 50f;
+        private readonly float _turtleSpeed = 30f;
         private Rigidbody _turtleRB;
         private Animator _turtleAnim;
         private readonly float _distFromTarget = 2f;
@@ -108,12 +112,15 @@ public class TurtleQuest : FSMQuest
         {
             NPCCollider npcCollider = _turtleRB.GetComponentInChildren<NPCCollider>();
             Vector3 initScale = npcCollider.transform.localScale;
+            npcCollider.transform.localScale = Vector3.zero;
+            Task wait = new WaitTask(1f);
+
             Task start = new ActionTask( () =>
             {
                 _turtleAnim.SetBool(_running, true);
                 // sound?
-                npcCollider.transform.localScale = Vector3.zero;
             });
+
             Task prev = start;
 
             for (int i = 0; i < ((TurtleQuest)Context)._turtleRoute.Length; i++)
@@ -132,9 +139,13 @@ public class TurtleQuest : FSMQuest
                     }
                 );
 
+
+
+            wait.Then(start);
+
             prev.Then(finish);
 
-            _taskManager.Do(start);
+            _taskManager.Do(wait);
         }
 
         private DelegateTask TurtleMove(Transform target)
@@ -149,6 +160,7 @@ public class TurtleQuest : FSMQuest
                 {
                     _turtleRB.transform.LookAt(target);
                     _turtleRB.MovePosition(_turtleRB.position + _turtleRB.transform.forward * _turtleSpeed * Time.deltaTime);
+                    //_turtleRB.transform.position = _turtleRB.position + _turtleRB.transform.forward * _turtleSpeed * Time.deltaTime;
                     return Vector3.Distance(_turtleRB.position, target.position) < _distFromTarget;
                 }
             );

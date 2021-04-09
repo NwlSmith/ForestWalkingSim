@@ -12,18 +12,14 @@ using UnityEngine.SceneManagement;
  * Allows different game states to have different Update functions.
  * 
  * To do:
- * - Make walking animation line up with music maybe?
  * - In URPExampleAssets > Settings > UniversalRenderPipeline Shadow Max distance was initially 50
- * - Make turtle go to quest area.
  * - The camera is a bit frustrating to work with, I found myself constantly adjusting it after moving a few steps.
  *      If it is possible, I think you should lock the camera behind the fox and then see if you can have another key that enables you to adjust the camera if you so desire. - Bad idea
  * - I also found myself phasing through a lot of the landscapes
  * - I hope the jump does not stop the momentum from sprinting. 
  * - I can no longer control the fox or press any button after I planted the seed. The game is still running, but it does not reacting to any key(include the esc) I pressed.
- * - Move dialogue entry prompt position lower for some characters.
  * 
  * Issues:
- * - Immediately thinks I want to talk to spirit - whenever you would hit e up until you talked to the frogs, it would pull up the dialogue for the mama bird regardless of where you were standing
  * - People want more variety in systems, like collecting rewards from NPCs/other kinds of interaction with the game environment.
  * - People weren't that happy about NPC POV camera
  * - make sure player looks at center of characters? maybe make player turn to face each character
