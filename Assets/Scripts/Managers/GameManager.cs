@@ -249,9 +249,15 @@ public class GameManager : MonoBehaviour
     private class InDialogueState : GameState
     {
         private float delay = .5f;
-        public override void OnEnter()
+
+        private readonly Task _enterDialogue;
+
+        public InDialogueState() =>
+            // Pre-define task.
+            _enterDialogue = DefineSequence();
+
+        private Task DefineSequence()
         {
-            
             Task enterDialogue = new DelegateTask(() =>
             {
                 Cursor.lockState = CursorLockMode.None;
@@ -275,8 +281,12 @@ public class GameManager : MonoBehaviour
             });
 
             enterDialogue.Then(fadeIn).Then(startConvo);
+            return enterDialogue;
+        }
 
-            Context._taskManager.Do(enterDialogue);
+        public override void OnEnter()
+        {
+            Context._taskManager.Do(_enterDialogue);
         }
 
         public override void OnExit()
@@ -304,9 +314,15 @@ public class GameManager : MonoBehaviour
          * 7. 1 sec later have player get up and return to normal controls. 1s // turns around!
          */
 
-        public override void OnEnter()
-        {
+        private readonly Task _enterSequence;
 
+        public MidCutsceneState()
+        {
+            _enterSequence = DefineSequence();
+        }
+
+        private Task DefineSequence()
+        {
             // 1. Move player to position. Move camera behind player. ~2s
             Task enterSequence = new DelegateTask(() =>
             {
@@ -373,8 +389,12 @@ public class GameManager : MonoBehaviour
             });
 
             enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(sixthSequence);
+            return enterSequence;
+        }
 
-            Context._taskManager.Do(enterSequence);
+        public override void OnEnter()
+        {
+            Context._taskManager.Do(_enterSequence);
         }
 
         public override void OnExit()
@@ -399,9 +419,12 @@ public class GameManager : MonoBehaviour
          * 7. 1 sec later have player get up and return to normal controls. 1s // turns around!
          */
 
-        public override void OnEnter()
-        {
+        private readonly Task _enterSequence;
 
+        public EndCutsceneState() => _enterSequence = DefineSequence();
+
+        private Task DefineSequence()
+        {
             // 1. Move player to position. Move camera behind player. ~2s
             Task enterSequence = new DelegateTask(() =>
             {
@@ -468,23 +491,30 @@ public class GameManager : MonoBehaviour
             });
 
             enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(sixthSequence);
-
-            Context._taskManager.Do(enterSequence);
+            return enterSequence;
         }
+
+        public override void OnEnter() => Context._taskManager.Do(_enterSequence);
 
     }
 
-    // Use delegates to control player movement, show item taken away, and coordinate UI and sound.
-    // FIX COMMENTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // Use delegates to control player movement, Fade out screen, load main menu.
     private class EndGameState : GameState
     {
-        public override void OnEnter()
+        private readonly Task _endSequence;
+
+        public EndGameState() => _endSequence = DefineSequence();
+
+        private Task DefineSequence()
         {
-            Debug.Log("Entering EndGameState!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            Services.PlayerMovement.ForceIdle();
-            Services.PlayerAnimation.Sitting(true);
-            Services.CameraManager.EnterPause();
-            Services.UIManager.CutsceneFadeIn();
+            Task enterSequence = new ActionTask(() =>
+            {
+                Logger.Debug("Entering EndGameState.");
+                Services.PlayerMovement.ForceIdle();
+                Services.PlayerAnimation.Sitting(true);
+                Services.CameraManager.EnterPause();
+                Services.UIManager.CutsceneFadeIn();
+            });
             Task waitForTime = new WaitTask(4.5f);
 
             // 1. Move player to position. Move camera behind player. ~2s
@@ -493,14 +523,15 @@ public class GameManager : MonoBehaviour
                 SceneManager.LoadScene(2);
             });
 
-            waitForTime.Then(endGame);
-
-            Context._taskManager.Do(waitForTime);
+            enterSequence.Then(waitForTime).Then(endGame);
+            return enterSequence;
         }
+
+        public override void OnEnter() => Context._taskManager.Do(_endSequence);
 
         public override void OnExit()
         {
-            Debug.Log("LEAVING EndGameState!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Logger.Debug("LEAVING EndGameState");
         }
     }
 

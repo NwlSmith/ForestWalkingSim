@@ -31,41 +31,25 @@ public class FrogQuest : FSMQuest
     // Stage 0: Quest is spawned. Advance to stage 1 by talking to F&T.
     private class Stage0State : QuestState
     {
-        public override void OnEnter()
-        {
-            _stageNum = 0;
-            base.OnEnter();
-        }
+        public Stage0State() : base(0) { }
     }
 
     // Stage 1: Spawn in Toad at "Carp" location. Advance to stage 2 by talking to Toad at new location.
     private class Stage1State : QuestState
     {
-        public override void OnEnter()
-        {
-            _stageNum = 1;
-            base.OnEnter();
-        }
+        public Stage1State() : base(1) { }
     }
 
     // Stage 2: Spawn in flower and Soil. Advance to stage 3 by picking up the Soil and placing Soil in the heart.
     private class Stage2State : QuestState
     {
-        public override void OnEnter()
-        {
-            _stageNum = 2;
-            base.OnEnter();
-        }
+        public Stage2State() : base(2) { }
     }
 
     // Stage 3: Advance to stage 4 by placing Soil in the heart.
     private class Stage3State : QuestState
     {
-        public override void OnEnter()
-        {
-            _stageNum = 3;
-            base.OnEnter();
-        }
+        public Stage3State() : base(3) { }
     }
     
 }

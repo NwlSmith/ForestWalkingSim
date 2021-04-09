@@ -44,7 +44,7 @@ public class WarblerQuest : FSMQuest
 
     private bool[] warblerFound = { false, false, false };
 
-    private TaskManager _taskManager = new TaskManager();
+    private readonly TaskManager _taskManager = new TaskManager();
 
     protected override void Awake()
     {
@@ -170,31 +170,23 @@ public class WarblerQuest : FSMQuest
     // Stage 0: Quest is spawned. Advance to stage 1 by talking to the mamma warbler.
     private class Stage0State : QuestState
     {
-        public override void OnEnter()
-        {
-            _stageNum = 0;
-            base.OnEnter();
-        }
+        public Stage0State() : base(0) { }
     }
 
     // Stage 1: Each child is spawned. Advance to stage 2 by finding one of the children.
     private class Stage1State : QuestState
     {
-        public override void OnEnter()
-        {
-            _stageNum = 1;
-            base.OnEnter();
-        }
+        public Stage1State() : base(1) { }
     }
 
     // Stage 2: Advance to stage 3 by finding the second child.
     private class Stage2State : QuestState
     {
+        public Stage2State() : base(2) { }
+
         public override void OnEnter()
         {
-            _stageNum = 2;
             base.OnEnter();
-
             ((WarblerQuest)Context).SendTriggeredBirdHome();
         }
     }
@@ -202,11 +194,12 @@ public class WarblerQuest : FSMQuest
     // Stage 3: Advance to stage 4 by finding the third child.
     private class Stage3State : QuestState
     {
+
+        public Stage3State() : base(3) { }
+
         public override void OnEnter()
         {
-            _stageNum = 3;
             base.OnEnter();
-
             ((WarblerQuest)Context).SendTriggeredBirdHome();
         }
     }
@@ -214,9 +207,10 @@ public class WarblerQuest : FSMQuest
     // Stage 4: Spawn all children near mother. Advance to stage 5 by talking to them.
     private class Stage4State : QuestState
     {
+        public Stage4State() : base(4) { }
+
         public override void OnEnter()
         {
-            _stageNum = 4;
             base.OnEnter();
 
             int lastWarbler = ((WarblerQuest)Context).GetTriggeredWarbler();
@@ -236,20 +230,12 @@ public class WarblerQuest : FSMQuest
     // Stage 5: Spawn in The Seed. Advance to stage 6 by placing Seed in the heart.
     private class Stage5State : QuestState
     {
-        public override void OnEnter()
-        {
-            _stageNum = 5;
-            base.OnEnter();
-        }
+        public Stage5State() : base(5) { }
     }
 
     // Stage 6: Finish the quest, despawn everything.
     private class Stage6State : QuestState
     {
-        public override void OnEnter()
-        {
-            _stageNum = 6;
-            base.OnEnter();
-        }
+        public Stage6State() : base(6) { }
     }
 }

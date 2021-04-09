@@ -78,19 +78,16 @@ public class MainQuest : FSMQuest
     // Stage 0: Start of game. Advance to stage 1 by talking to the forest spirit.
     protected class Stage0State : QuestState
     {
-        public override void OnEnter()
-        {
-            _stageNum = 0;
-            base.OnEnter();
-        }
+        public Stage0State() : base(0) { }
     }
 
     // Stage 1: Each quest is spawned. Advance to stage 2 by finding 1 of the items and bringing it to the Heart.
     private class Stage1State : QuestState
     {
+        public Stage1State() : base(1) { }
+
         public override void OnEnter()
         {
-            _stageNum = 1;
             base.OnEnter();
             Services.QuestManager.AdvanceQuest("Warbler");
             Services.QuestManager.AdvanceQuest("Frog");
@@ -125,9 +122,11 @@ public class MainQuest : FSMQuest
     // Stage 2: Advance to stage 3 by finding 2 of the items and bringing them to the Heart.
     private class Stage2State : QuestState
     {
+
+        public Stage2State() : base(2) { }
+
         public override void OnEnter()
         {
-            _stageNum = 2;
             ((MainQuest)Context).SetCurrentQuestLog(((MainQuest)Context).ConstructLogString());
             base.OnEnter();
             Services.GameManager.MidrollCutscene();
@@ -137,9 +136,10 @@ public class MainQuest : FSMQuest
     // Stage 3: Advance to stage 4 by finding all of the items and bringing them to the Heart.
     private class Stage3State : QuestState
     {
+        public Stage3State() : base(3) { }
+
         public override void OnEnter()
         {
-            _stageNum = 3;
             ((MainQuest)Context).SetCurrentQuestLog(((MainQuest)Context).ConstructLogString());
             base.OnEnter();
             Services.GameManager.MidrollCutscene();
@@ -149,9 +149,11 @@ public class MainQuest : FSMQuest
     // Stage 4: Trigger cutscene. Put player in front of Spirit. Advance to stage 4 by talking to spirit.
     private class Stage4State : QuestState
     {
+
+        public Stage4State() : base(4) { }
+
         public override void OnEnter()
         {
-            _stageNum = 4;
             base.OnEnter();
             Services.GameManager.EndCutscene();
             // TRIGGER END CUTSCENE.
@@ -161,9 +163,11 @@ public class MainQuest : FSMQuest
     // Stage 5: Finish the game.
     private class Stage5State : QuestState
     {
+
+        public Stage5State() : base(5) { }
+
         public override void OnEnter()
         {
-            _stageNum = 5;
             base.OnEnter();
             Services.GameManager.EndGame();
             // TRIGGER END CUTSCENE.

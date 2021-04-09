@@ -193,7 +193,10 @@ public class CameraManager : MonoBehaviour
 
         private float elapsedTime = 0f;
         private float introDuration = 2f;
-        public override void OnEnter()
+
+        public override void OnEnter() => Context._taskManager.Do(DefineSequence());
+
+        private Task DefineSequence()
         {
             Context.cutsceneCamera.LookAt = Services.QuestItemRepository.currentQuestItem.transform;
 
@@ -231,7 +234,8 @@ public class CameraManager : MonoBehaviour
                 );
 
             moveCameraBehindPlayer1.Then(waitFor6Seconds).Then(moveCameraBehindPlayer2);
-            Context._taskManager.Do(moveCameraBehindPlayer1);
+
+            return moveCameraBehindPlayer1;
         }
 
         public override void OnExit()

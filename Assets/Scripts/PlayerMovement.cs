@@ -370,20 +370,26 @@ public class PlayerMovement : MonoBehaviour
                 Services.NPCInteractionManager.FindClosestNPC();
             }
             
-            Context._taskManager.Do(Context.PlayerMoveToTransform(
+            Context._taskManager.Do(DefineSequence());
+        }
+
+        private Task DefineSequence()
+        {
+            return Context.PlayerMoveToTransform(
                 Services.NPCInteractionManager.DialogueTrans,
                 Services.NPCInteractionManager.closestNPC.transform,
-                Services.NPCInteractionManager.closestNPC.GetPlayerCameraLookAtPosition()));
+                Services.NPCInteractionManager.closestNPC.GetPlayerCameraLookAtPosition());
         }
 
         public override void OnExit() => Context.inPlaceForSequence = false;
     }
 
+    // Finite State Machine base for all player-controlled locomotion.
     private class LocomotionState : GameState
     {
 
         // The finite state machine of the current gamestate.
-        private FiniteStateMachine<LocomotionState> _fsm;
+        private readonly FiniteStateMachine<LocomotionState> _fsm;
         
         public LocomotionState()
         {
@@ -613,26 +619,28 @@ public class PlayerMovement : MonoBehaviour
         #endregion
     }
 
-    
-
-
-    // Player is forced to remain idle, turns to look at NPC.
+    // Player moves through sequence and faces South.
     private class MidCutsceneState : GameState
     {
 
-        public override void OnEnter()
-        {
-            Context.ResetInputs();
+        public override void OnEnter() => Context._taskManager.Do(DefineSequence());
 
-            Context.inPlaceForSequence = false;
+        private Task DefineSequence()
+        {
+            Task start = new ActionTask(() =>
+            {
+                Context.ResetInputs();
+                Context.inPlaceForSequence = false;
+            });
 
             Task moveToInitPos = Context.PlayerMoveToTransform(
                 Services.QuestItemRepository.TargetStep1PlayerPosition, // Position target for player
                 Services.QuestItemRepository.TargetItemPosition, // direction target for player
                 Services.QuestItemRepository.TargetItemPosition); // Not totally sure.
 
+            start.Then(moveToInitPos);
+
             Task phase2Start = Context.LastTask(moveToInitPos);
-            //phase2Start
 
             Task reset1 = new ActionTask(() => { Context.inPlaceForSequence = false; });
 
@@ -647,37 +655,34 @@ public class PlayerMovement : MonoBehaviour
             Task reset2 = new ActionTask(() => { Context.inPlaceForSequence = false; });
             Task wait4Secs = new WaitTask(4f);
             Task forceFinalTransform = new ActionTask(() => { Context.ForceTransform(Services.QuestItemRepository.TargetStep3PlayerPosition.position, Services.QuestItemRepository.TargetStep3PlayerPosition.rotation); });
-            //Task wait5Secs = new WaitTask(5f);
-            //Task exitSequence = new ActionTask(() => { Context.EnterPlay(); Debug.Log("exitSequence!!!!!!!!!!!!!!!!!!!"); });
 
-            phase3Start.Then(reset2).Then(wait4Secs).Then(forceFinalTransform);//.Then(wait5Secs).Then(exitSequence);
+            phase3Start.Then(reset2).Then(wait4Secs).Then(forceFinalTransform);
 
-            Context._taskManager.Do(moveToInitPos);
+            return start;
         }
-
-        private Task CutsceneTask()
-        {
-
-        }
-        
 
         public override void OnExit() => Context.inPlaceForSequence = false;
     }
 
-    // Player is forced to remain idle, turns to look at NPC.
+    // Player moves through sequence and faces NPC.
     private class EndCutsceneState : GameState
     {
+        public override void OnEnter() => Context._taskManager.Do(DefineSequence());
 
-        public override void OnEnter()
+        private Task DefineSequence()
         {
-            Context.inPlaceForSequence = false;
-
-            Context.ResetInputs();
+            Task start = new ActionTask(() =>
+            {
+                Context.ResetInputs();
+                Context.inPlaceForSequence = false;
+            });
 
             Task moveToInitPos = Context.PlayerMoveToTransform(
                 Services.QuestItemRepository.TargetStep1PlayerPosition, // Position target for player
                 Services.QuestItemRepository.TargetItemPosition, // direction target for player
                 Services.QuestItemRepository.TargetItemPosition); // Not totally sure.
+
+            start.Then(moveToInitPos);
 
             Task phase2Start = Context.LastTask(moveToInitPos);
             //phase2Start
@@ -700,9 +705,8 @@ public class PlayerMovement : MonoBehaviour
 
             phase3Start.Then(reset2).Then(wait4Secs).Then(forceFinalTransform);//.Then(wait5Secs).Then(exitSequence);
 
-            Context._taskManager.Do(moveToInitPos);
+            return start;
         }
-
 
         public override void OnExit() => Context.inPlaceForSequence = false;
     }

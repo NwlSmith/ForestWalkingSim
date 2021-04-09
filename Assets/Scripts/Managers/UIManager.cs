@@ -385,6 +385,7 @@ public class UIManager : MonoBehaviour
         }
 
     }
+    
 
     // UI overlay shown while game is loading.
     private class LoadSaveState : UIState

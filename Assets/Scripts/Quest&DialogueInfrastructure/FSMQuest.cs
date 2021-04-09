@@ -98,7 +98,10 @@ public abstract class FSMQuest : MonoBehaviour
 
     protected abstract class QuestState : FiniteStateMachine<FSMQuest>.State
     {
-        protected int _stageNum = -1;
+        protected readonly int _stageNum = -1;
+
+        public QuestState(int num) => _stageNum = num;
+
         public override void OnEnter()
         {
             if (_stageNum < 0) return;

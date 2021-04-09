@@ -53,31 +53,19 @@ public class TurtleQuest : FSMQuest
     // Stage 0: Quest is spawned. Advance to stage 1 by talking to turtle.
     private class Stage0State : QuestState
     {
-        public override void OnEnter()
-        {
-            _stageNum = 0;
-            base.OnEnter();
-        }
+        public Stage0State() : base(0) { }
     }
 
     // Stage 1: Turtle says she wants you to race. Advance to stage 2 by talking leaving the area.
     private class Stage1State : QuestState
     {
-        public override void OnEnter()
-        {
-            _stageNum = 1;
-            base.OnEnter();
-        }
+        public Stage1State() : base(1) { }
     }
 
     // Stage 2: Despawn original Turtle. Go to start line (out of sight from turtle's house) and see turtle there. Advance to stage 3 by talking to Turtle.
     private class Stage2State : QuestState
     {
-        public override void OnEnter()
-        {
-            _stageNum = 2;
-            base.OnEnter();
-        }
+        public Stage2State() : base(2) { }
     }
 
     // Stage 3: Talk to turtle at start line. She says she wants to race you. Count down then make turtle move forward super slow. Advance to stage 4 by either turning corner or turtle crosses finish line.
@@ -89,26 +77,25 @@ public class TurtleQuest : FSMQuest
         private readonly int _running = Animator.StringToHash("Running");
         #endregion
 
-        private readonly float _turtleSpeed = 30f;
+        private const float _turtleSpeed = 30f;
         private Rigidbody _turtleRB;
         private Animator _turtleAnim;
-        private readonly float _distFromTarget = 2f;
+        private const float _distFromTarget = 2f;
 
-        private TaskManager _taskManager = new TaskManager();
+        private readonly TaskManager _taskManager = new TaskManager();
+
+        public Stage3State() : base(3) { }
 
         public override void OnEnter()
         {
-            _stageNum = 3;
             base.OnEnter();
-
-            _turtleRB = ((TurtleQuest)Context)._turtleNPC.GetComponent<Rigidbody>();
-            _turtleAnim = ((TurtleQuest)Context)._turtleNPC.GetComponentInChildren<Animator>();
-
-            OnEnterTasks();
+            if (_turtleRB == null) _turtleRB = ((TurtleQuest)Context)._turtleNPC.GetComponent<Rigidbody>();
+            if (_turtleAnim == null) _turtleAnim = ((TurtleQuest)Context)._turtleNPC.GetComponentInChildren<Animator>();
+            _taskManager.Do(DefineTasks());
         }
 
         // Defines tasks for turtle movement.
-        private void OnEnterTasks()
+        private Task DefineTasks()
         {
             NPCCollider npcCollider = _turtleRB.GetComponentInChildren<NPCCollider>();
             Vector3 initScale = npcCollider.transform.localScale;
@@ -132,7 +119,7 @@ public class TurtleQuest : FSMQuest
             Task finish = new ActionTask
                 (
                     () => {
-                        _turtleAnim.SetBool("Running", false);
+                        _turtleAnim.SetBool(_running, false);
                         npcCollider.transform.localScale = initScale; // causes problems
                         npcCollider.Appear(); // causes problems
                         Services.QuestManager.AdvanceQuest(Context.QuestTag);
@@ -140,12 +127,11 @@ public class TurtleQuest : FSMQuest
                 );
 
 
-
             wait.Then(start);
 
             prev.Then(finish);
 
-            _taskManager.Do(wait);
+            return wait;
         }
 
         private DelegateTask TurtleMove(Transform target)
@@ -153,7 +139,6 @@ public class TurtleQuest : FSMQuest
             return new DelegateTask(
                 () => 
                 {
-                    Debug.Log("Going for target " + target.name);
                     _turtleRB.transform.LookAt(target);
                 },
                 () =>
@@ -172,30 +157,18 @@ public class TurtleQuest : FSMQuest
     // Stage 4: Talk to turtle at finish line. Advance to stage 5 by talking to turtle.
     private class Stage4State : QuestState
     {
-        public override void OnEnter()
-        {
-            _stageNum = 4;
-            base.OnEnter();
-        }
+        public Stage4State() : base(4) { }
     }
 
     // Stage 5: Spawn in Rain. Advance to stage 6 by placing Rain in the heart.
     private class Stage5State : QuestState
     {
-        public override void OnEnter()
-        {
-            _stageNum = 5;
-            base.OnEnter();
-        }
+        public Stage5State() : base(5) { }
     }
 
     // Stage 6: Finish the quest, despawn everything.
     private class Stage6State : QuestState
     {
-        public override void OnEnter()
-        {
-            _stageNum = 6;
-            base.OnEnter();
-        }
+        public Stage6State() : base(6) { }
     }
 }
