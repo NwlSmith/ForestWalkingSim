@@ -298,7 +298,7 @@ public class GameManager : MonoBehaviour
             Services.PlayerMovement.EnterPlay(); // These aren't needed
             Services.CameraManager.EnterPlay();
             Services.UIManager.EnterPlay();
-            Services.NPCInteractionManager.ExitDialogue();
+            NPCInteractionManager.ExitDialogue();
         }
     }
 
@@ -487,7 +487,7 @@ public class GameManager : MonoBehaviour
             {
                 Context._endingGame = true;
                 PlayerAnimation.Sitting(false);
-                Services.NPCInteractionManager.FindClosestNPC();
+                NPCInteractionManager.FindClosestNPC();
                 Services.GameManager.EnterDialogue();
             });
 

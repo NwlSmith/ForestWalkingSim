@@ -4,24 +4,32 @@ using UnityEngine;
  * Creation Date: 2/19/2021
  * Description: Manager that interfaces between the player and NPCs for dialogue.
  */
-public class NPCInteractionManager : MonoBehaviour
+public static class NPCInteractionManager
 {
     private const float closestDistForNPCEncounter = 50f;
-    public NPC closestNPC = null;
+    public static NPC closestNPC = null;
+    private static readonly Transform transform;
+    private static readonly NPC[] npcs;
 
-    public void PlayerEncounteredNPC(NPC npc)
+    static NPCInteractionManager()
+    {
+        transform = Object.FindObjectOfType<PlayerMovement>().transform;
+        npcs = Object.FindObjectsOfType<NPC>();
+    }
+
+    public static void PlayerEncounteredNPC(NPC npc)
     {
         closestNPC = npc;
         Services.UIManager.DisplayDialogueEnterPrompt();
     }
 
-    public void PlayerLeftNPC()
+    public static void PlayerLeftNPC()
     {
         closestNPC = null;
         Services.UIManager.HideDialogueEnterPrompt();
     }
 
-    public void InputPressed()
+    public static void InputPressed()
     {
         if (closestNPC == null)
             return;
@@ -35,10 +43,9 @@ public class NPCInteractionManager : MonoBehaviour
         
     }
 
-    public void FindClosestNPC()
+    public static void FindClosestNPC()
     {
         Logger.Warning("Failsafe: Someone called FindClosestNPC() on NPCInteractionManager");
-        NPC[] npcs = FindObjectsOfType<NPC>();
         float closestDist = 75f;
         NPC closeNPC = null;
 
@@ -65,9 +72,9 @@ public class NPCInteractionManager : MonoBehaviour
         Logger.Warning($"ClosestNPC = {closeNPC.name}");
     }
 
-    public Transform DialogueTrans => closestNPC.dialoguePos;
+    public static Transform DialogueTrans => closestNPC.dialoguePos;
 
-    public void EnterDialogue() => closestNPC.EnterDialogue(Services.PlayerMovement.transform);
+    public static void EnterDialogue() => closestNPC.EnterDialogue(Services.PlayerMovement.transform);
 
-    public void ExitDialogue() => closestNPC?.ExitDialogue();
+    public static void ExitDialogue() => closestNPC?.ExitDialogue();
 }

@@ -80,7 +80,7 @@ public class CameraManager : MonoBehaviour
     public void EnterDialogue()
     {
         _fsm.TransitionTo<InDialogueState>();
-        SetTargetNPC(Services.NPCInteractionManager.closestNPC);
+        SetTargetNPC(NPCInteractionManager.closestNPC);
     }
 
     public void EnterMidCutscene() => _fsm.TransitionTo<MidCutsceneState>();

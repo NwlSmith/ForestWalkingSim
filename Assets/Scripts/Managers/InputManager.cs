@@ -53,7 +53,7 @@ public static class InputManager
             if (Services.PlayerItemHolder.canPickUpItem || Services.PlayerItemHolder._holdingItem)
                 Services.PlayerItemHolder.InputPressed(); // CREATE HIERARCHY BETWEEN THESE TWO - Only one should be used at once.
             else
-                Services.NPCInteractionManager.InputPressed();
+                NPCInteractionManager.InputPressed();
         }
     }
 

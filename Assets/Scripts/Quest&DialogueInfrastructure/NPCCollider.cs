@@ -46,13 +46,13 @@ public class NPCCollider : MonoBehaviour
 
     private void EncounteredPlayer()
     {
-        Services.NPCInteractionManager.PlayerEncounteredNPC(parentNPC);
+        NPCInteractionManager.PlayerEncounteredNPC(parentNPC);
         _collider.radius = _initRadius * _enteredMultiplier;
     }
 
     private void PlayerLeft()
     {
-        Services.NPCInteractionManager.PlayerLeftNPC();
+        NPCInteractionManager.PlayerLeftNPC();
         _collider.radius = _initRadius;
     }
 

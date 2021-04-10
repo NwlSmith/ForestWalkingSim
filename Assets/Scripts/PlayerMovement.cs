@@ -363,7 +363,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (Context._taskManager.HasTasks())
             {
-                Services.NPCInteractionManager.FindClosestNPC();
+                NPCInteractionManager.FindClosestNPC();
             }
             
             Context._taskManager.Do(DefineSequence());
@@ -372,9 +372,9 @@ public class PlayerMovement : MonoBehaviour
         private Task DefineSequence()
         {
             return Context.PlayerMoveToTransform(
-                Services.NPCInteractionManager.DialogueTrans,
-                Services.NPCInteractionManager.closestNPC.transform,
-                Services.NPCInteractionManager.closestNPC.GetPlayerCameraLookAtPosition());
+                NPCInteractionManager.DialogueTrans,
+                NPCInteractionManager.closestNPC.transform,
+                NPCInteractionManager.closestNPC.GetPlayerCameraLookAtPosition());
         }
 
         public override void OnExit() => Context.inPlaceForSequence = false;

@@ -70,17 +70,6 @@ public static class Services
         private set => _playerItemHolder = value;
     }
 
-    private static NPCInteractionManager _npcInteractionManager;
-    public static NPCInteractionManager NPCInteractionManager
-    {
-        get
-        {
-            Debug.Assert(_npcInteractionManager != null);
-            return _npcInteractionManager;
-        }
-        private set => _npcInteractionManager = value;
-    }
-
     private static DialogueController _dialogueController;
     public static DialogueController DialogueController
     {
@@ -160,7 +149,6 @@ public static class Services
         PlayerMovement = Object.FindObjectOfType<PlayerMovement>();
         CameraManager = Object.FindObjectOfType<CameraManager>();
         PlayerItemHolder = Object.FindObjectOfType<PlayerItemHolder>();
-        NPCInteractionManager = Object.FindObjectOfType<NPCInteractionManager>();
         DialogueController = Object.FindObjectOfType<DialogueController>();
         QuestManager = new QuestManager(); // Must be created AFTER DialogueController
         SaveManager = new SaveManager();
