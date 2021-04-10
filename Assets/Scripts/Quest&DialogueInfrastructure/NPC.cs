@@ -11,11 +11,6 @@ using UnityEngine;
 public class NPC : MonoBehaviour
 {
 
-    #region Const Strings.
-    private static readonly int _talk = Animator.StringToHash("Talk");
-    private static readonly int _inConvo = Animator.StringToHash("InConversation");
-    #endregion
-
     public string YarnStartNode;
     public YarnProgram YarnDialogue;
     public NPCSpeakerData NPCSpeakerData;
@@ -70,7 +65,7 @@ public class NPC : MonoBehaviour
         _model.transform.rotation = Quaternion.LookRotation(lookPos);
         if (!_anim)
             _anim = GetComponentInChildren<Animator>();
-        _anim.SetBool(_inConvo, true);
+        _anim.SetBool(Str.InConvo, true);
 
         if (_NPCCollider != null)
             _NPCCollider.Disappear(); // CAUSED CRASH
@@ -79,12 +74,12 @@ public class NPC : MonoBehaviour
     public virtual void ExitDialogue()
     {
         _model.transform.rotation = _initRot;
-        _anim.SetBool(_inConvo, false);
+        _anim.SetBool(Str.InConvo, false);
         if (_NPCCollider != null)
             _NPCCollider.Appear();
     }
 
-    public virtual void Speak(int npcNum = 0) => _anim.SetTrigger(_talk);
+    public virtual void Speak(int npcNum = 0) => _anim.SetTrigger(Str.Talk);
 
     public virtual NPCSpeakerData GetNPCSpeakerData(int npcNum = 0) => NPCSpeakerData;
 

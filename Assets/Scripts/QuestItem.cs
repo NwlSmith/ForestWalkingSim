@@ -9,9 +9,6 @@ using UnityEngine;
 
 public class QuestItem : HoldableItem
 {
-    #region Const Strings.
-    private static readonly int _held = Animator.StringToHash("Held");
-    #endregion
 
     public enum QuestItemEnum { Seed, Soil, Rain, None };
 
@@ -30,7 +27,7 @@ public class QuestItem : HoldableItem
     {
         transform.parent = transform.root.parent;
         beingHeld = false;
-        _animator.SetBool(_held, false);
+        _animator.SetBool(Str.Held, false);
         ResetPosition();
     }
 
@@ -40,7 +37,7 @@ public class QuestItem : HoldableItem
         transform.rotation = newParent.rotation;
         transform.parent = newParent;
         beingHeld = true;
-        _animator.SetBool(_held, true);
+        _animator.SetBool(Str.Held, true);
     }
 
     public void Disappear()

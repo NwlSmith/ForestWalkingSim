@@ -16,39 +16,27 @@ using UnityEngine;
 public static class InputManager
 {
 
-    #region String Cache.
-    private const string _pause = "Pause";
-    private const string _cancel = "Cancel";
-    private const string _hor = "Horizontal";
-    private const string _ver = "Vertical";
-    private const string _jump = "Jump";
-    private const string _sprint = "Sprint";
-    private const string _mouseX = "Mouse X";
-    private const string _mouseY = "Mouse Y";
-    private const string _interact = "Interact";
-    #endregion
-
     public static void ProcessPlayInput()
     {
         // Intake pause instructions.
-        if (Input.GetButtonDown(_pause) || Input.GetButtonDown(_cancel))
+        if (Input.GetButtonDown(Str.Pause) || Input.GetButtonDown(Str.Cancel))
         {
             Services.GameManager.Pause();
         }
 
         // Send movement inputs to player.
         Services.PlayerMovement.InputUpdate(
-            Input.GetAxis(_hor),
-            Input.GetAxis(_ver),
-            Input.GetButtonDown(_jump),
-            Input.GetButton(_sprint));
+            Input.GetAxis(Str.Hor),
+            Input.GetAxis(Str.Ver),
+            Input.GetButtonDown(Str.JumpInput),
+            Input.GetButton(Str.Sprint));
 
         Services.CameraManager.InputUpdate(
-            Input.GetAxis(_mouseX),
-            Input.GetAxis(_mouseY));
+            Input.GetAxis(Str.MouseX),
+            Input.GetAxis(Str.MouseY));
 
 
-        if (Input.GetButtonDown(_interact))
+        if (Input.GetButtonDown(Str.Interact))
         {
             if (Services.PlayerItemHolder.canPickUpItem || Services.PlayerItemHolder._holdingItem)
                 Services.PlayerItemHolder.InputPressed(); // CREATE HIERARCHY BETWEEN THESE TWO - Only one should be used at once.
@@ -61,17 +49,17 @@ public static class InputManager
     {
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.M))
-            Services.QuestManager.AdvanceQuest("Main");
+            QuestManager.AdvanceQuest(Str.Main);
         if (Input.GetKeyDown(KeyCode.N))
-            Services.QuestManager.AdvanceQuest("Warbler");
+            QuestManager.AdvanceQuest(Str.Warbler);
         if (Input.GetKeyDown(KeyCode.F))
-            Services.QuestManager.AdvanceQuest("Frog");
+            QuestManager.AdvanceQuest(Str.Frog);
         if (Input.GetKeyDown(KeyCode.T))
-            Services.QuestManager.AdvanceQuest("Turtle");
+            QuestManager.AdvanceQuest(Str.Turtle);
         if (Input.GetKeyDown(KeyCode.H))
             Services.PlayerMovement.ForceTransform(new Vector3(460, 21, 506), Quaternion.identity);
 #endif
-        if (Input.GetButtonDown(_pause))
+        if (Input.GetButtonDown(Str.Pause))
         {
             Services.GameManager.Unpause();
         }

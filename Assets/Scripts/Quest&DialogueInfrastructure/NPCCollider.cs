@@ -9,9 +9,6 @@ using UnityEngine;
 public class NPCCollider : MonoBehaviour
 {
 
-    #region Const Strings.
-    private static readonly int _visible = Animator.StringToHash("Visible");
-    #endregion
 
     private NPC parentNPC;
 
@@ -31,17 +28,17 @@ public class NPCCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(Services.PlayerTag)) EncounteredPlayer();
+        if (other.CompareTag(Str.PlayerTag)) EncounteredPlayer();
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag(Services.PlayerTag)) parentNPC.PositionDialoguePrompt();
+        if (other.CompareTag(Str.PlayerTag)) parentNPC.PositionDialoguePrompt();
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag(Services.PlayerTag)) PlayerLeft();
+        if (other.CompareTag(Str.PlayerTag)) PlayerLeft();
     }
 
     private void EncounteredPlayer()
@@ -56,7 +53,7 @@ public class NPCCollider : MonoBehaviour
         _collider.radius = _initRadius;
     }
 
-    public void Appear() => _animator.SetBool(_visible, true);
+    public void Appear() => _animator.SetBool(Str.Visible, true);
 
-    public void Disappear() => _animator.SetBool(_visible, false);
+    public void Disappear() => _animator.SetBool(Str.Visible, false);
 }

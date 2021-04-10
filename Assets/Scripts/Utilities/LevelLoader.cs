@@ -5,10 +5,6 @@ using UnityEngine.UI;
 
 public class LevelLoader : MonoBehaviour
 {
-    #region Const Strings.
-    private readonly int _fadeOut = Animator.StringToHash("FadeOut");
-    private readonly int _visible = Animator.StringToHash("Visible");
-    #endregion
 
     [SerializeField] private int _sceneToLoad = 1;
     [SerializeField] private Canvas _canvas = null;
@@ -23,7 +19,7 @@ public class LevelLoader : MonoBehaviour
 
         DontDestroyOnLoad(this);
         DontDestroyOnLoad(_canvas);
-        _overlay.GetComponent<Animator>().SetBool(_visible, true);
+        _overlay.GetComponent<Animator>().SetBool(Str.Visible, true);
 
         while (!loading.isDone)
         {
@@ -33,8 +29,8 @@ public class LevelLoader : MonoBehaviour
             yield return null;
         }
 
-        _img.GetComponent<Animator>().SetTrigger(_fadeOut);
-        _overlay.GetComponent<Animator>().SetBool(_visible, false);
+        _img.GetComponent<Animator>().SetTrigger(Str.FadeOut);
+        _overlay.GetComponent<Animator>().SetBool(Str.Visible, false);
         yield return new WaitForSeconds(2f);
 
         _canvas.enabled = false;

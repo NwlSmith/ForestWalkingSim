@@ -75,6 +75,7 @@ public class DialogueController : MonoBehaviour
     {
         DialogueRunner.AddCommandHandler("NPCSpeak", NPCSpeak);
         DialogueRunner.AddCommandHandler("PlayerSpeak", PlayerSpeak);
+        DialogueRunner.AddCommandHandler("AdvanceQuest", QuestManager.AdvanceQuest);
     }
 
     // Injects a Yarn Dialogue file into Yarn.

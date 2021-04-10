@@ -13,9 +13,6 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
 
-    #region Const Strings.
-    private readonly int _visible = Animator.StringToHash("Visible");
-    #endregion
 
     // The finite state machine of the current UIState.
     private FiniteStateMachine<UIManager> _fsm;
@@ -147,7 +144,7 @@ public class UIManager : MonoBehaviour
     {
         Animator anim = UI.GetComponent<Animator>();
         if (anim != null)
-            anim.SetBool(_visible, true);
+            anim.SetBool(Str.Visible, true);
         else
             UI.gameObject.SetActive(true);
     }
@@ -156,7 +153,7 @@ public class UIManager : MonoBehaviour
     {
         Animator anim = UI.GetComponent<Animator>();
         if (anim != null)
-            anim.SetBool(_visible, false);
+            anim.SetBool(Str.Visible, false);
         else
             UI.gameObject.SetActive(false);
     }
@@ -165,7 +162,7 @@ public class UIManager : MonoBehaviour
     {
         Animator anim = UI.GetComponent<Animator>();
         if (anim != null)
-            anim.SetBool(_visible, true);
+            anim.SetBool(Str.Visible, true);
         else
             UI.gameObject.SetActive(true);
     }
@@ -174,7 +171,7 @@ public class UIManager : MonoBehaviour
     {
         Animator anim = UI.GetComponent<Animator>();
         if (anim != null)
-            anim.SetBool(_visible, false);
+            anim.SetBool(Str.Visible, false);
         else
             UI.gameObject.SetActive(false);
     }
@@ -183,7 +180,7 @@ public class UIManager : MonoBehaviour
     {
         Animator anim = UI.GetComponent<Animator>();
         if (anim != null)
-            anim.SetBool(_visible, true);
+            anim.SetBool(Str.Visible, true);
         else
             UI.gameObject.SetActive(true);
     }
@@ -194,7 +191,7 @@ public class UIManager : MonoBehaviour
             return;
         Animator anim = UI.GetComponent<Animator>();
         if (anim != null)
-            anim.SetBool(_visible, false);
+            anim.SetBool(Str.Visible, false);
         else
             UI.gameObject.SetActive(false);
     }

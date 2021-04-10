@@ -8,7 +8,7 @@ public class AreaEntryTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag(Services.PlayerTag)) return;
+        if (!other.CompareTag(Str.PlayerTag)) return;
 
         Services.SpacialAudioManager.FadeIn(_area);
     }

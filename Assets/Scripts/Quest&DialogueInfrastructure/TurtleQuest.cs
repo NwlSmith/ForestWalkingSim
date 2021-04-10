@@ -73,9 +73,6 @@ public class TurtleQuest : FSMQuest
     // If player gets ahead, need to speed ahead?
     private class Stage3State : QuestState
     {
-        #region Const Strings.
-        private readonly int _running = Animator.StringToHash("Running");
-        #endregion
 
         private const float _turtleSpeed = 30f;
         private Rigidbody _turtleRB;
@@ -89,8 +86,8 @@ public class TurtleQuest : FSMQuest
         public override void OnEnter()
         {
             base.OnEnter();
-            if (_turtleRB == null) _turtleRB = ((TurtleQuest)Context)._turtleNPC.GetComponent<Rigidbody>();
-            if (_turtleAnim == null) _turtleAnim = ((TurtleQuest)Context)._turtleNPC.GetComponentInChildren<Animator>();
+            if (ReferenceEquals(_turtleRB, null)) _turtleRB = ((TurtleQuest)Context)._turtleNPC.GetComponent<Rigidbody>();
+            if (ReferenceEquals(_turtleAnim, null)) _turtleAnim = ((TurtleQuest)Context)._turtleNPC.GetComponentInChildren<Animator>();
             _taskManager.Do(DefineTasks());
         }
 
@@ -104,7 +101,7 @@ public class TurtleQuest : FSMQuest
 
             Task start = new ActionTask( () =>
             {
-                _turtleAnim.SetBool(_running, true);
+                _turtleAnim.SetBool(Str.Running, true);
                 // sound?
             });
 
@@ -119,10 +116,10 @@ public class TurtleQuest : FSMQuest
             Task finish = new ActionTask
                 (
                     () => {
-                        _turtleAnim.SetBool(_running, false);
+                        _turtleAnim.SetBool(Str.Running, false);
                         npcCollider.transform.localScale = initScale; // causes problems
                         npcCollider.Appear(); // causes problems
-                        Services.QuestManager.AdvanceQuest(Context.QuestTag);
+                        QuestManager.AdvanceQuest(Context.QuestTag);
                     }
                 );
 

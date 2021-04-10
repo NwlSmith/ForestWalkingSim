@@ -5,41 +5,40 @@ using UnityEngine;
  * Creation Date: 2/26/2021
  * Description: Manager class that controls logic across quests.
  */
-public class QuestManager
+public static class QuestManager
 {
-    [SerializeField] private Dictionary<string, FSMQuest> _questDictionary = new Dictionary<string, FSMQuest>();
-    [SerializeField] private Dictionary<string, string> _stringToYarnVarDictionary = new Dictionary<string, string>();
+    [SerializeField] private static Dictionary<string, FSMQuest> _questDictionary = new Dictionary<string, FSMQuest>();
+    [SerializeField] private static Dictionary<string, string> _stringToYarnVarDictionary = new Dictionary<string, string>();
 
-    public QuestManager()
+    static QuestManager()
     {
         AddQuestsToDictionary();
-        Services.DialogueController.DialogueRunner.AddCommandHandler("AdvanceQuest", AdvanceQuest);
     }
 
-    private void AddQuestsToDictionary()
+    private static void AddQuestsToDictionary()
     {
         FSMQuest main = Object.FindObjectOfType<MainQuest>();
-        _questDictionary.Add("Main", main);
-        _stringToYarnVarDictionary.Add("Main", "$quest_main_stage");
+        _questDictionary.Add(Str.Main, main);
+        _stringToYarnVarDictionary.Add(Str.Main, "$quest_main_stage");
 
         FSMQuest warbler = Object.FindObjectOfType<WarblerQuest>();
-        _questDictionary.Add("Warbler", warbler);
-        _stringToYarnVarDictionary.Add("Warbler", "$quest_warbler_stage");
+        _questDictionary.Add(Str.Warbler, warbler);
+        _stringToYarnVarDictionary.Add(Str.Warbler, "$quest_warbler_stage");
 
         FSMQuest frog = Object.FindObjectOfType<FrogQuest>();
-        _questDictionary.Add("Frog", frog);
-        _stringToYarnVarDictionary.Add("Frog", "$quest_frog_stage");
+        _questDictionary.Add(Str.Frog, frog);
+        _stringToYarnVarDictionary.Add(Str.Frog, "$quest_frog_stage");
 
         FSMQuest turtle = Object.FindObjectOfType<TurtleQuest>();
-        _questDictionary.Add("Turtle", turtle);
-        _stringToYarnVarDictionary.Add("Turtle", "$quest_turtle_stage");
+        _questDictionary.Add(Str.Turtle, turtle);
+        _stringToYarnVarDictionary.Add(Str.Turtle, "$quest_turtle_stage");
 
-        _stringToYarnVarDictionary.Add("Seed", "$found_seed");
-        _stringToYarnVarDictionary.Add("Soil", "$found_soil");
-        _stringToYarnVarDictionary.Add("Rain", "$found_rain");
+        _stringToYarnVarDictionary.Add(Str.Seed, Str.SeedString);
+        _stringToYarnVarDictionary.Add(Str.Soil, Str.SoilString);
+        _stringToYarnVarDictionary.Add(Str.Rain, Str.RainString);
     }
 
-    public void AdvanceQuest(string[] parameters)
+    public static void AdvanceQuest(string[] parameters)
     {
         // Quest name is parameter 0
         if (parameters.Length <= 0)
@@ -57,7 +56,7 @@ public class QuestManager
         AdvanceQuestMemoryVar(key);
     }
 
-    public void AdvanceQuest(string questName)
+    public static void AdvanceQuest(string questName)
     {
         string[] param = new string[1];
         param[0] = questName;
@@ -65,9 +64,9 @@ public class QuestManager
     }
 
     /*
-     * Keys are "Main", "Warbler", "Frog", "Turtle", not "$quest_main_stage"
+     * Keys are Str.Main, Str.Warbler, Str.Frog, Str.Turtle, not "$quest_main_stage"
      */
-    public void AdvanceQuestMemoryVar(string key) => Services.DialogueController.InMemoryVariableStorage.SetValue(_stringToYarnVarDictionary[key], _questDictionary[key].QuestStage);
+    public static void AdvanceQuestMemoryVar(string key) => Services.DialogueController.InMemoryVariableStorage.SetValue(_stringToYarnVarDictionary[key], _questDictionary[key].QuestStage);
 
-    public void FoundItemQuestMemoryVar(string key) => Services.DialogueController.InMemoryVariableStorage.SetValue(_stringToYarnVarDictionary[key], true);
+    public static void FoundItemQuestMemoryVar(string key) => Services.DialogueController.InMemoryVariableStorage.SetValue(_stringToYarnVarDictionary[key], true);
 }

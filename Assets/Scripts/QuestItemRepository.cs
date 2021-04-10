@@ -3,10 +3,6 @@ using UnityEngine;
 
 public class QuestItemRepository : MonoBehaviour
 {
-    #region String Cache.
-    private readonly string _midSequence = "MidSequence";
-    private readonly string _endSequence = "EndSequence";
-    #endregion
 
     public bool _collectedSeed { get; private set; } = false;
     public bool _collectedSoil { get; private set; } = false;
@@ -42,23 +38,23 @@ public class QuestItemRepository : MonoBehaviour
             case QuestItem.QuestItemEnum.Seed:
                 if (_collectedSeed) return;
                 _collectedSeed = true;
-                Services.QuestManager.AdvanceQuest("Warbler");
-                Services.QuestManager.FoundItemQuestMemoryVar("Seed");
+                QuestManager.AdvanceQuest(Str.Warbler);
+                QuestManager.FoundItemQuestMemoryVar(Str.Seed);
                 break;
             case QuestItem.QuestItemEnum.Soil:
                 if (_collectedSoil) return;
                 _collectedSoil = true;
-                Services.QuestManager.AdvanceQuest("Frog");
-                Services.QuestManager.FoundItemQuestMemoryVar("Soil");
+                QuestManager.AdvanceQuest(Str.Frog);
+                QuestManager.FoundItemQuestMemoryVar(Str.Soil);
                 break;
             case QuestItem.QuestItemEnum.Rain:
                 if (_collectedRain) return;
                 _collectedRain = true;
-                Services.QuestManager.AdvanceQuest("Turtle");
-                Services.QuestManager.FoundItemQuestMemoryVar("Rain");
+                QuestManager.AdvanceQuest(Str.Turtle);
+                QuestManager.FoundItemQuestMemoryVar(Str.Rain);
                 break;
         }
-        Services.QuestManager.AdvanceQuest("Main");
+        QuestManager.AdvanceQuest(Str.Main);
 
         currentQuestItem = item;
 
@@ -95,7 +91,7 @@ public class QuestItemRepository : MonoBehaviour
 
         item.transform.position = itemHolder.position;
         // And animator handles the rest!
-        _animator.SetTrigger(_midSequence);
+        _animator.SetTrigger(Str.MidSequence);
     }
 
     public void RemoveObject() => currentQuestItem.Disappear();

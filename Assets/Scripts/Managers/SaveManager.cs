@@ -15,20 +15,6 @@ using System.Runtime.Serialization.Formatters.Binary;
  */
 public class SaveManager
 {
-    #region Const Strings.
-    private const string saveName = "/cur.save";
-    private const string saveDefaultName = "/default.save";
-    private const string questStageMain = "Main";
-    private const string questStageWarbler = "Warbler";
-    private const string questStageFrog = "Frog";
-    private const string questStageTurtle = "Turtle";
-    private const string child1String = "$found_warbler_child_1";
-    private const string child2String = "$found_warbler_child_2";
-    private const string child3String = "$found_warbler_child_3";
-    private const string seedString = "$found_seed";
-    private const string soilString = "$found_soil";
-    private const string rainString = "$found_rain";
-    #endregion
 
     #region Quest and Item GameObjects.
     private MainQuest mainQuest;
@@ -124,7 +110,7 @@ public class SaveManager
             }
         }
 
-        if (!File.Exists(Application.dataPath + saveDefaultName))
+        if (!File.Exists(Application.dataPath + Str.SaveDefaultName))
             CreateDefaultSave();
     }
     #endregion
@@ -135,10 +121,10 @@ public class SaveManager
     {
         QuestStageData[] questStagesArray =
         {
-            new QuestStageData{quest = questStageMain, stage = 0},
-            new QuestStageData{quest = questStageWarbler, stage = 0},
-            new QuestStageData{quest = questStageFrog, stage = 0},
-            new QuestStageData{quest = questStageTurtle, stage = 0}
+            new QuestStageData{quest = Str.Main, stage = 0},
+            new QuestStageData{quest = Str.Warbler, stage = 0},
+            new QuestStageData{quest = Str.Frog, stage = 0},
+            new QuestStageData{quest = Str.Turtle, stage = 0}
         };
 
         PlayerData playerData = new PlayerData
@@ -162,29 +148,29 @@ public class SaveManager
             itemStatus = itemStatus
         };
 
-        SerializeData(saveDefaultName, saveData);
+        SerializeData(Str.SaveDefaultName, saveData);
         //SerializeJson(saveDefaultName, saveData);
     }
 
     public bool SaveExists()
     {
-        if (!File.Exists(Application.dataPath + saveName)) return false;
-        string defaultSaveString = File.ReadAllText(Application.dataPath + saveDefaultName);
-        string saveString = File.ReadAllText(Application.dataPath + saveName);
+        if (!File.Exists(Application.dataPath + Str.SaveName)) return false;
+        string defaultSaveString = File.ReadAllText(Application.dataPath + Str.SaveDefaultName);
+        string saveString = File.ReadAllText(Application.dataPath + Str.SaveName);
         return !defaultSaveString.Equals(saveString); // If they are equal, then there is no distinct save file.
     }
 
-    public void NewGameSave() => SerializeData(saveName, DeserializeData(saveDefaultName));
+    public void NewGameSave() => SerializeData(Str.SaveName, DeserializeData(Str.SaveDefaultName));
 
     public void SaveData()
     {
 
         QuestStageData[] questStagesArray =
         {
-            new QuestStageData{quest = questStageMain, stage = mainQuest.QuestStage},
-            new QuestStageData{quest = questStageWarbler, stage = warblerQuest.QuestStage},
-            new QuestStageData{quest = questStageFrog, stage = frogQuest.QuestStage},
-            new QuestStageData{quest = questStageTurtle, stage = turtleQuest.QuestStage}
+            new QuestStageData{quest = Str.Main, stage = mainQuest.QuestStage},
+            new QuestStageData{quest = Str.Warbler, stage = warblerQuest.QuestStage},
+            new QuestStageData{quest = Str.Frog, stage = frogQuest.QuestStage},
+            new QuestStageData{quest = Str.Turtle, stage = turtleQuest.QuestStage}
         };
 
         PlayerData playerData = new PlayerData
@@ -202,15 +188,15 @@ public class SaveManager
         Yarn.Unity.InMemoryVariableStorage questMemory = Services.DialogueController.InMemoryVariableStorage;
 
         WarblerChildrenStatus warblerChildrenStatus = new WarblerChildrenStatus {
-            foundChild1 = questMemory.GetValue(child1String).AsBool,
-            foundChild2 = questMemory.GetValue(child2String).AsBool,
-            foundChild3 = questMemory.GetValue(child3String).AsBool
+            foundChild1 = questMemory.GetValue(Str.Child1String).AsBool,
+            foundChild2 = questMemory.GetValue(Str.Child2String).AsBool,
+            foundChild3 = questMemory.GetValue(Str.Child3String).AsBool
         };
 
         ItemStatus itemStatus = new ItemStatus {
-            foundSeed = questMemory.GetValue(seedString).AsBool,
-            foundSoil = questMemory.GetValue(soilString).AsBool,
-            foundRain = questMemory.GetValue(rainString).AsBool
+            foundSeed = questMemory.GetValue(Str.SeedString).AsBool,
+            foundSoil = questMemory.GetValue(Str.SoilString).AsBool,
+            foundRain = questMemory.GetValue(Str.RainString).AsBool
         };
 
         Data saveData = new Data {
@@ -221,7 +207,7 @@ public class SaveManager
             itemStatus = itemStatus
         };
 
-        SerializeData(saveName, saveData);
+        SerializeData(Str.SaveName, saveData);
 
         //SerializeJson(saveName, saveData);
     }
@@ -229,16 +215,16 @@ public class SaveManager
     public IEnumerator LoadDataCO()
     {
         //DeserializeJson(saveName);
-        Data data = DeserializeData(saveName);
+        Data data = DeserializeData(Str.SaveName);
 
         Yarn.Unity.InMemoryVariableStorage questMemory = Services.DialogueController.InMemoryVariableStorage;
-        questMemory.SetValue(child1String, data.warblerChildrenStatus.foundChild1);
-        questMemory.SetValue(child2String, data.warblerChildrenStatus.foundChild2);
-        questMemory.SetValue(child3String, data.warblerChildrenStatus.foundChild3);
+        questMemory.SetValue(Str.Child1String, data.warblerChildrenStatus.foundChild1);
+        questMemory.SetValue(Str.Child2String, data.warblerChildrenStatus.foundChild2);
+        questMemory.SetValue(Str.Child3String, data.warblerChildrenStatus.foundChild3);
 
-        questMemory.SetValue(seedString, data.itemStatus.foundSeed);
-        questMemory.SetValue(soilString, data.itemStatus.foundSoil);
-        questMemory.SetValue(rainString, data.itemStatus.foundRain);
+        questMemory.SetValue(Str.SeedString, data.itemStatus.foundSeed);
+        questMemory.SetValue(Str.SoilString, data.itemStatus.foundSoil);
+        questMemory.SetValue(Str.RainString, data.itemStatus.foundRain);
 
         if (data.playerHolding.itemHolding != QuestItem.QuestItemEnum.None)
         {
@@ -267,7 +253,7 @@ public class SaveManager
         {
             for (int i = 0; i < questStageData.stage; i++)
             {
-                Services.QuestManager.AdvanceQuest(questStageData.quest);
+                QuestManager.AdvanceQuest(questStageData.quest);
                 yield return null;
             }
         }

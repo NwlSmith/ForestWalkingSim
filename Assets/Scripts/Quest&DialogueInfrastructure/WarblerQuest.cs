@@ -20,12 +20,6 @@ using UnityEngine;
  */
 public class WarblerQuest : FSMQuest
 {
-    #region Const Strings.
-    private readonly int _moving = Animator.StringToHash("Moving");
-    private const string child1String = "$found_warbler_child_1";
-    private const string child2String = "$found_warbler_child_2";
-    private const string child3String = "$found_warbler_child_3";
-    #endregion
 
     [System.Serializable]
     private class WarblerRoute
@@ -75,9 +69,9 @@ public class WarblerQuest : FSMQuest
     private int GetTriggeredWarbler()
     {
         Yarn.Unity.InMemoryVariableStorage questMemory = Services.DialogueController.InMemoryVariableStorage;
-        bool foundChild1 = questMemory.GetValue(child1String).AsBool;
-        bool foundChild2 = questMemory.GetValue(child2String).AsBool;
-        bool foundChild3 = questMemory.GetValue(child3String).AsBool;
+        bool foundChild1 = questMemory.GetValue(Str.Child1String).AsBool;
+        bool foundChild2 = questMemory.GetValue(Str.Child2String).AsBool;
+        bool foundChild3 = questMemory.GetValue(Str.Child3String).AsBool;
 
         if (foundChild1 && !warblerFound[0])
         {
@@ -111,7 +105,7 @@ public class WarblerQuest : FSMQuest
         childNPC.GetComponentInChildren<NPCCollider>().transform.localScale = Vector3.zero;
         Task start = new ActionTask(() =>
         {
-            childNPC.GetComponentInChildren<Animator>().SetBool(_moving, true);
+            childNPC.GetComponentInChildren<Animator>().SetBool(Str.Moving, true);
             // sound?
         });
         Task prev = start;
@@ -126,7 +120,7 @@ public class WarblerQuest : FSMQuest
         {
             if (disableAtEnd)
                 childNPC.gameObject.SetActive(false);
-            childNPC.GetComponentInChildren<Animator>().SetBool(_moving, false);
+            childNPC.GetComponentInChildren<Animator>().SetBool(Str.Moving, false);
             childNPC.transform.rotation = _warblerRoutes[_curWarblerNum].route[_warblerRoutes[_curWarblerNum].route.Length - 1].rotation;
         });
 

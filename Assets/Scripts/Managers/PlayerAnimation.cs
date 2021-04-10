@@ -8,17 +8,6 @@ using UnityEngine;
  */
 public static class PlayerAnimation
 {
-
-    #region Const Strings.
-    private static readonly int _jump = Animator.StringToHash("Jump");
-    private static readonly int _moving = Animator.StringToHash("Moving");
-    private static readonly int _sprinting = Animator.StringToHash("Sprinting");
-    private static readonly int _falling = Animator.StringToHash("Falling");
-    private static readonly int _pickup = Animator.StringToHash("Pickup");
-    private static readonly int _talk = Animator.StringToHash("Talk");
-    private static readonly int _sitting = Animator.StringToHash("Sitting");
-    #endregion
-
     private static Animator _animator;
     private static FIMSpace.FSpine.FSpineAnimator _spineAnimator;
 
@@ -35,13 +24,13 @@ public static class PlayerAnimation
 
     #region Checks.
 
-    public static bool IsMoving => _animator.GetBool(_moving);
+    public static bool IsMoving => _animator.GetBool(Str.Moving);
 
-    public static bool IsSprinting => _animator.GetBool(_sprinting);
+    public static bool IsSprinting => _animator.GetBool(Str.Sprinting);
 
-    public static bool IsFalling => _animator.GetBool(_falling);
+    public static bool IsFalling => _animator.GetBool(Str.Falling);
 
-    public static bool IsSitting => _animator.GetBool(_sitting);
+    public static bool IsSitting => _animator.GetBool(Str.Sitting);
 
     #endregion
 
@@ -51,26 +40,26 @@ public static class PlayerAnimation
     {
         if (isMoving) _spineAnimator.SpineAnimatorAmount = .5f;
         //else _spineAnimator.SpineAnimatorAmount = 0f;
-        _animator.SetBool(_moving, isMoving);
+        _animator.SetBool(Str.Moving, isMoving);
     }
 
-    public static void Sprinting(bool isSprinting) => _animator.SetBool(_sprinting, isSprinting);
+    public static void Sprinting(bool isSprinting) => _animator.SetBool(Str.Sprinting, isSprinting);
 
     public static void Jump()
     {
-        _animator.SetTrigger(_jump);
+        _animator.SetTrigger(Str.Jump);
         _spineAnimator.SpineAnimatorAmount = 0f;
     }
 
-    public static void Falling(bool isFalling) => _animator.SetBool(_falling, isFalling);
+    public static void Falling(bool isFalling) => _animator.SetBool(Str.Falling, isFalling);
 
-    public static void Pickup() => _animator.SetTrigger(_pickup);
+    public static void Pickup() => _animator.SetTrigger(Str.Pickup);
 
-    public static void Talk() => _animator.SetTrigger(_talk);
+    public static void Talk() => _animator.SetTrigger(Str.Talk);
 
     public static void Sitting(bool isSitting)
     {
-        _animator.SetBool(_sitting, isSitting);
+        _animator.SetBool(Str.Sitting, isSitting);
         _spineAnimator.SpineAnimatorAmount = 0f;
     }
 

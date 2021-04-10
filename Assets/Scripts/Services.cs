@@ -81,17 +81,6 @@ public static class Services
         private set => _dialogueController = value;
     }
 
-    private static QuestManager _questManager;
-    public static QuestManager QuestManager
-    {
-        get
-        {
-            Debug.Assert(_questManager != null);
-            return _questManager;
-        }
-        private set => _questManager = value;
-    }
-
     private static SaveManager _saveManager;
     public static SaveManager SaveManager
     {
@@ -137,8 +126,6 @@ public static class Services
     }
     #endregion
 
-    public static readonly string PlayerTag = "Player";
-    public static readonly string ItemTag = "Item";
 
     #region Functions
 
@@ -150,7 +137,6 @@ public static class Services
         CameraManager = Object.FindObjectOfType<CameraManager>();
         PlayerItemHolder = Object.FindObjectOfType<PlayerItemHolder>();
         DialogueController = Object.FindObjectOfType<DialogueController>();
-        QuestManager = new QuestManager(); // Must be created AFTER DialogueController
         SaveManager = new SaveManager();
         UISound = Object.FindObjectOfType<UISound>();
         SpacialAudioManager = Object.FindObjectOfType<SpacialAudioManager>();

@@ -15,18 +15,18 @@ public class QuestAreaPlayerTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (_enter && !_triggered && other.CompareTag(Services.PlayerTag))
+        if (_enter && !_triggered && other.CompareTag(Str.PlayerTag))
         {
-            Services.QuestManager.AdvanceQuest(_questToTrigger.QuestTag);
+            QuestManager.AdvanceQuest(_questToTrigger.QuestTag);
             _triggered = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (!_enter && !_triggered && other.CompareTag(Services.PlayerTag))
+        if (!_enter && !_triggered && other.CompareTag(Str.PlayerTag))
         {
-            Services.QuestManager.AdvanceQuest(_questToTrigger.QuestTag);
+            QuestManager.AdvanceQuest(_questToTrigger.QuestTag);
             _triggered = true;
         }
     }

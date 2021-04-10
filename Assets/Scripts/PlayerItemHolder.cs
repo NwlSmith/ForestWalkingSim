@@ -39,7 +39,7 @@ public class PlayerItemHolder : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag(Services.ItemTag) && _itemsInCollider.Count > 0) Services.UIManager.PositionItemPrompt(_itemsInCollider[0].PickupPromptOffset);
+        if (other.CompareTag(Str.ItemTag) && _itemsInCollider.Count > 0) Services.UIManager.PositionItemPrompt(_itemsInCollider[0].PickupPromptOffset);
     }
 
     public Vector3 ClosestItemPosition()
