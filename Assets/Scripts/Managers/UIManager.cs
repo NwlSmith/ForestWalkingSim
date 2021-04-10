@@ -54,10 +54,10 @@ public class UIManager : MonoBehaviour
 
     private void CreateDictionary()
     {
-        _questTagToLog.Add("Main", _mainQuestLog);
-        _questTagToLog.Add("Warbler", _warblerQuestLog);
-        _questTagToLog.Add("Frog", _frogQuestLog);
-        _questTagToLog.Add("Turtle", _turtleQuestLog);
+        _questTagToLog.Add(Str.Main, _mainQuestLog);
+        _questTagToLog.Add(Str.Warbler, _warblerQuestLog);
+        _questTagToLog.Add(Str.Frog, _frogQuestLog);
+        _questTagToLog.Add(Str.Turtle, _turtleQuestLog);
     }
 
     private void Start() => _fsm.TransitionTo<PlayState>();

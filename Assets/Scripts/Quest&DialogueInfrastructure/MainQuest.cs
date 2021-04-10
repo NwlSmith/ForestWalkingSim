@@ -89,9 +89,9 @@ public class MainQuest : FSMQuest
         public override void OnEnter()
         {
             base.OnEnter();
-            QuestManager.AdvanceQuest("Warbler");
-            QuestManager.AdvanceQuest("Frog");
-            QuestManager.AdvanceQuest("Turtle");
+            QuestManager.AdvanceQuest(Str.Warbler);
+            QuestManager.AdvanceQuest(Str.Frog);
+            QuestManager.AdvanceQuest(Str.Turtle);
 
             if (((MainQuest)Context).barrierFoliage.Length > 0)
                 Context.StartCoroutine(LowerBarriers());
