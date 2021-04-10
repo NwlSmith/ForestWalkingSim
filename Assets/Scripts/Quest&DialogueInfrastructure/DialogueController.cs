@@ -156,7 +156,7 @@ public class DialogueController : MonoBehaviour
         if (_isPlayerSpeaking)
         {
             _audioSource.clip = _playerSpeakerData.GetAudioClip();
-            Services.PlayerAnimation.Talk();
+            PlayerAnimation.Talk();
         }
         else
         {

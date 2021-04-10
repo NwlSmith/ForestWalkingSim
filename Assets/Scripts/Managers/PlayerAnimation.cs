@@ -6,23 +6,23 @@ using UnityEngine;
  * 
  * Most of this animation will use Rigidbodies. I can't guarantee it'll look perfect but I'm giving it a good try.
  */
-public class PlayerAnimation
+public static class PlayerAnimation
 {
 
     #region Const Strings.
-    private readonly int _jump = Animator.StringToHash("Jump");
-    private readonly int _moving = Animator.StringToHash("Moving");
-    private readonly int _sprinting = Animator.StringToHash("Sprinting");
-    private readonly int _falling = Animator.StringToHash("Falling");
-    private readonly int _pickup = Animator.StringToHash("Pickup");
-    private readonly int _talk = Animator.StringToHash("Talk");
-    private readonly int _sitting = Animator.StringToHash("Sitting");
+    private static readonly int _jump = Animator.StringToHash("Jump");
+    private static readonly int _moving = Animator.StringToHash("Moving");
+    private static readonly int _sprinting = Animator.StringToHash("Sprinting");
+    private static readonly int _falling = Animator.StringToHash("Falling");
+    private static readonly int _pickup = Animator.StringToHash("Pickup");
+    private static readonly int _talk = Animator.StringToHash("Talk");
+    private static readonly int _sitting = Animator.StringToHash("Sitting");
     #endregion
 
-    private Animator _animator;
-    private FIMSpace.FSpine.FSpineAnimator _spineAnimator;
+    private static Animator _animator;
+    private static FIMSpace.FSpine.FSpineAnimator _spineAnimator;
 
-    public PlayerAnimation()
+    static PlayerAnimation()
     {
         _animator = Services.PlayerMovement.GetComponentInChildren<Animator>();
         _spineAnimator = Services.PlayerMovement.GetComponent<FIMSpace.FSpine.FSpineAnimator>();
@@ -35,40 +35,40 @@ public class PlayerAnimation
 
     #region Checks.
 
-    public bool IsMoving => _animator.GetBool(_moving);
+    public static bool IsMoving => _animator.GetBool(_moving);
 
-    public bool IsSprinting => _animator.GetBool(_sprinting);
+    public static bool IsSprinting => _animator.GetBool(_sprinting);
 
-    public bool IsFalling => _animator.GetBool(_falling);
+    public static bool IsFalling => _animator.GetBool(_falling);
 
-    public bool IsSitting => _animator.GetBool(_sitting);
+    public static bool IsSitting => _animator.GetBool(_sitting);
 
     #endregion
 
     #region Triggers.
 
-    public void Moving(bool isMoving)
+    public static void Moving(bool isMoving)
     {
         if (isMoving) _spineAnimator.SpineAnimatorAmount = .5f;
         //else _spineAnimator.SpineAnimatorAmount = 0f;
         _animator.SetBool(_moving, isMoving);
     }
 
-    public void Sprinting(bool isSprinting) => _animator.SetBool(_sprinting, isSprinting);
+    public static void Sprinting(bool isSprinting) => _animator.SetBool(_sprinting, isSprinting);
 
-    public void Jump()
+    public static void Jump()
     {
         _animator.SetTrigger(_jump);
         _spineAnimator.SpineAnimatorAmount = 0f;
     }
 
-    public void Falling(bool isFalling) => _animator.SetBool(_falling, isFalling);
+    public static void Falling(bool isFalling) => _animator.SetBool(_falling, isFalling);
 
-    public void Pickup() => _animator.SetTrigger(_pickup);
+    public static void Pickup() => _animator.SetTrigger(_pickup);
 
-    public void Talk() => _animator.SetTrigger(_talk);
+    public static void Talk() => _animator.SetTrigger(_talk);
 
-    public void Sitting(bool isSitting)
+    public static void Sitting(bool isSitting)
     {
         _animator.SetBool(_sitting, isSitting);
         _spineAnimator.SpineAnimatorAmount = 0f;

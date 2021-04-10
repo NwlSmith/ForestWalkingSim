@@ -36,18 +36,7 @@ public static class Services
         }
         private set => _uimanager = value;
     }
-
-    private static InputManager _inputManager;
-    public static InputManager InputManager
-    {
-        get
-        {
-            Debug.Assert(_inputManager != null);
-            return _inputManager;
-        }
-        private set => _inputManager = value;
-    }
-
+    
     private static PlayerMovement _playerMovement;
     public static PlayerMovement PlayerMovement
     {
@@ -57,17 +46,6 @@ public static class Services
             return _playerMovement;
         }
         private set => _playerMovement = value;
-    }
-
-    private static PlayerAnimation _playerAnimation;
-    public static PlayerAnimation PlayerAnimation
-    {
-        get
-        {
-            Debug.Assert(_playerAnimation != null);
-            return _playerAnimation;
-        }
-        private set => _playerAnimation = value;
     }
 
     private static CameraManager _cameraManager;
@@ -179,9 +157,7 @@ public static class Services
     {
         GameManager = gm;
         UIManager = Object.FindObjectOfType<UIManager>();
-        InputManager = new InputManager();
         PlayerMovement = Object.FindObjectOfType<PlayerMovement>();
-        PlayerAnimation = new PlayerAnimation();
         CameraManager = Object.FindObjectOfType<CameraManager>();
         PlayerItemHolder = Object.FindObjectOfType<PlayerItemHolder>();
         NPCInteractionManager = Object.FindObjectOfType<NPCInteractionManager>();

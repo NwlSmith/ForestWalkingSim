@@ -107,7 +107,7 @@ public class PlayerItemHolder : MonoBehaviour
     {
         _inProgress = true;
         Debug.Log("Dropping item");
-        Services.PlayerAnimation.Pickup();
+        PlayerAnimation.Pickup();
         yield return new WaitForSeconds(.33f);
         DetachFromTransform();
         _inProgress = false;
@@ -119,7 +119,7 @@ public class PlayerItemHolder : MonoBehaviour
         Debug.Log("Picking up item");
         _currentlyHeldItem = item;
         Services.UIManager.HideItemPickupPrompt();
-        Services.PlayerAnimation.Pickup();
+        PlayerAnimation.Pickup();
         yield return new WaitForSeconds(.33f);
 
         AttachToTransform(item);

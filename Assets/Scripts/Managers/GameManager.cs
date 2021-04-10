@@ -186,7 +186,7 @@ public class GameManager : MonoBehaviour
             // DELETE
 
             TransitionTo<PlayState>();
-            Services.InputManager.ProcessPlayInput();
+            InputManager.ProcessPlayInput();
         }
 
         public override void OnExit()
@@ -214,7 +214,7 @@ public class GameManager : MonoBehaviour
         {
             base.Update();
 
-            Services.InputManager.ProcessPlayInput();
+            InputManager.ProcessPlayInput();
         }
 
         public override void OnExit() { }
@@ -237,7 +237,7 @@ public class GameManager : MonoBehaviour
         {
             base.Update();
 
-            Services.InputManager.ProcessPauseMenuInput();
+            InputManager.ProcessPauseMenuInput();
         }
 
         public override void OnExit()
@@ -288,10 +288,7 @@ public class GameManager : MonoBehaviour
             return enterDialogue;
         }
 
-        public override void OnEnter()
-        {
-            Context._taskManager.Do(_enterDialogue);
-        }
+        public override void OnEnter() => Context._taskManager.Do(_enterDialogue);
 
         public override void OnExit()
         {
@@ -379,7 +376,7 @@ public class GameManager : MonoBehaviour
             // 6. Fade back in and have player turned around as environment changes are triggered. 2s
             ActionTask fifthSequence = new ActionTask(() =>
             {
-                Services.PlayerAnimation.Sitting(true);
+                PlayerAnimation.Sitting(true);
                 // Fade in?
                 Services.UIManager.CutsceneFadeOut();
             });
@@ -388,7 +385,7 @@ public class GameManager : MonoBehaviour
             // 7. 1 sec later have player get up and return to normal controls. 1s
             ActionTask sixthSequence = new ActionTask(() =>
             {
-                Services.PlayerAnimation.Sitting(false);
+                PlayerAnimation.Sitting(false);
                 TransitionTo<PlayState>();
             });
 
@@ -479,7 +476,7 @@ public class GameManager : MonoBehaviour
             // 6. Fade back in and have player turned around as environment changes are triggered. 2s
             ActionTask fifthSequence = new ActionTask(() =>
             {
-                Services.PlayerAnimation.Sitting(true);
+                PlayerAnimation.Sitting(true);
                 // Fade in?
                 Services.UIManager.CutsceneFadeOut();
             });
@@ -489,7 +486,7 @@ public class GameManager : MonoBehaviour
             ActionTask sixthSequence = new ActionTask(() =>
             {
                 Context._endingGame = true;
-                Services.PlayerAnimation.Sitting(false);
+                PlayerAnimation.Sitting(false);
                 Services.NPCInteractionManager.FindClosestNPC();
                 Services.GameManager.EnterDialogue();
             });
@@ -515,7 +512,7 @@ public class GameManager : MonoBehaviour
             {
                 Logger.Debug("Entering EndGameState.");
                 Services.PlayerMovement.ForceIdle();
-                Services.PlayerAnimation.Sitting(true);
+                PlayerAnimation.Sitting(true);
                 Services.CameraManager.EnterPause();
                 Services.UIManager.CutsceneFadeIn();
             });

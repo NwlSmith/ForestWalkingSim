@@ -13,22 +13,22 @@ using UnityEngine;
  * - Need hierachy between entering conversation and picking up items.
  */
 
-public class InputManager
+public static class InputManager
 {
 
     #region String Cache.
-    private readonly string _pause = "Pause";
-    private readonly string _cancel = "Cancel";
-    private readonly string _hor = "Horizontal";
-    private readonly string _ver = "Vertical";
-    private readonly string _jump = "Jump";
-    private readonly string _sprint = "Sprint";
-    private readonly string _mouseX = "Mouse X";
-    private readonly string _mouseY = "Mouse Y";
-    private readonly string _interact = "Interact";
+    private const string _pause = "Pause";
+    private const string _cancel = "Cancel";
+    private const string _hor = "Horizontal";
+    private const string _ver = "Vertical";
+    private const string _jump = "Jump";
+    private const string _sprint = "Sprint";
+    private const string _mouseX = "Mouse X";
+    private const string _mouseY = "Mouse Y";
+    private const string _interact = "Interact";
     #endregion
 
-    public void ProcessPlayInput()
+    public static void ProcessPlayInput()
     {
         // Intake pause instructions.
         if (Input.GetButtonDown(_pause) || Input.GetButtonDown(_cancel))
@@ -57,7 +57,7 @@ public class InputManager
         }
     }
 
-    public void ProcessPauseMenuInput()
+    public static void ProcessPauseMenuInput()
     {
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.M))
@@ -77,7 +77,7 @@ public class InputManager
         }
     }
 
-    public void ProcessDialogueInput()
+    public static void ProcessDialogueInput()
     {
         /*
         if (Input.GetButtonDown("Jump"))

@@ -60,8 +60,6 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController _charController;
 
-    private PlayerAnimation _playerAnimation;
-
     // The finite state machine of the current gamestate.
     private FiniteStateMachine<PlayerMovement> _fsm;
 
@@ -75,9 +73,6 @@ public class PlayerMovement : MonoBehaviour
     {
         _fsm = new FiniteStateMachine<PlayerMovement>(this);
         _charController = GetComponent<CharacterController>();
-        _playerAnimation = Services.PlayerAnimation;
-        if (_playerAnimation == null)
-            Logger.Warning("Failed to retrieve _playerAnimation");
 
         _jumpSpeed = Mathf.Sqrt(_desiredJumpHeight * -2f * _gravity) * Time.fixedDeltaTime;
 
@@ -184,12 +179,12 @@ public class PlayerMovement : MonoBehaviour
             _currentMovementVector.x = 0;
             _currentMovementVector.z = 0;
         }, ContinueUpwardAirMovement);
-        Task falling = new DelegateTask(() => { _playerAnimation.Falling(true); }, ContinueDownwardAirMovement);
+        Task falling = new DelegateTask(() => { PlayerAnimation.Falling(true); }, ContinueDownwardAirMovement);
         Task rotateToPos = new DelegateTask(
             () => {
                 elapsedTime = 0f;
-                _playerAnimation.Moving(true);
-                _playerAnimation.Falling(false);
+                PlayerAnimation.Moving(true);
+                PlayerAnimation.Falling(false);
                 targetRot = Quaternion.LookRotation((targetPositionTrans.position - transform.position).normalized, Vector3.up).eulerAngles.y;
             },
             RotateToCorrectPos
@@ -199,8 +194,8 @@ public class PlayerMovement : MonoBehaviour
             () => {
                 elapsedTime = 0f;
 
-                _playerAnimation.Falling(false);
-                _playerAnimation.Sprinting(false);
+                PlayerAnimation.Falling(false);
+                PlayerAnimation.Sprinting(false);
                 _currentMovementVector = Vector3.zero;
                 initPos = transform.position;
                 targetPos = targetPositionTrans.position;
@@ -275,8 +270,8 @@ public class PlayerMovement : MonoBehaviour
     {
         inPlaceForSequence = true;
 
-        _playerAnimation.Moving(false);
-        _playerAnimation.Falling(false);
+        PlayerAnimation.Moving(false);
+        PlayerAnimation.Falling(false);
 
         _currentMovementVector = Vector3.zero;
         Vector3 lookPos = target.position - transform.position; // WRONG
@@ -306,12 +301,12 @@ public class PlayerMovement : MonoBehaviour
         public override void OnEnter()
         {
             Context._currentMovementVector = Vector3.zero;
-            Context._playerAnimation.Moving(false);
-            Context._playerAnimation.Sitting(true);
+            PlayerAnimation.Moving(false);
+            PlayerAnimation.Sitting(true);
             Context.ResetInputs();
         }
 
-        public override void OnExit() => Context._playerAnimation.Sitting(false); // Maybe change to sit???
+        public override void OnExit() => PlayerAnimation.Sitting(false); // Maybe change to sit???
     }
     
     // Player is forced to pause movement.
@@ -343,16 +338,16 @@ public class PlayerMovement : MonoBehaviour
             {
                 OnLand();
             }
-            else if (Context._currentMovementVector.y < 0f && Context._playerAnimation.IsFalling)
+            else if (Context._currentMovementVector.y < 0f && PlayerAnimation.IsFalling)
             {
-                Context._playerAnimation.Falling(true);
+                PlayerAnimation.Falling(true);
             }
         }
 
         private void OnLand()
         {
-            Context._playerAnimation.Falling(false);
-            Context._playerAnimation.Moving(false);
+            PlayerAnimation.Falling(false);
+            PlayerAnimation.Moving(false);
             Context._currentMovementVector = Vector3.zero;
             fixedUpdateFunc = () => { };
         }
@@ -402,7 +397,7 @@ public class PlayerMovement : MonoBehaviour
         public override void OnEnter()
         {
 
-            Context._playerAnimation.Moving(false);
+            PlayerAnimation.Moving(false);
             Context._targetMovementVector = Vector3.zero;
 
             // Process inputs
@@ -442,7 +437,7 @@ public class PlayerMovement : MonoBehaviour
             public override void OnEnter()
             {
                 Cont.moving = false;
-                Cont._playerAnimation.Moving(false);
+                PlayerAnimation.Moving(false);
                 Cont._targetMovementVector = Vector3.zero;
             }
 
@@ -472,7 +467,7 @@ public class PlayerMovement : MonoBehaviour
             public override void OnEnter()
             {
                 Cont.moving = true;
-                Cont._playerAnimation.Moving(true);
+                PlayerAnimation.Moving(true);
             }
 
             public override void Update()
@@ -501,7 +496,7 @@ public class PlayerMovement : MonoBehaviour
                     Cont.transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
                     Cont._targetMovementVector = (Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward).normalized * Cont._movementSpeed * Time.fixedDeltaTime * (Cont._sprintInput ? Cont._shiftMultiplier : 1f);
-                    Cont._playerAnimation.Sprinting(Cont._sprintInput);
+                    PlayerAnimation.Sprinting(Cont._sprintInput);
                 }
                 else
                 {
@@ -533,7 +528,7 @@ public class PlayerMovement : MonoBehaviour
                 Cont._curJumpCooldown = Cont._jumpCooldown;
 
                 Cont._charController.Move(Cont._currentMovementVector);
-                Cont._playerAnimation.Jump();
+                PlayerAnimation.Jump();
                 JumpTasks();
             }
 
@@ -596,7 +591,7 @@ public class PlayerMovement : MonoBehaviour
         // Player is currently falling.
         private class FallingState : MovementState
         {
-            public override void OnEnter() => Cont._playerAnimation.Falling(true);
+            public override void OnEnter() => PlayerAnimation.Falling(true);
 
             public override void Update()
             {
@@ -618,7 +613,7 @@ public class PlayerMovement : MonoBehaviour
                 Cont._charController.Move(Cont._currentMovementVector);
             }
 
-            public override void OnExit() => Cont._playerAnimation.Falling(false);
+            public override void OnExit() => PlayerAnimation.Falling(false);
 
         }
 
