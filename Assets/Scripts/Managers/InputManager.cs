@@ -16,6 +16,17 @@ using UnityEngine;
 public static class InputManager
 {
 
+    static InputManager()
+    {
+        ControllerConnected();
+    }
+
+    private static bool ControllerConnected()
+    {
+        Debug.Log("Is joystick connected? Number of joysticks = " + Input.GetJoystickNames().Length);
+        return Input.GetJoystickNames().Length > 0;
+    }
+
     public static void ProcessPlayInput()
     {
         // Intake pause instructions.

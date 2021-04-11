@@ -49292,7 +49292,6 @@ GameObject:
   - component: {fileID: 1748433194}
   - component: {fileID: 1748433193}
   - component: {fileID: 1748433191}
-  - component: {fileID: 1748433192}
   - component: {fileID: 1748433197}
   m_Layer: 7
   m_Name: Player
@@ -49321,19 +49320,6 @@ MonoBehaviour:
   playerCameraView: {fileID: 608732292}
   npcCameraView: {fileID: 1396963023}
   cutsceneCamera: {fileID: 2001806105}
---- !u!114 &1748433192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1748433190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf79d05dba6b154b8d3778771e98e4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  closestNPC: {fileID: 0}
 --- !u!143 &1748433193
 CharacterController:
   m_ObjectHideFlags: 0

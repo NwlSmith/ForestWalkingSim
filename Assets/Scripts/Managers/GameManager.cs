@@ -208,6 +208,8 @@ public class GameManager : MonoBehaviour
             Services.PlayerMovement.EnterPlay();
             Services.CameraManager.EnterPlay();
             Services.UIManager.EnterPlay();
+
+            //Services.EventManager.Fire(new OnEnterPlay());
         }
 
         public override void Update()
@@ -294,10 +296,6 @@ public class GameManager : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-
-            Services.PlayerMovement.EnterPlay(); // These aren't needed
-            Services.CameraManager.EnterPlay();
-            Services.UIManager.EnterPlay();
             NPCInteractionManager.ExitDialogue();
         }
     }

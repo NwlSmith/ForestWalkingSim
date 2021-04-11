@@ -124,6 +124,18 @@ public static class Services
         }
         private set => _questItemRepository = value;
     }
+
+    private static EventManager _eventManager;
+    public static EventManager EventManager
+    {
+        get
+        {
+            Debug.Assert(_eventManager != null);
+            return _eventManager;
+        }
+        private set => _eventManager = value;
+    }
+
     #endregion
 
 
@@ -141,6 +153,7 @@ public static class Services
         UISound = Object.FindObjectOfType<UISound>();
         SpacialAudioManager = Object.FindObjectOfType<SpacialAudioManager>();
         QuestItemRepository = Object.FindObjectOfType<QuestItemRepository>();
+        EventManager = new EventManager();
     }
     #endregion
 }

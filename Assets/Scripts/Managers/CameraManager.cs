@@ -155,7 +155,7 @@ public class CameraManager : MonoBehaviour
         private readonly float _recenterCameraTime = 5f; // Set to -1 for controllers?
         private readonly float _recenterCameraSpeed = .5f;
         private readonly float _orbitCameraTime = 15f;
-        private readonly float _orbitCameraSpeed = 20f;
+        private readonly float _orbitCameraSpeed = 10f;
         private readonly Vector3 _recenterTarget = new Vector3(5f, 0f, 0f);
 
         private float turningSmoothVel;

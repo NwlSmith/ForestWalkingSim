@@ -18,27 +18,29 @@ public class UIManager : MonoBehaviour
     private FiniteStateMachine<UIManager> _fsm;
     private TaskManager _taskManager = new TaskManager();
 
-    [SerializeField] private RectTransform         _pickupItemUI;
-    [SerializeField] private RectTransform         _dialogueEnterPromptUI;
+    [SerializeField] private RectTransform          _pickupItemUI;
+    [SerializeField] private RectTransform          _dialogueEnterPromptUI;
 
-    [SerializeField] private List<RectTransform>   _dialogueUI;
-    [SerializeField] private UnityEngine.UI.Button _dialogueContinueButton;
-    [SerializeField] private UnityEngine.UI.Button _dialogueSkipButton;
-    [SerializeField] private List<RectTransform>   _pauseUI;
+    [SerializeField] private List<RectTransform>    _dialogueUI;
+    [SerializeField] private UnityEngine.UI.Button  _dialogueContinueButton;
+    [SerializeField] private UnityEngine.UI.Button  _dialogueSkipButton;
+    [SerializeField] private List<RectTransform>    _pauseUI;
 
-    [SerializeField] private RectTransform         _cutsceneFadeOverlay;
-    [SerializeField] private List<RectTransform>   _loadingOverlay;
-    [SerializeField] private List<RectTransform>   _startOverlay;
-    [SerializeField] private List<RectTransform>   _startMenu;
-    [SerializeField] private List<RectTransform>   _continueButton;
+    [SerializeField] private RectTransform          _cutsceneFadeOverlay;
+    [SerializeField] private List<RectTransform>    _loadingOverlay;
+    [SerializeField] private List<RectTransform>    _startOverlay;
+    [SerializeField] private List<RectTransform>    _startMenu;
+    [SerializeField] private List<RectTransform>    _continueButton;
 
-    [SerializeField] private RectTransform _questlogHolder;
-    [SerializeField] private TMPro.TextMeshProUGUI _mainQuestLog;
-    [SerializeField] private TMPro.TextMeshProUGUI _warblerQuestLog;
-    [SerializeField] private TMPro.TextMeshProUGUI _frogQuestLog;
-    [SerializeField] private TMPro.TextMeshProUGUI _turtleQuestLog;
+    [SerializeField] private RectTransform          _questlogHolder;
+    [SerializeField] private TMPro.TextMeshProUGUI  _mainQuestLog;
+    [SerializeField] private TMPro.TextMeshProUGUI  _warblerQuestLog;
+    [SerializeField] private TMPro.TextMeshProUGUI  _frogQuestLog;
+    [SerializeField] private TMPro.TextMeshProUGUI  _turtleQuestLog;
 
-    private Dictionary<string, TMPro.TextMeshProUGUI> _questTagToLog = new Dictionary<string, TMPro.TextMeshProUGUI>();
+    private readonly List<RectTransform> _allUI = new List<RectTransform>();
+    private readonly Dictionary<int, Animator> _RTToAnim = new Dictionary<int, Animator>();
+    private readonly Dictionary<string, TMPro.TextMeshProUGUI> _questTagToLog = new Dictionary<string, TMPro.TextMeshProUGUI>();
 
     private bool _updatingQuestLog = false;
 
@@ -47,12 +49,57 @@ public class UIManager : MonoBehaviour
     {
         _fsm = new FiniteStateMachine<UIManager>(this);
 
+
+        CollectAllUI();
+        CreateRectTransformToAnimatorDictionary();
+        CreateTagToLogDictionary();
+
         HideAllUI();
 
-        CreateDictionary();
+        Services.EventManager.Register<OnPause>(EnterPause);
     }
 
-    private void CreateDictionary()
+    private void CollectAllUI()
+    {
+        _allUI.Add(_pickupItemUI);
+        _allUI.Add(_dialogueEnterPromptUI);
+
+        foreach (RectTransform rt in _dialogueUI) _allUI.Add(rt);
+        _allUI.Add((RectTransform)_dialogueContinueButton.transform);
+        _allUI.Add((RectTransform)_dialogueSkipButton.transform);
+        foreach (RectTransform rt in _pauseUI) _allUI.Add(rt);
+
+        _allUI.Add(_cutsceneFadeOverlay);
+        foreach (RectTransform rt in _loadingOverlay) _allUI.Add(rt);
+        foreach (RectTransform rt in _startOverlay) _allUI.Add(rt);
+        foreach (RectTransform rt in _startMenu) _allUI.Add(rt);
+        foreach (RectTransform rt in _continueButton) _allUI.Add(rt);
+
+        _allUI.Add(_questlogHolder);
+        _allUI.Add(_mainQuestLog.rectTransform);
+        _allUI.Add(_warblerQuestLog.rectTransform);
+        _allUI.Add(_frogQuestLog.rectTransform);
+        _allUI.Add(_turtleQuestLog.rectTransform);
+    }
+
+    private void CreateRectTransformToAnimatorDictionary()
+    {
+        foreach (RectTransform rt in _allUI)
+        {
+            if (rt.TryGetComponent(typeof(Animator), out Component c))
+            {
+                int id = rt.GetInstanceID();
+                if (!_RTToAnim.ContainsKey(id) && !_RTToAnim.ContainsValue((Animator)c))
+                    _RTToAnim.Add(id, (Animator)c);
+            }
+            else
+            {
+                _RTToAnim.Add(rt.GetInstanceID(), null);
+            }
+        }
+    }
+
+    private void CreateTagToLogDictionary()
     {
         _questTagToLog.Add(Str.Main, _mainQuestLog);
         _questTagToLog.Add(Str.Warbler, _warblerQuestLog);
@@ -66,6 +113,11 @@ public class UIManager : MonoBehaviour
     {
         _fsm.Update();
         _taskManager.Update();
+    }
+
+    private void OnDestroy()
+    {
+        Services.EventManager.Unregister<OnPause>(EnterPause);
     }
 
     #endregion
@@ -110,6 +162,8 @@ public class UIManager : MonoBehaviour
 
     public void HideSkipDialogue() => HideUI(_dialogueSkipButton);
 
+    private void EnterPause(AGPEvent e) => _fsm.TransitionTo<PauseState>();
+
     public void EnterPause() => _fsm.TransitionTo<PauseState>();
 
     public void EnterLoadSave() => _fsm.TransitionTo<LoadSaveState>();
@@ -140,45 +194,20 @@ public class UIManager : MonoBehaviour
             HideUI(graphic);
     }
 
-    private void DisplayUI(UnityEngine.UI.Button UI)
-    {
-        Animator anim = UI.GetComponent<Animator>();
-        if (anim != null)
-            anim.SetBool(Str.Visible, true);
-        else
-            UI.gameObject.SetActive(true);
-    }
+    private void DisplayUI(UnityEngine.UI.Button UI) => DisplayUI((RectTransform)UI.transform);
 
-    private void HideUI(UnityEngine.UI.Button UI)
-    {
-        Animator anim = UI.GetComponent<Animator>();
-        if (anim != null)
-            anim.SetBool(Str.Visible, false);
-        else
-            UI.gameObject.SetActive(false);
-    }
+    private void HideUI(UnityEngine.UI.Button UI) => HideUI((RectTransform)UI.transform);
 
     private void DisplayUI(TMPro.TextMeshProUGUI UI)
     {
-        Animator anim = UI.GetComponent<Animator>();
-        if (anim != null)
-            anim.SetBool(Str.Visible, true);
-        else
-            UI.gameObject.SetActive(true);
+        DisplayUI(UI.rectTransform);
     }
 
-    private void HideUI(TMPro.TextMeshProUGUI UI)
-    {
-        Animator anim = UI.GetComponent<Animator>();
-        if (anim != null)
-            anim.SetBool(Str.Visible, false);
-        else
-            UI.gameObject.SetActive(false);
-    }
+    private void HideUI(TMPro.TextMeshProUGUI UI) => HideUI(UI.rectTransform);
 
     private void DisplayUI(RectTransform UI)
     {
-        Animator anim = UI.GetComponent<Animator>();
+        Animator anim = _RTToAnim[UI.GetInstanceID()];
         if (anim != null)
             anim.SetBool(Str.Visible, true);
         else
@@ -189,7 +218,7 @@ public class UIManager : MonoBehaviour
     {
         if (UI == null)
             return;
-        Animator anim = UI.GetComponent<Animator>();
+        Animator anim = _RTToAnim[UI.GetInstanceID()];
         if (anim != null)
             anim.SetBool(Str.Visible, false);
         else
@@ -198,14 +227,8 @@ public class UIManager : MonoBehaviour
 
     private void HideAllUI()
     {
-        HideUI(_pickupItemUI);
-        HideUI(_dialogueEnterPromptUI);
-        HideUI(_dialogueUI);
-        HideUI(_pauseUI);
-        HideUI(_loadingOverlay);
-        HideUI(_dialogueContinueButton);
-        HideUI(_dialogueSkipButton);
-        HideUI(_questlogHolder);
+        foreach (RectTransform rt in _allUI)
+            HideUI(rt);
     }
 
     public void SetQuestlogText(string questTag, string newText)
@@ -291,72 +314,85 @@ public class UIManager : MonoBehaviour
     // Start Menu state.
     private class StartMenuState : UIState
     {
-
+        private bool introInProgress = false;
+        private FadeInStartMenu fadeInStartTask;
         public override void OnEnter() => IntroTasks();
 
-        public override void OnExit() => Context._taskManager.Do(new FadeStartMenu(Context, Context._startMenu, false));
+        public override void OnExit() => OutroTasks();
 
         private void IntroTasks()
         {
             Task Start = new ActionTask(() => { Context.HideUI(Context._startOverlay); });
-            Task FadeInStart = new FadeStartMenu(Context, Context._startMenu, true);
+            fadeInStartTask = new FadeInStartMenu(this);
             Task StartMusic = new ActionTask(() =>
             {
                 /* maybe start music here? */
                 // Highlight start button
             });
 
-            Start.Then(FadeInStart).Then(StartMusic);
+            Start.Then(fadeInStartTask).Then(StartMusic);
 
             Context._taskManager.Do(Start);
         }
 
-        private class FadeStartMenu : Task
+        private void OutroTasks()
         {
-            private readonly float gapBetweenFadeIns = .5f;
-            private readonly float gapBetweenFadeOuts = .25f;
-            private float gapBetweenFade;
-            private float elapsedTime = 0f;
-            private enum StageToFadeInAtEndEnum { Title, Subtitle, NewGame, Continue, Quit };
-            private StageToFadeInAtEndEnum curStage;
-            private UIManager uim;
-            private List<RectTransform> startMenuItems;
-            private delegate void UpdateFunc();
-            private UpdateFunc updateFunc;
+            if (introInProgress) fadeInStartTask.Abort();
+            else Context._taskManager.Do(new FadeOutStartMenu(this));
+        }
 
-            public FadeStartMenu(UIManager uim, List<RectTransform> startMenuItems, bool fadeIn)
+        private abstract class FadeStartMenu : Task
+        {
+            protected readonly float gapBetweenFades;
+            protected float elapsedTime = 0f;
+            protected enum StageToFadeInAtEndEnum { Title, Subtitle, NewGame, Continue, Quit };
+            protected StageToFadeInAtEndEnum curStage;
+            protected readonly UIManager uim;
+            protected readonly List<RectTransform> startMenuItems;
+            protected readonly StartMenuState stateContext;
+
+            public FadeStartMenu(StartMenuState state, float gapTime = .5f)
             {
-                this.uim = uim;
-                this.startMenuItems = startMenuItems;
-
-                if (fadeIn)
-                {
-                    curStage = StageToFadeInAtEndEnum.Title;
-                    updateFunc = FadeIn;
-                    gapBetweenFade = gapBetweenFadeIns;
-                }
-                else
-                {
-                    Logger.Debug("Fade out start");
-                    curStage = StageToFadeInAtEndEnum.Quit;
-                    updateFunc = FadeOut;
-                    gapBetweenFade = gapBetweenFadeOuts;
-                }
+                stateContext = state;
+                this.uim = state.Context;
+                this.startMenuItems = uim._startMenu;
+                gapBetweenFades = gapTime;
             }
 
             internal override void Update()
             {
                 elapsedTime += Time.deltaTime;
 
-                if (elapsedTime >= gapBetweenFade) updateFunc();
+                if (elapsedTime >= gapBetweenFades) Fade();
             }
 
-            protected override void OnAbort()
+            protected override void OnAbort() => FadeAllOut();
+
+            protected abstract void Fade();
+
+            private void FadeAllOut()
             {
-                FadeAllOut();
+                foreach (RectTransform trans in startMenuItems)
+                {
+                    uim.HideUI(trans);
+                }
+            }
+        }
+
+        private class FadeInStartMenu : FadeStartMenu
+        {
+
+            public FadeInStartMenu(StartMenuState state) : base(state, .5f)
+            {
+                curStage = StageToFadeInAtEndEnum.Title;
+                stateContext.introInProgress = true;
             }
 
-            private void FadeIn()
+            protected override void Initialize() => stateContext.introInProgress = true;
+
+            protected override void OnSuccess() => stateContext.introInProgress = false;
+
+            protected override void Fade()
             {
                 if (curStage == StageToFadeInAtEndEnum.Continue && !Services.SaveManager.SaveExists()) curStage = StageToFadeInAtEndEnum.Quit; // Skip continue button.
                 if (curStage == StageToFadeInAtEndEnum.Quit) SetStatus(TaskStatus.Success);
@@ -365,8 +401,18 @@ public class UIManager : MonoBehaviour
                 curStage++;
                 elapsedTime = 0f;
             }
+        }
 
-            private void FadeOut()
+        private class FadeOutStartMenu : FadeStartMenu
+        {
+
+            public FadeOutStartMenu(StartMenuState state) : base(state, .25f)
+            {
+                Logger.Debug("Fade out start");
+                curStage = StageToFadeInAtEndEnum.Quit;
+            }
+
+            protected override void Fade()
             {
                 if (curStage == StageToFadeInAtEndEnum.Continue && !Services.SaveManager.SaveExists()) curStage = StageToFadeInAtEndEnum.NewGame; // Skip continue button.
                 if (curStage == StageToFadeInAtEndEnum.Title) SetStatus(TaskStatus.Success);
@@ -374,14 +420,6 @@ public class UIManager : MonoBehaviour
                 uim.HideUI(startMenuItems[(int)curStage]);
                 curStage--;
                 elapsedTime = 0f;
-            }
-
-            private void FadeAllOut()
-            {
-                foreach (RectTransform trans in startMenuItems)
-                {
-                    uim.HideUI(startMenuItems[(int)curStage]);
-                }
             }
         }
 
