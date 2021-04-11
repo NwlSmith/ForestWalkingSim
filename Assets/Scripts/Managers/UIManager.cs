@@ -56,7 +56,7 @@ public class UIManager : MonoBehaviour
 
         HideAllUI();
 
-        Services.EventManager.Register<OnPause>(EnterPause);
+        RegisterEvents();
     }
 
     private void CollectAllUI()
@@ -107,6 +107,7 @@ public class UIManager : MonoBehaviour
         _questTagToLog.Add(Str.Turtle, _turtleQuestLog);
     }
 
+
     private void Start() => _fsm.TransitionTo<PlayState>();
 
     private void Update()
@@ -117,7 +118,25 @@ public class UIManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        Services.EventManager.Unregister<OnPause>(EnterPause);
+        UnregisterEvents();
+    }
+
+    private void RegisterEvents()
+    {
+        Services.EventManager.Register<OnStartMenu>(_fsm.TransitionTo<StartMenuState>);
+        Services.EventManager.Register<OnEnterPlay>(_fsm.TransitionTo<PlayState>);
+        Services.EventManager.Register<OnPause>(_fsm.TransitionTo<PauseState>);
+        Services.EventManager.Register<OnEnterDialogue>(HideDialogueEnterPrompt);
+        Services.EventManager.Register<OnEnterEndGame>(CutsceneFadeIn);
+    }
+
+    private void UnregisterEvents()
+    {
+        Services.EventManager.Unregister<OnStartMenu>(_fsm.TransitionTo<StartMenuState>);
+        Services.EventManager.Unregister<OnEnterPlay>(_fsm.TransitionTo<PlayState>);
+        Services.EventManager.Unregister<OnPause>(_fsm.TransitionTo<PauseState>);
+        Services.EventManager.Unregister<OnEnterDialogue>(HideDialogueEnterPrompt);
+        Services.EventManager.Unregister<OnEnterEndGame>(CutsceneFadeIn);
     }
 
     #endregion
@@ -140,9 +159,7 @@ public class UIManager : MonoBehaviour
 
     public void PositionDialogueEntryPrompt(Vector3 position) => _dialogueEnterPromptUI.transform.position = Services.CameraManager.MainCamera.WorldToScreenPoint(position);
 
-    public void HideDialogueEnterPrompt() => HideUI(_dialogueEnterPromptUI);
-
-    public void EnterPlay() => _fsm.TransitionTo<PlayState>();
+    public void HideDialogueEnterPrompt(AGPEvent e = null) => HideUI(_dialogueEnterPromptUI);
 
     public void EnterDialogue() => _fsm.TransitionTo<InDialogueState>();
 
@@ -162,19 +179,15 @@ public class UIManager : MonoBehaviour
 
     public void HideSkipDialogue() => HideUI(_dialogueSkipButton);
 
-    private void EnterPause(AGPEvent e) => _fsm.TransitionTo<PauseState>();
-
     public void EnterPause() => _fsm.TransitionTo<PauseState>();
 
     public void EnterLoadSave() => _fsm.TransitionTo<LoadSaveState>();
-
-    public void EnterStartMenu() => _fsm.TransitionTo<StartMenuState>();
 
     public void ShowContinueGame() => DisplayUI(_continueButton);
 
     public void HideContinueGame() => HideUI(_continueButton);
 
-    public void CutsceneFadeIn() => DisplayUI(_cutsceneFadeOverlay);
+    public void CutsceneFadeIn(AGPEvent e = null) => DisplayUI(_cutsceneFadeOverlay);
 
     public void CutsceneFadeOut() => HideUI(_cutsceneFadeOverlay);
 
@@ -424,7 +437,6 @@ public class UIManager : MonoBehaviour
         }
 
     }
-    
 
     // UI overlay shown while game is loading.
     private class LoadSaveState : UIState

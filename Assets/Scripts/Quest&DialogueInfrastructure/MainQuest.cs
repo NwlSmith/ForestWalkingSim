@@ -39,6 +39,11 @@ public class MainQuest : FSMQuest
         startNextStage = _fsm.TransitionTo<Stage0State>;
     }
 
+    public void LateUpdateLog()
+    {
+        Services.UIManager.SetQuestlogText(QuestTag, ConstructLogString());
+    }
+
     private string ConstructLogString()
     {
         string toReturn = "Find ";

@@ -77,6 +77,8 @@ public class PlayerMovement : MonoBehaviour
         _jumpSpeed = Mathf.Sqrt(_desiredJumpHeight * -2f * _gravity) * Time.fixedDeltaTime;
 
         raycastOriginOffset = _charController.center - new Vector3(0, _charController.height/2.3f, 0f);
+
+        RegisterEvents();
     }
 
     private void Start() => _fsm.TransitionTo<LocomotionState>();
@@ -113,29 +115,32 @@ public class PlayerMovement : MonoBehaviour
         _sprintInput = false;
     }
 
-    #endregion
-
-    #region Triggers
-
-    // Returns player to play mode.
-    public void EnterPlay() => _fsm.TransitionTo<LocomotionState>();
-
-    // Forces the player to be idle.
-    public void ForceIdle() => _fsm.TransitionTo<ForcedIdleState>();
-
-    // Forces the player to stop moving.
-    public void EnterPause()
+    private void OnDestroy()
     {
-        _fsm.TransitionTo<PauseState>();
+        UnregisterEvents();
     }
 
-    // Forces the player to be idle and faces toward NPC.
-    public void EnterDialogue() => _fsm.TransitionTo<InDialogueState>();
+    private void RegisterEvents()
+    {
+        Services.EventManager.Register<OnStartMenu>(_fsm.TransitionTo<ForcedIdleState>);
+        Services.EventManager.Register<OnEnterPlay>(_fsm.TransitionTo<LocomotionState>);
+        Services.EventManager.Register<OnPause>(_fsm.TransitionTo<PauseState>);
+        Services.EventManager.Register<OnEnterDialogue>(_fsm.TransitionTo<InDialogueState>);
+        Services.EventManager.Register<OnEnterMidCutscene>(_fsm.TransitionTo<MidCutsceneState>);
+        Services.EventManager.Register<OnEnterEndCutscene>(_fsm.TransitionTo<EndCutsceneState>);
+        Services.EventManager.Register<OnEnterEndGame>(_fsm.TransitionTo<ForcedIdleState>);
+    }
 
-    // Forces the player to walk up to the designated cutscene point and wait there.
-    public void EnterMidCutscene() => _fsm.TransitionTo<MidCutsceneState>();
-
-    public void EnterEndCutscene() => _fsm.TransitionTo<EndCutsceneState>();
+    private void UnregisterEvents()
+    {
+        Services.EventManager.Unregister<OnStartMenu>(_fsm.TransitionTo<ForcedIdleState>);
+        Services.EventManager.Unregister<OnEnterPlay>(_fsm.TransitionTo<LocomotionState>);
+        Services.EventManager.Unregister<OnPause>(_fsm.TransitionTo<PauseState>);
+        Services.EventManager.Unregister<OnEnterDialogue>(_fsm.TransitionTo<InDialogueState>);
+        Services.EventManager.Unregister<OnEnterMidCutscene>(_fsm.TransitionTo<MidCutsceneState>);
+        Services.EventManager.Unregister<OnEnterEndCutscene>(_fsm.TransitionTo<EndCutsceneState>);
+        Services.EventManager.Unregister<OnEnterEndGame>(_fsm.TransitionTo<ForcedIdleState>);
+    }
 
     #endregion
 

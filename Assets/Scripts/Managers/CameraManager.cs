@@ -50,6 +50,8 @@ public class CameraManager : MonoBehaviour
         _fsm = new FiniteStateMachine<CameraManager>(this);
 
         MainCamera = Camera.main;
+
+        RegisterEvents();
     }
 
     void Start() => _fsm.TransitionTo<PlayState>();
@@ -67,23 +69,43 @@ public class CameraManager : MonoBehaviour
             curGS.LateUpdate();
     }
 
-    public void EnterStartMenu() => _fsm.TransitionTo<StartMenuState>();
+    private void OnDestroy()
+    {
+        UnregisterEvents();
+    }
 
-    public void EnterPlay()
+    private void RegisterEvents()
+    {
+        Services.EventManager.Register<OnStartMenu>(_fsm.TransitionTo<StartMenuState>);
+        Services.EventManager.Register<OnEnterPlay>(_fsm.TransitionTo<PlayState>);
+        Services.EventManager.Register<OnEnterPlay>(EnterPlay);
+        Services.EventManager.Register<OnPause>(_fsm.TransitionTo<PauseState>);
+        Services.EventManager.Register<OnEnterMidCutscene>(_fsm.TransitionTo<MidCutsceneState>);
+        Services.EventManager.Register<OnEnterEndCutscene>(_fsm.TransitionTo<MidCutsceneState>);
+        Services.EventManager.Register<OnEnterEndGame>(_fsm.TransitionTo<PauseState>);
+    }
+
+    private void UnregisterEvents()
+    {
+        Services.EventManager.Unregister<OnStartMenu>(_fsm.TransitionTo<StartMenuState>);
+        Services.EventManager.Unregister<OnEnterPlay>(_fsm.TransitionTo<PlayState>);
+        Services.EventManager.Unregister<OnPause>(_fsm.TransitionTo<PauseState>);
+        Services.EventManager.Unregister<OnEnterMidCutscene>(_fsm.TransitionTo<MidCutsceneState>);
+        Services.EventManager.Unregister<OnEnterEndCutscene>(_fsm.TransitionTo<MidCutsceneState>);
+        Services.EventManager.Unregister<OnEnterEndGame>(_fsm.TransitionTo<PauseState>);
+    }
+    
+    private void EnterPlay(AGPEvent e)
     {
         _fsm.TransitionTo<PlayState>();
         SetTargetNPC(null);
     }
-
-    public void EnterPause() => _fsm.TransitionTo<PausedState>();
-
+    
     public void EnterDialogue()
     {
         _fsm.TransitionTo<InDialogueState>();
         SetTargetNPC(NPCInteractionManager.closestNPC);
     }
-
-    public void EnterMidCutscene() => _fsm.TransitionTo<MidCutsceneState>();
 
     // Updates the camera movement inputs. Called in InputManager.
     public void InputUpdate(float mouseX, float mouseY)
@@ -200,7 +222,7 @@ public class CameraManager : MonoBehaviour
     }
 
     // Paused camera state.
-    private class PausedState : CameraState
+    private class PauseState : CameraState
     {
         public override void OnEnter()
         {

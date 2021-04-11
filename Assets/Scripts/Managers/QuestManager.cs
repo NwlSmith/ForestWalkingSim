@@ -63,6 +63,11 @@ public static class QuestManager
         AdvanceQuest(param);
     }
 
+    public static void LateUpdateMainQuestText()
+    {
+        ((MainQuest)_questDictionary[Str.Main]).LateUpdateLog();
+    }
+
     /*
      * Keys are Str.Main, Str.Warbler, Str.Frog, Str.Turtle, not "$quest_main_stage"
      */

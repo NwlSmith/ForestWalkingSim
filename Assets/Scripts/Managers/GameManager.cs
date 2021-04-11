@@ -39,8 +39,6 @@ public class GameManager : MonoBehaviour
     // The finite state machine of the current gamestate.
     private FiniteStateMachine<GameManager> _fsm;
 
-    private TaskManager _taskManager = new TaskManager();
-
     private bool _gameStarted = false;
     private bool _endingGame = false;
 
@@ -63,7 +61,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         _fsm.Update();
-        _taskManager.Update();
+        SequenceManager.Update();
     }
 
     #endregion
@@ -135,13 +133,7 @@ public class GameManager : MonoBehaviour
     // Called when the player goes to main menu.
     public void MainMenu()
     {
-        Services.SaveManager.SaveData();
-
-        Task save = new ActionTask(() => { Services.SaveManager.SaveData(); });
-        Task wait = new WaitTask(.5f);
-        Task finish = new ActionTask(() => { SceneManager.LoadScene(1); });
-        save.Then(wait).Then(finish);
-        _taskManager.Do(save);
+        SequenceManager.Save();
     }
 
     // Called on Quit.
@@ -160,9 +152,7 @@ public class GameManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             Logger.Debug("GameManager: Entered StartMenu");
-            Services.PlayerMovement.ForceIdle();
-            Services.CameraManager.EnterStartMenu();
-            Services.UIManager.EnterStartMenu();
+            Services.EventManager.Fire(new OnStartMenu());
         }
 
         public override void OnExit()
@@ -205,11 +195,8 @@ public class GameManager : MonoBehaviour
                 TransitionTo<EndGameState>();
             }
             Logger.Debug("GameManager: Entered PlayState");
-            Services.PlayerMovement.EnterPlay();
-            Services.CameraManager.EnterPlay();
-            Services.UIManager.EnterPlay();
 
-            //Services.EventManager.Fire(new OnEnterPlay());
+            Services.EventManager.Fire(new OnEnterPlay());
         }
 
         public override void Update()
@@ -229,10 +216,8 @@ public class GameManager : MonoBehaviour
             Logger.Debug("GameManager: Entered Pause");
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-
-            Services.PlayerMovement.EnterPause();
-            Services.CameraManager.EnterPause();
-            Services.UIManager.EnterPause();
+            
+            Services.EventManager.Fire(new OnPause());
         }
 
         public override void Update()
@@ -246,51 +231,18 @@ public class GameManager : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-
-            // Figure out where you are going. If you are going to play, lock mouse, enter play.
-            Services.UIManager.EnterPlay();
         }
     }
 
     private class InDialogueState : GameState
     {
-        private float delay = .5f;
 
-        private readonly Task _enterDialogue;
-
-        public InDialogueState() =>
-            // Pre-define task.
-            _enterDialogue = DefineSequence();
-
-        private Task DefineSequence()
+        public override void OnEnter()
         {
-            Task enterDialogue = new DelegateTask(() =>
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-                Services.PlayerMovement.EnterDialogue();
-                Services.UIManager.HideDialogueEnterPrompt();
-            }, () =>
-            {
-                return Services.PlayerMovement.inPlaceForSequence;
-            }, () =>
-            {
-                Services.CameraManager.EnterDialogue();
-                Services.UIManager.EnterDialogue();
-            });
-
-            Task fadeIn = new WaitTask(delay);
-
-            Task startConvo = new ActionTask(() =>
-            {
-                Services.DialogueController.EnterDialogue();
-            });
-
-            enterDialogue.Then(fadeIn).Then(startConvo);
-            return enterDialogue;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            Services.EventManager.Fire(new OnEnterDialogue());
         }
-
-        public override void OnEnter() => Context._taskManager.Do(_enterDialogue);
 
         public override void OnExit()
         {
@@ -313,225 +265,27 @@ public class GameManager : MonoBehaviour
          * 7. 1 sec later have player get up and return to normal controls. 1s // turns around!
          */
 
-        private readonly Task _enterSequence;
+        
 
-        public MidCutsceneState()
-        {
-            _enterSequence = DefineSequence();
-        }
-
-        private Task DefineSequence()
-        {
-            // 1. Move player to position. Move camera behind player. ~2s
-            Task enterSequence = new DelegateTask(() =>
-            {
-                Services.PlayerMovement.EnterMidCutscene();
-                Services.CameraManager.EnterMidCutscene();
-            }, () =>
-            {
-                Services.UIManager.HideItemPickupPrompt();
-                return Services.PlayerMovement.inPlaceForSequence;
-            });
-
-            Task waitForTime1 = new WaitTask(1f);
-
-            // 2. Move Camera to cutsceneCamera, have camera slowly focus on item. Make player walk to tree. ~2s
-            Task secondSequence = new DelegateTask(() =>
-            {
-                // Trigger particles?
-                // Trigger music?
-            }, () =>
-            {
-                Services.UIManager.HideItemPickupPrompt();
-                return Services.PlayerMovement.inPlaceForSequence;
-            }, () =>
-            {
-                Services.PlayerItemHolder.DropItem();
-            });
-
-            Task waitForTime2 = new WaitTask(.66f);
-
-            // 3.Trigger Quest item repository to take item, trigger sounds and particle effects, smoothly animate it into position and have large particle effect. 2s
-            ActionTask thirdSequence = new ActionTask(() =>
-            {
-                Services.QuestItemRepository.StartSequence();
-                // Quest item Repository takes Item.
-                // trigger other stuff.
-            });
-
-            Task waitForTime3 = new WaitTask(1.5f);
-
-            // 4. Fade to white? black? 2s
-            ActionTask fourthSequence = new ActionTask(() =>
-            {
-                // Fade out?
-                Services.UIManager.CutsceneFadeIn();
-            });
-
-            // 5. stay there for a sec as music fades. Place player into new position. 3s
-            Task waitForTime4 = new WaitTask(4.5f);
-
-            // 6. Fade back in and have player turned around as environment changes are triggered. 2s
-            ActionTask fifthSequence = new ActionTask(() =>
-            {
-                PlayerAnimation.Sitting(true);
-                // Fade in?
-                Services.UIManager.CutsceneFadeOut();
-            });
-
-            Task waitForTime5 = new WaitTask(3f);
-            // 7. 1 sec later have player get up and return to normal controls. 1s
-            ActionTask sixthSequence = new ActionTask(() =>
-            {
-                PlayerAnimation.Sitting(false);
-                TransitionTo<PlayState>();
-            });
-
-            enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(sixthSequence);
-            return enterSequence;
-        }
-
-        public override void OnEnter()
-        {
-            Context._taskManager.Do(_enterSequence);
-        }
-
-        public override void OnExit()
-        {
-            Services.PlayerMovement.EnterPlay(); // These aren't needed
-            Services.CameraManager.EnterPlay();
-            Services.UIManager.EnterPlay();
-        }
+        public override void OnEnter() => Services.EventManager.Fire(new OnEnterMidCutscene());
     }
 
     // Use delegates to control player movement, show item taken away, and coordinate UI and sound.
     // FIX COMMENTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     private class EndCutsceneState : GameState
     {
-        /*
-         * 1. Move player to position. Move camera behind player. ~2s
-         * 2. Move Camera to cutsceneCamera, have camera slowly focus on item. Make player walk to tree. ~2s
-         * 3. Trigger Quest item repository to take item, trigger sounds and particle effects, smoothly animate it into position and have large particle effect. 2s
-         * 4. Fade to white? black? 2s
-         * 5. stay there for a sec as music fades. Place player into new position. 3s
-         * 6. Fade back in and have player turned around as environment changes are triggered. 2s
-         * 7. 1 sec later have player get up and return to normal controls. 1s // turns around!
-         */
 
-        private readonly Task _enterSequence;
 
-        public EndCutsceneState() => _enterSequence = DefineSequence();
+        public override void OnEnter() => Services.EventManager.Fire(new OnEnterEndCutscene());
 
-        private Task DefineSequence()
-        {
-            // 1. Move player to position. Move camera behind player. ~2s
-            Task enterSequence = new DelegateTask(() =>
-            {
-                Services.PlayerMovement.EnterEndCutscene();
-                Services.CameraManager.EnterMidCutscene();
-            }, () =>
-            {
-                return Services.PlayerMovement.inPlaceForSequence;
-            });
-
-            Task waitForTime1 = new WaitTask(1f);
-
-            // 2. Move Camera to cutsceneCamera, have camera slowly focus on item. Make player walk to tree. ~2s
-            Task secondSequence = new DelegateTask(() =>
-            {
-                // Trigger particles?
-                // Trigger music?
-            }, () =>
-            {
-                return Services.PlayerMovement.inPlaceForSequence;
-            }, () =>
-            {
-                Services.PlayerItemHolder.DropItem();
-            });
-
-            Task waitForTime2 = new WaitTask(.66f);
-
-            // 3.Trigger Quest item repository to take item, trigger sounds and particle effects, smoothly animate it into position and have large particle effect. 2s
-            ActionTask thirdSequence = new ActionTask(() =>
-            {
-                Services.QuestItemRepository.StartSequence();
-                // Quest item Repository takes Item.
-                // trigger other stuff.
-            });
-
-            Task waitForTime3 = new WaitTask(1.5f);
-
-            // 4. Fade to white? black? 2s
-            ActionTask fourthSequence = new ActionTask(() =>
-            {
-                // Fade out?
-                Services.UIManager.CutsceneFadeIn();
-            });
-
-            // 5. stay there for a sec as music fades. Place player into new position. 3s
-            Task waitForTime4 = new WaitTask(4.5f);
-
-            // 6. Fade back in and have player turned around as environment changes are triggered. 2s
-            ActionTask fifthSequence = new ActionTask(() =>
-            {
-                PlayerAnimation.Sitting(true);
-                // Fade in?
-                Services.UIManager.CutsceneFadeOut();
-            });
-
-            Task waitForTime5 = new WaitTask(3f);
-            // 7. 1 sec later have player get up and return to normal controls. 1s
-            ActionTask sixthSequence = new ActionTask(() =>
-            {
-                Context._endingGame = true;
-                PlayerAnimation.Sitting(false);
-                NPCInteractionManager.FindClosestNPC();
-                Services.GameManager.EnterDialogue();
-            });
-
-            enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(sixthSequence);
-            return enterSequence;
-        }
-
-        public override void OnEnter() => Context._taskManager.Do(_enterSequence);
+        public override void OnExit() => Context._endingGame = true;
 
     }
 
     // Use delegates to control player movement, Fade out screen, load main menu.
     private class EndGameState : GameState
     {
-        private readonly Task _endSequence;
-
-        public EndGameState() => _endSequence = DefineSequence();
-
-        private Task DefineSequence()
-        {
-            Task enterSequence = new ActionTask(() =>
-            {
-                Logger.Debug("Entering EndGameState.");
-                Services.PlayerMovement.ForceIdle();
-                PlayerAnimation.Sitting(true);
-                Services.CameraManager.EnterPause();
-                Services.UIManager.CutsceneFadeIn();
-            });
-            Task waitForTime = new WaitTask(4.5f);
-
-            // 1. Move player to position. Move camera behind player. ~2s
-            Task endGame = new ActionTask(() =>
-            {
-                SceneManager.LoadScene(2);
-            });
-
-            enterSequence.Then(waitForTime).Then(endGame);
-            return enterSequence;
-        }
-
-        public override void OnEnter() => Context._taskManager.Do(_endSequence);
-
-        public override void OnExit()
-        {
-            Logger.Debug("LEAVING EndGameState");
-        }
+        public override void OnEnter() => Services.EventManager.Fire(new OnEnterEndGame());
     }
 
     #endregion

@@ -6,34 +6,34 @@
 public static class Str
 {
     #region Quest.
-    public static readonly string Main    = "Main";
-    public static readonly string Warbler = "Warbler";
-    public static readonly string Frog    = "Frog";
-    public static readonly string Turtle  = "Turtle";
-    public static readonly string Seed    = "Seed";
-    public static readonly string Soil    = "Soil";
-    public static readonly string Rain    = "Rain";
+    public const string Main    = "Main";
+    public const string Warbler = "Warbler";
+    public const string Frog    = "Frog";
+    public const string Turtle  = "Turtle";
+    public const string Seed    = "Seed";
+    public const string Soil    = "Soil";
+    public const string Rain    = "Rain";
     #endregion
 
     #region Item animations.
     public static readonly int Held = UnityEngine.Animator.StringToHash("Held");
     #endregion
 
-    public static readonly string PlayerTag = "Player";
-    public static readonly string ItemTag   = "Item";
+    public const string PlayerTag = "Player";
+    public const string ItemTag   = "Item";
 
 
 
     #region Input.
-    public static readonly string Pause     = "Pause";
-    public static readonly string Cancel    = "Cancel";
-    public static readonly string Hor       = "Horizontal";
-    public static readonly string Ver       = "Vertical";
-    public static readonly string JumpInput = "Jump";
-    public static readonly string Sprint    = "Sprint";
-    public static readonly string MouseX    = "Mouse X";
-    public static readonly string MouseY    = "Mouse Y";
-    public static readonly string Interact  = "Interact";
+    public const string Pause     = "Pause";
+    public const string Cancel    = "Cancel";
+    public const string Hor       = "Horizontal";
+    public const string Ver       = "Vertical";
+    public const string JumpInput = "Jump";
+    public const string Sprint    = "Sprint";
+    public const string MouseX    = "Mouse X";
+    public const string MouseY    = "Mouse Y";
+    public const string Interact  = "Interact";
     #endregion
 
 
@@ -65,18 +65,18 @@ public static class Str
 
 
     #region Cutscenes.
-    public static readonly string MidSequence = "MidSequence";
-    public static readonly string EndSequence = "EndSequence";
+    public const string MidSequence = "MidSequence";
+    public const string EndSequence = "EndSequence";
     #endregion
 
     #region Save system.
-    public static readonly string SaveName          = "/cur.save";
-    public static readonly string SaveDefaultName   = "/default.save";
-    public static readonly string Child1String      = "$found_warbler_child_1";
-    public static readonly string Child2String      = "$found_warbler_child_2";
-    public static readonly string Child3String      = "$found_warbler_child_3";
-    public static readonly string SeedString        = "$found_seed";
-    public static readonly string SoilString        = "$found_soil";
-    public static readonly string RainString        = "$found_rain";
+    public const string SaveName          = "/cur.save";
+    public const string SaveDefaultName   = "/default.save";
+    public const string Child1String      = "$found_warbler_child_1";
+    public const string Child2String      = "$found_warbler_child_2";
+    public const string Child3String      = "$found_warbler_child_3";
+    public const string SeedString        = "$found_seed";
+    public const string SoilString        = "$found_soil";
+    public const string RainString        = "$found_rain";
     #endregion
 }

@@ -144,6 +144,7 @@ public static class Services
     public static void InitializeServices(GameManager gm)
     {
         GameManager = gm;
+        EventManager = new EventManager();
         UIManager = Object.FindObjectOfType<UIManager>();
         PlayerMovement = Object.FindObjectOfType<PlayerMovement>();
         CameraManager = Object.FindObjectOfType<CameraManager>();
@@ -153,7 +154,6 @@ public static class Services
         UISound = Object.FindObjectOfType<UISound>();
         SpacialAudioManager = Object.FindObjectOfType<SpacialAudioManager>();
         QuestItemRepository = Object.FindObjectOfType<QuestItemRepository>();
-        EventManager = new EventManager();
     }
     #endregion
 }

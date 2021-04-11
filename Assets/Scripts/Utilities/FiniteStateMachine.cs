@@ -68,6 +68,12 @@ public class FiniteStateMachine<TContext>
         PendingState = GetOrCreateState<TState>();
     }
 
+    // REMOVE THIS
+    public void TransitionTo<TState>(AGPEvent e) where TState : State
+    {
+        TransitionTo<TState>();
+    }
+
     private void PerformPendingTransition()
     {
         if (PendingState == null) return;

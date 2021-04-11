@@ -77,9 +77,16 @@ public class GoalScored : AGPEvent
 	}
 }
 
+public class OnStartMenu : AGPEvent { }
+
 public class OnEnterPlay : AGPEvent { }
 
-public class OnPause : AGPEvent
-{
+public class OnPause : AGPEvent { }
 
-}
+public class OnEnterDialogue : AGPEvent { }
+
+public class OnEnterMidCutscene : AGPEvent { }
+
+public class OnEnterEndCutscene : AGPEvent { }
+
+public class OnEnterEndGame : AGPEvent { }
