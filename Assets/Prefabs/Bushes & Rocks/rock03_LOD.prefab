@@ -173,6 +173,7 @@ GameObject:
   - component: {fileID: 797041851084034054}
   - component: {fileID: 1225834458828193196}
   - component: {fileID: 5596227844365742223}
+  - component: {fileID: 5836363423658740810}
   m_Layer: 0
   m_Name: Rock_LOD0
   m_TagString: Untagged
@@ -243,6 +244,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5836363423658740810
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4155517904886475832}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7921239165074108771, guid: 196822f55160d4368809aa292d4bf8e0, type: 3}
 --- !u!1 &4817033025377915134
 GameObject:
   m_ObjectHideFlags: 0

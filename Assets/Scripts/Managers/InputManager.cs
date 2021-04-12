@@ -69,7 +69,7 @@ public static class InputManager
             return this;
         }
 
-        public bool InputsEntered => ((Hor < .1f && Hor > -.1f) || (Ver < .1f && Ver > -.1f) || !Jump || !Sprint || !Interact || !Pause || (CameraX < .1f && CameraX > -.1f) || (CameraY < .1f && CameraY > -.1f));
+        public bool InputsEntered => (Hor > .1f || Hor < -.1f) || (Ver > .1f || Ver < -.1f) || Jump || Sprint || Interact || Pause || (CameraX > .1f || CameraX < -.1f) || (CameraY > .1f || CameraY < -.1f);
 
         public Inputs UpdatePaused()
         {

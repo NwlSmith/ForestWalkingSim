@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5076121181621684603}
   - component: {fileID: 8661159360835180778}
   - component: {fileID: 5388945457441689078}
+  - component: {fileID: 7506995005573737730}
   m_Layer: 0
   m_Name: Bush_LOD0
   m_TagString: Untagged
@@ -82,6 +83,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &7506995005573737730
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087505661127860115}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 11.741229
+  m_Height: 52.84054
+  m_Direction: 1
+  m_Center: {x: 10.436018, y: 7.38, z: -1.8930639}
 --- !u!1 &3055009339971778221
 GameObject:
   m_ObjectHideFlags: 0
