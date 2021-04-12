@@ -10,16 +10,19 @@ position: -1519,947
     Hello again!
     <<NPCSpeak>>
     Say, you wouldn't happen to know where Toad ran off to would you?
+    With everything that's been going on, I worry about him.
     <<PlayerSpeak>>
-    I'm afraid not, sir.
+    I'm afraid not.
     <<NPCSpeak>>
-    I see. Well, I'm sure he's just fine.
-    I'm prone to worrying about this and that!
+    I see.
+    Well, I'm sure he's alright.
+    Worrying about this and that is my specialty!
     <<PlayerSpeak>>
-    I certainly know the feeling. I'm sure he'll be back soon enough!
+    I can hardly blame you!
+    I'm sure he'll turn up soon enough.
     <<NPCSpeak>>
     Of course, of course.
-    Take care, young one!
+    In any case, take care, young one!
     <<PlayerSpeak>>
     Thank you for your help!
 <<endif>>
