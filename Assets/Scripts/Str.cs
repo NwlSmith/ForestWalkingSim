@@ -25,15 +25,24 @@ public static class Str
 
 
     #region Input.
-    public const string Pause     = "Pause";
-    public const string Cancel    = "Cancel";
-    public const string Hor       = "Horizontal";
-    public const string Ver       = "Vertical";
-    public const string JumpInput = "Jump";
-    public const string Sprint    = "Sprint";
-    public const string MouseX    = "Mouse X";
-    public const string MouseY    = "Mouse Y";
-    public const string Interact  = "Interact";
+    public const string Pause       = "Pause";
+    public const string Cancel      = "Cancel";
+    public const string Hor         = "Horizontal";
+    public const string Ver         = "Vertical";
+    public const string JumpInput   = "Jump";
+    public const string Sprint      = "Sprint";
+    public const string MouseX      = "Mouse X";
+    public const string MouseY      = "Mouse Y";
+    public const string Interact    = "Interact";
+    // Controller Inputs
+    public const string PauseC      = "Start btn";
+    public const string LJoystickX  = "LJoystick X";
+    public const string LJoystickY  = "LJoystick Y";
+    public const string JumpInputC  = "B";
+    public const string SprintC     = "LBumper";
+    public const string RJoystickX  = "RJoystick X";
+    public const string RJoystickY  = "RJoystick Y";
+    public const string InteractC   = "A";
     #endregion
 
 

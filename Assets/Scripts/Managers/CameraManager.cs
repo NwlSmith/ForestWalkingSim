@@ -174,10 +174,11 @@ public class CameraManager : MonoBehaviour
     // Normal camera follow state.
     private class PlayState : CameraState
     {
-        private readonly float _recenterCameraTime = 5f; // Set to -1 for controllers?
-        private readonly float _recenterCameraSpeed = .5f;
-        private readonly float _orbitCameraTime = 15f;
-        private readonly float _orbitCameraSpeed = 10f;
+        private const float _recenterCameraTime = 5f; // Set to -1 for controllers?
+        private float _curRecenterCameraTime;
+        private const float _recenterCameraSpeed = .5f;
+        private const float _orbitCameraTime = 15f;
+        private const float _orbitCameraSpeed = 10f;
         private readonly Vector3 _recenterTarget = new Vector3(5f, 0f, 0f);
 
         private float turningSmoothVel;
@@ -191,34 +192,51 @@ public class CameraManager : MonoBehaviour
 
         public override void LateUpdate()
         {
+            //if (InputManager.ControllerConnected)
             if (Time.time - Context._recenterTimeReset < _recenterCameraTime)
             {
-                // Calculate new vertical rotation.
-                Context._curVertRot -= Context._mouseY * Context.mouseSensitivity * Time.deltaTime;
-                Context._curVertRot = Mathf.Clamp(Context._curVertRot, Context._minVert, Context._maxVert);
-
-                // Calculate new horizontal rotation.
-                Context._curHorRot += Context._mouseX * Context.mouseSensitivity * Time.deltaTime;
-
-                // Calculate new rotate targetVector.
-                Context.targetVector.eulerAngles = new Vector3(Context._curVertRot, Context._curHorRot, 0);
+                MouseControl();
             }
             else if (Time.time - Context._recenterTimeReset < _orbitCameraTime)
             {
-                Quaternion rot = Quaternion.Slerp(Context.targetVector.localRotation, Quaternion.Euler(_recenterTarget), _recenterCameraSpeed * Time.deltaTime);
-                Context.targetVector.localRotation = rot;
-                Context._curVertRot = rot.eulerAngles.x;
-                Context._curHorRot = rot.eulerAngles.y;
+                CenterBehindPlayer();
             }
             else
             {
-                Vector3 rot = Context.targetVector.localEulerAngles;
-                rot.y += _orbitCameraSpeed * Time.deltaTime;
-                Context.targetVector.localEulerAngles = rot;
-                Context._curVertRot = rot.x;
-                Context._curHorRot = rot.y;
+                OrbitPlayer();
             }
         }
+
+        private void MouseControl()
+        {
+            // Calculate new vertical rotation.
+            Context._curVertRot -= Context._mouseY * Context.mouseSensitivity * Time.deltaTime;
+            Context._curVertRot = Mathf.Clamp(Context._curVertRot, Context._minVert, Context._maxVert);
+
+            // Calculate new horizontal rotation.
+            Context._curHorRot += Context._mouseX * Context.mouseSensitivity * Time.deltaTime;
+
+            // Calculate new rotate targetVector.
+            Context.targetVector.eulerAngles = new Vector3(Context._curVertRot, Context._curHorRot, 0);
+        }
+
+        private void CenterBehindPlayer()
+        {
+            Quaternion rot = Quaternion.Slerp(Context.targetVector.localRotation, Quaternion.Euler(_recenterTarget), _recenterCameraSpeed * Time.deltaTime);
+            Context.targetVector.localRotation = rot;
+            Context._curVertRot = rot.eulerAngles.x;
+            Context._curHorRot = rot.eulerAngles.y;
+        }
+
+        private void OrbitPlayer()
+        {
+            Vector3 rot = Context.targetVector.localEulerAngles;
+            rot.y += _orbitCameraSpeed * Time.deltaTime;
+            Context.targetVector.localEulerAngles = rot;
+            Context._curVertRot = rot.x;
+            Context._curHorRot = rot.y;
+        }
+
     }
 
     // Paused camera state.
