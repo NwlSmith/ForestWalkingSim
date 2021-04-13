@@ -89,6 +89,11 @@ public static class InputManager
     public static bool ControllerConnected => Input.GetJoystickNames().Length > 0;
     private static bool XboxOneController = false;
 
+    public static bool UsingController()
+    {
+        return XboxOneController && Controller.InputsEntered;
+    }
+
     public static bool ControllerConnectedRecently()
     {
         string[] names = Input.GetJoystickNames();
@@ -105,11 +110,6 @@ public static class InputManager
             }
         }
         return false;
-    }
-
-    private static bool UsingController()
-    {
-        return XboxOneController && !Keyboard.InputsEntered;
     }
 
     private static Inputs DetermineInputs()

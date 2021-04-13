@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Button  _dialogueContinueButton;
     [SerializeField] private UnityEngine.UI.Button  _dialogueSkipButton;
     [SerializeField] private List<RectTransform>    _pauseUI;
+    [SerializeField] private UnityEngine.UI.Button  _unpauseButton;
 
     [SerializeField] private RectTransform          _cutsceneFadeOverlay;
     [SerializeField] private List<RectTransform>    _loadingOverlay;
@@ -178,8 +179,6 @@ public class UIManager : MonoBehaviour
     }
 
     public void HideSkipDialogue() => HideUI(_dialogueSkipButton);
-
-    public void EnterPause() => _fsm.TransitionTo<PauseState>();
 
     public void EnterLoadSave() => _fsm.TransitionTo<LoadSaveState>();
 
@@ -403,7 +402,16 @@ public class UIManager : MonoBehaviour
 
             protected override void Initialize() => stateContext.introInProgress = true;
 
-            protected override void OnSuccess() => stateContext.introInProgress = false;
+            protected override void OnSuccess()
+            {
+                int toSelect;
+                if (Services.SaveManager.SaveExists())
+                    toSelect = (int)StageToFadeInAtEndEnum.Continue;
+                else
+                    toSelect = (int)StageToFadeInAtEndEnum.NewGame;
+                startMenuItems[toSelect].GetComponent<UnityEngine.UI.Button>().Select();
+                stateContext.introInProgress = false;
+            }
 
             protected override void Fade()
             {
@@ -479,6 +487,7 @@ public class UIManager : MonoBehaviour
         {
             Context.DisplayUI(Context._pauseUI);
             Context.DisplayQuestLogUI();
+            Context._unpauseButton.Select();
         }
 
         public override void OnExit()

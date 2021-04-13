@@ -19,9 +19,7 @@ using UnityEngine.SceneManagement;
  * - I hope the jump does not stop the momentum from sprinting. 
  * - I can no longer control the fox or press any button after I planted the seed. The game is still running, but it does not reacting to any key(include the esc) I pressed.
  * - highlight start button, OR continue button for controllers
- * - _recenterCameraTime = -1 for controllers?
  * - sensitivity too low
- * - tiring to use joystick button for sprinting
  * 
  * Issues:
  * - People want more variety in systems, like collecting rewards from NPCs/other kinds of interaction with the game environment.

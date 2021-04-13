@@ -188,6 +188,7 @@ public class CameraManager : MonoBehaviour
             Context.mainFollowCamera.Priority = 30;
             Context.playerCameraView.Priority = 20;
             Context.npcCameraView.Priority    = 10;
+            Context._recenterTimeReset = Time.time;
         }
 
         public override void LateUpdate()
@@ -195,7 +196,10 @@ public class CameraManager : MonoBehaviour
             //if (InputManager.ControllerConnected)
             if (Time.time - Context._recenterTimeReset < _recenterCameraTime)
             {
-                MouseControl();
+                if (InputManager.UsingController())
+                    ControllerControl();
+                else
+                    MouseControl();
             }
             else if (Time.time - Context._recenterTimeReset < _orbitCameraTime)
             {
@@ -215,6 +219,19 @@ public class CameraManager : MonoBehaviour
 
             // Calculate new horizontal rotation.
             Context._curHorRot += Context._mouseX * Context.mouseSensitivity * Time.deltaTime;
+
+            // Calculate new rotate targetVector.
+            Context.targetVector.eulerAngles = new Vector3(Context._curVertRot, Context._curHorRot, 0);
+        }
+
+        private void ControllerControl()
+        {
+            // Calculate new vertical rotation.
+            Context._curVertRot -= Context._mouseY * Context.mouseSensitivity * 2 * Time.deltaTime;
+            Context._curVertRot = Mathf.Clamp(Context._curVertRot, Context._minVert, Context._maxVert);
+
+            // Calculate new horizontal rotation.
+            Context._curHorRot += Context._mouseX * Context.mouseSensitivity * 2 * Time.deltaTime;
 
             // Calculate new rotate targetVector.
             Context.targetVector.eulerAngles = new Vector3(Context._curVertRot, Context._curHorRot, 0);

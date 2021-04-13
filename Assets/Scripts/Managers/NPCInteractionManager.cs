@@ -6,15 +6,17 @@ using UnityEngine;
  */
 public static class NPCInteractionManager
 {
-    private const float closestDistForNPCEncounter = 50f;
+    private const float _closestDistForNPCEncounter = 50f;
     public static NPC closestNPC = null;
-    private static readonly Transform transform;
-    private static readonly NPC[] npcs;
+    private static readonly Transform _transform;
+    private static readonly NPC[] _npcs;
+    private static float _timeLeftNPC = 0;
+    private static float _npcCooldown = 1f;
 
     static NPCInteractionManager()
     {
-        transform = Object.FindObjectOfType<PlayerMovement>().transform;
-        npcs = Object.FindObjectsOfType<NPC>();
+        _transform = Object.FindObjectOfType<PlayerMovement>().transform;
+        _npcs = Object.FindObjectsOfType<NPC>();
     }
 
     public static void PlayerEncounteredNPC(NPC npc)
@@ -33,13 +35,14 @@ public static class NPCInteractionManager
     {
         if (closestNPC == null)
             return;
-        else if (Vector3.Distance(transform.position, closestNPC.transform.position) > closestDistForNPCEncounter)
+        else if (Vector3.Distance(_transform.position, closestNPC.transform.position) > _closestDistForNPCEncounter)
         {
             PlayerLeftNPC();
             return;
         }
-        // Enter Dialogue
-        Services.GameManager.EnterDialogue();
+        if (Time.time > _timeLeftNPC + _npcCooldown)
+            // Enter Dialogue
+            Services.GameManager.EnterDialogue();
         
     }
 
@@ -49,9 +52,9 @@ public static class NPCInteractionManager
         float closestDist = 75f;
         NPC closeNPC = null;
 
-        foreach (NPC npc in npcs)
+        foreach (NPC npc in _npcs)
         {
-            float curDist = Vector3.Distance(transform.position, npc.transform.position);
+            float curDist = Vector3.Distance(_transform.position, npc.transform.position);
             if (curDist < closestDist)
             {
                 closestDist = curDist;
@@ -76,5 +79,9 @@ public static class NPCInteractionManager
 
     public static void EnterDialogue() => closestNPC.EnterDialogue(Services.PlayerMovement.transform);
 
-    public static void ExitDialogue() => closestNPC?.ExitDialogue();
+    public static void ExitDialogue()
+    {
+        _timeLeftNPC = Time.time;
+        closestNPC?.ExitDialogue();
+    }
 }
