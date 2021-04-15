@@ -56,7 +56,14 @@ public static class Str
     public static readonly int Sitting      = UnityEngine.Animator.StringToHash("Sitting");
     #endregion
 
-
+    #region Camera Animation.
+    public static readonly int Start = UnityEngine.Animator.StringToHash("Start");
+    public static readonly int PlayerFollow = UnityEngine.Animator.StringToHash("PlayerFollow");
+    public static readonly int ConvoNPCPerspective = UnityEngine.Animator.StringToHash("ConvoNPCPerspective");
+    public static readonly int ConvoPlayerPerspective = UnityEngine.Animator.StringToHash("ConvoPlayerPerspective");
+    public static readonly int Cutscene = UnityEngine.Animator.StringToHash("Cutscene");
+    public static readonly int CutsceneDolly = UnityEngine.Animator.StringToHash("CutsceneDolly");
+    #endregion
 
     #region UI.
     public static readonly int FadeOut = UnityEngine.Animator.StringToHash("FadeOut");

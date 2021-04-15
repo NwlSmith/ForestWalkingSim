@@ -24,12 +24,14 @@ public class CameraManager : MonoBehaviour
     public float mouseSensitivity = 200f;
     
     [SerializeField] private Transform npcCameraTarget;
+    [SerializeField] private Transform playerConvoCameraPos;
     [SerializeField] private Transform targetVector;
     [SerializeField] private CinemachineVirtualCamera startCamera;
     [SerializeField] private CinemachineVirtualCamera mainFollowCamera;
     [SerializeField] private CinemachineVirtualCamera playerCameraView;
     [SerializeField] private CinemachineVirtualCamera npcCameraView;
     [SerializeField] private CinemachineVirtualCamera cutsceneCamera;
+    [SerializeField] private CinemachineVirtualCamera cutsceneDollyCamera;
 
     // Ingame camera movement.
     private float _curVertRot = 0f;
@@ -41,6 +43,8 @@ public class CameraManager : MonoBehaviour
     private readonly float _maxVert = 30f;
     private NPC targetNPC = null;
 
+    private Animator anim = null;
+
     public Camera MainCamera { get; private set; }
 
     private void Awake()
@@ -50,6 +54,8 @@ public class CameraManager : MonoBehaviour
         _fsm = new FiniteStateMachine<CameraManager>(this);
 
         MainCamera = Camera.main;
+
+        anim = FindObjectOfType<CinemachineStateDrivenCamera>().GetComponent<Animator>();
 
         RegisterEvents();
     }
@@ -126,10 +132,9 @@ public class CameraManager : MonoBehaviour
     // The point of view of the player looking at the NPC.
     public void PlayerCameraView()
     {
-        mainFollowCamera.Priority = 10;
-        playerCameraView.Priority = 30;
-        npcCameraView.Priority = 20;
+        anim.Play(Str.ConvoPlayerPerspective);
 
+        playerCameraView.ForceCameraPosition(playerConvoCameraPos.position, Quaternion.identity);
         // look at npc in question
         playerCameraView.LookAt = targetNPC.GetPlayerCameraLookAtPosition();
     }
@@ -137,9 +142,7 @@ public class CameraManager : MonoBehaviour
     // The point of view of the NPC looking at the player.
     public void NPCCameraView()
     {
-        mainFollowCamera.Priority = 10;
-        playerCameraView.Priority = 20;
-        npcCameraView.Priority = 30;
+        anim.Play(Str.ConvoNPCPerspective);
 
         // set to proper position
         npcCameraView.ForceCameraPosition(targetNPC.npcCameraViewPosition.position, targetNPC.transform.rotation);
@@ -160,7 +163,7 @@ public class CameraManager : MonoBehaviour
     {
         public override void OnEnter()
         {
-            Context.startCamera.Priority = 40;
+            Context.anim.Play(Str.Start);
         }
 
         public override void OnExit()
@@ -185,9 +188,7 @@ public class CameraManager : MonoBehaviour
 
         public override void OnEnter()
         {
-            Context.mainFollowCamera.Priority = 30;
-            Context.playerCameraView.Priority = 20;
-            Context.npcCameraView.Priority    = 10;
+            Context.anim.Play(Str.PlayerFollow);
             Context._recenterTimeReset = Time.time;
         }
 
@@ -285,7 +286,6 @@ public class CameraManager : MonoBehaviour
         {
             Context.cutsceneCamera.LookAt = Services.QuestItemRepository.currentQuestItem.transform;
 
-            Context.cutsceneCamera.Priority = 50;
             DelegateTask moveCameraBehindPlayer1 = new DelegateTask(
                 () => {
                     elapsedTime = 0f;
@@ -297,16 +297,32 @@ public class CameraManager : MonoBehaviour
                 },
                 () => {
                     Context.targetVector.localEulerAngles = Vector3.zero;
-                    Context.cutsceneCamera.Priority = 50;
+                    Context.anim.Play(Str.Cutscene);
                 }
                 );
 
-            WaitTask waitFor6Seconds = new WaitTask(5.5f);
+            DelegateTask cameraDolly = new DelegateTask(
+                () =>
+                {
+                    Context.anim.Play(Str.CutsceneDolly);
+                    Context.cutsceneDollyCamera.LookAt = Services.QuestItemRepository.currentQuestItem.transform;
+                    elapsedTime = 0f;
+                },
+                () =>
+                {
+                    elapsedTime += Time.deltaTime;
+                    return elapsedTime > 5.5f;
+                }, () =>
+                {
+                }
+                );
+
+            //WaitTask waitFor6Seconds = new WaitTask(5.5f);
 
             DelegateTask moveCameraBehindPlayer2 = new DelegateTask(
                 () => {
                     elapsedTime = 0f;
-                    Context.cutsceneCamera.Priority = 10;
+                    Context.anim.Play(Str.PlayerFollow);
                 },
                 () => {
                     elapsedTime += Time.deltaTime;
@@ -318,7 +334,8 @@ public class CameraManager : MonoBehaviour
                 }
                 );
 
-            moveCameraBehindPlayer1.Then(waitFor6Seconds).Then(moveCameraBehindPlayer2);
+            moveCameraBehindPlayer1.Then(cameraDolly).Then(moveCameraBehindPlayer2);
+            //moveCameraBehindPlayer1.Then(waitFor6Seconds).Then(moveCameraBehindPlayer2);
 
             return moveCameraBehindPlayer1;
         }
