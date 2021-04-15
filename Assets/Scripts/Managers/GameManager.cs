@@ -16,10 +16,9 @@ using UnityEngine.SceneManagement;
  * - The camera is a bit frustrating to work with, I found myself constantly adjusting it after moving a few steps.
  *      If it is possible, I think you should lock the camera behind the fox and then see if you can have another key that enables you to adjust the camera if you so desire. - Bad idea
  * - I also found myself phasing through a lot of the landscapes
- * - I hope the jump does not stop the momentum from sprinting. 
- * - I can no longer control the fox or press any button after I planted the seed. The game is still running, but it does not reacting to any key(include the esc) I pressed.
- * - highlight start button, OR continue button for controllers
- * - sensitivity too low
+ * - We have freedom to go places, sure, but it doesn't feel intentional?
+ * - Need colliders on rocks
+ * - 
  * 
  * Issues:
  * - People want more variety in systems, like collecting rewards from NPCs/other kinds of interaction with the game environment.
