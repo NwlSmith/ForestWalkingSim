@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 /*
  * Creator: Nate Smith
@@ -13,40 +12,14 @@ using UnityEngine.SceneManagement;
  * 
  * To do:
  * - In URPExampleAssets > Settings > UniversalRenderPipeline Shadow Max distance was initially 50
- * - The camera is a bit frustrating to work with, I found myself constantly adjusting it after moving a few steps.
- *      If it is possible, I think you should lock the camera behind the fox and then see if you can have another key that enables you to adjust the camera if you so desire. - Bad idea
- * - I also found myself phasing through a lot of the landscapes
  * - We have freedom to go places, sure, but it doesn't feel intentional?
- * - Need colliders on rocks
  * 
- * Dialogue
- * - "wasn't as good as before" in spirit dialogue, (not great)
- * - Anniversary, he should know how long they've been together,
- * - fox is shooting the shit with the frogs
- * - not clear how he knows he's looking for the soil
- * - toad text not bright enough
- * - Says he's near a pond, but he's not near a pond
- * - why promising to take secret to the grave
- * - "correct"??
- * - too long dialogue, takes it out of immersion.
- * - not clear where to take the soil
- * - talking to spirit again gives new information he wanted
  * 
- * need to show where turtle is better
  * LOD is too noticeable, especially on rock
- * turtle says I'll run into you later??
- * stretch out area, give him something to look at
- * lacks "hook", not a ton of personality in way creatures are talking to eachother?
- * quest log goes away too fast
- * 
- * flower could be nicer
- * hard to find spirit fox?
+ * FIX CAMERA TWITCH!!!
  * 
  * Issues:
- * - People want more variety in systems, like collecting rewards from NPCs/other kinds of interaction with the game environment.
- * - People weren't that happy about NPC POV camera
  * - make sure player looks at center of characters? maybe make player turn to face each character
- * - "When I pause and click “main menu”, it doesn’t do anything." ??? Fix mac save issue.
  * 
  */
 
@@ -68,6 +41,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Services.InitializeServices(this);
+        FModMusicManager.Initialize();
 
         _fsm = new FiniteStateMachine<GameManager>(this);
     }
@@ -152,7 +126,9 @@ public class GameManager : MonoBehaviour
     // Called when the player goes to main menu.
     public void MainMenu()
     {
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         SequenceManager.Save();
+#endif
     }
 
     // Called on Quit.

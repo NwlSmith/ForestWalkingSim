@@ -16,3 +16,4 @@ MonoBehaviour:
   SpeakerColor: {r: 0.07058823, g: 0.31808522, b: 1, a: 1}
   SpeakerSounds:
   - {fileID: 8300000, guid: 9bb590cc555f09045a091a232eec74ff, type: 3}
+  fMODSoundName: Warbler Child Speaking

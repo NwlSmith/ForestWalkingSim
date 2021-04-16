@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 /*
  * Creator: Nate Smith
@@ -11,6 +12,7 @@ using UnityEngine;
 public class MultiNPC : NPC
 {
     public NPC[] npcs;
+    
 
     public override void EnterDialogue(Transform playerPos)
     {

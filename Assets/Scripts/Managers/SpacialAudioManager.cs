@@ -37,14 +37,13 @@ public class SpacialAudioManager : MonoBehaviour
         for (int i = 0; i < _audioSources.Length; i++)
         {
             _audioSources[i] = gameObject.AddComponent<AudioSource>();
-            _audioSources[i].playOnAwake = true;
+            _audioSources[i].playOnAwake = false;
             _audioSources[i].loop = true;
             _audioSources[i].clip = _startSong;
             _audioSources[i].volume = _musicVolume;
         }
 
         _audioSources[0].Play();
-        _audioSources[1].Play();
     }
 
     private void Update()

@@ -16,4 +16,4 @@ MonoBehaviour:
   SpeakerColor: {r: 0.7735849, g: 0.47888586, b: 0, a: 1}
   SpeakerSounds:
   - {fileID: 8300000, guid: 784ffa27e94a20a48ae28ff07dc9706c, type: 3}
-  fMODSoundName: event:/Music
+  fMODSoundName: Toad Speaking

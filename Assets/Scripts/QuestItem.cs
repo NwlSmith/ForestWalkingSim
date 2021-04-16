@@ -15,11 +15,13 @@ public class QuestItem : HoldableItem
     public QuestItemEnum itemEnum;
 
     private Animator _animator;
+    private FMODUnity.StudioEventEmitter _emitter;
 
     protected override void Awake()
     {
         base.Awake();
         _animator = GetComponent<Animator>();
+        _emitter = GetComponent<FMODUnity.StudioEventEmitter>();
     }
     // Need to implement non-droppable code.
 
@@ -38,6 +40,7 @@ public class QuestItem : HoldableItem
         transform.parent = newParent;
         beingHeld = true;
         _animator.SetBool(Str.Held, true);
+        _emitter.Stop();
     }
 
     public void Disappear()

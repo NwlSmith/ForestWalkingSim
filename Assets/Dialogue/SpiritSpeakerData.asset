@@ -16,3 +16,4 @@ MonoBehaviour:
   SpeakerColor: {r: 1, g: 0.88915014, b: 0, a: 1}
   SpeakerSounds:
   - {fileID: 8300000, guid: f3acd1f6edc75734fa8086af27b7c5cf, type: 3}
+  fMODSoundName: Spirit Speaking

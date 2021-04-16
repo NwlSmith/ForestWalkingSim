@@ -26,6 +26,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private Transform npcCameraTarget;
     [SerializeField] private Transform playerConvoCameraPos;
     [SerializeField] private Transform targetVector;
+    [SerializeField] private Rigidbody targetVectorRB; // TEST
     [SerializeField] private CinemachineVirtualCamera startCamera;
     [SerializeField] private CinemachineVirtualCamera mainFollowCamera;
     [SerializeField] private CinemachineVirtualCamera playerCameraView;
@@ -56,6 +57,7 @@ public class CameraManager : MonoBehaviour
         MainCamera = Camera.main;
 
         anim = FindObjectOfType<CinemachineStateDrivenCamera>().GetComponent<Animator>();
+        targetVectorRB = targetVector.GetComponent<Rigidbody>(); // TEST
 
         RegisterEvents();
     }
@@ -68,7 +70,8 @@ public class CameraManager : MonoBehaviour
         _taskManager.Update();
     }
 
-    private void LateUpdate()
+    //private void LateUpdate()
+    private void FixedUpdate()
     {
         CameraState curGS = ((CameraState)_fsm.CurrentState);
         if (curGS != null)
@@ -223,6 +226,7 @@ public class CameraManager : MonoBehaviour
 
             // Calculate new rotate targetVector.
             Context.targetVector.eulerAngles = new Vector3(Context._curVertRot, Context._curHorRot, 0);
+            //Context.targetVectorRB.MoveRotation(Quaternion.Euler(Context._curVertRot, Context._curHorRot, 0));
         }
 
         private void ControllerControl()
@@ -236,6 +240,7 @@ public class CameraManager : MonoBehaviour
 
             // Calculate new rotate targetVector.
             Context.targetVector.eulerAngles = new Vector3(Context._curVertRot, Context._curHorRot, 0);
+            //Context.targetVectorRB.MoveRotation(Quaternion.Euler(Context._curVertRot, Context._curHorRot, 0));
         }
 
         private void CenterBehindPlayer()

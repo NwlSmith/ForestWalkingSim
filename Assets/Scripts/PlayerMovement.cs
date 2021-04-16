@@ -115,10 +115,7 @@ public class PlayerMovement : MonoBehaviour
         _sprintInput = false;
     }
 
-    private void OnDestroy()
-    {
-        UnregisterEvents();
-    }
+    private void OnDestroy() => UnregisterEvents();
 
     private void RegisterEvents()
     {

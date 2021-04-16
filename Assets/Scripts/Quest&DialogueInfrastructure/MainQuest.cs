@@ -100,6 +100,8 @@ public class MainQuest : FSMQuest
 
             if (((MainQuest)Context).barrierFoliage.Length > 0)
                 Context.StartCoroutine(LowerBarriers());
+
+            FModMusicManager.PlayTrack("Layer 1");
         }
 
         private IEnumerator LowerBarriers()
@@ -135,6 +137,7 @@ public class MainQuest : FSMQuest
             ((MainQuest)Context).SetCurrentQuestLog(((MainQuest)Context).ConstructLogString());
             base.OnEnter();
             Services.GameManager.MidrollCutscene();
+            FModMusicManager.PlayTrack("Layer 2");
         }
     }
 
@@ -148,6 +151,7 @@ public class MainQuest : FSMQuest
             ((MainQuest)Context).SetCurrentQuestLog(((MainQuest)Context).ConstructLogString());
             base.OnEnter();
             Services.GameManager.MidrollCutscene();
+            FModMusicManager.PlayTrack("Layer 3");
         }
     }
 
@@ -161,7 +165,7 @@ public class MainQuest : FSMQuest
         {
             base.OnEnter();
             Services.GameManager.EndCutscene();
-            // TRIGGER END CUTSCENE.
+            FModMusicManager.PlayTrack("End");
         }
     }
 
