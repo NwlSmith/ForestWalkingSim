@@ -14,6 +14,8 @@ public class NPCSpeakerData : ScriptableObject
     public string SpeakerName = "";
     public Color SpeakerColor = Color.white;
     public AudioClip[] SpeakerSounds;
+    [FMODUnity.EventRef]
+    public string fMODSoundName = "";
 
     public AudioClip GetAudioClip()
     {

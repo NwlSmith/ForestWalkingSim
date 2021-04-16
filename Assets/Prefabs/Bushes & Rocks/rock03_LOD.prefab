@@ -173,7 +173,6 @@ GameObject:
   - component: {fileID: 797041851084034054}
   - component: {fileID: 1225834458828193196}
   - component: {fileID: 5596227844365742223}
-  - component: {fileID: 5836363423658740810}
   - component: {fileID: 2205592531645712203}
   m_Layer: 0
   m_Name: Rock_LOD0
@@ -245,20 +244,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5836363423658740810
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4155517904886475832}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 7921239165074108771, guid: 196822f55160d4368809aa292d4bf8e0, type: 3}
 --- !u!136 &2205592531645712203
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -269,10 +254,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.20805
+  m_Radius: 0.9
   m_Height: 1.5453625
   m_Direction: 1
-  m_Center: {x: -0.037129343, y: 0.13423273, z: -0.0026403666}
+  m_Center: {x: 0.09, y: 0.13423273, z: 0.21}
 --- !u!1 &4817033025377915134
 GameObject:
   m_ObjectHideFlags: 0

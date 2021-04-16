@@ -57,6 +57,8 @@ public class DialogueController : MonoBehaviour
     [SerializeField] private TMP_Text _speakerText;
     [SerializeField] private TMP_Text _dialogueText;
     private AudioSource _audioSource;
+    private FMOD.Studio.EventInstance soundState;
+    private FMOD.Studio.PARAMETER_ID soundID;
 
     private void Awake()
     {
@@ -94,6 +96,17 @@ public class DialogueController : MonoBehaviour
         Logger.Debug($"Starting dialogue: {_curNPC.YarnStartNode}");
         DialogueRunner.StartDialogue(_curNPC.YarnStartNode);
         NPCSpeak(null);
+
+        soundState = FMODUnity.RuntimeManager.CreateInstance(_curNPC.GetNPCSpeakerData().fMODSoundName);
+        soundState.start();
+
+        FMOD.Studio.EventDescription soundEventDescription;
+        soundState.getDescription(out soundEventDescription);
+        FMOD.Studio.PARAMETER_DESCRIPTION soundParameterDescription;
+        soundEventDescription.getParameterDescriptionByName("Frog Speaking", out soundParameterDescription);
+        soundID = soundParameterDescription.id;
+
+        soundState.setParameterByID(soundID, 1);
     }
 
     private void NPCSpeak(string [] parameters)
@@ -165,13 +178,17 @@ public class DialogueController : MonoBehaviour
             _curNPC.Speak(_curMultiNPCNum);
         }
 
-        _audioSource.pitch = Random.Range(.9f, 1.1f);
+        //_audioSource.pitch = Random.Range(.9f, 1.1f);
         _audioSource.Play();
     }
 
     public void OnLineEnd() => _dialogueText.text = "";
 
-    public void OnDialogueEnd() => _speakerText.text = "";
+    public void OnDialogueEnd()
+    {
+        _speakerText.text = "";
+        soundState.setParameterByName("Toad Speaking", 0);
+    }
 
     #endregion
 

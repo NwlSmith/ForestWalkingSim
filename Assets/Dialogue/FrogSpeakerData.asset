@@ -16,3 +16,4 @@ MonoBehaviour:
   SpeakerColor: {r: 0, g: 0.8773585, b: 0.022113312, a: 1}
   SpeakerSounds:
   - {fileID: 8300000, guid: 8ea25cd3a05026c459d31d4df2ca3910, type: 3}
+  fMODSoundName: event:/Music
