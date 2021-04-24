@@ -118,6 +118,8 @@ public static class SequenceManager
         ActionTask thirdSequence = new ActionTask(() =>
         {
             Services.QuestItemRepository.StartSequence();
+
+            FModMusicManager.ReturnedItem();
             // Quest item Repository takes Item.
             // trigger other stuff.
         });

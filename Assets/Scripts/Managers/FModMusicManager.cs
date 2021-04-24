@@ -6,23 +6,28 @@ using FMOD.Studio;
 public static class FModMusicManager
 {
 
-    private static EventInstance soundState;
-    private static PARAMETER_ID soundID;
+    private static EventInstance dialogueSoundState;
+
+    private static EventInstance itemFoundSoundState;
+    private static EventInstance itemReturnedSoundState;
 
     private static Dictionary<string, PARAMETER_ID> StrToID = new Dictionary<string, PARAMETER_ID>();
 
     public static void Initialize()
     {
-        soundState = FMODUnity.RuntimeManager.CreateInstance("event:/Music");
+        dialogueSoundState = FMODUnity.RuntimeManager.CreateInstance("event:/Music");
         CompileSounds();
-        soundState.start();
+        dialogueSoundState.start();
+
+        itemFoundSoundState = FMODUnity.RuntimeManager.CreateInstance("event:/Object Acquired");
+        itemReturnedSoundState = FMODUnity.RuntimeManager.CreateInstance("event:/Object Returned");
     }
 
     private static void CompileSounds()
     {
 
         EventDescription soundEventDescription;
-        soundState.getDescription(out soundEventDescription);
+        dialogueSoundState.getDescription(out soundEventDescription);
         PARAMETER_DESCRIPTION soundParameterDescription;
 
         // ADD OTHER ANIMALS
@@ -38,10 +43,10 @@ public static class FModMusicManager
 
         soundEventDescription.getParameterDescriptionByName("End", out soundParameterDescription);
         StrToID.Add("End", soundParameterDescription.id);
-        /*
+        
         soundEventDescription.getParameterDescriptionByName("Spirit Speaking", out soundParameterDescription);
         StrToID.Add("Spirit Speaking", soundParameterDescription.id);
-
+        /*
         soundEventDescription.getParameterDescriptionByName("Warbler Speaking", out soundParameterDescription);
         StrToID.Add("Warbler Speaking", soundParameterDescription.id);
 
@@ -62,16 +67,24 @@ public static class FModMusicManager
     {
         if (!StrToID.ContainsKey(track))
             track = "Frog";
-        soundState.setParameterByID(StrToID[track], 1);
+        dialogueSoundState.setParameterByID(StrToID[track], 1);
     }
 
     public static void EndTrack(string track)
     {
         if (!StrToID.ContainsKey(track))
             track = "Frog Speaking";
-        soundState.setParameterByID(StrToID[track], 0);
+        dialogueSoundState.setParameterByID(StrToID[track], 0);
     }
 
+    public static void FoundItem()
+    {
+        itemFoundSoundState.start();
+    }
 
+    public static void ReturnedItem()
+    {
+        itemReturnedSoundState.start();
+    }
 
 }
