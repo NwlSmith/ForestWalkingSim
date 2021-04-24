@@ -66,7 +66,7 @@ public static class FModMusicManager
     public static void PlayTrack(string track)
     {
         if (!StrToID.ContainsKey(track))
-            track = "Frog";
+            track = "Frog Speaking";
         dialogueSoundState.setParameterByID(StrToID[track], 1);
     }
 

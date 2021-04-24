@@ -4,6 +4,8 @@ colorID: 0
 position: 566,546
 ---
 <<if $quest_turtle_stage is 2>>
+    <<NPCSpeak>>
+    Nice of you to show up youngster!
     <<PlayerSpeak>>
     Wow, you got here quick.
     <<NPCSpeak>>
@@ -30,6 +32,13 @@ position: 566,546
     <<NPCSpeak>>
     Stage 3
 <<elseif $quest_turtle_stage is 4>>
+    <<if $player_beat_turtle is true>>
+        <<NPCSpeak>>
+        Hahaha wow you sure are fast!
+    <<else>>
+        <<NPCSpeak>>
+        Woohoo! I still got it!
+    <<endif>>
     <<PlayerSpeak>>
     You really kept pace back there!
     <<NPCSpeak>>

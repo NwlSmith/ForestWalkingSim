@@ -36,6 +36,7 @@ public static class QuestManager
         _stringToYarnVarDictionary.Add(Str.Seed, Str.SeedString);
         _stringToYarnVarDictionary.Add(Str.Soil, Str.SoilString);
         _stringToYarnVarDictionary.Add(Str.Rain, Str.RainString);
+        _stringToYarnVarDictionary.Add("PlayerBeatTurtle", "$player_beat_turtle");
     }
 
     public static void AdvanceQuest(string[] parameters)
@@ -73,5 +74,5 @@ public static class QuestManager
      */
     public static void AdvanceQuestMemoryVar(string key) => Services.DialogueController.InMemoryVariableStorage.SetValue(_stringToYarnVarDictionary[key], _questDictionary[key].QuestStage);
 
-    public static void FoundItemQuestMemoryVar(string key) => Services.DialogueController.InMemoryVariableStorage.SetValue(_stringToYarnVarDictionary[key], true);
+    public static void SetBoolMemoryVar(string key) => Services.DialogueController.InMemoryVariableStorage.SetValue(_stringToYarnVarDictionary[key], true);
 }

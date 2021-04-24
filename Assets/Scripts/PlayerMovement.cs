@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool inPlaceForSequence = false;
     public bool moving = false;
+    public bool movingOnGround = false;
 
 
     // Stored inputs
@@ -469,6 +470,7 @@ public class PlayerMovement : MonoBehaviour
             public override void OnEnter()
             {
                 Cont.moving = true;
+                Cont.movingOnGround = true;
                 PlayerAnimation.Moving(true);
             }
 
@@ -517,6 +519,8 @@ public class PlayerMovement : MonoBehaviour
 
                 Cont._charController.Move(Cont._currentMovementVector);
             }
+
+            public override void OnExit() => Cont.movingOnGround = false;
         }
 
         // Player is currently jumping. Possibly change into 2 states - a jump charging state and a released jump state.
@@ -528,6 +532,7 @@ public class PlayerMovement : MonoBehaviour
             public override void OnEnter()
             {
                 Cont._curJumpCooldown = Cont._jumpCooldown;
+                Cont.moving = true;
 
                 Cont._charController.Move(Cont._currentMovementVector);
                 PlayerAnimation.Jump();
@@ -593,7 +598,11 @@ public class PlayerMovement : MonoBehaviour
         // Player is currently falling.
         private class FallingState : MovementState
         {
-            public override void OnEnter() => PlayerAnimation.Falling(true);
+            public override void OnEnter()
+            {
+                PlayerAnimation.Falling(true);
+                Cont.moving = true;
+            }
 
             public override void Update()
             {

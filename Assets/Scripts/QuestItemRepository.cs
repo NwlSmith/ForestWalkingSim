@@ -39,19 +39,19 @@ public class QuestItemRepository : MonoBehaviour
                 if (_collectedSeed) return;
                 _collectedSeed = true;
                 QuestManager.AdvanceQuest(Str.Warbler);
-                QuestManager.FoundItemQuestMemoryVar(Str.Seed);
+                QuestManager.SetBoolMemoryVar(Str.Seed);
                 break;
             case QuestItem.QuestItemEnum.Soil:
                 if (_collectedSoil) return;
                 _collectedSoil = true;
                 QuestManager.AdvanceQuest(Str.Frog);
-                QuestManager.FoundItemQuestMemoryVar(Str.Soil);
+                QuestManager.SetBoolMemoryVar(Str.Soil);
                 break;
             case QuestItem.QuestItemEnum.Rain:
                 if (_collectedRain) return;
                 _collectedRain = true;
                 QuestManager.AdvanceQuest(Str.Turtle);
-                QuestManager.FoundItemQuestMemoryVar(Str.Rain);
+                QuestManager.SetBoolMemoryVar(Str.Rain);
                 break;
         }
         QuestManager.AdvanceQuest(Str.Main);

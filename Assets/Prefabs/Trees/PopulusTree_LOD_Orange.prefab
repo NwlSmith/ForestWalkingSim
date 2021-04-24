@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1266906922028409482}
   - component: {fileID: 6327252410317280763}
   m_Layer: 0
-  m_Name: PopulusTree_LOD (1)
+  m_Name: PopulusTree_LOD_Orange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,18 +45,18 @@ LODGroup:
   m_LocalReferencePoint: {x: 0.4568634, y: 4.6039295, z: -0.25405025}
   m_Size: 11.001171
   m_FadeMode: 1
-  m_AnimateCrossFading: 1
+  m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
   - screenRelativeHeight: 0.19653086
-    fadeTransitionWidth: 0
+    fadeTransitionWidth: 0.01
     renderers:
     - renderer: {fileID: 2538904089811636364}
   - screenRelativeHeight: 0.08047635
-    fadeTransitionWidth: 0
+    fadeTransitionWidth: 0.05
     renderers:
     - renderer: {fileID: 8613986173372363387}
-  - screenRelativeHeight: 0.01
+  - screenRelativeHeight: 0.01750017
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 6160098071810275811}
@@ -129,7 +129,7 @@ MeshRenderer:
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
+  m_ScaleInLightmap: 0.5
   m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
@@ -208,7 +208,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -225,7 +225,7 @@ MeshRenderer:
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
+  m_ScaleInLightmap: 0.2
   m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
@@ -307,7 +307,7 @@ MeshRenderer:
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
+  m_ScaleInLightmap: 0.5
   m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0

@@ -10,6 +10,7 @@ using UnityEngine;
  * 
  * Allows different game states to have different Update functions.
  * 
+ * 
  * To do:
  * - In URPExampleAssets > Settings > UniversalRenderPipeline Shadow Max distance was initially 50
  * - We have freedom to go places, sure, but it doesn't feel intentional?
@@ -17,8 +18,6 @@ using UnityEngine;
  * LOD is too noticeable, especially on rock
  * FIX CAMERA TWITCH!!!
  * 
- * Issues:
- * - make sure player looks at center of characters? maybe make player turn to face each character
  * 
  */
 

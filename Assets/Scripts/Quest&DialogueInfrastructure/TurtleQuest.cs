@@ -25,6 +25,7 @@ public class TurtleQuest : FSMQuest
     [SerializeField] private NPC _turtleNPC;
 
     [SerializeField] private Transform[] _turtleRoute;
+    private TaskManager _taskManager = new TaskManager();
 
 
     protected override void Awake()
@@ -74,27 +75,26 @@ public class TurtleQuest : FSMQuest
     private class Stage3State : QuestState
     {
 
-        private const float _turtleSpeed = 30f;
-        private Rigidbody _turtleRB;
+        private const float _turtleSpeed = 5f;
+        private Transform _turtleTrans;
         private Animator _turtleAnim;
         private const float _distFromTarget = 2f;
 
-        private readonly TaskManager _taskManager = new TaskManager();
 
         public Stage3State() : base(3) { }
 
         public override void OnEnter()
         {
             base.OnEnter();
-            if (ReferenceEquals(_turtleRB, null)) _turtleRB = ((TurtleQuest)Context)._turtleNPC.GetComponent<Rigidbody>();
+            if (ReferenceEquals(_turtleTrans, null)) _turtleTrans = ((TurtleQuest)Context)._turtleNPC.transform;
             if (ReferenceEquals(_turtleAnim, null)) _turtleAnim = ((TurtleQuest)Context)._turtleNPC.GetComponentInChildren<Animator>();
-            _taskManager.Do(DefineTasks());
+            ((TurtleQuest)Context)._taskManager.Do(DefineTasks());
         }
 
         // Defines tasks for turtle movement.
         private Task DefineTasks()
         {
-            NPCCollider npcCollider = _turtleRB.GetComponentInChildren<NPCCollider>();
+            NPCCollider npcCollider = _turtleTrans.GetComponentInChildren<NPCCollider>();
             Vector3 initScale = npcCollider.transform.localScale;
             npcCollider.transform.localScale = Vector3.zero;
             Task wait = new WaitTask(1f);
@@ -119,7 +119,8 @@ public class TurtleQuest : FSMQuest
                         _turtleAnim.SetBool(Str.Running, false);
                         npcCollider.transform.localScale = initScale; // causes problems
                         npcCollider.Appear(); // causes problems
-                        QuestManager.AdvanceQuest(Context.QuestTag);
+                        if (Context.QuestStage < 4)
+                            QuestManager.AdvanceQuest(Context.QuestTag);
                     }
                 );
 
@@ -136,25 +137,27 @@ public class TurtleQuest : FSMQuest
             return new DelegateTask(
                 () => 
                 {
-                    _turtleRB.transform.LookAt(target);
+                    _turtleTrans.LookAt(target);
                 },
                 () =>
                 {
-                    _turtleRB.transform.LookAt(target);
-                    _turtleRB.MovePosition(_turtleRB.position + _turtleRB.transform.forward * _turtleSpeed * Time.deltaTime);
+                    _turtleTrans.LookAt(target);
+                    _turtleTrans.position = (_turtleTrans.position + _turtleTrans.forward * _turtleSpeed * Time.deltaTime);
+                    //_turtleRB.MovePosition(_turtleRB.position + _turtleRB.transform.forward * _turtleSpeed * Time.deltaTime);
                     //_turtleRB.transform.position = _turtleRB.position + _turtleRB.transform.forward * _turtleSpeed * Time.deltaTime;
-                    return Vector3.Distance(_turtleRB.position, target.position) < _distFromTarget;
+                    return Vector3.Distance(_turtleTrans.position, target.position) < _distFromTarget;
                 }
             );
         }
 
-        public override void Update() => _taskManager.Update();
+        public override void Update() => ((TurtleQuest)Context)._taskManager.Update();
     }
 
     // Stage 4: Talk to turtle at finish line. Advance to stage 5 by talking to turtle.
     private class Stage4State : QuestState
     {
         public Stage4State() : base(4) { }
+        public override void Update() => ((TurtleQuest)Context)._taskManager.Update();
     }
 
     // Stage 5: Spawn in Rain. Advance to stage 6 by placing Rain in the heart.
