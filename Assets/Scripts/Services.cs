@@ -136,6 +136,17 @@ public static class Services
         private set => _eventManager = value;
     }
 
+    private static PostProcessingManager _postProcessingManager;
+    public static PostProcessingManager PostProcessingManager
+    {
+        get
+        {
+            Debug.Assert(_postProcessingManager != null);
+            return _postProcessingManager;
+        }
+        private set => _postProcessingManager = value;
+    }
+
     #endregion
 
 
@@ -154,6 +165,8 @@ public static class Services
         UISound = Object.FindObjectOfType<UISound>();
         SpacialAudioManager = Object.FindObjectOfType<SpacialAudioManager>();
         QuestItemRepository = Object.FindObjectOfType<QuestItemRepository>();
+        PostProcessingManager = Object.FindObjectOfType<PostProcessingManager>();
+        FModMusicManager.Initialize();
     }
     #endregion
 }

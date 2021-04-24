@@ -137,6 +137,7 @@ public static class SequenceManager
         // 6. Fade back in and have player turned around as environment changes are triggered. 2s
         ActionTask fifthSequence = new ActionTask(() =>
         {
+            Services.PostProcessingManager.AdvanceStage();
             PlayerAnimation.Sitting(true);
             // Fade in?
             Services.UIManager.CutsceneFadeOut();
@@ -204,6 +205,7 @@ public static class SequenceManager
         ActionTask fifthSequence = new ActionTask(() =>
         {
             PlayerAnimation.Sitting(true);
+            Services.PostProcessingManager.AdvanceStage();
             // Fade in?
             Services.UIManager.CutsceneFadeOut();
         });

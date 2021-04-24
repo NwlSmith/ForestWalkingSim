@@ -14,7 +14,6 @@ using UnityEngine;
  * - In URPExampleAssets > Settings > UniversalRenderPipeline Shadow Max distance was initially 50
  * - We have freedom to go places, sure, but it doesn't feel intentional?
  * 
- * 
  * LOD is too noticeable, especially on rock
  * FIX CAMERA TWITCH!!!
  * 
@@ -41,7 +40,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Services.InitializeServices(this);
-        FModMusicManager.Initialize();
 
         _fsm = new FiniteStateMachine<GameManager>(this);
     }
