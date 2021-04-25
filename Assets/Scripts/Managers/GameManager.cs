@@ -18,6 +18,7 @@ using UnityEngine;
  * LOD is too noticeable, especially on rock
  * FIX CAMERA TWITCH!!!
  * 
+ * Maybe remove ambient audio?
  * 
  */
 

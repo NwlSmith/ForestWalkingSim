@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8763936538253382795}
   - component: {fileID: 2701693656023637003}
   - component: {fileID: 4576315123023818969}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 8443327701903682548}
   - component: {fileID: 6982035409137325534}
   - component: {fileID: 2122391819914885953}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 6517599079059295429}
   - component: {fileID: 5315576894681684406}
   - component: {fileID: 2361145290517364033}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8893399761356876720}
   - component: {fileID: 4409495038203452609}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Burned Tree2_LOD
   m_TagString: Untagged
   m_Icon: {fileID: 0}

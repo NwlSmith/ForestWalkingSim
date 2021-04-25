@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3011932398642930886}
   - component: {fileID: 8040780375780529079}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: bush01_LOD_Scenery
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ GameObject:
   - component: {fileID: 2260485490015841090}
   - component: {fileID: 7751787440613281219}
   - component: {fileID: 8088209808633481734}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bush_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}

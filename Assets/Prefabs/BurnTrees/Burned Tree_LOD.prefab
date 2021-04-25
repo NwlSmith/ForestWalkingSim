@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 971228088766740832}
   - component: {fileID: 2219691997179554835}
   - component: {fileID: 9060046396826502494}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3198370400943005205}
   - component: {fileID: 7654143845916633444}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Burned Tree_LOD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6574677074697773031}
   - component: {fileID: 1842355944981788256}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Collider (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 2460635377661353553}
   - component: {fileID: 4029731212673736827}
   - component: {fileID: 5367471637536181988}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 3357036325940519214}
   - component: {fileID: 8248077775196105134}
   - component: {fileID: 7533116184778605948}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -376,7 +376,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6694617184464736081}
   - component: {fileID: 1506594649758082081}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Collider (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

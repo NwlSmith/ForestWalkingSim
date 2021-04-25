@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7860810888792648666}
   - component: {fileID: 6912121635300916934}
   - component: {fileID: 1867448678465352107}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bush_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3011932398642930886}
   - component: {fileID: 8040780375780529079}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: bush01_LOD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 1797234165714925851}
   - component: {fileID: 4347031616997788968}
   - component: {fileID: 1343252632871530508}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bush_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 2260485490015841090}
   - component: {fileID: 7751787440613281219}
   - component: {fileID: 8088209808633481734}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bush_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

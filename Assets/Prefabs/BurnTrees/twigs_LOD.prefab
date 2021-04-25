@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5385574879411406581}
   - component: {fileID: 1611442147218312821}
   - component: {fileID: 909991364306428583}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 5048007175378729354}
   - component: {fileID: 6036945828313630624}
   - component: {fileID: 3339109152651077951}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5208718624948566478}
   - component: {fileID: 1014165711289552575}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: twigs_LOD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,7 +236,7 @@ GameObject:
   - component: {fileID: 6936877206177279599}
   - component: {fileID: 7589005022646722235}
   - component: {fileID: 8855799860079348680}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}

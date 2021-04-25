@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1266906922028409482}
   - component: {fileID: 6327252410317280763}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PopulusTree_LOD_Orange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 3498293056492979711}
   - component: {fileID: 2538904089811636364}
   - component: {fileID: 2200706321864490371}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 1396264376728296881}
   - component: {fileID: 5728894029445453105}
   - component: {fileID: 6160098071810275811}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: 2293457130011484878}
   - component: {fileID: 728011812914633956}
   - component: {fileID: 8613986173372363387}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

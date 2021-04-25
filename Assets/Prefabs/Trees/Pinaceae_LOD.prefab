@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7747884908232014660}
   - component: {fileID: 3992332836024136644}
   - component: {fileID: 3286382826063830806}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 7436987044544414779}
   - component: {fileID: 8285754327951997457}
   - component: {fileID: 1111691478626145422}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 5218242927826936586}
   - component: {fileID: 6619584031403619961}
   - component: {fileID: 2058745576791198218}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -271,7 +271,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7598265717663188095}
   - component: {fileID: 3398082196124824334}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Pinaceae_LOD
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7674313167658249942}
   - component: {fileID: 7285200993636764054}
   - component: {fileID: 3742767129418815302}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 3641208087724543141}
   - component: {fileID: 698689040742745998}
   - component: {fileID: 4974570808150678680}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 1225834458828193196}
   - component: {fileID: 5596227844365742223}
   - component: {fileID: 2205592531645712203}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5301399420481931844}
   - component: {fileID: 1137234798210137397}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rock03_LOD
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5639214727361997896}
   - component: {fileID: 4686701120723629391}
   - component: {fileID: 6282427832629997074}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 1746368038878732020}
   - component: {fileID: 831979196905343879}
   - component: {fileID: 1795872148653721141}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +189,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4117629645202930049}
   - component: {fileID: 9187024320348458736}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CherryTree_LOD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: 3991254014823463365}
   - component: {fileID: 2497911852778653679}
   - component: {fileID: 6862133105049790832}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

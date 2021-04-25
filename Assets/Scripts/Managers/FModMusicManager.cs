@@ -6,18 +6,19 @@ using FMOD.Studio;
 public static class FModMusicManager
 {
 
-    private static EventInstance dialogueSoundState;
+    private static EventInstance musicSoundState;
 
     private static EventInstance itemFoundSoundState;
     private static EventInstance itemReturnedSoundState;
+    private static EventInstance endCutsceneSoundState;
 
     private static Dictionary<string, PARAMETER_ID> StrToID = new Dictionary<string, PARAMETER_ID>();
 
     public static void Initialize()
     {
-        dialogueSoundState = FMODUnity.RuntimeManager.CreateInstance("event:/Music");
+        musicSoundState = FMODUnity.RuntimeManager.CreateInstance("event:/Music");
         CompileSounds();
-        dialogueSoundState.start();
+        musicSoundState.start();
 
         itemFoundSoundState = FMODUnity.RuntimeManager.CreateInstance("event:/Object Acquired");
         itemReturnedSoundState = FMODUnity.RuntimeManager.CreateInstance("event:/Object Returned");
@@ -27,7 +28,7 @@ public static class FModMusicManager
     {
 
         EventDescription soundEventDescription;
-        dialogueSoundState.getDescription(out soundEventDescription);
+        musicSoundState.getDescription(out soundEventDescription);
         PARAMETER_DESCRIPTION soundParameterDescription;
 
         // ADD OTHER ANIMALS
@@ -67,24 +68,20 @@ public static class FModMusicManager
     {
         if (!StrToID.ContainsKey(track))
             track = "Frog Speaking";
-        dialogueSoundState.setParameterByID(StrToID[track], 1);
+        musicSoundState.setParameterByID(StrToID[track], 1);
     }
 
     public static void EndTrack(string track)
     {
         if (!StrToID.ContainsKey(track))
             track = "Frog Speaking";
-        dialogueSoundState.setParameterByID(StrToID[track], 0);
+        musicSoundState.setParameterByID(StrToID[track], 0);
     }
 
-    public static void FoundItem()
-    {
-        itemFoundSoundState.start();
-    }
+    public static void FoundItem() => itemFoundSoundState.start();
 
-    public static void ReturnedItem()
-    {
-        itemReturnedSoundState.start();
-    }
+    public static void ReturnedItem() => itemReturnedSoundState.start();
+
+    public static void EndCutscene() => musicSoundState.setParameterByName("End", 1);
 
 }

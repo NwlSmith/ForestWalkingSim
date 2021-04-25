@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2003716175829245142}
   - component: {fileID: 6743224100796181415}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: branch_LOD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 8297928138787289565}
   - component: {fileID: 8621532373662025060}
   - component: {fileID: 2188098220308267732}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BurnTrunk_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -153,7 +153,7 @@ GameObject:
   - component: {fileID: 2505529036481823078}
   - component: {fileID: 124045666152825086}
   - component: {fileID: 2251793343713580827}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BurnTrunk_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 1616762066596126157}
   - component: {fileID: 6785603540471667309}
   - component: {fileID: 955892226760790440}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BurnTrunk_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}

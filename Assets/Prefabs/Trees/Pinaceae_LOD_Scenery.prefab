@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7747884908232014660}
   - component: {fileID: 3992332836024136644}
   - component: {fileID: 3286382826063830806}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7598265717663188095}
   - component: {fileID: 3398082196124824334}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Pinaceae_LOD_Scenery
   m_TagString: Untagged
   m_Icon: {fileID: 0}

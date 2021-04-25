@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4117629645202930049}
   - component: {fileID: 9187024320348458736}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CherryTree_LOD_Scenery
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ GameObject:
   - component: {fileID: 4310138868799145658}
   - component: {fileID: 7435770359158099514}
   - component: {fileID: 9064945560399471336}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -187,6 +187,7 @@ public static class SequenceManager
         ActionTask thirdSequence = new ActionTask(() =>
         {
             Services.QuestItemRepository.StartSequence();
+            FModMusicManager.EndCutscene();
             // Quest item Repository takes Item.
             // trigger other stuff.
         });
@@ -233,8 +234,7 @@ public static class SequenceManager
             PlayerAnimation.Sitting(true);
         });
         Task waitForTime = new WaitTask(4.5f);
-
-        // 1. Move player to position. Move camera behind player. ~2s
+        
         Task endGame = new ActionTask(() =>
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene(2);
