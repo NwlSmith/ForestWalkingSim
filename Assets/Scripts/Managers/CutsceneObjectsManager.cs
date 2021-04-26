@@ -38,7 +38,7 @@ public class CutsceneObjectsManager : MonoBehaviour
             default:
                 break;
         }
-
+        yield return null;
 
     }
 }
