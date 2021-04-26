@@ -17,6 +17,7 @@ public class EndCreditsHandler : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
+        else if (Input.GetKeyDown(KeyCode.Space)) SceneManager.LoadScene(0);
     }
 
     private IEnumerator EndCredits()
