@@ -21,6 +21,7 @@ using UnityEngine;
  * Maybe remove ambient audio?
  * 
  * spirit tail freak out
+ * make walking thru leaves slow character and cause leaf rustling sound?
  * 
  */
 
@@ -34,6 +35,9 @@ public class GameManager : MonoBehaviour
 
     private bool _gameStarted = false;
     private bool _endingGame = false;
+
+    private float _checkControllerElapsedTime = 0f;
+    private const float _checkControllerInterval = 1f;
 
     #endregion 
 
@@ -55,6 +59,12 @@ public class GameManager : MonoBehaviour
     {
         _fsm.Update();
         SequenceManager.Update();
+        _checkControllerElapsedTime += Time.deltaTime;
+        if (_checkControllerElapsedTime > _checkControllerInterval)
+        {
+            _checkControllerElapsedTime = 0f;
+            InputManager.CheckUsingController();
+        }
     }
 
     #endregion
@@ -183,6 +193,7 @@ public class GameManager : MonoBehaviour
 
     private class PlayState : GameState
     {
+
         public override void OnEnter()
         {
             if (Context._endingGame)

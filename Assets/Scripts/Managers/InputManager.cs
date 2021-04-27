@@ -38,8 +38,7 @@ public static class InputManager
         public readonly string CameraXStr;
         public float CameraY                = 0f;
         public readonly string CameraYStr;
-
-        public delegate void InputIntake(string input);
+        
 
         public Inputs(string hor, string ver, string jump, string sprint, string interact, string pause, string cameraX, string cameraY)
         {
@@ -53,7 +52,9 @@ public static class InputManager
             CameraYStr = cameraY;
         }
 
-        public Inputs Update()
+        public bool inputsEntered = false;
+
+        public Inputs UpdatePlay()
         {
             Hor = Input.GetAxis(HorStr);
             Ver = Input.GetAxis(VerStr);
@@ -66,10 +67,11 @@ public static class InputManager
             CameraX = Input.GetAxis(CameraXStr);
             CameraY = Input.GetAxis(CameraYStr);
 
+            inputsEntered = (Hor > .1f || Hor < -.1f) || (Ver > .1f || Ver < -.1f) || Jump || Sprint || Interact || Pause || (CameraX > .1f || CameraX < -.1f) || (CameraY > .1f || CameraY < -.1f);
+
             return this;
         }
 
-        public bool InputsEntered => (Hor > .1f || Hor < -.1f) || (Ver > .1f || Ver < -.1f) || Jump || Sprint || Interact || Pause || (CameraX > .1f || CameraX < -.1f) || (CameraY > .1f || CameraY < -.1f);
 
         public Inputs UpdatePaused()
         {
@@ -80,19 +82,18 @@ public static class InputManager
 
     private static Inputs Keyboard      = new Inputs(Str.Hor, Str.Ver, Str.JumpInput, Str.Sprint, Str.Interact, Str.Pause, Str.MouseX, Str.MouseY);
     private static Inputs Controller    = new Inputs(Str.LJoystickX, Str.LJoystickY, Str.JumpInputC, Str.SprintC, Str.InteractC, Str.PauseC, Str.RJoystickX, Str.RJoystickY);
-    
 
-    public static void Init()
-    {
-        XboxOneController = ControllerConnectedRecently();
-    }
+
+    public static void Init() => CheckUsingController();
 
     public static bool ControllerConnected => Input.GetJoystickNames().Length > 0;
     private static bool XboxOneController = false;
 
+    public static void CheckUsingController() => XboxOneController = ControllerConnectedRecently();
+
     public static bool UsingController()
     {
-        return XboxOneController && Controller.InputsEntered;
+        return XboxOneController && Controller.inputsEntered;
     }
 
     public static bool ControllerConnectedRecently()
@@ -115,11 +116,11 @@ public static class InputManager
 
     private static Inputs DetermineInputs()
     {
-        Keyboard.Update();
+        Keyboard.UpdatePlay();
         if (XboxOneController)
         {
-            Controller.Update();
-            if (Controller.InputsEntered)
+            Controller.UpdatePlay();
+            if (Controller.inputsEntered)
                 return Controller;
         }
         return Keyboard;
@@ -127,10 +128,14 @@ public static class InputManager
 
     private static Inputs DeterminePausedInputs()
     {
-        if (!XboxOneController || !ControllerConnected)
-            return Keyboard.UpdatePaused();
-        else
-            return Controller.UpdatePaused();
+        Keyboard.UpdatePaused();
+        if (XboxOneController)
+        {
+            Controller.UpdatePaused();
+            if (Controller.inputsEntered)
+                return Controller;
+        }
+        return Keyboard;
     }
 
     public static void ProcessPlayInput()
@@ -178,7 +183,7 @@ public static class InputManager
         if (Input.GetKeyDown(KeyCode.T))
             QuestManager.AdvanceQuest(Str.Turtle);
         if (Input.GetKeyDown(KeyCode.H))
-            Services.PlayerMovement.ForceTransform(new Vector3(460, 21, 506), Quaternion.identity);
+            Services.PlayerMovement.ForceTransform(new Vector3(460, 22, 506), Quaternion.identity);
 #endif
         if (input.Pause)
         {

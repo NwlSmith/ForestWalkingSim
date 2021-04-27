@@ -83,6 +83,7 @@ public static class Str
     #region Cutscenes.
     public const string MidSequence = "MidSequence";
     public const string EndSequence = "EndSequence";
+    public static readonly int cutsceneTrans = UnityEngine.Animator.StringToHash("Transition");
     #endregion
 
     #region Save system.

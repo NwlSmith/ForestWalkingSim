@@ -5,40 +5,29 @@ using UnityEngine;
 public class CutsceneObjectsManager : MonoBehaviour
 {
 
-    [SerializeField] private GameObject[] gameObjects;
+    private Animator[] animators;
 
-    private void Start()
+    [SerializeField] private GameObject[] smokeParticles;
+
+    private void Awake()
     {
-        foreach (GameObject gameObject in gameObjects)
+        animators = GetComponentsInChildren<Animator>();
+    }
+
+    public void Transition()
+    {
+        foreach (Animator anim in animators)
         {
-            gameObject.transform.localScale = Vector3.zero;
+            anim.SetTrigger(Str.cutsceneTrans);
         }
     }
 
-    public IEnumerator Transition(int phase)
+    private IEnumerator TransitionEnum()
     {
-        float elapsedTime = 0f;
-        float duration = 5f;
-
-        if (phase == 3)
-            duration = 4f;
-
-        float target;
-        switch (phase)
+        foreach (Animator anim in animators)
         {
-            case 1:
-                target = .25f;
-                break;
-            case 2:
-                target = .5f;
-                break;
-            case 3:
-                target = 1.25f;
-                break;
-            default:
-                break;
+            anim.SetTrigger(Str.cutsceneTrans);
+            yield return new WaitForSeconds(Random.Range(.05f, .3f));
         }
-        yield return null;
-
     }
 }

@@ -170,6 +170,7 @@ public static class Services
         PlayerAnimation.Init();
         InputManager.Init();
         QuestManager.Init();
+        SequenceManager.Init();
     }
     #endregion
 }

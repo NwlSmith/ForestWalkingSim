@@ -389,12 +389,8 @@ public class PlayerMovement : MonoBehaviour
 
         // The finite state machine of the current gamestate.
         private readonly FiniteStateMachine<LocomotionState> _fsm;
-        
-        public LocomotionState()
-        {
-            Debug.Log("LOCOMOTION STATE CONSTRUCTOR!!!");
-            _fsm = new FiniteStateMachine<LocomotionState>(this);
-        }
+
+        public LocomotionState() => _fsm = new FiniteStateMachine<LocomotionState>(this);
 
         #region Lifecycle Management.
         public override void OnEnter()

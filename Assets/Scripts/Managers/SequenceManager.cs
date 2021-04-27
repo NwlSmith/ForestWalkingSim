@@ -12,6 +12,9 @@ public static class SequenceManager
     private static readonly Task _enterMidSequence;
     private static readonly Task _enterEndSequence;
     private static readonly Task _enterEndGameSequence;
+    private static CutsceneObjectsManager cutsceneObjectsManager;
+
+    public static bool[] specialCutsceneTriggers = new bool[4];
 
     static SequenceManager()
     {
@@ -22,12 +25,16 @@ public static class SequenceManager
         _enterEndGameSequence = DefineEndGameSequence();
 
         RegisterEvents();
+
+        for (int i = 0; i < specialCutsceneTriggers.Length; i++)
+        {
+            specialCutsceneTriggers[i] = false;
+        }
     }
 
-    public static void OnDestroy()
-    {
-        UnregisterEvents();
-    }
+    public static void Init() => cutsceneObjectsManager = UnityEngine.Object.FindObjectOfType<CutsceneObjectsManager>();
+
+    public static void OnDestroy() => UnregisterEvents(); // Possibly not useful.
 
     public static void Update() => _taskManager.Update();
 
@@ -114,14 +121,6 @@ public static class SequenceManager
             return Services.PlayerMovement.inPlaceForSequence;
         }, () =>
         {
-            if (((QuestItem)Services.PlayerItemHolder._currentlyHeldItem).itemEnum == QuestItem.QuestItemEnum.Seed)
-                QuestManager.SetBoolMemoryVar("SeedLastRetrieved");
-            else if (((QuestItem)Services.PlayerItemHolder._currentlyHeldItem).itemEnum == QuestItem.QuestItemEnum.Soil)
-                QuestManager.SetBoolMemoryVar("SoilLastRetrieved");
-            else if (((QuestItem)Services.PlayerItemHolder._currentlyHeldItem).itemEnum == QuestItem.QuestItemEnum.Rain)
-                QuestManager.SetBoolMemoryVar("RainLastRetrieved");
-            else
-                Logger.Warning($"Error: {((QuestItem)Services.PlayerItemHolder._currentlyHeldItem).name} is not a quest item.");
             Services.PlayerItemHolder.DropItem();
         });
 
@@ -137,7 +136,12 @@ public static class SequenceManager
             // trigger other stuff.
         });
 
+        // Add in phase here to show plants growing?????????????????????????????????????
+        ActionTask triggerPlantAnims = new ActionTask(() => { cutsceneObjectsManager.Transition(); });
+
         Task waitForTime3 = new WaitTask(1.5f);
+
+
 
         // 4. Fade to white? black? 2s
         ActionTask fourthSequence = new ActionTask(() =>
@@ -167,7 +171,7 @@ public static class SequenceManager
             Services.GameManager.EnterDialogue();
         });
 
-        enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(sixthSequence);
+        enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(triggerPlantAnims).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(sixthSequence);
         return enterSequence;
     }
 
@@ -205,6 +209,10 @@ public static class SequenceManager
             // trigger other stuff.
         });
 
+
+        // Add in phase here to show plants growing?????????????????????????????????????
+        ActionTask triggerPlantAnims = new ActionTask(() => { cutsceneObjectsManager.Transition(); });
+
         Task waitForTime3 = new WaitTask(1.5f);
 
         // 4. Fade to white? black? 2s
@@ -235,7 +243,7 @@ public static class SequenceManager
             Services.GameManager.EnterDialogue();
         });
 
-        enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(sixthSequence);
+        enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(triggerPlantAnims).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(sixthSequence);
         return enterSequence;
     }
 
