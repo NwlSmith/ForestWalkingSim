@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7747884908232014660}
   - component: {fileID: 3992332836024136644}
   - component: {fileID: 3286382826063830806}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1752562865024188944}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 1.808954, z: 0}
+  m_LocalPosition: {x: 0, y: 3.16, z: 0}
   m_LocalScale: {x: 1.8207325, y: 1.8207325, z: 1.8207325}
   m_Children: []
   m_Father: {fileID: 7598265717663188095}
@@ -50,10 +50,10 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
@@ -67,7 +67,7 @@ MeshRenderer:
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
+  m_ScaleInLightmap: 0.2
   m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 7436987044544414779}
   - component: {fileID: 8285754327951997457}
   - component: {fileID: 1111691478626145422}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2201030482884931651}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 1.808954, z: 0}
+  m_LocalPosition: {x: -0, y: 3.16, z: 0}
   m_LocalScale: {x: 1.8207325, y: 1.8207325, z: 1.8207325}
   m_Children: []
   m_Father: {fileID: 7598265717663188095}
@@ -149,7 +149,7 @@ MeshRenderer:
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
+  m_ScaleInLightmap: 0.5
   m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 5218242927826936586}
   - component: {fileID: 6619584031403619961}
   - component: {fileID: 2058745576791198218}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6467037512653680000}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 1.808954, z: 0}
+  m_LocalPosition: {x: 0, y: 3.16, z: 0}
   m_LocalScale: {x: 1.8207325, y: 1.8207325, z: 1.8207325}
   m_Children: []
   m_Father: {fileID: 7598265717663188095}
@@ -232,7 +232,7 @@ MeshRenderer:
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
+  m_ScaleInLightmap: 0.5
   m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
@@ -271,7 +271,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7598265717663188095}
   - component: {fileID: 3398082196124824334}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Pinaceae_LOD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -286,7 +286,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7077871655114481349}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 39.83931, y: 1.5476177, z: 21.978443}
+  m_LocalPosition: {x: 39.83931, y: 0, z: 21.978443}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4719735607551693790}
@@ -313,11 +313,11 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 6619584031403619961}
-  - screenRelativeHeight: 0.0953139
+  - screenRelativeHeight: 0.056342818
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 1111691478626145422}
-  - screenRelativeHeight: 0.01
+  - screenRelativeHeight: 0.0131072495
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 3286382826063830806}

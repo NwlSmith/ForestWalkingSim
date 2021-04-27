@@ -10,13 +10,19 @@ public class PlayerFeedback : MonoBehaviour
 {
     public int nextSource = 0;
     private AudioSource[] audioSources = new AudioSource[4];
+    private AudioSource audioSourceLeafRustle;
+    private float leafRustleMaxVol = .5f;
+    [SerializeField] private AudioClip leafRustleClip;
     [SerializeField] private AudioClip jumpClip;
     [SerializeField] private AudioClip landClip;
     [SerializeField] private AudioClip[] grassClips;
     [SerializeField] private AudioClip[] dirtClips;
     [SerializeField] private AudioClip[] gravelClips;
     [SerializeField] private float audioVolume = .05f;
-    [SerializeField] private ParticleSystem[] particles = new ParticleSystem[4];
+    [SerializeField] private ParticleSystem[] particlesGrass = new ParticleSystem[4];
+    [SerializeField] private ParticleSystem[] particlesGravel = new ParticleSystem[4];
+    [SerializeField] private LayerMask layerMask;
+    private bool onTerrain = false;
 
     private void Awake()
     {
@@ -26,18 +32,52 @@ public class PlayerFeedback : MonoBehaviour
             audioSources[i].playOnAwake = false;
             audioSources[i].clip = grassClips[0];
             audioSources[i].volume = audioVolume;
+            audioSources[i].minDistance = 3f;
             audioSources[i].maxDistance = 10f;
-            audioSources[i].spatialBlend = 0f;
+            audioSources[i].spatialBlend = 1f;
+        }
+        audioSourceLeafRustle = gameObject.AddComponent<AudioSource>();
+        audioSourceLeafRustle.playOnAwake = true;
+        audioSourceLeafRustle.loop = true;
+        audioSourceLeafRustle.clip = leafRustleClip;
+        audioSourceLeafRustle.volume = 0f;
+        audioSourceLeafRustle.spatialBlend = 1f;
+        audioSourceLeafRustle.minDistance = 3f;
+        audioSourceLeafRustle.maxDistance = 10f;
+        audioSourceLeafRustle.Play();
+    }
+
+    private void FixedUpdate()
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, 2f, layerMask)) // detects if the player is over terrain or not.
+            onTerrain = true;
+
+        if (Services.PlayerMovement.movingOnGround && audioSourceLeafRustle.volume < leafRustleMaxVol)
+        {
+            audioSourceLeafRustle.volume += .01f;
+        }
+        else if (!Services.PlayerMovement.movingOnGround && audioSourceLeafRustle.volume > 0)
+        {
+            audioSourceLeafRustle.volume -= .01f;
         }
     }
 
     public void StepEvent(int foot)
     {
-        audioSources[nextSource].clip = grassClips[Random.Range(0, grassClips.Length)];
+        if (onTerrain)
+        {
+            audioSources[nextSource].clip = grassClips[Random.Range(0, grassClips.Length)];
+            particlesGrass[foot].Play();
+        }
+        else
+        {
+            audioSources[nextSource].clip = gravelClips[Random.Range(0, gravelClips.Length)];
+            particlesGravel[foot].Play();
+
+        }
         audioSources[nextSource].Play();
         IncrementNextSource();
 
-        particles[foot].Play();
     }
 
     private void IncrementNextSource() => nextSource = (1 + nextSource) % audioSources.Length;
@@ -48,8 +88,8 @@ public class PlayerFeedback : MonoBehaviour
         audioSources[nextSource].Play();
         IncrementNextSource();
 
-        particles[0].Play();
-        particles[2].Play();
+        particlesGrass[0].Play();
+        particlesGrass[2].Play();
     }
 
     public void LandEvent1()
@@ -58,8 +98,8 @@ public class PlayerFeedback : MonoBehaviour
         audioSources[nextSource].Play();
         IncrementNextSource();
 
-        particles[1].Play();
-        particles[3].Play();
+        particlesGrass[1].Play();
+        particlesGrass[3].Play();
     }
 
     public void LandEvent2()
@@ -68,7 +108,7 @@ public class PlayerFeedback : MonoBehaviour
         audioSources[nextSource].Play();
         IncrementNextSource();
 
-        particles[0].Play();
-        particles[2].Play();
+        particlesGrass[0].Play();
+        particlesGrass[2].Play();
     }
 }

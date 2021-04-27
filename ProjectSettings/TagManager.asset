@@ -16,8 +16,8 @@ TagManager:
   - PlayerPhysics
   - HoldableObject
   - InvisibleBarrier
-  - 
-  - 
+  - Terrain
+  - TerrainObject
   - 
   - 
   - 

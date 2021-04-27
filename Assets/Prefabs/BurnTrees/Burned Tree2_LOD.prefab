@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8763936538253382795}
   - component: {fileID: 2701693656023637003}
   - component: {fileID: 4576315123023818969}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 741861647691378143}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.36553973, y: 0.05022107, z: 0.7656931}
+  m_LocalPosition: {x: 0.36553973, y: 0.41000003, z: 0.7656931}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8893399761356876720}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 8443327701903682548}
   - component: {fileID: 6982035409137325534}
   - component: {fileID: 2122391819914885953}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 905896490898431884}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.36553973, y: 0.05022107, z: 0.7656931}
+  m_LocalPosition: {x: 0.36553973, y: 0.41, z: 0.7656931}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8893399761356876720}
@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 6517599079059295429}
   - component: {fileID: 5315576894681684406}
   - component: {fileID: 2361145290517364033}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +189,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5451129910128443983}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.36553973, y: 0.05022107, z: 0.7656931}
+  m_LocalPosition: {x: 0.36553973, y: 0.41000003, z: 0.7656931}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8893399761356876720}
@@ -268,7 +268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8893399761356876720}
   - component: {fileID: 4409495038203452609}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Burned Tree2_LOD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8079566970498330890}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.556072, y: 0.41, z: 27.906296}
+  m_LocalPosition: {x: 26.556072, y: 0, z: 27.906296}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6009520544386268177}
@@ -306,11 +306,11 @@ LODGroup:
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.20340098
+  - screenRelativeHeight: 0.39865652
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 5315576894681684406}
-  - screenRelativeHeight: 0.0953139
+  - screenRelativeHeight: 0.20340098
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 2122391819914885953}

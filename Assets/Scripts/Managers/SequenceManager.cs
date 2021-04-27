@@ -118,6 +118,8 @@ public static class SequenceManager
         ActionTask thirdSequence = new ActionTask(() =>
         {
             Services.QuestItemRepository.StartSequence();
+
+            FModMusicManager.ReturnedItem();
             // Quest item Repository takes Item.
             // trigger other stuff.
         });
@@ -137,6 +139,7 @@ public static class SequenceManager
         // 6. Fade back in and have player turned around as environment changes are triggered. 2s
         ActionTask fifthSequence = new ActionTask(() =>
         {
+            Services.PostProcessingManager.AdvanceStage();
             PlayerAnimation.Sitting(true);
             // Fade in?
             Services.UIManager.CutsceneFadeOut();
@@ -184,6 +187,7 @@ public static class SequenceManager
         ActionTask thirdSequence = new ActionTask(() =>
         {
             Services.QuestItemRepository.StartSequence();
+            FModMusicManager.EndCutscene();
             // Quest item Repository takes Item.
             // trigger other stuff.
         });
@@ -204,6 +208,7 @@ public static class SequenceManager
         ActionTask fifthSequence = new ActionTask(() =>
         {
             PlayerAnimation.Sitting(true);
+            Services.PostProcessingManager.AdvanceStage();
             // Fade in?
             Services.UIManager.CutsceneFadeOut();
         });
@@ -229,8 +234,7 @@ public static class SequenceManager
             PlayerAnimation.Sitting(true);
         });
         Task waitForTime = new WaitTask(4.5f);
-
-        // 1. Move player to position. Move camera behind player. ~2s
+        
         Task endGame = new ActionTask(() =>
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene(2);

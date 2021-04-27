@@ -41,6 +41,8 @@ public class QuestItem : HoldableItem
         beingHeld = true;
         _animator.SetBool(Str.Held, true);
         _emitter.Stop();
+
+        FModMusicManager.FoundItem();
     }
 
     public void Disappear()

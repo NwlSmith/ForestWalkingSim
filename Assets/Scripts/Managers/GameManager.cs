@@ -10,16 +10,19 @@ using UnityEngine;
  * 
  * Allows different game states to have different Update functions.
  * 
+ * 
  * To do:
  * - In URPExampleAssets > Settings > UniversalRenderPipeline Shadow Max distance was initially 50
  * - We have freedom to go places, sure, but it doesn't feel intentional?
  * 
- * 
  * LOD is too noticeable, especially on rock
  * FIX CAMERA TWITCH!!!
  * 
- * Issues:
- * - make sure player looks at center of characters? maybe make player turn to face each character
+ * Maybe remove ambient audio?
+ * 
+ * bird 3 had trouble reaching target route 3?
+ * toad cam is bugged initially?
+ * crashes when you complete the game? - Player movement update?
  * 
  */
 
@@ -41,7 +44,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Services.InitializeServices(this);
-        FModMusicManager.Initialize();
 
         _fsm = new FiniteStateMachine<GameManager>(this);
     }

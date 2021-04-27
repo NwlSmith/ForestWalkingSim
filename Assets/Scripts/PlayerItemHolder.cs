@@ -22,6 +22,10 @@ public class PlayerItemHolder : MonoBehaviour
     public bool _holdingItem = false;
     public HoldableItem _currentlyHeldItem { get; private set; }
     [SerializeField] private Transform _itemAttachmentPoint;
+    [SerializeField] private AudioClip[] _audioClips;
+    private AudioSource _as;
+
+    private void Awake() => _as = GetComponent<AudioSource>();
 
     private void OnTriggerEnter(Collider other)
     {
@@ -109,6 +113,8 @@ public class PlayerItemHolder : MonoBehaviour
         Debug.Log("Dropping item");
         PlayerAnimation.Pickup();
         yield return new WaitForSeconds(.33f);
+        _as.clip = _audioClips[Random.Range(0, _audioClips.Length)];
+        _as.pitch = Random.Range(.95f, 1.05f);
         DetachFromTransform();
         _inProgress = false;
     }

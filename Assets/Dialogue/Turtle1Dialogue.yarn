@@ -4,10 +4,12 @@ colorID: 0
 position: 292,551
 ---
 <<if $quest_turtle_stage is 0>>
-    <<PlayerSpeak>>
-    Hello there!
     <<NPCSpeak>>
-    Why hello to you too, deary.
+    Hmm well now who is this coming to visit me?
+    <<PlayerSpeak>>
+    Hello there ma'am.
+    <<NPCSpeak>>
+    Ah it's you! Why hello to you too, deary.
     Fine weather out today, no?
     <<PlayerSpeak>>
     Aside from the devastating fire that just swept through, I suppose so!

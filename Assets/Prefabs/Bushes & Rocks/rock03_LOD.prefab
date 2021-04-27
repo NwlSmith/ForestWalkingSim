@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7674313167658249942}
   - component: {fileID: 7285200993636764054}
   - component: {fileID: 3742767129418815302}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66,7 +66,7 @@ MeshRenderer:
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 0.39647475
+  m_ScaleInLightmap: 0.2
   m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 3641208087724543141}
   - component: {fileID: 698689040742745998}
   - component: {fileID: 4974570808150678680}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,7 +131,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -147,7 +147,7 @@ MeshRenderer:
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 0.40540385
+  m_ScaleInLightmap: 0.04
   m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 1225834458828193196}
   - component: {fileID: 5596227844365742223}
   - component: {fileID: 2205592531645712203}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -229,7 +229,7 @@ MeshRenderer:
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
+  m_ScaleInLightmap: 0.5
   m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
@@ -268,7 +268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5301399420481931844}
   - component: {fileID: 1137234798210137397}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rock03_LOD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4817033025377915134}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.507084, y: 0.2380085, z: 39.049217}
+  m_LocalPosition: {x: 30.507084, y: 0, z: 39.049217}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 797041851084034054}
@@ -303,15 +303,15 @@ LODGroup:
   m_LocalReferencePoint: {x: 0.16408873, y: 0.9047699, z: 0.04960072}
   m_Size: 3.8860438
   m_FadeMode: 1
-  m_AnimateCrossFading: 1
+  m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
   - screenRelativeHeight: 0.19823737
-    fadeTransitionWidth: 0
+    fadeTransitionWidth: 0.01
     renderers:
     - renderer: {fileID: 5596227844365742223}
-  - screenRelativeHeight: 0.07093083
-    fadeTransitionWidth: 0
+  - screenRelativeHeight: 0.053623393
+    fadeTransitionWidth: 0.05
     renderers:
     - renderer: {fileID: 3742767129418815302}
   - screenRelativeHeight: 0.01855711

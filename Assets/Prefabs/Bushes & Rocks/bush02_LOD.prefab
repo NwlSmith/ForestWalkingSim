@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8661159360835180778}
   - component: {fileID: 5388945457441689078}
   - component: {fileID: 8631706585357143075}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bush_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1087505661127860115}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.9122769, y: 0.4403443, z: 0.23474881}
+  m_LocalPosition: {x: -0.9122769, y: 1.13, z: 0.23474881}
   m_LocalScale: {x: 0.08655478, y: 0.08655478, z: 0.08655478}
   m_Children: []
   m_Father: {fileID: 4389078727304763382}
@@ -68,7 +68,7 @@ MeshRenderer:
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
+  m_ScaleInLightmap: 0.5
   m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 996603548814887467}
   - component: {fileID: 2987691330318695960}
   - component: {fileID: 540883241411347260}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bush_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3055009339971778221}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.9122769, y: 0.4403443, z: 0.23474881}
+  m_LocalPosition: {x: -0.9122769, y: 1.13, z: 0.23474881}
   m_LocalScale: {x: 0.08655478, y: 0.08655478, z: 0.08655478}
   m_Children: []
   m_Father: {fileID: 4389078727304763382}
@@ -163,7 +163,7 @@ MeshRenderer:
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 0.19653086
+  m_ScaleInLightmap: 0.2
   m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
@@ -188,7 +188,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4389078727304763382}
   - component: {fileID: 8841476947272261767}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: bush02_LOD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,7 +203,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4009034305279429964}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32.738495, y: 0.88975394, z: 34.035294}
+  m_LocalPosition: {x: 32.738495, y: 0, z: 34.035294}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5076121181621684603}
@@ -222,16 +222,16 @@ LODGroup:
   serializedVersion: 2
   m_LocalReferencePoint: {x: 0.00022289157, y: -0.0012752414, z: 0.070895165}
   m_Size: 2.0325189
-  m_FadeMode: 0
+  m_FadeMode: 1
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.19653086
+  - screenRelativeHeight: 0.49870273
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 5388945457441689078}
   - screenRelativeHeight: 0.07775454
-    fadeTransitionWidth: 0
+    fadeTransitionWidth: 0.05
     renderers:
     - renderer: {fileID: 540883241411347260}
   - screenRelativeHeight: 0.01
@@ -250,7 +250,7 @@ GameObject:
   - component: {fileID: 755321357028481138}
   - component: {fileID: 9130567540491534067}
   - component: {fileID: 7285342750739708214}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bush_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -265,7 +265,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7487372420636265548}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.9122769, y: 0.4403443, z: 0.23474881}
+  m_LocalPosition: {x: -0.9122769, y: 1.13, z: 0.23474881}
   m_LocalScale: {x: 0.08655478, y: 0.08655478, z: 0.08655478}
   m_Children: []
   m_Father: {fileID: 4389078727304763382}
@@ -289,7 +289,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -306,7 +306,7 @@ MeshRenderer:
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 0.07775454
+  m_ScaleInLightmap: 0.04
   m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
