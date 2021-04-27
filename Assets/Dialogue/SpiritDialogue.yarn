@@ -36,7 +36,7 @@ position: 153,208
     Thank you. Stop by again if you need any help.
     <<set $quest_main_stage to 1>>
     <<AdvanceQuest Main>>
-<<elseif $quest_main_stage gt 0 and $quest_main_stage lt 4>>
+<<elseif $quest_main_stage is 1 or $quest_main_stage is 3 or $quest_main_stage is 5>>
     <<NPCSpeak>>
     Hello again.
     <<PlayerSpeak>>
@@ -62,13 +62,30 @@ position: 153,208
         The Rain is washing away our troubles.
         Thank you for this.
     <<endif>>
-    <<if $quest_main_stage is 3>>
+    <<if $quest_main_stage is 5>>
         Find this last item and we will be forever in your debt.
     <<else>>
         Find these items.
         Bring them back here.
     <<endif>>
-<<elseif $quest_main_stage is 4>>
+<<elseif $quest_main_stage is 2 or $quest_main_stage is 4 or $quest_main_stage is 6>>
+    <<NPCSpeak>>
+    <<if $seed_last_retrieved is true>>
+        You found the seed. That's pretty cool.
+        <<set $seed_last_retrieved to false>>
+    <<elseif $soil_last_retrieved is true>>
+        You found the soil. That's hot.
+        <<set $soil_last_retrieved to false>>
+    <<elseif $rain_last_retrieved is true>>
+        You found the rain. Not that I care...
+        <<set $rain_last_retrieved to false>>
+    <<else>>
+        Oh god I don't feel so good... We shouldn't be here...
+    <<endif>>
+    Good job dude.
+    <<AdvanceQuest Main>>
+<<endif>>
+<<if $quest_main_stage is 6>>
     <<NPCSpeak>>
     This is the final item.
     With this, the forest can be made whole again.

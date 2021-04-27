@@ -80,8 +80,9 @@ public static class InputManager
 
     private static Inputs Keyboard      = new Inputs(Str.Hor, Str.Ver, Str.JumpInput, Str.Sprint, Str.Interact, Str.Pause, Str.MouseX, Str.MouseY);
     private static Inputs Controller    = new Inputs(Str.LJoystickX, Str.LJoystickY, Str.JumpInputC, Str.SprintC, Str.InteractC, Str.PauseC, Str.RJoystickX, Str.RJoystickY);
+    
 
-    static InputManager()
+    public static void Init()
     {
         XboxOneController = ControllerConnectedRecently();
     }

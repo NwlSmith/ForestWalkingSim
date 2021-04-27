@@ -24,6 +24,11 @@ public static class SequenceManager
         RegisterEvents();
     }
 
+    public static void OnDestroy()
+    {
+        UnregisterEvents();
+    }
+
     public static void Update() => _taskManager.Update();
 
     private static void RegisterEvents()
@@ -109,6 +114,14 @@ public static class SequenceManager
             return Services.PlayerMovement.inPlaceForSequence;
         }, () =>
         {
+            if (((QuestItem)Services.PlayerItemHolder._currentlyHeldItem).itemEnum == QuestItem.QuestItemEnum.Seed)
+                QuestManager.SetBoolMemoryVar("SeedLastRetrieved");
+            else if (((QuestItem)Services.PlayerItemHolder._currentlyHeldItem).itemEnum == QuestItem.QuestItemEnum.Soil)
+                QuestManager.SetBoolMemoryVar("SoilLastRetrieved");
+            else if (((QuestItem)Services.PlayerItemHolder._currentlyHeldItem).itemEnum == QuestItem.QuestItemEnum.Rain)
+                QuestManager.SetBoolMemoryVar("RainLastRetrieved");
+            else
+                Logger.Warning($"Error: {((QuestItem)Services.PlayerItemHolder._currentlyHeldItem).name} is not a quest item.");
             Services.PlayerItemHolder.DropItem();
         });
 
@@ -150,8 +163,8 @@ public static class SequenceManager
         ActionTask sixthSequence = new ActionTask(() =>
         {
             PlayerAnimation.Sitting(false);
-            Services.GameManager.ReturnToPlay();
-            QuestManager.LateUpdateMainQuestText();
+            NPCInteractionManager.FindClosestNPC();
+            Services.GameManager.EnterDialogue();
         });
 
         enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(sixthSequence);

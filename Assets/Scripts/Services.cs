@@ -166,7 +166,10 @@ public static class Services
         SpacialAudioManager = Object.FindObjectOfType<SpacialAudioManager>();
         QuestItemRepository = Object.FindObjectOfType<QuestItemRepository>();
         PostProcessingManager = Object.FindObjectOfType<PostProcessingManager>();
-        FModMusicManager.Initialize();
+        FModMusicManager.Init();
+        PlayerAnimation.Init();
+        InputManager.Init();
+        QuestManager.Init();
     }
     #endregion
 }

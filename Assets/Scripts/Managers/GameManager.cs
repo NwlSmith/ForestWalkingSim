@@ -20,9 +20,7 @@ using UnityEngine;
  * 
  * Maybe remove ambient audio?
  * 
- * bird 3 had trouble reaching target route 3?
- * toad cam is bugged initially?
- * crashes when you complete the game? - Player movement update?
+ * spirit tail freak out
  * 
  */
 

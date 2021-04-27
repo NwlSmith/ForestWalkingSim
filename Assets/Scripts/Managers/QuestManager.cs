@@ -10,13 +10,15 @@ public static class QuestManager
     [SerializeField] private static Dictionary<string, FSMQuest> _questDictionary = new Dictionary<string, FSMQuest>();
     [SerializeField] private static Dictionary<string, string> _stringToYarnVarDictionary = new Dictionary<string, string>();
 
-    static QuestManager()
+    public static void Init()
     {
         AddQuestsToDictionary();
     }
 
     private static void AddQuestsToDictionary()
     {
+        _questDictionary.Clear();
+        _stringToYarnVarDictionary.Clear();
         FSMQuest main = Object.FindObjectOfType<MainQuest>();
         _questDictionary.Add(Str.Main, main);
         _stringToYarnVarDictionary.Add(Str.Main, "$quest_main_stage");
@@ -37,6 +39,9 @@ public static class QuestManager
         _stringToYarnVarDictionary.Add(Str.Soil, Str.SoilString);
         _stringToYarnVarDictionary.Add(Str.Rain, Str.RainString);
         _stringToYarnVarDictionary.Add("PlayerBeatTurtle", "$player_beat_turtle");
+        _stringToYarnVarDictionary.Add("SeedLastRetrieved", "$seed_last_retrieved");
+        _stringToYarnVarDictionary.Add("SoilLastRetrieved", "$soil_last_retrieved");
+        _stringToYarnVarDictionary.Add("RainLastRetrieved", "$rain_last_retrieved");
     }
 
     public static void AdvanceQuest(string[] parameters)

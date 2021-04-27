@@ -9,13 +9,17 @@ using UnityEngine;
  * 
  * Stage 1: Each quest is spawned. Advance to stage 2 by finding 1 of the items and bringing it to the Heart.
  * 
- * Stage 2: Advance to stage 3 by finding 2 of the items and bringing them to the Heart.
+ * Stage 2: Talk to Spirit.
  * 
- * Stage 3: Advance to stage 4 by finding all of the items and bringing them to the Heart.
+ * Stage 3: Advance to stage 4 by finding 2 of the items and bringing them to the Heart.
  * 
- * Stage 4: Trigger cutscene. Put player in front of Spirit. Advance to stage 4 by talking to spirit.
+ * Stage 4: Talk to Spirit.
  * 
- * Stage 5: Finish the game.
+ * Stage 5: Advance to stage 6 by finding all of the items and bringing them to the Heart.
+ * 
+ * Stage 6: Trigger cutscene. Put player in front of Spirit. Advance to stage 7 by talking to spirit.
+ * 
+ * Stage 7: Finish the game.
  */
 public class MainQuest : FSMQuest
 {
@@ -33,6 +37,8 @@ public class MainQuest : FSMQuest
             _fsm.TransitionTo<Stage3State>,
             _fsm.TransitionTo<Stage4State>,
             _fsm.TransitionTo<Stage5State>,
+            _fsm.TransitionTo<Stage6State>,
+            _fsm.TransitionTo<Stage7State>,
             _fsm.TransitionTo<Stage0State>
         };
 
@@ -126,7 +132,7 @@ public class MainQuest : FSMQuest
         }
     }
 
-    // Stage 2: Advance to stage 3 by finding 2 of the items and bringing them to the Heart.
+    // Stage 2: Talk to Spirit.
     private class Stage2State : QuestState
     {
 
@@ -141,10 +147,16 @@ public class MainQuest : FSMQuest
         }
     }
 
-    // Stage 3: Advance to stage 4 by finding all of the items and bringing them to the Heart.
+    // Stage 3: Advance to stage 4 by finding 2 of the items and bringing them to the Heart.
     private class Stage3State : QuestState
     {
         public Stage3State() : base(3) { }
+    }
+
+    // Stage 4: Talk to Spirit.
+    private class Stage4State : QuestState
+    {
+        public Stage4State() : base(4) { }
 
         public override void OnEnter()
         {
@@ -155,11 +167,17 @@ public class MainQuest : FSMQuest
         }
     }
 
-    // Stage 4: Trigger cutscene. Put player in front of Spirit. Advance to stage 4 by talking to spirit.
-    private class Stage4State : QuestState
+    // Stage 5: Advance to stage 6 by finding all of the items and bringing them to the Heart.
+    private class Stage5State : QuestState
+    {
+        public Stage5State() : base(5) { }
+    }
+
+    // Stage 6: Trigger cutscene. Put player in front of Spirit. Advance to stage 7 by talking to spirit.
+    private class Stage6State : QuestState
     {
 
-        public Stage4State() : base(4) { }
+        public Stage6State() : base(6) { }
 
         public override void OnEnter()
         {
@@ -169,11 +187,11 @@ public class MainQuest : FSMQuest
         }
     }
 
-    // Stage 5: Finish the game.
-    private class Stage5State : QuestState
+    // Stage 7: Talk to Spirit. Finish the game.
+    private class Stage7State : QuestState
     {
 
-        public Stage5State() : base(5) { }
+        public Stage7State() : base(7) { }
 
         public override void OnEnter()
         {
