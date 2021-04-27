@@ -102,7 +102,9 @@ public static class SequenceManager
     private static Task DefineMidSequence()
     {
         // 1. Move player to position. Move camera behind player. ~2s
-        Task enterSequence = new DelegateTask(() => { }, () =>
+        Task enterSequence = new DelegateTask(() => 
+        {
+        }, () =>
         {
             Services.UIManager.HideItemPickupPrompt();
             return Services.PlayerMovement.inPlaceForSequence;
@@ -137,7 +139,6 @@ public static class SequenceManager
         });
 
         // Add in phase here to show plants growing?????????????????????????????????????
-        ActionTask triggerPlantAnims = new ActionTask(() => { cutsceneObjectsManager.Transition(); });
 
         Task waitForTime3 = new WaitTask(1.5f);
 
@@ -160,9 +161,14 @@ public static class SequenceManager
             PlayerAnimation.Sitting(true);
             // Fade in?
             Services.UIManager.CutsceneFadeOut();
+            Services.UIManager.HideDialogueEnterPrompt();
         });
 
-        Task waitForTime5 = new WaitTask(3f);
+        Task waitForTime5 = new WaitTask(2f);
+
+        ActionTask triggerPlantAnims = new ActionTask(() => { cutsceneObjectsManager.Transition(); });
+
+        Task waitForTime6 = new WaitTask(7.5f);
         // 7. 1 sec later have player get up and return to normal controls. 1s
         ActionTask sixthSequence = new ActionTask(() =>
         {
@@ -171,7 +177,7 @@ public static class SequenceManager
             Services.GameManager.EnterDialogue();
         });
 
-        enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(triggerPlantAnims).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(sixthSequence);
+        enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(triggerPlantAnims).Then(waitForTime6).Then(sixthSequence);
         return enterSequence;
     }
 

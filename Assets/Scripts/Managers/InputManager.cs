@@ -183,7 +183,7 @@ public static class InputManager
         if (Input.GetKeyDown(KeyCode.T))
             QuestManager.AdvanceQuest(Str.Turtle);
         if (Input.GetKeyDown(KeyCode.H))
-            Services.PlayerMovement.ForceTransform(new Vector3(460, 22, 506), Quaternion.identity);
+            Services.PlayerMovement.ForceTransform(new Vector3(487, 35, 480), Quaternion.identity);
 #endif
         if (input.Pause)
         {

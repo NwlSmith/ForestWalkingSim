@@ -16,10 +16,7 @@ public class CutsceneObjectsManager : MonoBehaviour
 
     public void Transition()
     {
-        foreach (Animator anim in animators)
-        {
-            anim.SetTrigger(Str.cutsceneTrans);
-        }
+        StartCoroutine(TransitionEnum());
     }
 
     private IEnumerator TransitionEnum()
@@ -27,7 +24,7 @@ public class CutsceneObjectsManager : MonoBehaviour
         foreach (Animator anim in animators)
         {
             anim.SetTrigger(Str.cutsceneTrans);
-            yield return new WaitForSeconds(Random.Range(.05f, .3f));
+            yield return new WaitForSeconds(.065f);
         }
     }
 }

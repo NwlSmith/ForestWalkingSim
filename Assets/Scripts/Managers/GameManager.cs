@@ -22,6 +22,7 @@ using UnityEngine;
  * 
  * spirit tail freak out
  * make walking thru leaves slow character and cause leaf rustling sound?
+ * camera freaks out after cutscenes
  * 
  */
 

@@ -285,12 +285,13 @@ public class CameraManager : MonoBehaviour
         private float elapsedTime = 0f;
         private float introDuration = 2f;
 
-        public override void OnEnter() => Context._taskManager.Do(DefineSequence());
+        public override void OnEnter() => DefineSequence();
 
-        private Task DefineSequence()
+        private void DefineSequence()
         {
             Context.cutsceneCamera.LookAt = Services.QuestItemRepository.currentQuestItem.transform;
 
+            // will be independent.
             DelegateTask moveCameraBehindPlayer1 = new DelegateTask(
                 () => {
                     elapsedTime = 0f;
@@ -302,14 +303,19 @@ public class CameraManager : MonoBehaviour
                 },
                 () => {
                     Context.targetVector.localEulerAngles = Vector3.zero;
-                    Context.anim.Play(Str.Cutscene);
+                    //Context.anim.Play(Str.Cutscene);
                 }
                 );
 
-            DelegateTask cameraDolly = new DelegateTask(
+            DelegateTask waitForPlayerInPlace = new DelegateTask(() => { },
+                () => {
+                    return Services.PlayerMovement.inPlaceForSequence;
+                });
+
+            DelegateTask cameraDolly1 = new DelegateTask(
                 () =>
                 {
-                    Context.anim.Play(Str.CutsceneDolly);
+                    Context.anim.Play(Str.CutsceneDolly1);
                     Context.cutsceneDollyCamera.LookAt = Services.QuestItemRepository.currentQuestItem.transform;
                     elapsedTime = 0f;
                 },
@@ -322,12 +328,30 @@ public class CameraManager : MonoBehaviour
                 }
                 );
 
+            WaitTask wait4secs = new WaitTask(1f);
+
+            DelegateTask cameraDolly2 = new DelegateTask(
+                () =>
+                {
+                    Context.anim.Play(Str.CutsceneDolly2);
+                    elapsedTime = 0f;
+                },
+                () =>
+                {
+                    elapsedTime += Time.deltaTime;
+                    return elapsedTime > 10f;
+                }, () =>
+                {
+                }
+                );
+
             //WaitTask waitFor6Seconds = new WaitTask(5.5f);
 
             DelegateTask moveCameraBehindPlayer2 = new DelegateTask(
                 () => {
                     elapsedTime = 0f;
                     Context.anim.Play(Str.PlayerFollow);
+                    Context.targetVector.localEulerAngles = Vector3.zero;
                 },
                 () => {
                     elapsedTime += Time.deltaTime;
@@ -339,10 +363,11 @@ public class CameraManager : MonoBehaviour
                 }
                 );
 
-            moveCameraBehindPlayer1.Then(cameraDolly).Then(moveCameraBehindPlayer2);
+            waitForPlayerInPlace.Then(cameraDolly1).Then(wait4secs).Then(cameraDolly2).Then(moveCameraBehindPlayer2);
             //moveCameraBehindPlayer1.Then(waitFor6Seconds).Then(moveCameraBehindPlayer2);
 
-            return moveCameraBehindPlayer1;
+            Context._taskManager.Do(moveCameraBehindPlayer1);
+            Context._taskManager.Do(waitForPlayerInPlace);
         }
 
         public override void OnExit()

@@ -62,7 +62,8 @@ public static class Str
     public static readonly int ConvoNPCPerspective = UnityEngine.Animator.StringToHash("ConvoNPCPerspective");
     public static readonly int ConvoPlayerPerspective = UnityEngine.Animator.StringToHash("ConvoPlayerPerspective");
     public static readonly int Cutscene = UnityEngine.Animator.StringToHash("Cutscene");
-    public static readonly int CutsceneDolly = UnityEngine.Animator.StringToHash("CutsceneDolly");
+    public static readonly int CutsceneDolly1 = UnityEngine.Animator.StringToHash("CutsceneDolly1");
+    public static readonly int CutsceneDolly2 = UnityEngine.Animator.StringToHash("CutsceneDolly2");
     #endregion
 
     #region UI.
