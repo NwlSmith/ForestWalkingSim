@@ -25,6 +25,7 @@ using UnityEngine;
  * 
  * fix positions of animals
  * end game has E prompts
+ * turtle player camera messed up
  * 
  */
 
