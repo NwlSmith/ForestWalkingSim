@@ -164,11 +164,11 @@ public static class SequenceManager
             Services.UIManager.HideDialogueEnterPrompt();
         });
 
-        Task waitForTime5 = new WaitTask(2f);
+        Task waitForTime5 = new WaitTask(1f);
 
         ActionTask triggerPlantAnims = new ActionTask(() => { cutsceneObjectsManager.Transition(); });
 
-        Task waitForTime6 = new WaitTask(7.5f);
+        Task waitForTime6 = new WaitTask(10.5f);
         // 7. 1 sec later have player get up and return to normal controls. 1s
         ActionTask sixthSequence = new ActionTask(() =>
         {
@@ -210,14 +210,12 @@ public static class SequenceManager
         ActionTask thirdSequence = new ActionTask(() =>
         {
             Services.QuestItemRepository.StartSequence();
-            FModMusicManager.EndCutscene();
+            FModMusicManager.ReturnedItem();
             // Quest item Repository takes Item.
             // trigger other stuff.
         });
 
-
-        // Add in phase here to show plants growing?????????????????????????????????????
-        ActionTask triggerPlantAnims = new ActionTask(() => { cutsceneObjectsManager.Transition(); });
+        
 
         Task waitForTime3 = new WaitTask(1.5f);
 
@@ -236,11 +234,21 @@ public static class SequenceManager
         {
             PlayerAnimation.Sitting(true);
             Services.PostProcessingManager.AdvanceStage();
+            Services.UIManager.HideItemPickupPrompt();
             // Fade in?
             Services.UIManager.CutsceneFadeOut();
         });
 
-        Task waitForTime5 = new WaitTask(3f);
+        Task waitForTime5 = new WaitTask(2f);
+
+        ActionTask triggerPlantAnims = new ActionTask(() => {
+            Services.UIManager.HideItemPickupPrompt();
+            cutsceneObjectsManager.Transition();
+            FModMusicManager.EndCutscene();
+        });
+        // trigger camera!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        Task waitForTime6 = new WaitTask(13.5f);
         // 7. 1 sec later have player get up and return to normal controls. 1s
         ActionTask sixthSequence = new ActionTask(() =>
         {
@@ -249,7 +257,7 @@ public static class SequenceManager
             Services.GameManager.EnterDialogue();
         });
 
-        enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(triggerPlantAnims).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(sixthSequence);
+        enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(triggerPlantAnims).Then(waitForTime6).Then(sixthSequence);
         return enterSequence;
     }
 

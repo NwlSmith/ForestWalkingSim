@@ -22,7 +22,9 @@ using UnityEngine;
  * 
  * spirit tail freak out
  * make walking thru leaves slow character and cause leaf rustling sound?
- * camera freaks out after cutscenes
+ * 
+ * fix positions of animals
+ * end game has E prompts
  * 
  */
 
