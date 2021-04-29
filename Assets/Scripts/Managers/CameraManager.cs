@@ -412,26 +412,20 @@ public class CameraManager : MonoBehaviour
                 });
 
             DelegateTask cameraDolly1 = new DelegateTask(
-                () =>
-                {
+                () => {
                     Context.anim.Play(Str.CutsceneDolly1);
                     Context.cutsceneDollyCamera1.LookAt = Services.QuestItemRepository.currentQuestItem.transform;
                     elapsedTime = 0f;
                 },
-                () =>
-                {
+                () => {
                     elapsedTime += Time.deltaTime;
                     return elapsedTime > 5.5f;
-                }, () =>
-                {
-                }
-                );
+                });
 
             WaitTask wait4secs = new WaitTask(1f);
 
             DelegateTask cameraDolly3 = new DelegateTask(
-                () =>
-                {
+                () => {
                     Context.anim.Play(Str.CutsceneDolly2);
                     elapsedTime = 0f;
                 },
@@ -439,17 +433,13 @@ public class CameraManager : MonoBehaviour
                 {
                     elapsedTime += Time.deltaTime;
                     return elapsedTime > 15f;
-                }, () =>
-                {
-                }
-                );
+                });
 
             //WaitTask waitFor6Seconds = new WaitTask(5.5f);
 
             DelegateTask moveCameraBehindPlayer2 = new DelegateTask(
                 () => {
                     elapsedTime = 0f;
-                    //Context.anim.Play(Str.PlayerFollow);
                     Context.targetVector.localEulerAngles = Vector3.zero;
                 },
                 () => {

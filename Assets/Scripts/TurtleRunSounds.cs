@@ -7,22 +7,17 @@ public class TurtleRunSounds : MonoBehaviour
     private int nextSource = 0;
     [SerializeField] private AudioClip[] _acs = new AudioClip[3];
     [SerializeField] private GameObject particles;
-    private AudioSource[] _as = new AudioSource[4];
+    private AudioSource _as;
     private bool _running = false;
     private void Awake()
     {
-        for (int i = 0; i < 4; i++)
-        {
-            _as[i] = gameObject.AddComponent<AudioSource>();
-            _as[i].playOnAwake = false;
-            _as[i].minDistance = 5f;
-            _as[i].maxDistance = 10f;
-            _as[i].spatialBlend = 1f;
-        }
+        _as = gameObject.AddComponent<AudioSource>();
+        _as.playOnAwake = false;
+        _as.minDistance = 5f;
+        _as.maxDistance = 10f;
+        _as.spatialBlend = 1f;
         particles.SetActive(false);
     }
-
-    private void IncrementNextSource() => nextSource = (1 + nextSource) % _as.Length;
 
     public void StartRunning()
     {
@@ -42,9 +37,7 @@ public class TurtleRunSounds : MonoBehaviour
 
     public void PlaySound()
     {
-        _as[nextSource].clip = _acs[Random.Range(0, 3)];
-        _as[nextSource].pitch = Random.Range(.9f, 1.1f);
-        _as[nextSource].Play();
-        IncrementNextSource();
+        _as.pitch = Random.Range(.9f, 1.1f);
+        _as.PlayOneShot(_acs[Random.Range(0, 3)]);
     }
 }

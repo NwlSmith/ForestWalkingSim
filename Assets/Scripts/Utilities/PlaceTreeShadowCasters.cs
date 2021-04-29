@@ -4,7 +4,7 @@ using UnityEditor;
 
 public class PlaceTreeShadowCasters
 {
-
+#if UNITY_EDITOR
     [@MenuItem("Terrain/Place Tree Shadow Casters")]
     static void Run()
     {
@@ -35,4 +35,5 @@ public class PlaceTreeShadowCasters
             t.parent = parent.transform;
         }
     }
+#endif
 }

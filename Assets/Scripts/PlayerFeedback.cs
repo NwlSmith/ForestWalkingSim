@@ -9,10 +9,12 @@ using UnityEngine;
 public class PlayerFeedback : MonoBehaviour
 {
     public int nextSource = 0;
-    private AudioSource[] audioSources = new AudioSource[4];
-    private AudioSource audioSourceLeafRustle;
-    private float leafRustleMaxVol = .5f;
+    private AudioSource audioSourceSteps;
+    private AudioSource audioSourceLeafRustleOngoing;
+    private AudioSource audioSourceLeafRustleEntry;
+    private float leafRustleMaxVol = 1f;
     [SerializeField] private AudioClip leafRustleClip;
+    [SerializeField] private AudioClip leafRustleEntryClip;
     [SerializeField] private AudioClip jumpClip;
     [SerializeField] private AudioClip landClip;
     [SerializeField] private AudioClip[] grassClips;
@@ -23,28 +25,37 @@ public class PlayerFeedback : MonoBehaviour
     [SerializeField] private ParticleSystem[] particlesGravel = new ParticleSystem[4];
     [SerializeField] private LayerMask layerMask;
     private bool onTerrain = false;
+    private bool currentlyInBush = false;
+    private bool prevInBush = false;
 
     private void Awake()
     {
-        for (int i = 0; i < audioSources.Length; i++)
-        {
-            audioSources[i] = gameObject.AddComponent<AudioSource>();
-            audioSources[i].playOnAwake = false;
-            audioSources[i].clip = grassClips[0];
-            audioSources[i].volume = audioVolume;
-            audioSources[i].minDistance = 3f;
-            audioSources[i].maxDistance = 10f;
-            audioSources[i].spatialBlend = 1f;
-        }
-        audioSourceLeafRustle = gameObject.AddComponent<AudioSource>();
-        audioSourceLeafRustle.playOnAwake = true;
-        audioSourceLeafRustle.loop = true;
-        audioSourceLeafRustle.clip = leafRustleClip;
-        audioSourceLeafRustle.volume = 0f;
-        audioSourceLeafRustle.spatialBlend = 1f;
-        audioSourceLeafRustle.minDistance = 3f;
-        audioSourceLeafRustle.maxDistance = 10f;
-        audioSourceLeafRustle.Play();
+        audioSourceSteps = gameObject.AddComponent<AudioSource>();
+        audioSourceSteps.playOnAwake = false;
+        audioSourceSteps.clip = grassClips[0];
+        audioSourceSteps.volume = audioVolume;
+        audioSourceSteps.minDistance = 3f;
+        audioSourceSteps.maxDistance = 10f;
+        audioSourceSteps.spatialBlend = 1f;
+
+        audioSourceLeafRustleOngoing = gameObject.AddComponent<AudioSource>();
+        audioSourceLeafRustleOngoing.playOnAwake = true;
+        audioSourceLeafRustleOngoing.loop = true;
+        audioSourceLeafRustleOngoing.clip = leafRustleClip;
+        audioSourceLeafRustleOngoing.volume = 0f;
+        audioSourceLeafRustleOngoing.spatialBlend = 1f;
+        audioSourceLeafRustleOngoing.minDistance = 3f;
+        audioSourceLeafRustleOngoing.maxDistance = 10f;
+        audioSourceLeafRustleOngoing.Play();
+
+        audioSourceLeafRustleEntry = gameObject.AddComponent<AudioSource>();
+        audioSourceLeafRustleEntry.playOnAwake = false;
+        audioSourceLeafRustleEntry.loop = false;
+        audioSourceLeafRustleEntry.clip = leafRustleEntryClip;
+        audioSourceLeafRustleEntry.volume = 1;
+        audioSourceLeafRustleEntry.spatialBlend = 1f;
+        audioSourceLeafRustleEntry.minDistance = 3f;
+        audioSourceLeafRustleEntry.maxDistance = 10f;
     }
 
     private void FixedUpdate()
@@ -52,41 +63,43 @@ public class PlayerFeedback : MonoBehaviour
         if (Physics.Raycast(transform.position, Vector3.down, 2f, layerMask)) // detects if the player is over terrain or not.
             onTerrain = true;
 
-        if (Services.PlayerMovement.movingOnGround && audioSourceLeafRustle.volume < leafRustleMaxVol)
+        currentlyInBush = Services.PlayerMovement.inBush;
+        if (!prevInBush && currentlyInBush)
         {
-            audioSourceLeafRustle.volume += .01f;
+            audioSourceLeafRustleEntry.pitch = Random.Range(.9f, 1.1f);
+            audioSourceLeafRustleEntry.Play();
         }
-        else if (!Services.PlayerMovement.movingOnGround && audioSourceLeafRustle.volume > 0)
+
+        prevInBush = currentlyInBush;
+
+        if (currentlyInBush && audioSourceLeafRustleOngoing.volume < leafRustleMaxVol)
         {
-            audioSourceLeafRustle.volume -= .01f;
+            audioSourceLeafRustleOngoing.volume += .03f;
+        }
+        else if (!currentlyInBush && audioSourceLeafRustleOngoing.volume > 0)
+        {
+            audioSourceLeafRustleOngoing.volume -= .01f;
         }
     }
 
     public void StepEvent(int foot)
     {
+        audioSourceSteps.pitch = Random.Range(.9f, 1.1f);
         if (onTerrain)
         {
-            audioSources[nextSource].clip = grassClips[Random.Range(0, grassClips.Length)];
+            audioSourceSteps.PlayOneShot(grassClips[Random.Range(0, grassClips.Length)]);
             particlesGrass[foot].Play();
         }
         else
         {
-            audioSources[nextSource].clip = gravelClips[Random.Range(0, gravelClips.Length)];
+            audioSourceSteps.PlayOneShot(gravelClips[Random.Range(0, gravelClips.Length)]);
             particlesGravel[foot].Play();
-
         }
-        audioSources[nextSource].Play();
-        IncrementNextSource();
-
     }
-
-    private void IncrementNextSource() => nextSource = (1 + nextSource) % audioSources.Length;
 
     public void JumpEvent()
     {
-        audioSources[nextSource].clip = jumpClip;
-        audioSources[nextSource].Play();
-        IncrementNextSource();
+        audioSourceSteps.PlayOneShot(jumpClip);
 
         particlesGrass[0].Play();
         particlesGrass[2].Play();
@@ -94,9 +107,7 @@ public class PlayerFeedback : MonoBehaviour
 
     public void LandEvent1()
     {
-        audioSources[nextSource].clip = landClip;
-        audioSources[nextSource].Play();
-        IncrementNextSource();
+        audioSourceSteps.PlayOneShot(landClip);
 
         particlesGrass[1].Play();
         particlesGrass[3].Play();
@@ -104,9 +115,7 @@ public class PlayerFeedback : MonoBehaviour
 
     public void LandEvent2()
     {
-        audioSources[nextSource].clip = landClip;
-        audioSources[nextSource].Play();
-        IncrementNextSource();
+        audioSourceSteps.PlayOneShot(landClip);
 
         particlesGrass[0].Play();
         particlesGrass[2].Play();

@@ -15,17 +15,20 @@ public class PlayerMovement : MonoBehaviour
 
     #region Variables
 
+    /// Public state variables.
     public bool inPlaceForSequence = false;
     public bool moving = false;
     public bool movingOnGround = false;
+    public bool inBush = false;
 
 
-    // Stored inputs
+    /// Stored inputs
     private float _horizontalInput = 0f;
     private float _verticalInput = 0f;
     private bool _jumpInput = false;
     private bool _sprintInput = false;
 
+    // Movement multipliers
     private readonly float _movementSpeed = 3f;
     private readonly float _shiftMultiplier = 2.5f;
 
@@ -50,20 +53,18 @@ public class PlayerMovement : MonoBehaviour
     // The calculated jump speed (so we don't calculate square root every update).
     private float _jumpSpeed = 0f;
 
+    /// Timers
     private readonly float _jumpCooldown = .5f;
     private float _curJumpCooldown = 0f;
 
-
+    /// Stored collision variables
     private Vector3 raycastOriginOffset;
     [SerializeField] private LayerMask groundLayers;
 
-    // Components
-
+    /// Components / Classes
     private CharacterController _charController;
-
     // The finite state machine of the current gamestate.
     private FiniteStateMachine<PlayerMovement> _fsm;
-
     private TaskManager _taskManager = new TaskManager();
 
     #endregion 
@@ -97,6 +98,7 @@ public class PlayerMovement : MonoBehaviour
         if (curGS != null)
             curGS.FixedUpdate();
         _taskManager.Update();
+
     }
 
     // Updates the player movement inputs. Called in InputManager.
@@ -124,8 +126,8 @@ public class PlayerMovement : MonoBehaviour
         Services.EventManager.Register<OnEnterPlay>(_fsm.TransitionTo<LocomotionState>);
         Services.EventManager.Register<OnPause>(_fsm.TransitionTo<PauseState>);
         Services.EventManager.Register<OnEnterDialogue>(_fsm.TransitionTo<InDialogueState>);
-        Services.EventManager.Register<OnEnterMidCutscene>(_fsm.TransitionTo<MidCutsceneState>);
-        Services.EventManager.Register<OnEnterEndCutscene>(_fsm.TransitionTo<EndCutsceneState>);
+        Services.EventManager.Register<OnEnterMidCutscene>(_fsm.TransitionTo<CutsceneState>);
+        Services.EventManager.Register<OnEnterEndCutscene>(_fsm.TransitionTo<CutsceneState>);
         Services.EventManager.Register<OnEnterEndGame>(_fsm.TransitionTo<ForcedIdleState>);
     }
 
@@ -135,8 +137,8 @@ public class PlayerMovement : MonoBehaviour
         Services.EventManager.Unregister<OnEnterPlay>(_fsm.TransitionTo<LocomotionState>);
         Services.EventManager.Unregister<OnPause>(_fsm.TransitionTo<PauseState>);
         Services.EventManager.Unregister<OnEnterDialogue>(_fsm.TransitionTo<InDialogueState>);
-        Services.EventManager.Unregister<OnEnterMidCutscene>(_fsm.TransitionTo<MidCutsceneState>);
-        Services.EventManager.Unregister<OnEnterEndCutscene>(_fsm.TransitionTo<EndCutsceneState>);
+        Services.EventManager.Unregister<OnEnterMidCutscene>(_fsm.TransitionTo<CutsceneState>);
+        Services.EventManager.Unregister<OnEnterEndCutscene>(_fsm.TransitionTo<CutsceneState>);
         Services.EventManager.Unregister<OnEnterEndGame>(_fsm.TransitionTo<ForcedIdleState>);
     }
 
@@ -462,6 +464,7 @@ public class PlayerMovement : MonoBehaviour
         // Player is currently moving on the ground.
         private class MovingOnGroundState : MovementState
         {
+            private LayerMask bushLayer = 4096; // should be just bush layer.
 
             public override void OnEnter()
             {
@@ -486,6 +489,9 @@ public class PlayerMovement : MonoBehaviour
                     TransitionTo<FallingState>();
 
 
+                Cont.inBush = CheckBushCollision;
+                if (Cont.inBush) Logger.Warning("In bush!");
+
                 Vector3 direction = new Vector3(Cont._horizontalInput, 0f, Cont._verticalInput).normalized;
 
                 // If the player has entered input, calculate the forward angle and move the target movement.
@@ -494,9 +500,14 @@ public class PlayerMovement : MonoBehaviour
                     float targetAngle = Mathf.Atan2(Cont._horizontalInput, Cont._verticalInput) * Mathf.Rad2Deg + Services.CameraManager.CameraYAngle;
                     float angle = Mathf.SmoothDampAngle(Cont.transform.eulerAngles.y, targetAngle, ref Cont.turningSmoothVel, .2f);
                     Cont.transform.rotation = Quaternion.Euler(0f, angle, 0f);
+                    Cont._targetMovementVector = (Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward).normalized * Cont._movementSpeed * Time.fixedDeltaTime;
 
-                    Cont._targetMovementVector = (Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward).normalized * Cont._movementSpeed * Time.fixedDeltaTime * (Cont._sprintInput ? Cont._shiftMultiplier : 1f);
-                    PlayerAnimation.Sprinting(Cont._sprintInput);
+                    if (Cont._sprintInput && !Cont.inBush)
+                    {
+                        Cont._targetMovementVector *= Cont._shiftMultiplier;
+                        PlayerAnimation.Sprinting(true);
+                    }
+                    else PlayerAnimation.Sprinting(false);
                 }
                 else
                 {
@@ -516,7 +527,13 @@ public class PlayerMovement : MonoBehaviour
                 Cont._charController.Move(Cont._currentMovementVector);
             }
 
-            public override void OnExit() => Cont.movingOnGround = false;
+            public override void OnExit()
+            {
+                Cont.inBush = false;
+                Cont.movingOnGround = false;
+            }
+
+            private bool CheckBushCollision => Physics.CheckSphere(Cont.transform.position, .5f, bushLayer, QueryTriggerInteraction.Ignore);
         }
 
         // Player is currently jumping. Possibly change into 2 states - a jump charging state and a released jump state.
@@ -567,7 +584,7 @@ public class PlayerMovement : MonoBehaviour
                     () =>
                     {
                         System.Type type = Cont._fsm.CurrentState.GetType();
-                        if (type == typeof(InDialogueState) || type == typeof(MidCutsceneState) || type == typeof(ForcedIdleState))
+                        if (type == typeof(InDialogueState) || type == typeof(CutsceneState) || type == typeof(ForcedIdleState))
                         {
                             Logger.Warning($"Jump task finished outside of NPC area. Currently in {type.FullName}.");
                         }
@@ -628,7 +645,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Player moves through sequence and faces South.
-    private class MidCutsceneState : GameState
+    private class CutsceneState : GameState
     {
 
         public override void OnEnter() => Context._taskManager.Do(DefineSequence());
@@ -662,56 +679,12 @@ public class PlayerMovement : MonoBehaviour
             Task phase3Start = Context.LastTask(moveToMidPos);
             Task reset2 = new ActionTask(() => { Context.inPlaceForSequence = false; });
             Task wait4Secs = new WaitTask(4f);
-            Task forceFinalTransform = new ActionTask(() => { Context.ForceTransform(Services.QuestItemRepository.TargetStep4PlayerPosition.position, Services.QuestItemRepository.TargetStep4PlayerPosition.rotation); });
+            Task forceFinalTransform = new ActionTask(() => {
+                Context.ForceTransform(Services.QuestItemRepository.TargetStep4PlayerPosition.position, Services.QuestItemRepository.TargetStep4PlayerPosition.rotation);
+                Services.UIManager.HideItemPickupPrompt();
+            });
 
             phase3Start.Then(reset2).Then(wait4Secs).Then(forceFinalTransform);
-
-            return start;
-        }
-
-        public override void OnExit() => Context.inPlaceForSequence = false;
-    }
-
-    // Player moves through sequence and faces NPC.
-    private class EndCutsceneState : GameState
-    {
-        public override void OnEnter() => Context._taskManager.Do(DefineSequence());
-
-        private Task DefineSequence()
-        {
-            Task start = new ActionTask(() =>
-            {
-                Context.ResetInputs();
-                Context.inPlaceForSequence = false;
-            });
-
-            Task moveToInitPos = Context.PlayerMoveToTransform(
-                Services.QuestItemRepository.TargetStep1PlayerPosition, // Position target for player
-                Services.QuestItemRepository.TargetItemPosition, // direction target for player
-                Services.QuestItemRepository.TargetItemPosition); // Not totally sure.
-
-            start.Then(moveToInitPos);
-
-            Task phase2Start = Context.LastTask(moveToInitPos);
-            //phase2Start
-
-            Task reset1 = new ActionTask(() => { Context.inPlaceForSequence = false; });
-
-            Task moveToMidPos = Context.PlayerMoveToTransform(
-                Services.QuestItemRepository.TargetStep2PlayerPosition,
-                Services.QuestItemRepository.TargetItemPosition,
-                Services.QuestItemRepository.TargetItemPosition);
-
-            phase2Start.Then(reset1).Then(moveToMidPos);
-
-            Task phase3Start = Context.LastTask(moveToMidPos);
-            Task reset2 = new ActionTask(() => { Context.inPlaceForSequence = false; });
-            Task wait4Secs = new WaitTask(4f);
-            Task forceFinalTransform = new ActionTask(() => { Context.ForceTransform(Services.QuestItemRepository.TargetStep4PlayerPosition.position, Services.QuestItemRepository.TargetStep4PlayerPosition.rotation); });
-            //Task wait5Secs = new WaitTask(5f);
-            //Task exitSequence = new ActionTask(() => { Context.EnterPlay(); Debug.Log("exitSequence!!!!!!!!!!!!!!!!!!!"); });
-
-            phase3Start.Then(reset2).Then(wait4Secs).Then(forceFinalTransform);//.Then(wait5Secs).Then(exitSequence);
 
             return start;
         }

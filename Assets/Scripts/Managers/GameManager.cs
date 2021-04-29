@@ -20,13 +20,17 @@ using UnityEngine;
  * 
  * Maybe remove ambient audio?
  * 
- * spirit tail freak out
  * make walking thru leaves slow character and cause leaf rustling sound?
+ * instructions menu
+ * - make sure correct font and in UIManager
  * 
  * fix positions of animals
- * end game has E prompts
- * turtle player camera messed up
+ * turtle home player camera messed up
  * 
+ * hard to see 3rd bird
+ * frog and toad dialogue is messed up
+ * get rid of any mention of that dastardly carp 
+ * not clear where end of race is
  */
 
 public class GameManager : MonoBehaviour

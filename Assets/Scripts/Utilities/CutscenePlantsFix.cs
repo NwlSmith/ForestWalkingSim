@@ -8,7 +8,7 @@ public class CutscenePlantsFix
 {
 
     private static LayerMask layerMask = 1025;
-
+#if UNITY_EDITOR
     [@MenuItem("Terrain/Cutscene Plants Fix")]
     static void Run()
     {
@@ -29,4 +29,5 @@ public class CutscenePlantsFix
             }
         }
     }
+#endif
 }
