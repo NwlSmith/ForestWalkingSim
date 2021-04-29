@@ -61,6 +61,9 @@ VisualEffect:
       - m_Value: 1000
         m_Name: Spawn Rate
         m_Overridden: 1
+      - m_Value: 1000
+        m_Name: Render Bounds xyz
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
