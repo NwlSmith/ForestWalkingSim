@@ -245,7 +245,7 @@ public class UIManager : MonoBehaviour
 
     public void SetQuestlogText(string questTag, string newText)
     {
-        Debug.LogWarning($"tag = {questTag} text = {newText}");
+        Logger.Debug($"tag = {questTag} text = {newText}");
         if (_questTagToLog.ContainsKey(questTag) && _questTagToLog[questTag] == null)
             return;
 

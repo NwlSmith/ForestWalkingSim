@@ -12,6 +12,9 @@ public static class SequenceManager
     private static readonly Task _enterMidSequence;
     private static readonly Task _enterEndSequence;
     private static readonly Task _enterEndGameSequence;
+    private static CutsceneObjectsManager cutsceneObjectsManager;
+
+    public static bool[] specialCutsceneTriggers = new bool[4];
 
     static SequenceManager()
     {
@@ -22,7 +25,16 @@ public static class SequenceManager
         _enterEndGameSequence = DefineEndGameSequence();
 
         RegisterEvents();
+
+        for (int i = 0; i < specialCutsceneTriggers.Length; i++)
+        {
+            specialCutsceneTriggers[i] = false;
+        }
     }
+
+    public static void Init() => cutsceneObjectsManager = UnityEngine.Object.FindObjectOfType<CutsceneObjectsManager>();
+
+    public static void OnDestroy() => UnregisterEvents(); // Possibly not useful.
 
     public static void Update() => _taskManager.Update();
 
@@ -90,7 +102,9 @@ public static class SequenceManager
     private static Task DefineMidSequence()
     {
         // 1. Move player to position. Move camera behind player. ~2s
-        Task enterSequence = new DelegateTask(() => { }, () =>
+        Task enterSequence = new DelegateTask(() => 
+        {
+        }, () =>
         {
             Services.UIManager.HideItemPickupPrompt();
             return Services.PlayerMovement.inPlaceForSequence;
@@ -124,7 +138,11 @@ public static class SequenceManager
             // trigger other stuff.
         });
 
+        // Add in phase here to show plants growing?????????????????????????????????????
+
         Task waitForTime3 = new WaitTask(1.5f);
+
+
 
         // 4. Fade to white? black? 2s
         ActionTask fourthSequence = new ActionTask(() =>
@@ -143,18 +161,23 @@ public static class SequenceManager
             PlayerAnimation.Sitting(true);
             // Fade in?
             Services.UIManager.CutsceneFadeOut();
+            Services.UIManager.HideDialogueEnterPrompt();
         });
 
-        Task waitForTime5 = new WaitTask(3f);
+        Task waitForTime5 = new WaitTask(1f);
+
+        ActionTask triggerPlantAnims = new ActionTask(() => { cutsceneObjectsManager.Transition(); });
+
+        Task waitForTime6 = new WaitTask(10.5f);
         // 7. 1 sec later have player get up and return to normal controls. 1s
         ActionTask sixthSequence = new ActionTask(() =>
         {
             PlayerAnimation.Sitting(false);
-            Services.GameManager.ReturnToPlay();
-            QuestManager.LateUpdateMainQuestText();
+            NPCInteractionManager.FindClosestNPC();
+            Services.GameManager.EnterDialogue();
         });
 
-        enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(sixthSequence);
+        enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(triggerPlantAnims).Then(waitForTime6).Then(sixthSequence);
         return enterSequence;
     }
 
@@ -187,10 +210,12 @@ public static class SequenceManager
         ActionTask thirdSequence = new ActionTask(() =>
         {
             Services.QuestItemRepository.StartSequence();
-            FModMusicManager.EndCutscene();
+            FModMusicManager.ReturnedItem();
             // Quest item Repository takes Item.
             // trigger other stuff.
         });
+
+        
 
         Task waitForTime3 = new WaitTask(1.5f);
 
@@ -209,11 +234,21 @@ public static class SequenceManager
         {
             PlayerAnimation.Sitting(true);
             Services.PostProcessingManager.AdvanceStage();
+            Services.UIManager.HideItemPickupPrompt();
             // Fade in?
             Services.UIManager.CutsceneFadeOut();
         });
 
-        Task waitForTime5 = new WaitTask(3f);
+        Task waitForTime5 = new WaitTask(2f);
+
+        ActionTask triggerPlantAnims = new ActionTask(() => {
+            Services.UIManager.HideItemPickupPrompt();
+            cutsceneObjectsManager.Transition();
+            FModMusicManager.EndCutscene();
+        });
+        // trigger camera!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        Task waitForTime6 = new WaitTask(13.5f);
         // 7. 1 sec later have player get up and return to normal controls. 1s
         ActionTask sixthSequence = new ActionTask(() =>
         {
@@ -222,7 +257,7 @@ public static class SequenceManager
             Services.GameManager.EnterDialogue();
         });
 
-        enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(sixthSequence);
+        enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(triggerPlantAnims).Then(waitForTime6).Then(sixthSequence);
         return enterSequence;
     }
 

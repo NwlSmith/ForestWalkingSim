@@ -389,12 +389,8 @@ public class PlayerMovement : MonoBehaviour
 
         // The finite state machine of the current gamestate.
         private readonly FiniteStateMachine<LocomotionState> _fsm;
-        
-        public LocomotionState()
-        {
-            Debug.Log("LOCOMOTION STATE CONSTRUCTOR!!!");
-            _fsm = new FiniteStateMachine<LocomotionState>(this);
-        }
+
+        public LocomotionState() => _fsm = new FiniteStateMachine<LocomotionState>(this);
 
         #region Lifecycle Management.
         public override void OnEnter()
@@ -666,7 +662,7 @@ public class PlayerMovement : MonoBehaviour
             Task phase3Start = Context.LastTask(moveToMidPos);
             Task reset2 = new ActionTask(() => { Context.inPlaceForSequence = false; });
             Task wait4Secs = new WaitTask(4f);
-            Task forceFinalTransform = new ActionTask(() => { Context.ForceTransform(Services.QuestItemRepository.TargetStep3PlayerPosition.position, Services.QuestItemRepository.TargetStep3PlayerPosition.rotation); });
+            Task forceFinalTransform = new ActionTask(() => { Context.ForceTransform(Services.QuestItemRepository.TargetStep4PlayerPosition.position, Services.QuestItemRepository.TargetStep4PlayerPosition.rotation); });
 
             phase3Start.Then(reset2).Then(wait4Secs).Then(forceFinalTransform);
 

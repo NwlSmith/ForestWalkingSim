@@ -14,7 +14,7 @@ public static class FModMusicManager
 
     private static Dictionary<string, PARAMETER_ID> StrToID = new Dictionary<string, PARAMETER_ID>();
 
-    public static void Initialize()
+    public static void Init()
     {
         musicSoundState = FMODUnity.RuntimeManager.CreateInstance("event:/Music");
         CompileSounds();
@@ -26,7 +26,7 @@ public static class FModMusicManager
 
     private static void CompileSounds()
     {
-
+        StrToID.Clear();
         EventDescription soundEventDescription;
         musicSoundState.getDescription(out soundEventDescription);
         PARAMETER_DESCRIPTION soundParameterDescription;

@@ -11,14 +11,14 @@ public static class PlayerAnimation
     private static Animator _animator;
     private static FIMSpace.FSpine.FSpineAnimator _spineAnimator;
 
-    static PlayerAnimation()
+    public static void Init()
     {
         _animator = Services.PlayerMovement.GetComponentInChildren<Animator>();
         _spineAnimator = Services.PlayerMovement.GetComponent<FIMSpace.FSpine.FSpineAnimator>();
 
         if (_animator == null)
         {
-            Debug.Log("Failed to retrieve animator.");
+            Logger.Warning("Failed to retrieve animator.");
         }
     }
 
