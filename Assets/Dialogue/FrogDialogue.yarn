@@ -5,24 +5,19 @@ position: -1519,947
 ---
 <<if $quest_frog_stage gt 1>>
     <<NPCSpeak>>
-    Ah, there you are!
-    <<PlayerSpeak>>
-    Hello again!
-    <<NPCSpeak>>
     Say, you wouldn't happen to know where Toad ran off to would you?
-    With everything that's been going on, I worry about him.
+    With all that's been going on, I worry about him.
     <<PlayerSpeak>>
     I'm afraid not.
     <<NPCSpeak>>
     I see.
-    Well, I'm sure he's alright.
-    Worrying about this and that is my specialty!
+    Well, I'm sure he's just fine.
+    Worrying is my specialty!
     <<PlayerSpeak>>
-    I can hardly blame you!
-    I'm sure he'll turn up soon enough.
+    He'll turn up soon enough.
     <<NPCSpeak>>
     Of course, of course.
-    In any case, take care, young one!
+    Take care young one!
     <<PlayerSpeak>>
     Thank you for your help!
 <<endif>>

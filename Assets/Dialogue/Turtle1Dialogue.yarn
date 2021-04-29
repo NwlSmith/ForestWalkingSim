@@ -5,62 +5,56 @@ position: 292,551
 ---
 <<if $quest_turtle_stage is 0>>
     <<NPCSpeak>>
-    Hmm well now who is this coming to visit me?
+    Hello there, deary.
+    Are you well?
     <<PlayerSpeak>>
-    Hello there ma'am.
+    I am, although I wasn’t here when the tree burned down.
     <<NPCSpeak>>
-    Ah it's you! Why hello to you too, deary.
-    Fine weather out today, no?
+    It's just awful.
+    It was really magnificent, that tree.
+    I wish you could have seen it.
     <<PlayerSpeak>>
-    Aside from the devastating fire that just swept through, I suppose so!
+    I’m doing my best to bring it back to its former glory!
     <<NPCSpeak>>
-    Things of that nature come and go, there's nothing to worry about.
-    These woods are still as beautiful as ever.
+    That's kind of you sweetheart.
+    This place has been quite the sanctuary for us.
+    Before the fire, it was a real community.
     <<PlayerSpeak>>
-    Weren't you afraid?
-    <<NPCSpeak>>
-    Of what?
-    <<PlayerSpeak>>
-    Of losing your home?
-    Of dying?
+    Are you afraid of losing your home?
     <<NPCSpeak>>
     What's there to be afraid of, darling?
-    This place won't be going anywhere anytime soon.
-    We may see some excitement from time to time, but the forest is still here.
-    Can't get away from me anyways, I'm just too quick!
+    This old place won't be going anywhere anytime soon.
+    What happened was tragic, and we all lost something, but...
+    The forest is still here.
+    It can't outrun me, that's for sure!
     <<PlayerSpeak>>
     Is that so?
     <<NPCSpeak>>
-    Perhaps at one point.
-    Ask Frog and Toad, they'll tell you that I used to be the fastest thing in these woods!
+    Oh bless your heart, haven't you heard?
+    I'm the fastest thing in these woods!
     <<PlayerSpeak>>
-    Well that's certainly a surprise to me!
+    I hadn't!
     <<NPCSpeak>>
     Don't believe me?
     <<PlayerSpeak>>
     Well...
     <<NPCSpeak>>
-    Now, now, I've heard that "well" before, sweetheart.
-    I was the reigning speed champ for quite some time!
-    It's gotten harder to hold that title, but I think I've still got something left in me.
+    Now, don't you dare think I haven't heard that "well" before.
+    How about a quick run by the water?
+    I've been needing to stretch these creaky legs anyway.
     <<PlayerSpeak>>
-    How about a quick jog?
-    I'd love to see what you've got.
+    If you say so!
     <<NPCSpeak>>
-    You flatter me, but I'm an old lady now.
-    Oldest in these woods, as a matter of fact.
-    Still, I suppose it might be worth taking a good lap.
-    <<PlayerSpeak>>
-    That's the spirit!
-    <<NPCSpeak>>
-    Head to your left and you'll see a path that curves to the right, then back to the left.
-    I'll be at the pink tree around the corner, meet me there.
+    Marvelous!
+    If you head down the path to your left and get over the hill, you should see a tall, orange tree.
+    Meet me there, and I can show you what fight I’ve still got left in me!
     <<AdvanceQuest Turtle>>
 <<elseif $quest_turtle_stage is 1>>
+    <<NPCSpeak>>
+    Let's get moving!
     <<PlayerSpeak>>
     Sorry ma'am, where am I supposed to go?
     <<NPCSpeak>>
-    Head to your left and you'll see a path that curves to the right, then back to the left.
-    I'll be at the pink tree around the corner, you can meet me there.
+    Head to the big orange tree just beyond the hill to your left, and we can get this show on the road!
 <<endif>>
 ===
