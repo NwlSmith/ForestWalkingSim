@@ -5,115 +5,160 @@ position: 153,208
 ---
 <<if $quest_main_stage is 0>>
     <<NPCSpeak>>
-    I’m glad you’re here.
+    I’m grateful you arrived so quickly.
     <<PlayerSpeak>>
-    You knew I was coming?
-    How can that be? I didn't even know I was coming.
+    Do I know you?
     <<NPCSpeak>>
-    I’m the one who sent for you in the first place.
+    I sent for you, of course.
+    Do you remember why you came here?
     <<PlayerSpeak>>
-    Wait... you brought me here?
-    Why?
+    I... don’t know.
+    I was just wandering.
     <<NPCSpeak>>
-    I’m the guardian of this forest community.
-    Recently, the forest was devastated by a horrible fire.
-    But I'm afraid even before that, things haven't been as great they once were.
-    I’ve grown too old and weak to even leave the forest’s center.
-    You, on the other hand, are young and full of light. I could feel your energy from miles away.
-    If you would assist me in restoring the forest, I would be so very grateful.
+    Yes, exactly, and then I called you here. I have a way with wanderers, you see.
+    I can sense you have a kind heart. The creatures here are suffering from a fire that tore through the forest’s Heart.
+    It’s my job to guard this place, but I was too frail in my old age to stop it. I’m humble enough to admit when I need help.
     <<PlayerSpeak>>
-    I'm not sure if I can help with something that big...
+    Help from me? What can I do?
+    I’m not magical or anything.
     <<NPCSpeak>>
-    All you would need to do is find The Soil, the Seed, and the Rain.
+    You don’t need to be magical. Just friendly.
+    I need three items: the Seed, the Soil, and the Rain.
+    The Seed is owned by a bird and her grandchildren, the Rain is in the hands of an old turtle, and the Soil is is being looked after by a sweet elderly couple.
     <<PlayerSpeak>>
-    It's that easy?
+    I think I can help with that.
     <<NPCSpeak>>
-    Well, no. But I can handle it from there.
-    The creatures of the forest know where these items are, so talk to them.
-    <<PlayerSpeak>>
-    I’ll do what I can.
-    <<NPCSpeak>>
-    Thank you. Stop by again if you need any help.
+    Thank you, truly.
+    Bring these items and place them before the burned tree.
+    If you need any help, please feel free to ask.
     <<set $quest_main_stage to 1>>
     <<AdvanceQuest Main>>
 <<elseif $quest_main_stage is 1 or $quest_main_stage is 3 or $quest_main_stage is 5>>
-    <<NPCSpeak>>
-    Hello again.
-    <<PlayerSpeak>>
-    Could you remind me of my task?
-    <<NPCSpeak>>
-    You must restore the forest.
-    <<if $found_seed is false>>
-        You must find the Seed, which will be reborn as a new Heart.
-        I believe the Warblers have taken it to their nest.
-    <<else>>
-        Finding the Seed was of vital importance.
-    <<endif>>
-    <<if $found_soil is false>>
-        You must find the Soil, to cultivate a new life for these woods.
-        A couple of amphibians were entrusted with it, last I heard...
-    <<else>>
-        You found the Soil, and now the land is healing.
-    <<endif>>
-    <<if $found_rain is false>>
-        You must find the Rain, to wash away the pain.
-        The wise Turtle has kept it safe for us.
-    <<else>>
-        The Rain is washing away our troubles.
-        Thank you for this.
-    <<endif>>
-    <<if $quest_main_stage is 5>>
-        Find this last item and we will be forever in your debt.
-    <<else>>
-        Find these items.
-        Bring them back here.
-    <<endif>>
-<<elseif $quest_main_stage is 2 or $quest_main_stage is 4 or $quest_main_stage is 6>>
+    <<<NPCSpeak>>
+     Hello again.
+     <<PlayerSpeak>>
+     Could you tell me a little more about what I need to do?
+     <<NPCSpeak>>
+     You’re going to be helping me restore the Heart of the forest.
+     <<if $found_seed is false>>
+         You must find the Seed, which will be reborn as a new Heart.
+         A warbler has it, but it’s an emergency source of food for her grandchildren, so she might take some convincing.
+     <<else>>
+        You’ve found the Seed, with the warblers.
+     <<endif>>
+     <<if $found_soil is false>>
+         You must find the Soil, in which we will plant the seed.
+         It’s in possession of a lovely amphibious couple, who use it for their garden.
+     <<else>>
+         You've brought the Soil.
+     <<endif>>
+     <<if $found_rain is false>>
+         You must find the Rain, to water the new tree.
+         An old turtle holds onto it. She’s a feisty one, even in her old age!
+     <<else>>
+        And you collected the Rain.
+     <<endif>>
+     <<if $quest_main_stage is 5>>
+         Find this last item and I will be forever in your debt.
+     <<else>>
+         Collect these items and place them before the burned tree. I'll take care of it from there.
+     <<endif>>
+<<elseif $quest_main_stage is 2>>
     <<NPCSpeak>>
     <<if $seed_last_retrieved is true>>
-        You found the seed. That's pretty cool.
+        Ah, you’re back.
+        And you got the seed! Ms. Warbler must have taken a liking to you.
         <<set $seed_last_retrieved to false>>
     <<elseif $soil_last_retrieved is true>>
-        You found the soil. That's hot.
+        Ah, you’re back! I see you have the Soil.
+        Did you meet Frog and Toad? They’re lovely, aren’t they?
         <<set $soil_last_retrieved to false>>
     <<elseif $rain_last_retrieved is true>>
-        You found the rain. Not that I care...
+        You’ve got the Rain! Did that old turtle ask you to race?
+        She does that to everybody. My old bones can’t take it.
         <<set $rain_last_retrieved to false>>
     <<else>>
         Oh god I don't feel so good... We shouldn't be here...
     <<endif>>
-    Good job dude.
+    <<PlayerSpeak>>
+    I’ll go look for the next item.
+    <<NPCSpeak>>
+    Right...
+    <<PlayerSpeak>>
+    Is something wrong?
+    <<NPCSpeak>>
+    I’m getting old, and soon I’ll be gone. I just want to know my community will be safe.
+    I can’t even leave this part of the forest anymore, ever since this blasted fire.
+    I fire that I failed to quell, to top it all off.
+    <<PlayerSpeak>>
+    You knew you needed help. And now I’m here, see?
+    <<NPCSpeak>>
+    Yes... I suppose so.
+    Thanks again for all you’re doing for everyone here. I’ll let you go now.
     <<AdvanceQuest Main>>
-<<endif>>
-<<if $quest_main_stage is 6>>
+<<elseif $quest_main_stage is 4>>
     <<NPCSpeak>>
-    This is the final item.
-    With this, the forest can be made whole again.
-    <<PlayerSpeak>>
-    What do we do now?
-    <<NPCSpeak>>
-    Now, I use the last of my remaining energy to bring the forest back.
-    <<PlayerSpeak>>
-    What!? Are you going to be okay?
-    <<NPCSpeak>>
-    ...
+    <<if $seed_last_retrieved is true>>
+         I see you found the Seed. I hope it wasn’t too much trouble.
+         <<set $seed_last_retrieved to false>>
+    <<elseif $soil_last_retrieved is true>>
+         Oh, hello. I see you have the Soil. I hope it wasn’t too much of a trek.
+         <<set $soil_last_retrieved to false>>
+    <<elseif $rain_last_retrieved is true>>
+         Ah, you found got the Rain. I hope that old turtle didn’t tire you out too much.
+         <<set $rain_last_retrieved to false>>
+    <<else>>
+        Oh god I don't feel so good... We shouldn't be here...
+    <<endif>>
     Say, where are you headed after this?
     <<PlayerSpeak>>
-    I'll probably move onto somewhere else where I can be helpful.
+    Nowhere in particular. I just like to be of use.
     <<NPCSpeak>>
-    What if I told you that you could keep helping out right here?
+    I see. If I told you that you’d be able to continue helping here after the Heart is restored, would that interest you?
     <<PlayerSpeak>>
-    Well, I'd ask what you meant.
+    I’ve never really stayed in one place that long before.
     <<NPCSpeak>>
-    I hate to even ask. But if you have nowhere to go...
-    Would you keep an eye on the forest when I'm gone?
+    You don’t have to answer right away. Just think on it.
+    That’s the second item. Just one more now.
+    <<AdvanceQuest Main>>
+<<elseif $quest_main_stage is 6>>
+    <<if $seed_last_retrieved is true>>
+         <<set $seed_last_retrieved to false>>
+    <<elseif $soil_last_retrieved is true>>
+         <<set $soil_last_retrieved to false>>
+    <<elseif $rain_last_retrieved is true>>
+         <<set $rain_last_retrieved to false>>
+    <<else>>
+        Oh god I don't feel so good... We shouldn't be here...
+    <<endif>>
+    <<NPCSpeak>>
+    You’ve done very well, little fox.
     <<PlayerSpeak>>
-    That's a big responsibility...
-    But I'll do my best.
+    That’s it?
     <<NPCSpeak>>
-    Thank you again for what you've done for us.
-    The creatures here may not know it, but they'll be able to live out the rest of their lives in peace thanks to you.
-    Goodbye...
+    For you, anyway. Unless you choose to stay.
+    <<PlayerSpeak>>
+    What happens to you?
+    <<NPCSpeak>>
+    I use the last of my magical energy to regrow the Heart.
+    <<PlayerSpeak>>
+    That sounds dangerous.
+    <<NPCSpeak>>
+    It isn’t danger - it’s sacrifice.
+    The Heart will protect them better than I can in my old age. I’m at peace with that.
+    Guarding the forest and its creatures has always been my purpose.
+    <<PlayerSpeak>>
+    Does this mean that if I agree to stay here, I’d be taking on your role?
+    <<NPCSpeak>>
+    Essentially, I suppose.
+    The role is mostly keeping the people here happy. Their joy strengthens the Heart and makes the forest more resilient.
+    I’ve been too tired to do it well, that’s all. It’s not usually all magic and fighting fires.
+    <<PlayerSpeak>>
+    I’m sure you’ve done your best.
+    I’ll stay and help out. This place has grown on me anyway.
+    <<NPCSpeak>>
+    You have a kind soul. I sensed it in you from miles away.
+    I appreciate everything you’re doing for me.
     <<AdvanceQuest Main>>
 <<endif>>
 ===
