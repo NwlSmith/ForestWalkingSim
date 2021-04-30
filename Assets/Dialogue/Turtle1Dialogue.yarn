@@ -8,13 +8,13 @@ position: 292,551
     Hello there, deary.
     Are you well?
     <<PlayerSpeak>>
-    I am, although I wasn’t here when the tree burned down.
+    I am, although I wasn't here when the tree burned down.
     <<NPCSpeak>>
     It's just awful.
     It was really magnificent, that tree.
     I wish you could have seen it.
     <<PlayerSpeak>>
-    I’m doing my best to bring it back to its former glory!
+    I'm doing my best to bring it back to its former glory!
     <<NPCSpeak>>
     That's kind of you sweetheart.
     This place has been quite the sanctuary for us.
@@ -47,7 +47,7 @@ position: 292,551
     <<NPCSpeak>>
     Marvelous!
     If you head down the path to your left and get over the hill, you should see a tall, orange tree.
-    Meet me there, and I can show you what fight I’ve still got left in me!
+    Meet me there, and I can show you what fight I've still got left in me!
     <<AdvanceQuest Turtle>>
 <<elseif $quest_turtle_stage is 1>>
     <<NPCSpeak>>

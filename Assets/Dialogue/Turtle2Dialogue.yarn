@@ -18,7 +18,7 @@ position: 566,546
     <<PlayerSpeak>>
     Born ready!
     <<NPCSpeak>>
-    We’ll be heading just around the bend here, passing by the water, down to the creek at the bottom of the cliff.
+    We'll be heading just around the bend here, passing by the water, down to the creek at the bottom of the cliff.
     Got that?
     <<PlayerSpeak>>
     Sounds good to me!
@@ -48,7 +48,7 @@ position: 566,546
     My pleasure!
     That was a nice run.
     <<NPCSpeak>>
-    Feels good to remember there’s still some spark in me.
+    Feels good to remember there's still some spark in me.
     You should have seen me back in the day.
     I could really go.
     <<PlayerSpeak>>
@@ -61,9 +61,9 @@ position: 566,546
     There's no need to resign yourself to it.
     <<NPCSpeak>>
     Who's resigning?
-    My life has been rich and full, and I’ve no doubt that whatever’s left of it will be as well.
-    I’ve done more than enough running in my time.
-    I just hope I’ll be here to see that magnificent tree in the heart of these woods again.
+    My life has been rich and full, and I've no doubt that whatever's left of it will be as well.
+    I've done more than enough running in my time.
+    I just hope I'll be here to see that magnificent tree in the heart of these woods again.
     <<PlayerSpeak>>
     I was actually hoping you could point me in the direction of the Rain.
     I'm told you might know where it is.
@@ -84,7 +84,7 @@ position: 566,546
     <<PlayerSpeak>>
     Actually, could you remind me where it is?
     <<NPCSpeak>>
-    Keep going down this path and you’ll end up back at my house.
+    Keep going down this path and you'll end up back at my house.
     Take a look around, it ought to be there.
     <<PlayerSpeak>>
     Thank you!

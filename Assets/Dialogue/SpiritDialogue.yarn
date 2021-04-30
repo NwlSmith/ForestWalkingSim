@@ -24,7 +24,8 @@ position: 153,208
     <<NPCSpeak>>
     You don’t need to be magical. Just friendly.
     I need three items: the Seed, the Soil, and the Rain.
-    The Seed is owned by a bird and her grandchildren, the Rain is in the hands of an old turtle, and the Soil is is being looked after by a sweet elderly couple.
+    The Seed is owned by a Warbler and her grandchildren, the Rain is in the hands of an old turtle, and the Soil is is being looked after by a sweet elderly couple.
+    You will find the birds on your right, the turtle beyond the hill to your right, and the turtles in the glade behind me.
     <<PlayerSpeak>>
     I think I can help with that.
     <<NPCSpeak>>
@@ -89,7 +90,7 @@ position: 153,208
     <<NPCSpeak>>
     I’m getting old, and soon I’ll be gone. I just want to know my community will be safe.
     I can’t even leave this part of the forest anymore, ever since this blasted fire.
-    I fire that I failed to quell, to top it all off.
+    A fire that I failed to quell, to top it all off.
     <<PlayerSpeak>>
     You knew you needed help. And now I’m here, see?
     <<NPCSpeak>>

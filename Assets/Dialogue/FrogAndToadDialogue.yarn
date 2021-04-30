@@ -19,47 +19,47 @@ position: -1338,671
     It was special to all of us!
     <<NPCSpeak 1>>
     Very special.
-    <<NPCSpeak0>>
+    <<NPCSpeak 0>>
     Warbler's grandchildren used to love playing there, you could never drag them away.
     It was a place where everyone in the community could meet for one reason or another.
-    After the fire, we’ve been almost completely separated from each other!
+    After the fire, we've been almost completely separated from each other!
     <<PlayerSpeak>>
     You don't see anyone else?
     <<NPCSpeak1>>
     Not often.
-    <<NPCSpeak0>>
+    <<NPCSpeak 0>>
     It's much too dangerous for folks like us to get to the others through the heart of the forest now.
     We could barely get around before the fire!
     Actually, Toad and I had planned to host our anniversary party there.
-    <<NPCSpeak1>>
+    <<NPCSpeak 1>>
     Dreadful timing.
-    <<NPCSpeak0>>
+    <<NPCSpeak 0>>
     Maybe next year.
     <<PlayerSpeak>>
     I've actually been trying to clean the place up!
     If you two could help me out it would be much appreciated.
-    <<NPCSpeak0>>
+    <<NPCSpeak 0>>
     We'd be happy to lend a hand!
-    <<NPCSpeak1>>
+    <<NPCSpeak 1>>
     We're handy.
     <<PlayerSpeak>>
     Right now I'm looking for the Soil, if you've got any information on that.
-    <<NPCSpeak1>>
+    <<NPCSpeak 1>>
     Oh, we know where that is!
-    <<NPCSpeak0>>
+    <<NPCSpeak 0>>
     We do?
-    <<NPCSpeak1>>
+    <<NPCSpeak 1>>
     *Ahem*
     We do.
     <<PlayerSpeak>>
     Great!
     Could you give me some directions?
-    <<NPCSpeak1>>
+    <<NPCSpeak 1>>
     Just around the bend behind you and to the left.
-    Head up the hill and you should find it there.
+    Head up the hill and you should find it there by the pink tree.
     <<PlayerSpeak>>
     Thank you gentlemen!
-    <<NPCSpeak0>>
+    <<NPCSpeak 0>>
     Do come again!
     <<AdvanceQuest Frog>>
 <<elseif $quest_frog_stage is 1>>
