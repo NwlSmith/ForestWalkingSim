@@ -18,8 +18,17 @@ using UnityEngine;
  * LOD is too noticeable, especially on rock
  * FIX CAMERA TWITCH!!!
  * 
- * Maybe remove ambient audio?
+ * dialogue sounds repetitive
+ * - Add array of sounds?
  * 
+ * make jumping animation faster
+ * 
+ * have camera just look at other animal?
+ * 
+ * Add text that says Soil returned?
+ * 
+ * fix turtle position at end of race
+ * fix turtle dialogue, doesn't have something for quest stage = 1
  * 
  * fix positions of animals
  * turtle home player camera messed up
@@ -32,9 +41,9 @@ using UnityEngine;
  * make the fox collider thinner so it can move between trees?
  * STILL DIALOGUE ENTRY BUG
  * 
- *  FYI I've put the fox theme and a couple other revised cues up on FMOD. I've set the initial value to 1 so the main theme can play in the menu, so all that needs to happen is Fox Theme should be set to 0 when you press the start button.
-I'm thinking the entire music event should end before the credits start, during whatever fade to black/still image there is. Then the event can be called again. as the credits begin, and the theme will play.
-And I went through the mix, we're all good, I've export everything and will start the process of looping any files that need to loop. I'm updating what is and isn't finalized on the content list as I go.
+ * also people aren't able to get into dialogue properly after the cutscene?
+ * 
+ * Put colliders behind tree, only allowed to approach from 1 angle
  */
 
 public class GameManager : MonoBehaviour
@@ -185,6 +194,7 @@ public class GameManager : MonoBehaviour
         public override void OnEnter()
         {
             Logger.Debug("GameManager: Entered StartPlay");
+            FModMusicManager.EndFoxTheme();
         }
 
         public override void Update()

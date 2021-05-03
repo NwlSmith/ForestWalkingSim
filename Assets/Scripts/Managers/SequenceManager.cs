@@ -267,6 +267,7 @@ public static class SequenceManager
         {
             Logger.Debug("Entering EndGameState.");
             PlayerAnimation.Sitting(true);
+            FModMusicManager.EndMusicLayers();
         });
         Task waitForTime = new WaitTask(4.5f);
         

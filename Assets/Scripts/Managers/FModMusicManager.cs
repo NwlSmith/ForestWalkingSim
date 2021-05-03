@@ -33,6 +33,9 @@ public static class FModMusicManager
 
         // ADD OTHER ANIMALS
 
+        soundEventDescription.getParameterDescriptionByName("Fox Theme", out soundParameterDescription);
+        StrToID.Add("Fox Theme", soundParameterDescription.id);
+
         soundEventDescription.getParameterDescriptionByName("Layer 1", out soundParameterDescription);
         StrToID.Add("Layer 1", soundParameterDescription.id);
 
@@ -47,35 +50,36 @@ public static class FModMusicManager
         
         soundEventDescription.getParameterDescriptionByName("Spirit Speaking", out soundParameterDescription);
         StrToID.Add("Spirit Speaking", soundParameterDescription.id);
-        /*
+        
         soundEventDescription.getParameterDescriptionByName("Warbler Speaking", out soundParameterDescription);
         StrToID.Add("Warbler Speaking", soundParameterDescription.id);
 
         soundEventDescription.getParameterDescriptionByName("Warbler Child Speaking", out soundParameterDescription);
-        StrToID.Add("Warbler Child Speaking", soundParameterDescription.id);*/
+        StrToID.Add("Baby Bird Speaking", soundParameterDescription.id);
 
         soundEventDescription.getParameterDescriptionByName("Toad Speaking", out soundParameterDescription);
         StrToID.Add("Toad Speaking", soundParameterDescription.id);
 
         soundEventDescription.getParameterDescriptionByName("Frog Speaking", out soundParameterDescription);
         StrToID.Add("Frog Speaking", soundParameterDescription.id);
-        /*
+        
         soundEventDescription.getParameterDescriptionByName("Turtle Speaking", out soundParameterDescription);
-        StrToID.Add("Turtle Speaking", soundParameterDescription.id);*/
+        StrToID.Add("Turtle Speaking", soundParameterDescription.id);
     }
 
-    public static void PlayTrack(string track)
-    {
-        if (!StrToID.ContainsKey(track))
-            track = "Frog Speaking";
-        musicSoundState.setParameterByID(StrToID[track], 1);
-    }
+    public static void PlayTrack(string track) => musicSoundState.setParameterByID(StrToID[track], 1);
 
-    public static void EndTrack(string track)
+    public static void EndTrack(string track) => musicSoundState.setParameterByID(StrToID[track], 0);
+
+    public static void EndFoxTheme() => musicSoundState.setParameterByID(StrToID["Fox Theme"], 0);
+
+    public static void StartFoxTheme() => musicSoundState.setParameterByID(StrToID["Fox Theme"], 1);
+
+    public static void EndMusicLayers()
     {
-        if (!StrToID.ContainsKey(track))
-            track = "Frog Speaking";
-        musicSoundState.setParameterByID(StrToID[track], 0);
+        musicSoundState.setParameterByID(StrToID["Layer 1"], 0);
+        musicSoundState.setParameterByID(StrToID["Layer 2"], 0);
+        musicSoundState.setParameterByID(StrToID["Layer 3"], 0);
     }
 
     public static void FoundItem() => itemFoundSoundState.start();

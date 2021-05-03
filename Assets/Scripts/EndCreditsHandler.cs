@@ -22,6 +22,7 @@ public class EndCreditsHandler : MonoBehaviour
 
     private IEnumerator EndCredits()
     {
+        FModMusicManager.StartFoxTheme();
         yield return new WaitForSeconds(2f);
         float elapsed = 0;
         float duration = 40f;

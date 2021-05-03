@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TurtleRunSounds : MonoBehaviour
 {
-    private int nextSource = 0;
     [SerializeField] private AudioClip[] _acs = new AudioClip[3];
     [SerializeField] private GameObject particles;
     private AudioSource _as;
