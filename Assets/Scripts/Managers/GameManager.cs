@@ -20,9 +20,6 @@ using UnityEngine;
  * 
  * Maybe remove ambient audio?
  * 
- * make walking thru leaves slow character and cause leaf rustling sound?
- * instructions menu
- * - make sure correct font and in UIManager
  * 
  * fix positions of animals
  * turtle home player camera messed up
@@ -31,6 +28,13 @@ using UnityEngine;
  * frog and toad dialogue is messed up
  * get rid of any mention of that dastardly carp 
  * not clear where end of race is
+ * 
+ * make the fox collider thinner so it can move between trees?
+ * STILL DIALOGUE ENTRY BUG
+ * 
+ *  FYI I've put the fox theme and a couple other revised cues up on FMOD. I've set the initial value to 1 so the main theme can play in the menu, so all that needs to happen is Fox Theme should be set to 0 when you press the start button.
+I'm thinking the entire music event should end before the credits start, during whatever fade to black/still image there is. Then the event can be called again. as the credits begin, and the theme will play.
+And I went through the mix, we're all good, I've export everything and will start the process of looping any files that need to loop. I'm updating what is and isn't finalized on the content list as I go.
  */
 
 public class GameManager : MonoBehaviour
