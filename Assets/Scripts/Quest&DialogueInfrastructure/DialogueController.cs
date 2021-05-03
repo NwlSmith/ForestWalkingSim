@@ -90,7 +90,7 @@ public class DialogueController : MonoBehaviour
     public void EnterDialogue()
     {
         NPCInteractionManager.EnterDialogue();
-        _curNPC = NPCInteractionManager.closestNPC;
+        _curNPC = NPCInteractionManager.ClosestNPC();
         Logger.Debug($"Starting dialogue: {_curNPC.YarnStartNode}");
         DialogueRunner.StartDialogue(_curNPC.YarnStartNode);
         NPCSpeak(null);

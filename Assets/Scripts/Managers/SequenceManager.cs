@@ -235,6 +235,7 @@ public static class SequenceManager
             PlayerAnimation.Sitting(true);
             Services.PostProcessingManager.AdvanceStage();
             Services.UIManager.HideItemPickupPrompt();
+            Services.UIManager.HideDialogueEnterPrompt();
             // Fade in?
             Services.UIManager.CutsceneFadeOut();
         });
@@ -243,6 +244,7 @@ public static class SequenceManager
 
         ActionTask triggerPlantAnims = new ActionTask(() => {
             Services.UIManager.HideItemPickupPrompt();
+            Services.UIManager.HideDialogueEnterPrompt();
             cutsceneObjectsManager.Transition();
             FModMusicManager.EndCutscene();
         });

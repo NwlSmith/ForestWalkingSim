@@ -16,6 +16,7 @@ public class QuestItem : HoldableItem
 
     private Animator _animator;
     private FMODUnity.StudioEventEmitter _emitter;
+    private bool pickedUpAlready = false;
 
     protected override void Awake()
     {
@@ -42,7 +43,11 @@ public class QuestItem : HoldableItem
         _animator.SetBool(Str.Held, true);
         _emitter.Stop();
 
-        FModMusicManager.FoundItem();
+        if (!pickedUpAlready)
+        {
+            FModMusicManager.FoundItem();
+            pickedUpAlready = true;
+        }
     }
 
     public void Disappear()

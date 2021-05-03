@@ -378,8 +378,8 @@ public class PlayerMovement : MonoBehaviour
         {
             return Context.PlayerMoveToTransform(
                 NPCInteractionManager.DialogueTrans,
-                NPCInteractionManager.closestNPC.transform,
-                NPCInteractionManager.closestNPC.GetPlayerCameraLookAtPosition());
+                NPCInteractionManager.ClosestNPC().transform,
+                NPCInteractionManager.ClosestNPC().GetPlayerCameraLookAtPosition());
         }
 
         public override void OnExit() => Context.inPlaceForSequence = false;
@@ -555,7 +555,7 @@ public class PlayerMovement : MonoBehaviour
             private void JumpTasks()
             {
                 float elapsedTime = 0f;
-                float duration = 0.33f;
+                const float duration = 9f/60f;
                 DelegateTask moveAndWait = new DelegateTask(() => { }, () =>
                 {
                     elapsedTime += Time.fixedDeltaTime;

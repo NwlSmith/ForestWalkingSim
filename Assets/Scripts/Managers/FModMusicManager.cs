@@ -54,7 +54,7 @@ public static class FModMusicManager
         soundEventDescription.getParameterDescriptionByName("Warbler Speaking", out soundParameterDescription);
         StrToID.Add("Warbler Speaking", soundParameterDescription.id);
 
-        soundEventDescription.getParameterDescriptionByName("Warbler Child Speaking", out soundParameterDescription);
+        soundEventDescription.getParameterDescriptionByName("Baby Bird Speaking", out soundParameterDescription);
         StrToID.Add("Baby Bird Speaking", soundParameterDescription.id);
 
         soundEventDescription.getParameterDescriptionByName("Toad Speaking", out soundParameterDescription);

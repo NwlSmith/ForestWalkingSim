@@ -9,7 +9,7 @@ public class CutsceneObjectsManager : MonoBehaviour
 
     [SerializeField] private GameObject[] smokeParticles;
 
-    private int phase = 0;
+    private int phase = 2;
 
     private void Awake()
     {
@@ -23,12 +23,14 @@ public class CutsceneObjectsManager : MonoBehaviour
 
     private IEnumerator TransitionEnum()
     {
-        float scale = (2 - phase) / 2;
+        float scale = 2 / 2;
+        if (scale < 0)
+            scale = 0;
         foreach (GameObject emitter in smokeParticles)
         {
             emitter.transform.localScale = new Vector3(scale, scale, scale);
         }
-        phase++;
+        phase--;
 
         foreach (Animator anim in animators)
         {

@@ -113,7 +113,7 @@ public class CameraManager : MonoBehaviour
     public void EnterDialogue()
     {
         _fsm.TransitionTo<InDialogueState>();
-        SetTargetNPC(NPCInteractionManager.closestNPC);
+        SetTargetNPC(NPCInteractionManager.ClosestNPC());
     }
 
     // Updates the camera movement inputs. Called in InputManager.
@@ -289,7 +289,7 @@ public class CameraManager : MonoBehaviour
 
         private void DefineSequence()
         {
-            Context.cutsceneCamera.LookAt = Services.QuestItemRepository.currentQuestItem.transform;
+            Context.cutsceneCamera.LookAt = Services.QuestItemRepository.CurrentQuestItem().transform;
 
             // will be independent.
             DelegateTask moveCameraBehindPlayer1 = new DelegateTask(
@@ -316,7 +316,7 @@ public class CameraManager : MonoBehaviour
                 () =>
                 {
                     Context.anim.Play(Str.CutsceneDolly1);
-                    Context.cutsceneDollyCamera1.LookAt = Services.QuestItemRepository.currentQuestItem.transform;
+                    Context.cutsceneDollyCamera1.LookAt = Services.QuestItemRepository.CurrentQuestItem().transform;
                     elapsedTime = 0f;
                 },
                 () =>
@@ -389,7 +389,7 @@ public class CameraManager : MonoBehaviour
 
         private void DefineSequence()
         {
-            Context.cutsceneCamera.LookAt = Services.QuestItemRepository.currentQuestItem.transform;
+            Context.cutsceneCamera.LookAt = Services.QuestItemRepository.CurrentQuestItem().transform;
 
             // will be independent.
             DelegateTask moveCameraBehindPlayer1 = new DelegateTask(
@@ -414,7 +414,7 @@ public class CameraManager : MonoBehaviour
             DelegateTask cameraDolly1 = new DelegateTask(
                 () => {
                     Context.anim.Play(Str.CutsceneDolly1);
-                    Context.cutsceneDollyCamera1.LookAt = Services.QuestItemRepository.currentQuestItem.transform;
+                    Context.cutsceneDollyCamera1.LookAt = Services.QuestItemRepository.CurrentQuestItem().transform;
                     elapsedTime = 0f;
                 },
                 () => {

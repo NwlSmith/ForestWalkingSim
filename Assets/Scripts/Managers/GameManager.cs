@@ -16,19 +16,13 @@ using UnityEngine;
  * - We have freedom to go places, sure, but it doesn't feel intentional?
  * 
  * LOD is too noticeable, especially on rock
- * FIX CAMERA TWITCH!!!
  * 
  * dialogue sounds repetitive
  * - Add array of sounds?
  * 
- * make jumping animation faster
- * 
  * have camera just look at other animal?
  * 
  * Add text that says Soil returned?
- * 
- * fix turtle position at end of race
- * fix turtle dialogue, doesn't have something for quest stage = 1
  * 
  * fix positions of animals
  * turtle home player camera messed up
@@ -38,12 +32,15 @@ using UnityEngine;
  * get rid of any mention of that dastardly carp 
  * not clear where end of race is
  * 
- * make the fox collider thinner so it can move between trees?
  * STILL DIALOGUE ENTRY BUG
  * 
  * also people aren't able to get into dialogue properly after the cutscene?
  * 
  * Put colliders behind tree, only allowed to approach from 1 angle
+ * 
+ * Make it easier to enter convo with the 3rd bird
+ * 
+ * e to talk still shows up in final cutscene
  */
 
 public class GameManager : MonoBehaviour
