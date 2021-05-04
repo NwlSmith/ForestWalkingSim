@@ -389,7 +389,6 @@ public class CameraManager : MonoBehaviour
     {
 
         private float elapsedTime = 0f;
-        private float introDuration = 2f;
 
         public override void OnEnter() => DefineSequence();
 
