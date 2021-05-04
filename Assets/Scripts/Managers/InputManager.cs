@@ -163,10 +163,10 @@ public static class InputManager
 
         if (inputs.Interact)
         {
-            if (Services.PlayerItemHolder.canPickUpItem || Services.PlayerItemHolder._holdingItem)
-                Services.PlayerItemHolder.InputPressed(); // CREATE HIERARCHY BETWEEN THESE TWO - Only one should be used at once.
-            else
+            if (NPCInteractionManager.CanEnterConversation)
                 NPCInteractionManager.InputPressed();
+            else
+                Services.PlayerItemHolder.InputPressed(); // CREATE HIERARCHY BETWEEN THESE TWO - Only one should be used at once.
         }
     }
 

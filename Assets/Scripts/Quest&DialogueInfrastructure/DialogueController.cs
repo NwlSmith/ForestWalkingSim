@@ -151,6 +151,7 @@ public class DialogueController : MonoBehaviour
 
     private IEnumerator ContinueDialogueAfterDelay()
     {
+        FModMusicManager.PlayUISound();
         Services.UIManager.HideContinueDialogue();
         OnLineEnd();
         yield return new WaitForSeconds(.25f);

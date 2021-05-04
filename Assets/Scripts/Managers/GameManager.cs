@@ -35,6 +35,12 @@ using UnityEngine;
  * 
  * save after every quest stage
  * save item positions
+ * Will need quest stages to keep track of which birds are talked to, and which items have been collected
+ * Maybe just want to get rid of it?
+ * 
+ * make talking to npcs take precedence over items
+ * 
+ * fix dialogue cameras to include player.
  */
 
 public class GameManager : MonoBehaviour
@@ -77,6 +83,9 @@ public class GameManager : MonoBehaviour
             _checkControllerElapsedTime = 0f;
             InputManager.CheckUsingController();
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            FModMusicManager.PlayUISound();
     }
 
     #endregion

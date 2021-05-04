@@ -128,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
         Services.EventManager.Register<OnEnterDialogue>(_fsm.TransitionTo<InDialogueState>);
         Services.EventManager.Register<OnEnterMidCutscene>(_fsm.TransitionTo<CutsceneState>);
         Services.EventManager.Register<OnEnterEndCutscene>(_fsm.TransitionTo<CutsceneState>);
-        Services.EventManager.Register<OnEnterEndGame>(_fsm.TransitionTo<ForcedIdleState>);
+        Services.EventManager.Register<OnEnterEndGame>(_fsm.TransitionTo<EndCutsceneState>);
     }
 
     private void UnregisterEvents()
@@ -490,7 +490,6 @@ public class PlayerMovement : MonoBehaviour
 
 
                 Cont.inBush = CheckBushCollision;
-                if (Cont.inBush) Logger.Warning("In bush!");
 
                 Vector3 direction = new Vector3(Cont._horizontalInput, 0f, Cont._verticalInput).normalized;
 
@@ -646,6 +645,54 @@ public class PlayerMovement : MonoBehaviour
 
     // Player moves through sequence and faces South.
     private class CutsceneState : GameState
+    {
+
+        public override void OnEnter() => Context._taskManager.Do(DefineSequence());
+
+        private Task DefineSequence()
+        {
+            Task start = new ActionTask(() =>
+            {
+                Context.ResetInputs();
+                Context.inPlaceForSequence = false;
+            });
+
+            Task moveToInitPos = Context.PlayerMoveToTransform(
+                Services.QuestItemRepository.TargetStep1PlayerPosition, // Position target for player
+                Services.QuestItemRepository.TargetItemPosition, // direction target for player
+                Services.QuestItemRepository.TargetItemPosition); // Not totally sure.
+
+            start.Then(moveToInitPos);
+
+            Task phase2Start = Context.LastTask(moveToInitPos);
+
+            Task reset1 = new ActionTask(() => { Context.inPlaceForSequence = false; });
+
+            Task moveToMidPos = Context.PlayerMoveToTransform(
+                Services.QuestItemRepository.TargetStep2PlayerPosition,
+                Services.QuestItemRepository.TargetItemPosition,
+                Services.QuestItemRepository.TargetItemPosition);
+
+            phase2Start.Then(reset1).Then(moveToMidPos);
+
+            Task phase3Start = Context.LastTask(moveToMidPos);
+            Task reset2 = new ActionTask(() => { Context.inPlaceForSequence = false; });
+            Task wait4Secs = new WaitTask(4f);
+            Task forceFinalTransform = new ActionTask(() => {
+                Context.ForceTransform(Services.QuestItemRepository.TargetStep4PlayerPosition.position, Services.QuestItemRepository.TargetStep4PlayerPosition.rotation);
+                Services.UIManager.HideItemPickupPrompt();
+            });
+
+            phase3Start.Then(reset2).Then(wait4Secs).Then(forceFinalTransform);
+
+            return start;
+        }
+
+        public override void OnExit() => Context.inPlaceForSequence = false;
+    }
+
+    // Player moves through sequence and faces South.
+    private class EndCutsceneState : GameState
     {
 
         public override void OnEnter() => Context._taskManager.Do(DefineSequence());

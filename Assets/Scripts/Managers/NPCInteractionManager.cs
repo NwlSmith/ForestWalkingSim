@@ -99,4 +99,6 @@ public static class NPCInteractionManager
             FindClosestNPC();
         return closestNPC;
     }
+
+    public static bool CanEnterConversation => closestNPC != null;
 }
