@@ -38,7 +38,7 @@ using UnityEngine;
  * Will need quest stages to keep track of which birds are talked to, and which items have been collected
  * Maybe just want to get rid of it?
  * 
- * make talking to npcs take precedence over items
+ * dolly4 end is messed up
  * 
  * fix dialogue cameras to include player.
  */
@@ -141,18 +141,18 @@ public class GameManager : MonoBehaviour
     // Called on Exit dialogue.
     public void ReturnToPlay()
     {
-        if (_endingGame)
-            EndGame();
-        else
-            _fsm.TransitionTo<PlayState>();
+        if (!_endingGame)
+             _fsm.TransitionTo<PlayState>();
     }
 
     // Called on Quest item trigger.
     public void MidrollCutscene() => _fsm.TransitionTo<MidCutsceneState>();
 
-    public void EndCutscene() => _fsm.TransitionTo<EndCutsceneState>();
-
-    public void EndGame() => _fsm.TransitionTo<EndGameState>();
+    public void EndCutscene()
+    {
+        _endingGame = true;
+        _fsm.TransitionTo<EndCutsceneState>();
+    }
 
     // Called when the player goes to main menu.
     public void MainMenu()
@@ -220,7 +220,7 @@ public class GameManager : MonoBehaviour
         {
             if (Context._endingGame)
             {
-                TransitionTo<EndGameState>();
+                TransitionTo<EndCutsceneState>();
             }
             Logger.Debug("GameManager: Entered PlayState");
 
@@ -298,8 +298,7 @@ public class GameManager : MonoBehaviour
         public override void OnEnter() => Services.EventManager.Fire(new OnEnterMidCutscene());
     }
 
-    // Use delegates to control player movement, show item taken away, and coordinate UI and sound.
-    // FIX COMMENTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // Use delegates to control player movement, Fade out screen, load main menu.
     private class EndCutsceneState : GameState
     {
 
@@ -308,12 +307,6 @@ public class GameManager : MonoBehaviour
 
         public override void OnExit() => Context._endingGame = true;
 
-    }
-
-    // Use delegates to control player movement, Fade out screen, load main menu.
-    private class EndGameState : GameState
-    {
-        public override void OnEnter() => Services.EventManager.Fire(new OnEnterEndGame());
     }
 
     #endregion

@@ -127,8 +127,7 @@ public class PlayerMovement : MonoBehaviour
         Services.EventManager.Register<OnPause>(_fsm.TransitionTo<PauseState>);
         Services.EventManager.Register<OnEnterDialogue>(_fsm.TransitionTo<InDialogueState>);
         Services.EventManager.Register<OnEnterMidCutscene>(_fsm.TransitionTo<CutsceneState>);
-        Services.EventManager.Register<OnEnterEndCutscene>(_fsm.TransitionTo<CutsceneState>);
-        Services.EventManager.Register<OnEnterEndGame>(_fsm.TransitionTo<EndCutsceneState>);
+        Services.EventManager.Register<OnEnterEndCutscene>(_fsm.TransitionTo<EndCutsceneState>);
     }
 
     private void UnregisterEvents()
@@ -138,8 +137,7 @@ public class PlayerMovement : MonoBehaviour
         Services.EventManager.Unregister<OnPause>(_fsm.TransitionTo<PauseState>);
         Services.EventManager.Unregister<OnEnterDialogue>(_fsm.TransitionTo<InDialogueState>);
         Services.EventManager.Unregister<OnEnterMidCutscene>(_fsm.TransitionTo<CutsceneState>);
-        Services.EventManager.Unregister<OnEnterEndCutscene>(_fsm.TransitionTo<CutsceneState>);
-        Services.EventManager.Unregister<OnEnterEndGame>(_fsm.TransitionTo<ForcedIdleState>);
+        Services.EventManager.Unregister<OnEnterEndCutscene>(_fsm.TransitionTo<EndCutsceneState>);
     }
 
     #endregion
@@ -691,7 +689,7 @@ public class PlayerMovement : MonoBehaviour
         public override void OnExit() => Context.inPlaceForSequence = false;
     }
 
-    // Player moves through sequence and faces South.
+    // Player faces South.
     private class EndCutsceneState : GameState
     {
 
@@ -702,36 +700,15 @@ public class PlayerMovement : MonoBehaviour
             Task start = new ActionTask(() =>
             {
                 Context.ResetInputs();
-                Context.inPlaceForSequence = false;
             });
 
-            Task moveToInitPos = Context.PlayerMoveToTransform(
-                Services.QuestItemRepository.TargetStep1PlayerPosition, // Position target for player
-                Services.QuestItemRepository.TargetItemPosition, // direction target for player
-                Services.QuestItemRepository.TargetItemPosition); // Not totally sure.
-
-            start.Then(moveToInitPos);
-
-            Task phase2Start = Context.LastTask(moveToInitPos);
-
-            Task reset1 = new ActionTask(() => { Context.inPlaceForSequence = false; });
-
-            Task moveToMidPos = Context.PlayerMoveToTransform(
-                Services.QuestItemRepository.TargetStep2PlayerPosition,
-                Services.QuestItemRepository.TargetItemPosition,
-                Services.QuestItemRepository.TargetItemPosition);
-
-            phase2Start.Then(reset1).Then(moveToMidPos);
-
-            Task phase3Start = Context.LastTask(moveToMidPos);
-            Task reset2 = new ActionTask(() => { Context.inPlaceForSequence = false; });
-            Task wait4Secs = new WaitTask(4f);
+            Task wait2Secs = new WaitTask(2f);
             Task forceFinalTransform = new ActionTask(() => {
-                Context.ForceTransform(Services.QuestItemRepository.TargetStep4PlayerPosition.position, Services.QuestItemRepository.TargetStep4PlayerPosition.rotation);
-                Services.UIManager.HideItemPickupPrompt();
+                Context.ForceTransform(Services.QuestItemRepository.TargetStep3PlayerPosition.position, Services.QuestItemRepository.TargetStep3PlayerPosition.rotation);
+                Context.ForceTransform(Vector3.zero, Services.QuestItemRepository.TargetStep3PlayerPosition.rotation);
             });
 
-            phase3Start.Then(reset2).Then(wait4Secs).Then(forceFinalTransform);
+            start.Then(wait2Secs).Then(forceFinalTransform);
 
             return start;
         }

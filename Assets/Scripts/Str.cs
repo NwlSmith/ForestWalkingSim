@@ -65,6 +65,8 @@ public static class Str
     public static readonly int CutsceneDolly1 = UnityEngine.Animator.StringToHash("CutsceneDolly1");
     public static readonly int CutsceneDolly2 = UnityEngine.Animator.StringToHash("CutsceneDolly2");
     public static readonly int CutsceneDolly3 = UnityEngine.Animator.StringToHash("CutsceneDolly3");
+    public static readonly int CutsceneDolly4 = UnityEngine.Animator.StringToHash("CutsceneDolly4");
+    public static readonly int CutsceneDolly5 = UnityEngine.Animator.StringToHash("CutsceneDolly5");
     #endregion
 
     #region UI.

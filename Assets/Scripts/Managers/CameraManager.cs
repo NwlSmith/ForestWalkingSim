@@ -44,6 +44,8 @@ public class CameraManager : MonoBehaviour
     private readonly float _maxVert = 30f;
     private NPC targetNPC = null;
 
+    private int cutsceneNum = 0;
+
     private Animator anim = null;
 
     public Camera MainCamera { get; private set; }
@@ -91,7 +93,6 @@ public class CameraManager : MonoBehaviour
         Services.EventManager.Register<OnPause>(_fsm.TransitionTo<PauseState>);
         Services.EventManager.Register<OnEnterMidCutscene>(_fsm.TransitionTo<MidCutsceneState>);
         Services.EventManager.Register<OnEnterEndCutscene>(_fsm.TransitionTo<EndCutsceneState>);
-        Services.EventManager.Register<OnEnterEndGame>(_fsm.TransitionTo<PauseState>);
     }
 
     private void UnregisterEvents()
@@ -101,7 +102,6 @@ public class CameraManager : MonoBehaviour
         Services.EventManager.Unregister<OnPause>(_fsm.TransitionTo<PauseState>);
         Services.EventManager.Unregister<OnEnterMidCutscene>(_fsm.TransitionTo<MidCutsceneState>);
         Services.EventManager.Unregister<OnEnterEndCutscene>(_fsm.TransitionTo<EndCutsceneState>);
-        Services.EventManager.Unregister<OnEnterEndGame>(_fsm.TransitionTo<PauseState>);
     }
     
     private void EnterPlay(AGPEvent e)
@@ -333,7 +333,12 @@ public class CameraManager : MonoBehaviour
             DelegateTask cameraDolly2 = new DelegateTask(
                 () =>
                 {
-                    Context.anim.Play(Str.CutsceneDolly3); // CHANGE BACK TO 2
+                    if (Context.cutsceneNum == 0)
+                        Context.anim.Play(Str.CutsceneDolly3);
+                    else if (Context.cutsceneNum == 1)
+                        Context.anim.Play(Str.CutsceneDolly4); // MAKE DOLLY FOR SECOND CUTSCENE
+                    else if (Context.cutsceneNum == 2)
+                        Context.anim.Play(Str.CutsceneDolly2);
                     elapsedTime = 0f;
                 },
                 () =>
@@ -342,6 +347,7 @@ public class CameraManager : MonoBehaviour
                     return elapsedTime > 11.5f;
                 }, () =>
                 {
+                    Context.cutsceneNum++;
                 }
                 );
 
@@ -389,44 +395,12 @@ public class CameraManager : MonoBehaviour
 
         private void DefineSequence()
         {
-            Context.cutsceneCamera.LookAt = Services.QuestItemRepository.CurrentQuestItem().transform;
+            //Context.cutsceneCamera.LookAt = Services.QuestItemRepository.CurrentQuestItem().transform; // figure out what it's looking at
 
-            // will be independent.
-            DelegateTask moveCameraBehindPlayer1 = new DelegateTask(
+            Task wait2Secs = new WaitTask(2f);
+            DelegateTask cameraDolly5 = new DelegateTask(
                 () => {
-                    elapsedTime = 0f;
-                },
-                () => {
-                    elapsedTime += Time.deltaTime;
-                    Context.targetVector.localRotation = Quaternion.Slerp(Context.targetVector.localRotation, Quaternion.Euler(Vector3.zero), elapsedTime / introDuration);
-                    return elapsedTime > introDuration;
-                },
-                () => {
-                    Context.targetVector.localEulerAngles = Vector3.zero;
-                }
-                );
-
-            DelegateTask waitForPlayerInPlace = new DelegateTask(() => { },
-                () => {
-                    return Services.PlayerMovement.inPlaceForSequence;
-                });
-
-            DelegateTask cameraDolly1 = new DelegateTask(
-                () => {
-                    Context.anim.Play(Str.CutsceneDolly1);
-                    Context.cutsceneDollyCamera1.LookAt = Services.QuestItemRepository.CurrentQuestItem().transform;
-                    elapsedTime = 0f;
-                },
-                () => {
-                    elapsedTime += Time.deltaTime;
-                    return elapsedTime > 5.5f;
-                });
-
-            WaitTask wait4secs = new WaitTask(1f);
-
-            DelegateTask cameraDolly3 = new DelegateTask(
-                () => {
-                    Context.anim.Play(Str.CutsceneDolly2);
+                    Context.anim.Play(Str.CutsceneDolly5); // Play end cutscene animation
                     elapsedTime = 0f;
                 },
                 () =>
@@ -435,28 +409,8 @@ public class CameraManager : MonoBehaviour
                     return elapsedTime > 15f;
                 });
 
-            //WaitTask waitFor6Seconds = new WaitTask(5.5f);
-
-            DelegateTask moveCameraBehindPlayer2 = new DelegateTask(
-                () => {
-                    elapsedTime = 0f;
-                    Context.targetVector.localEulerAngles = Vector3.zero;
-                },
-                () => {
-                    elapsedTime += Time.deltaTime;
-                    Context.targetVector.localRotation = Quaternion.Slerp(Context.targetVector.localRotation, Quaternion.Euler(Vector3.zero), elapsedTime / introDuration);
-                    return elapsedTime > introDuration;
-                },
-                () => {
-                    Context.targetVector.localEulerAngles = Vector3.zero;
-                }
-                );
-
-            waitForPlayerInPlace.Then(cameraDolly1).Then(wait4secs).Then(cameraDolly3).Then(moveCameraBehindPlayer2);
-            //moveCameraBehindPlayer1.Then(waitFor6Seconds).Then(moveCameraBehindPlayer2);
-
-            Context._taskManager.Do(moveCameraBehindPlayer1);
-            Context._taskManager.Do(waitForPlayerInPlace);
+            wait2Secs.Then(cameraDolly5);
+            Context._taskManager.Do(wait2Secs);
         }
 
         public override void OnExit()

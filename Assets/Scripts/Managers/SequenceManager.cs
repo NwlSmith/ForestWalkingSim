@@ -22,7 +22,6 @@ public static class SequenceManager
         _enterDialogue = DefineDialogueSequence();
         _enterMidSequence = DefineMidSequence();
         _enterEndSequence = DefineEndSequence();
-        _enterEndGameSequence = DefineEndGameSequence();
 
         RegisterEvents();
 
@@ -43,7 +42,6 @@ public static class SequenceManager
         Services.EventManager.Register<OnEnterDialogue>(EnterDialogue);
         Services.EventManager.Register<OnEnterMidCutscene>(EnterMidCutscene);
         Services.EventManager.Register<OnEnterEndCutscene>(EnterEndCutscene);
-        Services.EventManager.Register<OnEnterEndGame>(EnterEndGame);
     }
 
     private static void UnregisterEvents()
@@ -51,13 +49,11 @@ public static class SequenceManager
         Services.EventManager.Unregister<OnEnterDialogue>(EnterDialogue);
         Services.EventManager.Unregister<OnEnterMidCutscene>(EnterMidCutscene);
         Services.EventManager.Unregister<OnEnterEndCutscene>(EnterEndCutscene);
-        Services.EventManager.Unregister<OnEnterEndGame>(EnterEndGame);
     }
 
     private static void EnterDialogue(AGPEvent e) => _taskManager.Do(_enterDialogue);
     private static void EnterMidCutscene(AGPEvent e) => _taskManager.Do(_enterMidSequence);
     private static void EnterEndCutscene(AGPEvent e) => _taskManager.Do(_enterEndSequence);
-    private static void EnterEndGame(AGPEvent e) => _taskManager.Do(_enterEndGameSequence);
 
     public static void Save()
     {
@@ -142,8 +138,6 @@ public static class SequenceManager
 
         Task waitForTime3 = new WaitTask(1.5f);
 
-
-
         // 4. Fade to white? black? 2s
         ActionTask fourthSequence = new ActionTask(() =>
         {
@@ -183,103 +177,39 @@ public static class SequenceManager
 
     private static Task DefineEndSequence()
     {
-        // 1. Move player to position. Move camera behind player. ~2s
-        Task enterSequence = new DelegateTask(() => { }, () =>
+        ActionTask firstSequence = new ActionTask(() =>
         {
-            return Services.PlayerMovement.inPlaceForSequence;
+            Services.UIManager.CutsceneFadeIn();
+        });
+        Task waitForTime1 = new WaitTask(2f);
+
+        ActionTask secondSequence = new ActionTask(() =>
+        {
+            Services.UIManager.CutsceneFadeOut();
+            Services.UIManager.HideAllUI();
+            PlayerAnimation.Sitting(true);
+            FModMusicManager.EndCutscene();
+            cutsceneObjectsManager.EndNPCs();
+
         });
 
-        Task waitForTime1 = new WaitTask(1f);
+        Task waitForTime2 = new WaitTask(14f);
 
-        // 2. Move Camera to cutsceneCamera, have camera slowly focus on item. Make player walk to tree. ~2s
-        Task secondSequence = new DelegateTask(() =>
-        {
-            // Trigger particles?
-            // Trigger music?
-        }, () =>
-        {
-            return Services.PlayerMovement.inPlaceForSequence;
-        }, () =>
-        {
-            Services.PlayerItemHolder.DropItem();
-        });
-
-        Task waitForTime2 = new WaitTask(.66f);
-
-        // 3.Trigger Quest item repository to take item, trigger sounds and particle effects, smoothly animate it into position and have large particle effect. 2s
         ActionTask thirdSequence = new ActionTask(() =>
         {
-            Services.QuestItemRepository.StartSequence();
-            FModMusicManager.ReturnedItem();
-            // Quest item Repository takes Item.
-            // trigger other stuff.
-        });
-
-        
-
-        Task waitForTime3 = new WaitTask(1.5f);
-
-        // 4. Fade to white? black? 2s
-        ActionTask fourthSequence = new ActionTask(() =>
-        {
-            // Fade out?
             Services.UIManager.CutsceneFadeIn();
         });
 
-        // 5. stay there for a sec as music fades. Place player into new position. 3s
-        Task waitForTime4 = new WaitTask(4.5f);
+        Task waitForTime3 = new WaitTask(4f);
 
-        // 6. Fade back in and have player turned around as environment changes are triggered. 2s
-        ActionTask fifthSequence = new ActionTask(() =>
-        {
-            PlayerAnimation.Sitting(true);
-            Services.PostProcessingManager.AdvanceStage();
-            Services.UIManager.HideItemPickupPrompt();
-            Services.UIManager.HideDialogueEnterPrompt();
-            // Fade in?
-            Services.UIManager.CutsceneFadeOut();
-        });
-
-        Task waitForTime5 = new WaitTask(2f);
-
-        ActionTask triggerPlantAnims = new ActionTask(() => {
-            Services.UIManager.HideItemPickupPrompt();
-            Services.UIManager.HideDialogueEnterPrompt();
-            cutsceneObjectsManager.Transition();
-            FModMusicManager.EndCutscene();
-        });
-        // trigger camera!!!!!!!!!!!!!!!!!!!!!!!!!
-
-        Task waitForTime6 = new WaitTask(13.5f);
-        // 7. 1 sec later have player get up and return to normal controls. 1s
-        ActionTask sixthSequence = new ActionTask(() =>
-        {
-            PlayerAnimation.Sitting(false);
-            NPCInteractionManager.FindClosestNPC();
-            Services.GameManager.EnterDialogue();
-        });
-
-        enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(triggerPlantAnims).Then(waitForTime6).Then(sixthSequence);
-        return enterSequence;
-    }
-
-    private static Task DefineEndGameSequence()
-    {
-        Task enterSequence = new ActionTask(() =>
-        {
-            Logger.Debug("Entering EndGameState.");
-            PlayerAnimation.Sitting(true);
-            FModMusicManager.EndMusicLayers();
-        });
-        Task waitForTime = new WaitTask(4.5f);
-        
         Task endGame = new ActionTask(() =>
         {
+            FModMusicManager.EndMusicLayers();
             UnityEngine.SceneManagement.SceneManager.LoadScene(2);
         });
 
-        enterSequence.Then(waitForTime).Then(endGame);
-        return enterSequence;
+        firstSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(endGame);
+        return firstSequence;
     }
 
 }

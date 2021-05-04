@@ -182,8 +182,7 @@ public class MainQuest : FSMQuest
         public override void OnEnter()
         {
             base.OnEnter();
-            Services.GameManager.EndCutscene();
-            FModMusicManager.PlayTrack("End");
+            Services.GameManager.MidrollCutscene();
         }
     }
 
@@ -196,7 +195,8 @@ public class MainQuest : FSMQuest
         public override void OnEnter()
         {
             base.OnEnter();
-            Services.GameManager.EndGame();
+            Services.GameManager.EndCutscene();
+            FModMusicManager.PlayTrack("End");
             // TRIGGER END CUTSCENE.
         }
     }

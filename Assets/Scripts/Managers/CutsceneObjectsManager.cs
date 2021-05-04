@@ -11,6 +11,9 @@ public class CutsceneObjectsManager : MonoBehaviour
 
     [SerializeField] private GameObject[] smokeParticles;
 
+    [SerializeField] private GameObject playerEndModel;
+    [SerializeField] private GameObject[] npcModels;
+
     private int phase = 2;
 
     private void Awake()
@@ -18,12 +21,15 @@ public class CutsceneObjectsManager : MonoBehaviour
         batch1Animators = transform.GetChild(0).GetComponentsInChildren<Animator>();
         batch2Animators = transform.GetChild(1).GetComponentsInChildren<Animator>();
         batch3Animators = transform.GetChild(2).GetComponentsInChildren<Animator>();
+
+        playerEndModel.SetActive(false);
+        foreach (var npc in npcModels)
+        {
+            npc.SetActive(false);
+        }
     }
 
-    public void Transition()
-    {
-        StartCoroutine(TransitionEnum());
-    }
+    public void Transition() => StartCoroutine(TransitionEnum());
 
     private IEnumerator TransitionEnum()
     {
@@ -62,5 +68,32 @@ public class CutsceneObjectsManager : MonoBehaviour
                 break;
         }
         phase--;
+    }
+
+    public void EndNPCs() => StartCoroutine(EndNPCSEnum());
+
+    private IEnumerator EndNPCSEnum()
+    {
+        playerEndModel.SetActive(true);
+
+        List<Animator> npcAnims = new List<Animator>();
+
+        foreach (var npc in npcModels)
+        {
+            npc.SetActive(true);
+            Animator anim = npc.GetComponentInChildren<Animator>();
+            anim.SetTrigger(Str.Talk);
+            npcAnims.Add(anim);
+        }
+
+        while (true)
+        {
+            yield return new WaitForSeconds(2f);
+
+            foreach (var anim in npcAnims)
+            {
+                anim.SetTrigger(Str.Talk);
+            }
+        }
     }
 }

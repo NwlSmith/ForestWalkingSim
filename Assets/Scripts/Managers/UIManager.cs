@@ -130,7 +130,6 @@ public class UIManager : MonoBehaviour
         Services.EventManager.Register<OnEnterPlay>(_fsm.TransitionTo<PlayState>);
         Services.EventManager.Register<OnPause>(_fsm.TransitionTo<PauseState>);
         Services.EventManager.Register<OnEnterDialogue>(HideDialogueEnterPrompt);
-        Services.EventManager.Register<OnEnterEndGame>(CutsceneFadeIn);
     }
 
     private void UnregisterEvents()
@@ -139,7 +138,6 @@ public class UIManager : MonoBehaviour
         Services.EventManager.Unregister<OnEnterPlay>(_fsm.TransitionTo<PlayState>);
         Services.EventManager.Unregister<OnPause>(_fsm.TransitionTo<PauseState>);
         Services.EventManager.Unregister<OnEnterDialogue>(HideDialogueEnterPrompt);
-        Services.EventManager.Unregister<OnEnterEndGame>(CutsceneFadeIn);
     }
 
     #endregion
@@ -258,7 +256,7 @@ public class UIManager : MonoBehaviour
             UI.gameObject.SetActive(false);
     }
 
-    private void HideAllUI()
+    public void HideAllUI()
     {
         foreach (RectTransform rt in _allUI)
             HideUI(rt);
