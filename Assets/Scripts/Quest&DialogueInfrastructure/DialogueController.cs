@@ -145,7 +145,7 @@ public class DialogueController : MonoBehaviour
 
         _speakerText.text = _playerSpeakerData.SpeakerName;
         _dialogueText.color = _playerSpeakerData.SpeakerColor;
-        Services.CameraManager.NPCCameraView();
+        //Services.CameraManager.NPCCameraView();
         _isPlayerSpeaking = true;
     }
 

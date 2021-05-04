@@ -15,7 +15,6 @@ using UnityEngine;
  * - In URPExampleAssets > Settings > UniversalRenderPipeline Shadow Max distance was initially 50
  * - We have freedom to go places, sure, but it doesn't feel intentional?
  * 
- * LOD is too noticeable, especially on rock
  * 
  * dialogue sounds repetitive
  * - Add array of sounds?
@@ -24,12 +23,10 @@ using UnityEngine;
  * 
  * Add text that says Soil returned?
  * 
- * fix positions of animals
  * turtle home player camera messed up
  * 
  * hard to see 3rd bird
- * frog and toad dialogue is messed up
- * get rid of any mention of that dastardly carp 
+ * it goes into ground
  * not clear where end of race is
  * 
  * STILL DIALOGUE ENTRY BUG
@@ -40,7 +37,11 @@ using UnityEngine;
  * 
  * Make it easier to enter convo with the 3rd bird
  * 
- * e to talk still shows up in final cutscene
+ * instead of having all cutscene objects go from small to big to bigger, make BATCHES grow fully, different batches for different cutscenes.
+ * 
+ * save after every quest stage
+ * 
+ * save item positions
  */
 
 public class GameManager : MonoBehaviour
