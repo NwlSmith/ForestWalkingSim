@@ -17,9 +17,6 @@ using UnityEngine;
  * 
  * 
  * dialogue sounds repetitive
- * - Add array of sounds?
- * 
- * have camera just look at other animal?
  * 
  * Add text that says Soil returned?
  * 
@@ -27,20 +24,16 @@ using UnityEngine;
  * 
  * hard to see 3rd bird
  * it goes into ground
+ * Make it easier to enter convo with the 3rd bird
  * not clear where end of race is
  * 
  * STILL DIALOGUE ENTRY BUG
  * 
  * also people aren't able to get into dialogue properly after the cutscene?
  * 
- * Put colliders behind tree, only allowed to approach from 1 angle
- * 
- * Make it easier to enter convo with the 3rd bird
- * 
  * instead of having all cutscene objects go from small to big to bigger, make BATCHES grow fully, different batches for different cutscenes.
  * 
  * save after every quest stage
- * 
  * save item positions
  */
 
