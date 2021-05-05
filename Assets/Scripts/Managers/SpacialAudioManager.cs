@@ -14,7 +14,7 @@ public class SpacialAudioManager : MonoBehaviour
     public enum AreaEnum { Start, Heart, Warbler, Frogs, Turtle };
     private AreaEnum _currentArea = AreaEnum.Start;
     private int _curASIndex = 0;
-    [SerializeField] private float _musicVolume = .8f;
+    [SerializeField] private float _musicVolume = .3f;
     private AudioSource[] _audioSources = new AudioSource[2];
     [SerializeField] private AudioClip _startSong;
     [SerializeField] private AudioClip _heartSong;
@@ -78,7 +78,7 @@ public class SpacialAudioManager : MonoBehaviour
             () => { },
             () => {
                 _elapsedTime += Time.deltaTime;
-                _curAS.volume = 1 - _elapsedTime / _fadeDuration;
+                _curAS.volume = Mathf.Lerp(_musicVolume, 0, 1 - _elapsedTime / _fadeDuration);
                 return _elapsedTime >= _fadeDuration;
             }
         );
@@ -98,6 +98,7 @@ public class SpacialAudioManager : MonoBehaviour
             () => {
                 _elapsedTime += Time.deltaTime;
                 _curAS.volume = _elapsedTime / _fadeDuration;
+                _curAS.volume = Mathf.Lerp(0, _musicVolume, _elapsedTime / _fadeDuration);
                 return _elapsedTime >= _fadeDuration;
             }
         );

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5290209547829760618}
   - component: {fileID: 1400475682438582198}
   - component: {fileID: 137892508064619405}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Circle.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,10 +50,10 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 513873563785078994}
   - component: {fileID: 6141957140807507025}
   - component: {fileID: 1329256688246260060}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,10 +132,10 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
@@ -172,8 +172,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6976388101360228808}
-  - component: {fileID: 3386570681025846158}
-  m_Layer: 0
+  - component: {fileID: 1520312598442493565}
+  m_Layer: 11
   m_Name: flower Cutscene
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,7 +196,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 10.915, y: 1.44, z: 7.565}
---- !u!95 &3386570681025846158
+--- !u!95 &1520312598442493565
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0

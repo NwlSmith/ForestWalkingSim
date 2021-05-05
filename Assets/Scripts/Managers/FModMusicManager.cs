@@ -11,7 +11,8 @@ public static class FModMusicManager
     private static EventInstance itemFoundSoundState;
     private static EventInstance itemReturnedSoundState;
     private static EventInstance endCutsceneSoundState;
-    private static EventInstance uiSoundState;
+    private static EventInstance[] uiSoundStates = new EventInstance[3];
+    private static int curUISoundState = 0;
 
     private static Dictionary<string, PARAMETER_ID> StrToID = new Dictionary<string, PARAMETER_ID>();
 
@@ -23,7 +24,11 @@ public static class FModMusicManager
 
         itemFoundSoundState = FMODUnity.RuntimeManager.CreateInstance("event:/Object Acquired");
         itemReturnedSoundState = FMODUnity.RuntimeManager.CreateInstance("event:/Object Returned");
-        uiSoundState = FMODUnity.RuntimeManager.CreateInstance("event:/UI");
+
+        for (int i = 0; i < 3; i++)
+        {
+            uiSoundStates[i] = FMODUnity.RuntimeManager.CreateInstance("event:/UI");
+        }
     }
 
     private static void CompileSounds()
@@ -90,7 +95,9 @@ public static class FModMusicManager
 
     public static void EndCutscene() => musicSoundState.setParameterByName("End", 1);
 
-    public static void PlayUISound() => uiSoundState.start();
-
-
+    public static void PlayUISound()
+    {
+        curUISoundState = (curUISoundState + 1) % 3;
+        uiSoundStates[curUISoundState].start();
+    }
 }
