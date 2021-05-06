@@ -50,7 +50,7 @@ position: -1085,626
     <<PlayerSpeak>>
     I'm so sorry to hear that.
     <<NPCSpeak>>
-    It’s been quite the rude awakening.
+    It's been quite the rude awakening.
     Turtle has been particularly affected by it all.
     As the oldest in these woods, she seems afraid to lose the turtle she used to be.
     Did you know she used to be one of the fastest creatures in the forest?
@@ -62,11 +62,11 @@ position: -1085,626
     Nevertheless, the fire was just another reminder that her time here is finite.
     <<PlayerSpeak>>
     I understand.
-    You seem rather content, if you don’t mind my saying.
+    You seem rather content, if you don't mind my saying.
     <<NPCSpeak>>
     I do not mind.
-    The truth is that I’ve found someone to share that anxiety with.
-    It hasn’t left, but it is considerably more manageable with someone like Frog around.
+    The truth is that I've found someone to share that anxiety with.
+    It hasn't left, but it is considerably more manageable with someone like Frog around.
     <<PlayerSpeak>>
     You make a good team.
     <<NPCSpeak>>
