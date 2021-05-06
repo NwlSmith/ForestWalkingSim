@@ -61,12 +61,30 @@ public class TurtleQuest : FSMQuest
     private class Stage1State : QuestState
     {
         public Stage1State() : base(1) { }
+
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            if (!Services.SaveManager.loadingSave)
+            {
+                Services.SaveManager.SaveData();
+            }
+        }
     }
 
     // Stage 2: Despawn original Turtle. Go to start line (out of sight from turtle's house) and see turtle there. Advance to stage 3 by talking to Turtle.
     private class Stage2State : QuestState
     {
         public Stage2State() : base(2) { }
+
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            if (!Services.SaveManager.loadingSave)
+            {
+                Services.SaveManager.SaveData();
+            }
+        }
     }
 
     // Stage 3: Talk to turtle at start line. She says she wants to race you. Count down then make turtle move forward super slow. Advance to stage 4 by either turning corner or turtle crosses finish line.
@@ -157,6 +175,16 @@ public class TurtleQuest : FSMQuest
     private class Stage4State : QuestState
     {
         public Stage4State() : base(4) { }
+
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            if (!Services.SaveManager.loadingSave)
+            {
+                Services.SaveManager.SaveData();
+            }
+        }
+
         public override void Update() => ((TurtleQuest)Context)._taskManager.Update();
     }
 
@@ -164,6 +192,15 @@ public class TurtleQuest : FSMQuest
     private class Stage5State : QuestState
     {
         public Stage5State() : base(5) { }
+
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            if (!Services.SaveManager.loadingSave)
+            {
+                Services.SaveManager.SaveData();
+            }
+        }
     }
 
     // Stage 6: Finish the quest, despawn everything.

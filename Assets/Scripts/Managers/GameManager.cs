@@ -16,29 +16,18 @@ using UnityEngine;
  * - We have freedom to go places, sure, but it doesn't feel intentional?
  * 
  * 
- * dialogue sounds repetitive
- * 
  * Add text that says Soil returned?
  * 
- * turtle home player camera messed up
- * 
- * hard to see 3rd bird
- * it goes into ground
- * Make it easier to enter convo with the 3rd bird
  * not clear where end of race is
  * 
  * STILL DIALOGUE ENTRY BUG
  * 
  * also people aren't able to get into dialogue properly after the cutscene?
  * 
- * instead of having all cutscene objects go from small to big to bigger, make BATCHES grow fully, different batches for different cutscenes.
- * 
  * save after every quest stage
  * save item positions
  * Will need quest stages to keep track of which birds are talked to, and which items have been collected
  * Maybe just want to get rid of it?
- * 
- * dolly4 end is messed up
  * 
  * fix dialogue cameras to include player.
  */
@@ -83,9 +72,6 @@ public class GameManager : MonoBehaviour
             _checkControllerElapsedTime = 0f;
             InputManager.CheckUsingController();
         }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-            FModMusicManager.PlayUISound();
     }
 
     #endregion
@@ -269,6 +255,7 @@ public class GameManager : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            Logger.Warning("GameManager entering dialogue");
             Services.EventManager.Fire(new OnEnterDialogue());
         }
 

@@ -99,8 +99,7 @@ public class WarblerQuest : FSMQuest
     {
         if (_curWarblerNum == -1)
             _curWarblerNum = GetTriggeredWarbler();
-
-
+        
         NPC childNPC = _warblerNPC[_curWarblerNum];
         childNPC.GetComponentInChildren<NPCCollider>().transform.localScale = Vector3.zero;
         Task start = new ActionTask(() =>
@@ -133,6 +132,7 @@ public class WarblerQuest : FSMQuest
 
     private DelegateTask WarblerMove(Transform npc, Transform target)
     {
+        float _elapsedTime = 0f;
         return new DelegateTask(
             () =>
             {
@@ -140,20 +140,25 @@ public class WarblerQuest : FSMQuest
             },
             () =>
             {
+                _elapsedTime += Time.deltaTime;
                 float targetAngle = Quaternion.LookRotation((target.position - npc.position).normalized, Vector3.up).eulerAngles.y;
-                float angle = Mathf.SmoothDampAngle(npc.eulerAngles.y, targetAngle, ref turningSmoothVel, .1f);
+                float angle = Mathf.SmoothDampAngle(npc.eulerAngles.y, targetAngle, ref turningSmoothVel, .2f);
                 npc.rotation = Quaternion.Euler(0f, angle, 0f);
                 
                 npc.position = npc.position + npc.forward * _warblerSpeed * Time.deltaTime;
-                if (target.position.y > npc.position.y + .25f)
+                if (target.position.y > npc.position.y + .15f)
                 {
                     npc.position = npc.position + npc.up * _warblerSpeed * Time.deltaTime;
-                } else if (target.position.y < npc.position.y - .25f)
+                } else if (target.position.y < npc.position.y - .15f)
                 {
                     npc.position = npc.position - npc.up * _warblerSpeed * Time.deltaTime;
                 }
 
-                return Vector3.Distance(npc.position, target.position) < _distFromTarget;
+                return Vector3.Distance(npc.position, target.position) < _distFromTarget || _elapsedTime > 3f;
+            },
+            () =>
+            {
+                npc.position = target.position;
             }
         );
     }
@@ -171,6 +176,15 @@ public class WarblerQuest : FSMQuest
     private class Stage1State : QuestState
     {
         public Stage1State() : base(1) { }
+
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            if (!Services.SaveManager.loadingSave)
+            {
+                Services.SaveManager.SaveData();
+            }
+        }
     }
 
     // Stage 2: Advance to stage 3 by finding the second child.
@@ -182,6 +196,10 @@ public class WarblerQuest : FSMQuest
         {
             base.OnEnter();
             ((WarblerQuest)Context).SendTriggeredBirdHome();
+            if (!Services.SaveManager.loadingSave)
+            {
+                Services.SaveManager.SaveData();
+            }
         }
     }
 
@@ -195,6 +213,10 @@ public class WarblerQuest : FSMQuest
         {
             base.OnEnter();
             ((WarblerQuest)Context).SendTriggeredBirdHome();
+            if (!Services.SaveManager.loadingSave)
+            {
+                Services.SaveManager.SaveData();
+            }
         }
     }
 
@@ -218,6 +240,10 @@ public class WarblerQuest : FSMQuest
             }
 
             ((WarblerQuest)Context).SendTriggeredBirdHome(lastWarbler, true);
+            if (!Services.SaveManager.loadingSave)
+            {
+                Services.SaveManager.SaveData();
+            }
         }
     }
 
@@ -225,6 +251,15 @@ public class WarblerQuest : FSMQuest
     private class Stage5State : QuestState
     {
         public Stage5State() : base(5) { }
+
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            if (!Services.SaveManager.loadingSave)
+            {
+                Services.SaveManager.SaveData();
+            }
+        }
     }
 
     // Stage 6: Finish the quest, despawn everything.

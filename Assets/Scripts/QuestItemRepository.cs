@@ -38,7 +38,7 @@ public class QuestItemRepository : MonoBehaviour
     private QuestItem FindClosestQuestItem()
     {
         Logger.Warning("Failsafe: Someone called FindClosestQuestItem() on QuestItemRepository");
-        float closestDist = 75f;
+        float closestDist = 200f;
         QuestItem closeItem = null;
 
         foreach (QuestItem item in _questItems)
@@ -66,6 +66,11 @@ public class QuestItemRepository : MonoBehaviour
 
         if (item == null) return;
 
+        InputItem(item);
+    }
+
+    public void InputItem(QuestItem item)
+    {
         switch (item.itemEnum)
         {
             case QuestItem.QuestItemEnum.Seed:

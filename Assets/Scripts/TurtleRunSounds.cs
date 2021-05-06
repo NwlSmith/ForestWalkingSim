@@ -6,6 +6,7 @@ public class TurtleRunSounds : MonoBehaviour
 {
     [SerializeField] private AudioClip[] _acs = new AudioClip[3];
     [SerializeField] private GameObject particles;
+    [SerializeField] private float soundVolume = .3f;
     private AudioSource _as;
     private bool _running = false;
     private void Awake()
@@ -15,6 +16,7 @@ public class TurtleRunSounds : MonoBehaviour
         _as.minDistance = 5f;
         _as.maxDistance = 10f;
         _as.spatialBlend = 1f;
+        _as.volume = soundVolume;
         particles.SetActive(false);
     }
 

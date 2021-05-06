@@ -8,13 +8,14 @@ public static class NPCInteractionManager
 {
     private const float _closestDistForNPCEncounter = 50f;
     private static NPC closestNPC = null;
-    private static readonly Transform _transform;
-    private static readonly NPC[] _npcs;
+    private static Transform _transform;
+    private static NPC[] _npcs;
     private static float _timeLeftNPC = 0;
     private static float _npcCooldown = 1f;
     private static bool enteringDialogueFailsafe = false;
+    
 
-    static NPCInteractionManager()
+    public static void Init()
     {
         _transform = Object.FindObjectOfType<PlayerMovement>().transform;
         _npcs = Object.FindObjectsOfType<NPC>();

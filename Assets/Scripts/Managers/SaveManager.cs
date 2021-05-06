@@ -16,6 +16,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 public class SaveManager
 {
 
+    public bool loadingSave = false;
+
     #region Quest and Item GameObjects.
     private MainQuest mainQuest;
     private WarblerQuest warblerQuest;
@@ -71,6 +73,9 @@ public class SaveManager
         public bool foundSeed;
         public bool foundSoil;
         public bool foundRain;
+        public float[] seedPos;
+        public float[] soilPos;
+        public float[] rainPos;
     }
     #endregion
 
@@ -89,26 +94,24 @@ public class SaveManager
         {
             Logger.Warning($"Error retrieving questItems. {questItems.Length} were found.");
         }
-        else
+        foreach (QuestItem questItem in questItems)
         {
-            foreach (QuestItem questItem in questItems)
+            switch (questItem.itemEnum)
             {
-                switch (questItem.itemEnum)
-                {
-                    case QuestItem.QuestItemEnum.Seed:
-                        seedItem = questItem;
-                        break;
-                    case QuestItem.QuestItemEnum.Soil:
-                        soilItem = questItem;
-                        break;
-                    case QuestItem.QuestItemEnum.Rain:
-                        rainItem = questItem;
-                        break;
-                    case QuestItem.QuestItemEnum.None:
-                        break;
-                }
+                case QuestItem.QuestItemEnum.Seed:
+                    seedItem = questItem;
+                    break;
+                case QuestItem.QuestItemEnum.Soil:
+                    soilItem = questItem;
+                    break;
+                case QuestItem.QuestItemEnum.Rain:
+                    rainItem = questItem;
+                    break;
+                case QuestItem.QuestItemEnum.None:
+                    break;
             }
         }
+        
 
         if (!File.Exists(Application.dataPath + Str.SaveDefaultName))
             CreateDefaultSave();
@@ -137,7 +140,13 @@ public class SaveManager
 
         WarblerChildrenStatus warblerChildrenStatus = new WarblerChildrenStatus { foundChild1 = false, foundChild2 = false, foundChild3 = false };
 
-        ItemStatus itemStatus = new ItemStatus { foundSeed = false, foundSoil = false, foundRain = false };
+        ItemStatus itemStatus = new ItemStatus {
+            foundSeed = false,
+            foundSoil = false,
+            foundRain = false,
+            seedPos = ToArray(seedItem.transform.position),
+            soilPos = ToArray(soilItem.transform.position),
+            rainPos = ToArray(rainItem.transform.position)};
 
         Data saveData = new Data
         {
@@ -164,7 +173,7 @@ public class SaveManager
 
     public void SaveData()
     {
-
+        Logger.Warning("Saving data...");
         QuestStageData[] questStagesArray =
         {
             new QuestStageData{quest = Str.Main, stage = mainQuest.QuestStage},
@@ -196,7 +205,10 @@ public class SaveManager
         ItemStatus itemStatus = new ItemStatus {
             foundSeed = questMemory.GetValue(Str.SeedString).AsBool,
             foundSoil = questMemory.GetValue(Str.SoilString).AsBool,
-            foundRain = questMemory.GetValue(Str.RainString).AsBool
+            foundRain = questMemory.GetValue(Str.RainString).AsBool,
+            seedPos = ToArray(seedItem.transform.position),
+            soilPos = ToArray(soilItem.transform.position),
+            rainPos = ToArray(rainItem.transform.position)
         };
 
         Data saveData = new Data {
@@ -210,10 +222,12 @@ public class SaveManager
         SerializeData(Str.SaveName, saveData);
 
         //SerializeJson(saveName, saveData);
+        Logger.Warning("Data saved successfully.");
     }
 
     public IEnumerator LoadDataCO()
     {
+        loadingSave = true;
         //DeserializeJson(saveName);
         Data data = DeserializeData(Str.SaveName);
 
@@ -225,6 +239,10 @@ public class SaveManager
         questMemory.SetValue(Str.SeedString, data.itemStatus.foundSeed);
         questMemory.SetValue(Str.SoilString, data.itemStatus.foundSoil);
         questMemory.SetValue(Str.RainString, data.itemStatus.foundRain);
+
+        seedItem.transform.position = ToVec3(data.itemStatus.seedPos);
+        soilItem.transform.position = ToVec3(data.itemStatus.soilPos);
+        rainItem.transform.position = ToVec3(data.itemStatus.rainPos);
 
         if (data.playerHolding.itemHolding != QuestItem.QuestItemEnum.None)
         {
@@ -257,7 +275,8 @@ public class SaveManager
                 yield return null;
             }
         }
-        
+
+        loadingSave = false;
     }
 
     #endregion

@@ -61,7 +61,7 @@ public class CutsceneObjectsManager : MonoBehaviour
                 foreach (Animator anim in batch3Animators)
                 {
                     anim.SetTrigger(Str.cutsceneTrans);
-                    yield return new WaitForSeconds(.07f);
+                    yield return new WaitForSeconds(.3f);
                 }
                 break;
             default:

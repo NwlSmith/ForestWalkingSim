@@ -275,7 +275,11 @@ public class CameraManager : MonoBehaviour
     // Player is in dialogue. Transition to player dialogue camera 1 (looking from player to NPC)
     private class InDialogueState : CameraState
     {
-        public override void OnEnter() => Context.PlayerCameraView();
+        public override void OnEnter()
+        {
+            Context.PlayerCameraView();
+            Logger.Warning("CameraManager entering dialogue");
+        }
     }
 
     // Midroll cutscene state.

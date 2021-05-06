@@ -177,6 +177,24 @@ public class PlayerMovement : MonoBehaviour
 
     private Task PlayerMoveToTransform(Transform targetPositionTrans, Transform targetDirectionTrans, Transform finalTarget)
     {
+        // Define Failsafe
+        float overallElapsedTime = 0;
+        DelegateTask failsafe = new DelegateTask(() => { },
+            () => {
+                overallElapsedTime += Time.deltaTime;
+                return inPlaceForSequence || overallElapsedTime > maxTimeOnOneStep * 3.25;
+            }, () => {
+                if (!inPlaceForSequence)
+                {
+                    Logger.Warning("PlayerMovement activated overall movement failsafe. Forcing correct transform.");
+                    ForceTransform(targetPos, Quaternion.Euler(0f, targetRot, 0f));
+                    OnCorrectPlace(finalTarget);
+                }
+            });
+
+        _taskManager.Do(failsafe);
+
+
         // Define dialogue entry tasks.
         Task jumping = new DelegateTask(() => {
             _currentMovementVector.x = 0;
@@ -211,9 +229,11 @@ public class PlayerMovement : MonoBehaviour
                 targetRot = Quaternion.LookRotation(targetDirectionTrans.position - transform.position, Vector3.up).eulerAngles.y;
             },
             RotateToCorrectPos,
-            () => { OnCorrectPlace(finalTarget); }
+            () => {
+                OnCorrectPlace(finalTarget);
+                failsafe.Abort();
+            }
         );
-
 
         jumping.Then(falling).Then(rotateToPos).Then(moveToPos).Then(rotateToTarget);
         if (!OnGround())
@@ -280,6 +300,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 lookPos = target.position - transform.position; // WRONG
         lookPos.y = 0;
         transform.rotation = Quaternion.LookRotation(lookPos);
+        Logger.Warning("PlayerMovement OnCorrectPlace");
     }
 
     private Task LastTask(Task curTask)
@@ -363,6 +384,7 @@ public class PlayerMovement : MonoBehaviour
         public override void OnEnter()
         {
             Context.inPlaceForSequence = false;
+            Logger.Warning("PlayerMovement entering dialogue");
 
             if (Context._taskManager.HasTasks())
             {

@@ -38,12 +38,30 @@ public class FrogQuest : FSMQuest
     private class Stage1State : QuestState
     {
         public Stage1State() : base(1) { }
+
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            if (!Services.SaveManager.loadingSave)
+            {
+                Services.SaveManager.SaveData();
+            }
+        }
     }
 
     // Stage 2: Spawn in flower and Soil. Advance to stage 3 by picking up the Soil and placing Soil in the heart.
     private class Stage2State : QuestState
     {
         public Stage2State() : base(2) { }
+
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            if (!Services.SaveManager.loadingSave)
+            {
+                Services.SaveManager.SaveData();
+            }
+        }
     }
 
     // Stage 3: Advance to stage 4 by placing Soil in the heart.

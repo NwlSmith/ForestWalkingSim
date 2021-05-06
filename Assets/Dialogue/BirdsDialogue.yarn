@@ -3,23 +3,34 @@ tags:
 colorID: 0
 position: -99,-73
 ---
-<<NPCSpeak 0>>
-You’re back!
-All three of my grandbabies made their way back to me safely thanks to you.
-And somehow they seem to have learned their lesson about sneaking off. Not sure how you did it.
-Kids, say thank you to the nice fox.
-<<NPCSpeak 1>>
-Thank you!
-<<NPCSpeak 2>>
-I'm still scared of you...
-<<NPCSpeak 3>>
-Thanks.
-<<PlayerSpeak>>
-I’m happy to help. Now, if I could ask —
-<<NPCSpeak 0>>
-Ah, The Seed, of course! It's over there by the pine tree.
-If you run into that big fancy fox with all the different tails, say hi from me!
-<<PlayerSpeak>>
-I will!
-<<AdvanceQuest Warbler>>
+<<if $quest_warbler_stage is 4>>
+    <<NPCSpeak 0>>
+    You’re back!
+    All three of my grandbabies made their way back to me safely thanks to you.
+    And somehow they seem to have learned their lesson about sneaking off. Not sure how you did it.
+    Kids, say thank you to the nice fox.
+    <<NPCSpeak 1>>
+    Thank you!
+    <<NPCSpeak 2>>
+    I'm still scared of you...
+    <<NPCSpeak 3>>
+    Thanks.
+    <<PlayerSpeak>>
+    I’m happy to help. Now, if I could ask —
+    <<NPCSpeak 0>>
+    Ah, The Seed, of course! It's over there by the pine tree.
+    If you run into that big fancy fox with all the different tails, say hi from me!
+    <<PlayerSpeak>>
+    I will!
+    <<AdvanceQuest Warbler>>
+<<else>>
+    <<NPCSpeak 0>>
+    Are you lost?
+    <<PlayerSpeak>>
+    Yeah, where do I find the Seed?
+    <<NPCSpeak 1>>
+    On the rocks by the pine tree behind you silly!
+    <<PlayerSpeak>>
+    Oh, right. Thanks!
+<<endif>>
 ===

@@ -9,6 +9,7 @@ public static class SequenceManager
     private static readonly TaskManager _taskManager = new TaskManager();
 
     private static readonly Task _enterDialogue;
+    private static readonly Task _enterDialogueFailsafe;
     private static readonly Task _enterMidSequence;
     private static readonly Task _enterEndSequence;
     private static readonly Task _enterEndGameSequence;
@@ -20,6 +21,7 @@ public static class SequenceManager
     {
         // Pre-define task.
         _enterDialogue = DefineDialogueSequence();
+        _enterDialogueFailsafe = DefineDialogueFailsafeSequence();
         _enterMidSequence = DefineMidSequence();
         _enterEndSequence = DefineEndSequence();
 
@@ -51,7 +53,12 @@ public static class SequenceManager
         Services.EventManager.Unregister<OnEnterEndCutscene>(EnterEndCutscene);
     }
 
-    private static void EnterDialogue(AGPEvent e) => _taskManager.Do(_enterDialogue);
+    private static void EnterDialogue(AGPEvent e)
+    {
+        _taskManager.Do(_enterDialogue);
+        _taskManager.Do(_enterDialogueFailsafe);
+    }
+
     private static void EnterMidCutscene(AGPEvent e) => _taskManager.Do(_enterMidSequence);
     private static void EnterEndCutscene(AGPEvent e) => _taskManager.Do(_enterEndSequence);
 
@@ -66,11 +73,15 @@ public static class SequenceManager
 
     private static Task DefineDialogueSequence()
     {
-        Task enterDialogue = new DelegateTask(() => { }, () =>
+        
+        Task enterDialogue = new DelegateTask(() => { Logger.Warning("DefineDialogueSequence start"); }, () =>
         {
             return Services.PlayerMovement.inPlaceForSequence;
-        }, () =>
+        });
+
+        ActionTask triggerCameraAndUI = new ActionTask(() =>
         {
+            Logger.Warning("DefineDialogueSequence triggering camera to enter dialogue");
             Services.CameraManager.EnterDialogue();
             Services.UIManager.EnterDialogue();
         });
@@ -79,11 +90,31 @@ public static class SequenceManager
 
         Task startConvo = new ActionTask(() =>
         {
+            Logger.Warning("DefineDialogueSequence entering dialogue");
             Services.DialogueController.EnterDialogue();
+            _enterDialogueFailsafe.Abort();
+        });
+        
+        enterDialogue.Then(triggerCameraAndUI).Then(fadeIn).Then(startConvo);
+        return enterDialogue;
+    }
+
+    private static Task DefineDialogueFailsafeSequence()
+    {
+        WaitTask failsafeWait = new WaitTask(9.1f);
+        ActionTask failsafeAction = new ActionTask(() =>
+        {
+            if (!Services.PlayerMovement.inPlaceForSequence)
+            {
+                Services.CameraManager.EnterDialogue();
+                Services.UIManager.EnterDialogue();
+                Logger.Warning("Dialogue Failsafe Triggered in SequenceManager");
+            }
         });
 
-        enterDialogue.Then(fadeIn).Then(startConvo);
-        return enterDialogue;
+        failsafeWait.Then(failsafeAction);
+
+        return failsafeWait;
     }
 
     /*
@@ -117,10 +148,9 @@ public static class SequenceManager
         {
             Services.UIManager.HideItemPickupPrompt();
             return Services.PlayerMovement.inPlaceForSequence;
-        }, () =>
-        {
-            Services.PlayerItemHolder.DropItem();
         });
+
+        Task dropItem = new ActionTask(() => { Services.PlayerItemHolder.DropItem(); });
 
         Task waitForTime2 = new WaitTask(.66f);
 
@@ -171,7 +201,7 @@ public static class SequenceManager
             Services.GameManager.EnterDialogue();
         });
 
-        enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(triggerPlantAnims).Then(waitForTime6).Then(sixthSequence);
+        enterSequence.Then(waitForTime1).Then(secondSequence).Then(dropItem).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(triggerPlantAnims).Then(waitForTime6).Then(sixthSequence);
         return enterSequence;
     }
 
