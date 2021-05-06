@@ -95,12 +95,12 @@ public class WarblerQuest : FSMQuest
 
 
     // Defines tasks for turtle movement.
-    private void SendTriggeredBirdHome(int _curWarblerNum = -1, bool disableAtEnd = false)
+    private void SendTriggeredBirdHome(int curWarblerNum = -1, bool disableAtEnd = false)
     {
-        if (_curWarblerNum == -1)
-            _curWarblerNum = GetTriggeredWarbler();
+        if (curWarblerNum == -1)
+            curWarblerNum = GetTriggeredWarbler();
         
-        NPC childNPC = _warblerNPC[_curWarblerNum];
+        NPC childNPC = _warblerNPC[curWarblerNum];
         childNPC.GetComponentInChildren<NPCCollider>().transform.localScale = Vector3.zero;
         Task start = new ActionTask(() =>
         {
@@ -109,9 +109,9 @@ public class WarblerQuest : FSMQuest
         });
         Task prev = start;
 
-        for (int i = 0; i < _warblerRoutes[_curWarblerNum].Length; i++)
+        for (int i = 0; i < _warblerRoutes[curWarblerNum].Length; i++)
         {
-            Task next = WarblerMove(childNPC.transform, _warblerRoutes[_curWarblerNum].route[i]);
+            Task next = WarblerMove(curWarblerNum, childNPC.transform, _warblerRoutes[curWarblerNum].route[i]);
             prev = prev.Then(next);
         }
 
@@ -120,7 +120,7 @@ public class WarblerQuest : FSMQuest
             if (disableAtEnd)
                 childNPC.gameObject.SetActive(false);
             childNPC.GetComponentInChildren<Animator>().SetBool(Str.Moving, false);
-            childNPC.transform.rotation = _warblerRoutes[_curWarblerNum].route[_warblerRoutes[_curWarblerNum].route.Length - 1].rotation;
+            childNPC.transform.rotation = _warblerRoutes[curWarblerNum].route[_warblerRoutes[curWarblerNum].route.Length - 1].rotation;
         });
 
         prev.Then(finish);
@@ -128,9 +128,9 @@ public class WarblerQuest : FSMQuest
         _taskManager.Do(start);
     }
 
-    private float turningSmoothVel;
+    private float[] turningSmoothVel = new float[3];
 
-    private DelegateTask WarblerMove(Transform npc, Transform target)
+    private DelegateTask WarblerMove(int curWarblerNum, Transform npc, Transform target)
     {
         float _elapsedTime = 0f;
         return new DelegateTask(
@@ -142,14 +142,14 @@ public class WarblerQuest : FSMQuest
             {
                 _elapsedTime += Time.deltaTime;
                 float targetAngle = Quaternion.LookRotation((target.position - npc.position).normalized, Vector3.up).eulerAngles.y;
-                float angle = Mathf.SmoothDampAngle(npc.eulerAngles.y, targetAngle, ref turningSmoothVel, .2f);
+                float angle = Mathf.SmoothDampAngle(npc.eulerAngles.y, targetAngle, ref turningSmoothVel[curWarblerNum], .2f);
                 npc.rotation = Quaternion.Euler(0f, angle, 0f);
                 
                 npc.position = npc.position + npc.forward * _warblerSpeed * Time.deltaTime;
-                if (target.position.y > npc.position.y + .15f)
+                if (target.position.y > npc.position.y + .25f)
                 {
                     npc.position = npc.position + npc.up * _warblerSpeed * Time.deltaTime;
-                } else if (target.position.y < npc.position.y - .15f)
+                } else if (target.position.y < npc.position.y - .25f)
                 {
                     npc.position = npc.position - npc.up * _warblerSpeed * Time.deltaTime;
                 }

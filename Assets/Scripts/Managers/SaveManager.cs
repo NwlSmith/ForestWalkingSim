@@ -96,20 +96,21 @@ public class SaveManager
         }
         foreach (QuestItem questItem in questItems)
         {
-            switch (questItem.itemEnum)
-            {
-                case QuestItem.QuestItemEnum.Seed:
-                    seedItem = questItem;
-                    break;
-                case QuestItem.QuestItemEnum.Soil:
-                    soilItem = questItem;
-                    break;
-                case QuestItem.QuestItemEnum.Rain:
-                    rainItem = questItem;
-                    break;
-                case QuestItem.QuestItemEnum.None:
-                    break;
-            }
+            if (!questItem.name.Contains("(1)"))
+                switch (questItem.itemEnum)
+                {
+                    case QuestItem.QuestItemEnum.Seed:
+                        seedItem = questItem;
+                        break;
+                    case QuestItem.QuestItemEnum.Soil:
+                        soilItem = questItem;
+                        break;
+                    case QuestItem.QuestItemEnum.Rain:
+                        rainItem = questItem;
+                        break;
+                    case QuestItem.QuestItemEnum.None:
+                        break;
+                }
         }
         
 
@@ -173,6 +174,7 @@ public class SaveManager
 
     public void SaveData()
     {
+        return;
         Logger.Warning("Saving data...");
         QuestStageData[] questStagesArray =
         {
@@ -275,7 +277,7 @@ public class SaveManager
                 yield return null;
             }
         }
-
+        yield return null;
         loadingSave = false;
     }
 

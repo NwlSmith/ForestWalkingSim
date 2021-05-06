@@ -75,6 +75,7 @@ public class CameraManager : MonoBehaviour
     //private void LateUpdate()
     private void FixedUpdate()
     {
+        if (_fsm.PendingState != null) return;
         CameraState curGS = ((CameraState)_fsm.CurrentState);
         if (curGS != null)
             curGS.LateUpdate();
@@ -127,6 +128,12 @@ public class CameraManager : MonoBehaviour
 
     public float CameraYAngle => targetVector.eulerAngles.y;
 
+    private void ResetInputs()
+    {
+        _mouseX = 0;
+        _mouseY = 0;
+    }
+
     public Transform MainFollowCameraPos => mainFollowCamera.transform;
 
     // Must be called upon initiating dialogue with an NPC.
@@ -151,6 +158,16 @@ public class CameraManager : MonoBehaviour
         npcCameraView.ForceCameraPosition(targetNPC.npcCameraViewPosition.position, targetNPC.transform.rotation);
         // look at player
         npcCameraView.LookAt = npcCameraTarget;
+    }
+
+    public void EnterMidCutsceneFailsafe()
+    {
+        _fsm.TransitionTo<MidCutsceneState>();
+    }
+
+    public void EnterEndCutsceneFailsafe()
+    {
+        _fsm.TransitionTo<EndCutsceneState>();
     }
 
 
@@ -258,6 +275,12 @@ public class CameraManager : MonoBehaviour
             Context.targetVector.localEulerAngles = rot;
             Context._curVertRot = rot.x;
             Context._curHorRot = rot.y;
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+            Context.ResetInputs();
         }
 
     }
@@ -385,6 +408,7 @@ public class CameraManager : MonoBehaviour
             Context._curVertRot = 0; // Causes issues.
             Context._curHorRot = Context.targetVector.eulerAngles.y;
             Context.targetVector.localEulerAngles = Vector3.zero;
+            Context.ResetInputs();
         }
     }
 
@@ -421,6 +445,7 @@ public class CameraManager : MonoBehaviour
             Context._curVertRot = 0; // Causes issues.
             Context._curHorRot = Context.targetVector.eulerAngles.y;
             Context.targetVector.localEulerAngles = Vector3.zero;
+            Context.ResetInputs();
         }
     }
 

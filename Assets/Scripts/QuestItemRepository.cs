@@ -71,6 +71,7 @@ public class QuestItemRepository : MonoBehaviour
 
     public void InputItem(QuestItem item)
     {
+        if (Services.SaveManager.loadingSave) return;
         switch (item.itemEnum)
         {
             case QuestItem.QuestItemEnum.Seed:

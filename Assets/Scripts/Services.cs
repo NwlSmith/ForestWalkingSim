@@ -173,5 +173,10 @@ public static class Services
         QuestManager.Init();
         SequenceManager.Init();
     }
+
+    public static void OnDestroy()
+    {
+        SequenceManager.OnDestroy();
+    }
     #endregion
 }
