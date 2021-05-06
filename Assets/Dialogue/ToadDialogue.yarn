@@ -4,28 +4,30 @@ colorID: 0
 position: -1085,626
 ---
 <<if $quest_frog_stage is 1>>
+    <<NPCSpeak>>
+    Hello.
     <<PlayerSpeak>>
     Oh!
-    Hello, Toad.
-    <<NPCSpeak>>
-    Yes, hello.
-    <<PlayerSpeak>>
+    Hello Toad.
     What brings you here?
-    Is Carp around?
+    Is the Soil nearby?
     <<NPCSpeak>>
-    Ah, right, Carp.
+    Ah, right.
     Now, I must ask that you keep what I am about to say between the two of us.
+    Worry not, it is nothing shameful.
+    But it is critical that you keep it to yourself.
     <<PlayerSpeak>>
-    I'll take this secret to my grave!
+    My lips are sealed!
     <<NPCSpeak>>
     Excellent.
-    A little further down the path is a flower that I've been tending to.
+    A bit further down the path is a flower that I have been tending to.
+    You will spot it by the pond down the hill.
     <<PlayerSpeak>>
-    A beautiful one, I'm sure.
+    I'm sure you've been doing a wonderful job!
     <<NPCSpeak>>
     Correct.
-    I have been nurturing this flower for some time now.
-    As you know, Frog and I were to celebrate our anniversary soon.
+    I have been maintaining its excellence since the fire.
+    As you have been made aware, Frog and I were to celebrate our anniversary soon.
     <<PlayerSpeak>>
     And the flower is for him?
     <<NPCSpeak>>
@@ -33,29 +35,24 @@ position: -1085,626
     <<PlayerSpeak>>
     How thoughtful!
     <<NPCSpeak>>
-    Correct.
-    More importantly for you, my friend, is that I have planted this flower in the Soil you are looking for.
+    It is thoughtful.
+    More importantly for you, young one, is that I have planted this flower in the Soil which you seek.
     <<PlayerSpeak>>
-    Oh my, do you still need it?
+    Oh, do you still need it?
     <<NPCSpeak>>
-    There is plenty to go around, it is unlikely to disturb my gift too much.
-    Quite frankly, it's a miracle the thing survived the fire.
-    We've lost so much, I could hardly contain my emotions when I discovered it to be untouched by the destruction.
-    <<PlayerSpeak>>
-    And you're typically quite good at that sort of thing.
-    <<NPCSpeak>>
-    I am.
-    The others may sometimes have too much pride to admit it, but this has been a trying time for all of us.
-    We've built this community around our shared experiences of growing old.
-    There is an unspoken understanding that to reach this point in our lives we must have cheated death, to some extent.
-    For many, the fire that tore through this region was far too close for comfort.
+    There is more than enough to go around, it is unlikely to disturb my gift.
+    It must be some kind of miracle that the flower has survived so close to the site of the fire.
+    Strange how such a minor thing as the life of a single flower can hold so much weight in a time like this.
+    There is an unspoken understanding in this community that to reach this point in our lives we must have cheated death, to some extent.
+    For many, the fire that burned down such a key part of the forest's landscape was far too close for comfort.
     For some, it proved to be lethal.
+    The fire came so suddenly, there was little time to escape the heart of the forest.
     <<PlayerSpeak>>
     I'm so sorry to hear that.
     <<NPCSpeak>>
-    It's been a rude awakening.
-    Turtle has been particularly affected by the ordeal.
-    As the oldest in these woods, she seems afraid to lose who she used to be.
+    It’s been quite the rude awakening.
+    Turtle has been particularly affected by it all.
+    As the oldest in these woods, she seems afraid to lose the turtle she used to be.
     Did you know she used to be one of the fastest creatures in the forest?
     Her age has begun to wound her pride.
     <<PlayerSpeak>>
@@ -65,28 +62,29 @@ position: -1085,626
     Nevertheless, the fire was just another reminder that her time here is finite.
     <<PlayerSpeak>>
     I understand.
-    You seem rather content, if you don't mind my saying.
+    You seem rather content, if you don’t mind my saying.
     <<NPCSpeak>>
-    I don't mind.
-    The truth is that I've found someone to share that anxiety with.
-    It hasn't vanished, but it is considerably more manageable with someone like Frog around.
+    I do not mind.
+    The truth is that I’ve found someone to share that anxiety with.
+    It hasn’t left, but it is considerably more manageable with someone like Frog around.
     <<PlayerSpeak>>
     You make a good team.
     <<NPCSpeak>>
     We do.
     <<PlayerSpeak>>
-    Thank you for your help, I sincerely appreciate it.
+    Thank you for your help, I really appreciate it.
     <<NPCSpeak>>
-    And I appreciate your discretion in regards to the gift.
+    And I appreciate your discretion on the gift.
     <<PlayerSpeak>>
-    My lips are sealed!
+    I'll take this secret to my grave!
     <<NPCSpeak>>
     Very good.
     <<AdvanceQuest Frog>>
 <<elseif $quest_frog_stage is 2>>
     <<NPCSpeak>>
-    I insist, take some of The Soil. This flower will have plenty left to grow in.
-    You will find it by the pine tree.
+    I insist, take some of The Soil. 
+    The flower will have plenty left to grow in.
+    Continue down the hill towards the pond, you will know it when you see it.
     <<PlayerSpeak>>
     Thank you, I'll go there.
 <<endif>>

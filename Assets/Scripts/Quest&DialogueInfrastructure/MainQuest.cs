@@ -108,6 +108,10 @@ public class MainQuest : FSMQuest
                 Context.StartCoroutine(LowerBarriers());
 
             FModMusicManager.PlayTrack("Layer 1");
+            if (!Services.SaveManager.loadingSave)
+            {
+                Services.SaveManager.SaveData();
+            }
         }
 
         private IEnumerator LowerBarriers()
@@ -142,8 +146,11 @@ public class MainQuest : FSMQuest
         {
             ((MainQuest)Context).SetCurrentQuestLog(((MainQuest)Context).ConstructLogString());
             base.OnEnter();
-            Services.GameManager.MidrollCutscene();
-            FModMusicManager.PlayTrack("Layer 2");
+            if (!Services.SaveManager.loadingSave)
+            {
+                Services.GameManager.MidrollCutscene();
+                FModMusicManager.PlayTrack("Layer 2");
+            }
         }
     }
 
@@ -151,6 +158,15 @@ public class MainQuest : FSMQuest
     private class Stage3State : QuestState
     {
         public Stage3State() : base(3) { }
+
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            if (!Services.SaveManager.loadingSave)
+            {
+                Services.SaveManager.SaveData();
+            }
+        }
     }
 
     // Stage 4: Talk to Spirit.
@@ -162,8 +178,11 @@ public class MainQuest : FSMQuest
         {
             ((MainQuest)Context).SetCurrentQuestLog(((MainQuest)Context).ConstructLogString());
             base.OnEnter();
-            Services.GameManager.MidrollCutscene();
-            FModMusicManager.PlayTrack("Layer 3");
+            if (!Services.SaveManager.loadingSave)
+            {
+                Services.GameManager.MidrollCutscene();
+                FModMusicManager.PlayTrack("Layer 3");
+            }
         }
     }
 
@@ -171,6 +190,15 @@ public class MainQuest : FSMQuest
     private class Stage5State : QuestState
     {
         public Stage5State() : base(5) { }
+
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            if (!Services.SaveManager.loadingSave)
+            {
+                Services.SaveManager.SaveData();
+            }
+        }
     }
 
     // Stage 6: Trigger cutscene. Put player in front of Spirit. Advance to stage 7 by talking to spirit.
@@ -182,8 +210,10 @@ public class MainQuest : FSMQuest
         public override void OnEnter()
         {
             base.OnEnter();
-            Services.GameManager.EndCutscene();
-            FModMusicManager.PlayTrack("End");
+            if (!Services.SaveManager.loadingSave)
+            {
+                Services.GameManager.MidrollCutscene();
+            }
         }
     }
 
@@ -196,7 +226,8 @@ public class MainQuest : FSMQuest
         public override void OnEnter()
         {
             base.OnEnter();
-            Services.GameManager.EndGame();
+            Services.GameManager.EndCutscene();
+            FModMusicManager.PlayTrack("End");
             // TRIGGER END CUTSCENE.
         }
     }

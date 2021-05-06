@@ -167,6 +167,7 @@ public static class Services
         QuestItemRepository = Object.FindObjectOfType<QuestItemRepository>();
         PostProcessingManager = Object.FindObjectOfType<PostProcessingManager>();
         FModMusicManager.Init();
+        NPCInteractionManager.Init();
         PlayerAnimation.Init();
         InputManager.Init();
         QuestManager.Init();

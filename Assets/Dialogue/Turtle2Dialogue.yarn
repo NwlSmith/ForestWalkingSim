@@ -7,7 +7,7 @@ position: 566,546
     <<NPCSpeak>>
     Nice of you to show up youngster!
     <<PlayerSpeak>>
-    Wow, you got here quick.
+    Woah, how did you get here so quick?
     <<NPCSpeak>>
     I know a few...
     Shortcuts.
@@ -18,7 +18,7 @@ position: 566,546
     <<PlayerSpeak>>
     Born ready!
     <<NPCSpeak>>
-    We'll be heading just around the bend here, passing by the water to our right, and meeting up down at the pink tree surrounded by rocks.
+    We'll be heading just around the bend here, passing by the water, down to the creek at the bottom of the cliff.
     Got that?
     <<PlayerSpeak>>
     Sounds good to me!
@@ -34,70 +34,58 @@ position: 566,546
 <<elseif $quest_turtle_stage is 4>>
     <<if $player_beat_turtle is true>>
         <<NPCSpeak>>
-        Hahaha wow you sure are fast!
+        My goodness, you're fast!
     <<else>>
         <<NPCSpeak>>
-        Woohoo! I still got it!
+        Still got it!
     <<endif>>
     <<PlayerSpeak>>
-    You really kept pace back there!
+    You really booked it!
     <<NPCSpeak>>
-    What can I say?
-    I'm not dead just yet!
-    <<PlayerSpeak>>
-    Certainly not!
-    <<NPCSpeak>>
-    How strange it is to pass by this forest in this state.
-    I'm not as fast as I once was, and the trees have been stripped of their blossoming leaves.
-    What a way to go out.
-    <<PlayerSpeak>>
-    It'll all come back, it always does.
-    <<NPCSpeak>>
-    Maybe so, my sweet.
+    Oh you, don't act so surprised.
     In any case, thank you for humoring an old lady.
     <<PlayerSpeak>>
-    It was an honor to run alongside you.
+    My pleasure!
+    That was a nice run.
     <<NPCSpeak>>
-    Oh hush!
-    I've been here for who knows how long.
-    All lights fade eventually.
+    Feels good to remember there's still some spark in me.
+    You should have seen me back in the day.
+    I could really go.
     <<PlayerSpeak>>
-    Sure, but there's no need to resign to your fate like that is there?
+    You're certainly faster than any turtle I've met before.
+    <<NPCSpeak>>
+    Not like before.
+    And it's all downhill from here.
+    <<PlayerSpeak>>
+    Don't get down on yourself like that!
+    There's no need to resign yourself to it.
     <<NPCSpeak>>
     Who's resigning?
-    I've had a rich and full life, and I've no doubt that whatever is left of it will be as well.
-    One day I won't be able to run any further at all, but I've done more than enough running in my time.
-    In the meantime, I suppose something ought to be done about all this damage.
+    My life has been rich and full, and I've no doubt that whatever's left of it will be as well.
+    I've done more than enough running in my time.
+    I just hope I'll be here to see that magnificent tree in the heart of these woods again.
     <<PlayerSpeak>>
-    Actually, I've been trying to put together the things we need to clean things up around here!
-    In fact, I'm told you could point me in the direction of the Rain?
+    I was actually hoping you could point me in the direction of the Rain.
+    I'm told you might know where it is.
     <<NPCSpeak>>
-    Ah, yes, right!
-    I most certainly could.
-    Go back to where you first found me, it should be just behind my home.
+    I most certainly do, sweetheart.
+    Keep going down this path and you'll find yourself back at my house.
+    Should be right around there, keep an eye out.
     <<PlayerSpeak>>
-    Thank you so much!
-    We'll have these woods looking as good as new.
+    I will!
+    I promise I'll have that tree back to it's old self in no time.
+    Once everything's in order we'll have to go for another run!
     <<NPCSpeak>>
-    It's a beautiful place, really.
-    You should have seen the state of this forest before the fire.
-    I'm not one to ramble on about faded glory, but it was really something.
-    <<PlayerSpeak>>
-    I'll have it looking just the way you remember it, I promise.
-    <<NPCSpeak>>
-    I suppose I should let you get back to work, then.
-    <<PlayerSpeak>>
-    Yeah, I should be on my way.
-    Thank you for the run, though!
-    I'll have to come back for another one someday.
-    <<NPCSpeak>>
-    That you will!
+    That we will.
     <<AdvanceQuest Turtle>>
 <<elseif $quest_turtle_stage is 5>>
-    <<PlayerSpeak>>
-    Could you remind me where The Rain is?
     <<NPCSpeak>>
-    Check behind my house where you first found me, it should be there.
+    Found the Rain yet?
+    <<PlayerSpeak>>
+    Actually, could you remind me where it is?
+    <<NPCSpeak>>
+    Keep going down this path and you'll end up back at my house.
+    Take a look around, it ought to be there.
     <<PlayerSpeak>>
     Thank you!
 <<endif>>

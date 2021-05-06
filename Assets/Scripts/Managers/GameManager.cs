@@ -15,18 +15,21 @@ using UnityEngine;
  * - In URPExampleAssets > Settings > UniversalRenderPipeline Shadow Max distance was initially 50
  * - We have freedom to go places, sure, but it doesn't feel intentional?
  * 
- * LOD is too noticeable, especially on rock
- * FIX CAMERA TWITCH!!!
  * 
- * Maybe remove ambient audio?
+ * Add text that says Soil returned?
  * 
- * spirit tail freak out
- * make walking thru leaves slow character and cause leaf rustling sound?
+ * not clear where end of race is
  * 
- * fix positions of animals
- * end game has E prompts
- * turtle player camera messed up
+ * STILL DIALOGUE ENTRY BUG
  * 
+ * also people aren't able to get into dialogue properly after the cutscene?
+ * 
+ * save after every quest stage
+ * save item positions
+ * Will need quest stages to keep track of which birds are talked to, and which items have been collected
+ * Maybe just want to get rid of it?
+ * 
+ * fix dialogue cameras to include player.
  */
 
 public class GameManager : MonoBehaviour
@@ -124,18 +127,18 @@ public class GameManager : MonoBehaviour
     // Called on Exit dialogue.
     public void ReturnToPlay()
     {
-        if (_endingGame)
-            EndGame();
-        else
-            _fsm.TransitionTo<PlayState>();
+        if (!_endingGame)
+             _fsm.TransitionTo<PlayState>();
     }
 
     // Called on Quest item trigger.
     public void MidrollCutscene() => _fsm.TransitionTo<MidCutsceneState>();
 
-    public void EndCutscene() => _fsm.TransitionTo<EndCutsceneState>();
-
-    public void EndGame() => _fsm.TransitionTo<EndGameState>();
+    public void EndCutscene()
+    {
+        _endingGame = true;
+        _fsm.TransitionTo<EndCutsceneState>();
+    }
 
     // Called when the player goes to main menu.
     public void MainMenu()
@@ -177,6 +180,7 @@ public class GameManager : MonoBehaviour
         public override void OnEnter()
         {
             Logger.Debug("GameManager: Entered StartPlay");
+            FModMusicManager.EndFoxTheme();
         }
 
         public override void Update()
@@ -202,7 +206,7 @@ public class GameManager : MonoBehaviour
         {
             if (Context._endingGame)
             {
-                TransitionTo<EndGameState>();
+                TransitionTo<EndCutsceneState>();
             }
             Logger.Debug("GameManager: Entered PlayState");
 
@@ -251,6 +255,7 @@ public class GameManager : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            Logger.Warning("GameManager entering dialogue");
             Services.EventManager.Fire(new OnEnterDialogue());
         }
 
@@ -280,8 +285,7 @@ public class GameManager : MonoBehaviour
         public override void OnEnter() => Services.EventManager.Fire(new OnEnterMidCutscene());
     }
 
-    // Use delegates to control player movement, show item taken away, and coordinate UI and sound.
-    // FIX COMMENTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // Use delegates to control player movement, Fade out screen, load main menu.
     private class EndCutsceneState : GameState
     {
 
@@ -290,12 +294,6 @@ public class GameManager : MonoBehaviour
 
         public override void OnExit() => Context._endingGame = true;
 
-    }
-
-    // Use delegates to control player movement, Fade out screen, load main menu.
-    private class EndGameState : GameState
-    {
-        public override void OnEnter() => Services.EventManager.Fire(new OnEnterEndGame());
     }
 
     #endregion

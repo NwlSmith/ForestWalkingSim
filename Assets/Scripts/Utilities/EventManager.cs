@@ -88,5 +88,3 @@ public class OnEnterDialogue : AGPEvent { }
 public class OnEnterMidCutscene : AGPEvent { }
 
 public class OnEnterEndCutscene : AGPEvent { }
-
-public class OnEnterEndGame : AGPEvent { }

@@ -7,88 +7,60 @@ position: -1338,671
     <<NPCSpeak 0>>
     Ah, company!
     <<NPCSpeak 1>>
-    Well met, friend.
-    <<PlayerSpeak>>
-    Hello!
+    A pleasure.
     <<NPCSpeak 0>>
-    It's a relief to see a new face.
-    Not many strangers in these woods after the fire.
+    What a relief to see a new face.
+    Not many strangers in these woods after the fire at the heart of the forest.
     <<NPCSpeak 1>>
     Just terrible.
     <<PlayerSpeak>>
-    I can imagine.
+    Was that place special to you?
     <<NPCSpeak 0>>
-    Not to mention the timing!
-    There's a big event on the horizon.
-    Isn't that right, Toad?
+    It was special to all of us!
     <<NPCSpeak 1>>
-    Is there?
+    Very special.
     <<NPCSpeak 0>>
-    Toad!
-    <<NPCSpeak 1>>
-    Frog!
+    Warbler's grandchildren used to love playing there, you could never drag them away.
+    It was a place where everyone in the community could meet for one reason or another.
+    After the fire, we've been almost completely separated from each other!
     <<PlayerSpeak>>
-    Gentlemen!
-    I'm sure there's a simple misunderstanding.
-    What's coming up, Frog?
+    You don't see anyone else?
+    <<NPCSpeak1>>
+    Not often.
     <<NPCSpeak 0>>
-    Surely our friend Toad should remember our approaching anniversary?
-    <<PlayerSpeak>>
-    Oh, congratulations!
+    It's much too dangerous for folks like us to get to the others through the heart of the forest now.
+    We could barely get around before the fire!
+    Actually, Toad and I had planned to host our anniversary party there.
     <<NPCSpeak 1>>
-    Ah, yes, that big event.
-    It's been a confusing time.
+    Dreadful timing.
     <<NPCSpeak 0>>
-    It certainly has been.
-    <<NPCSpeak 1>>
-    My apologies.
+    Maybe next year.
     <<PlayerSpeak>>
-    How long have you two known each other?
-    <<NPCSpeak 0>>
-    Who can truly say?
-    It feels as though we've known each other as long as we've been alive.
-    <<NPCSpeak 1>>
-    Quite.
-    <<PlayerSpeak>>
-    That's a long time!
-    <<NPCSpeak 1>>
-    A pleasant time, to be sure.
-    <<NPCSpeak 0>>
-    Our neighbor Turtle was planning a small get-together in the heart of the woods.
-    <<NPCSpeak 1>>
-    A shame we may never see it!
-    Perhaps next year.
-    <<PlayerSpeak>>
-    I'm actually hoping to restore these woods.
-    <<PlayerSpeak>>
+    I've actually been trying to clean the place up!
     If you two could help me out it would be much appreciated.
     <<NPCSpeak 0>>
     We'd be happy to lend a hand!
     <<NPCSpeak 1>>
-    Certainly.
+    We're handy.
     <<PlayerSpeak>>
-    I'm looking for the Soil, if you have any information.
+    Right now I'm looking for the Soil, if you've got any information on that.
     <<NPCSpeak 1>>
-    Yes, we know where it is.
+    Oh, we know where that is!
     <<NPCSpeak 0>>
     We do?
     <<NPCSpeak 1>>
+    *Ahem*
     We do.
     <<PlayerSpeak>>
     Great!
-    Could you give me directions?
+    Could you give me some directions?
     <<NPCSpeak 1>>
-    Our neighbor Carp should have it.
-    He's an old friend of ours, let him know we sent you.
-    <<NPCSpeak 0>>
-    If you carry on down the path to your right, you'll spot another pond.
-    He ought to be swimming around in there somewhere.
+    Just around the bend behind you and to the left.
+    Head up the hill and you should find it there by the pink tree.
     <<PlayerSpeak>>
-    Thank you for the information!
-    This forest should be returned to its former glory in no time at all.
+    Thank you gentlemen!
     <<NPCSpeak 0>>
-    Any time!
-    And please, do come by again.
+    Do come again!
     <<AdvanceQuest Frog>>
 <<elseif $quest_frog_stage is 1>>
     <<NPCSpeak 0>>
@@ -96,7 +68,9 @@ position: -1338,671
     <<PlayerSpeak>>
     Yes, sorry, could you please remind me where I have to go?
     <<NPCSpeak 1>>
-    Certainly. Simply continue down the path to your right, and you will find Carp's pond.
+    Certainly.
+    Continue down the path behind you and head up the hill.
+    Ought to be around there somewhere.
     <<PlayerSpeak>>
     Thank you!
 <<endif>>

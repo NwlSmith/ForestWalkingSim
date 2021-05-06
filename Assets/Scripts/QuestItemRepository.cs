@@ -17,13 +17,46 @@ public class QuestItemRepository : MonoBehaviour
     [SerializeField] private Transform itemHolder;
 
     private Animator _animator;
+    private QuestItem[] _questItems;
+    private Transform _playerItemHolder;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        _questItems = FindObjectsOfType<QuestItem>();
+        _playerItemHolder = FindObjectOfType<PlayerItemHolder>().transform;
     }
 
-    public QuestItem currentQuestItem { get; private set; }
+    private QuestItem currentQuestItem;
+    public QuestItem CurrentQuestItem()
+    {
+        if (currentQuestItem == null)
+            currentQuestItem = FindClosestQuestItem();
+        return currentQuestItem;
+    }
+
+    private QuestItem FindClosestQuestItem()
+    {
+        Logger.Warning("Failsafe: Someone called FindClosestQuestItem() on QuestItemRepository");
+        float closestDist = 200f;
+        QuestItem closeItem = null;
+
+        foreach (QuestItem item in _questItems)
+        {
+            float curDist = Vector3.Distance(_playerItemHolder.position, item.transform.position);
+            if (curDist < closestDist)
+            {
+                closestDist = curDist;
+                closeItem = item;
+            }
+        }
+        if (closeItem == null)
+        {
+            Logger.Warning("Failed to find a close Quest Item");
+            return _questItems[0];
+        }
+        return closeItem;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -33,6 +66,11 @@ public class QuestItemRepository : MonoBehaviour
 
         if (item == null) return;
 
+        InputItem(item);
+    }
+
+    public void InputItem(QuestItem item)
+    {
         switch (item.itemEnum)
         {
             case QuestItem.QuestItemEnum.Seed:
@@ -60,9 +98,6 @@ public class QuestItemRepository : MonoBehaviour
         QuestManager.AdvanceQuest(Str.Main);
 
         currentQuestItem = item;
-
-        
-        
     }
 
     public Transform TargetItemPosition => targetItemPosition;
@@ -95,6 +130,10 @@ public class QuestItemRepository : MonoBehaviour
         item.transform.position = itemHolder.position;
         // And animator handles the rest!
         _animator.SetTrigger(Str.MidSequence);
+
+        yield return new WaitForSeconds(4f * 60f);
+
+        item.transform.position = Vector3.zero;
     }
 
     public void RemoveObject() => currentQuestItem.Disappear();

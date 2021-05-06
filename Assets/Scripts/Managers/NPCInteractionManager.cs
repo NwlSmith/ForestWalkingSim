@@ -7,13 +7,15 @@ using UnityEngine;
 public static class NPCInteractionManager
 {
     private const float _closestDistForNPCEncounter = 50f;
-    public static NPC closestNPC = null;
-    private static readonly Transform _transform;
-    private static readonly NPC[] _npcs;
+    private static NPC closestNPC = null;
+    private static Transform _transform;
+    private static NPC[] _npcs;
     private static float _timeLeftNPC = 0;
     private static float _npcCooldown = 1f;
+    private static bool enteringDialogueFailsafe = false;
+    
 
-    static NPCInteractionManager()
+    public static void Init()
     {
         _transform = Object.FindObjectOfType<PlayerMovement>().transform;
         _npcs = Object.FindObjectsOfType<NPC>();
@@ -33,16 +35,16 @@ public static class NPCInteractionManager
 
     public static void InputPressed()
     {
-        if (closestNPC == null)
+        if (enteringDialogueFailsafe || closestNPC == null || Time.time < _timeLeftNPC + _npcCooldown)
             return;
         else if (Vector3.Distance(_transform.position, closestNPC.transform.position) > _closestDistForNPCEncounter)
         {
             PlayerLeftNPC();
             return;
         }
-        if (Time.time > _timeLeftNPC + _npcCooldown)
-            // Enter Dialogue
-            Services.GameManager.EnterDialogue();
+        
+        // Enter Dialogue
+        Services.GameManager.EnterDialogue();
         
     }
 
@@ -77,11 +79,27 @@ public static class NPCInteractionManager
 
     public static Transform DialogueTrans => closestNPC.dialoguePos;
 
-    public static void EnterDialogue() => closestNPC.EnterDialogue(Services.PlayerMovement.transform);
+    public static void EnterDialogue()
+    {
+        enteringDialogueFailsafe = true;
+        if (closestNPC == null)
+            FindClosestNPC();
+        closestNPC.EnterDialogue(Services.PlayerMovement.transform);
+    }
 
     public static void ExitDialogue()
     {
+        enteringDialogueFailsafe = false;
         _timeLeftNPC = Time.time;
         closestNPC?.ExitDialogue();
     }
+
+    public static NPC ClosestNPC()
+    {
+        if (closestNPC == null)
+            FindClosestNPC();
+        return closestNPC;
+    }
+
+    public static bool CanEnterConversation => closestNPC != null;
 }

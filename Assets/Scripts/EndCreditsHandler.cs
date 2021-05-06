@@ -17,14 +17,16 @@ public class EndCreditsHandler : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
-        else if (Input.GetKeyDown(KeyCode.Space)) SceneManager.LoadScene(0);
+        else if (Input.GetKeyDown(KeyCode.Space)) NextScene();
     }
 
     private IEnumerator EndCredits()
     {
+        FModMusicManager.Init();
+        FModMusicManager.StartFoxTheme();
         yield return new WaitForSeconds(2f);
         float elapsed = 0;
-        float duration = 40f;
+        float duration = 80f;
 
         while (elapsed < duration)
         {
@@ -33,6 +35,12 @@ public class EndCreditsHandler : MonoBehaviour
             yield return null;
         }
 
+        SceneManager.LoadScene(0);
+    }
+
+    private void NextScene()
+    {
+        FModMusicManager.EndFoxTheme();
         SceneManager.LoadScene(0);
     }
 }

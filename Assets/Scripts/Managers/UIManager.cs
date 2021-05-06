@@ -31,6 +31,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private List<RectTransform>    _loadingOverlay;
     [SerializeField] private List<RectTransform>    _startOverlay;
     [SerializeField] private List<RectTransform>    _startMenu;
+    [SerializeField] private List<RectTransform>    _instructions;
     [SerializeField] private List<RectTransform>    _continueButton;
 
     [SerializeField] private RectTransform          _questlogHolder;
@@ -74,6 +75,7 @@ public class UIManager : MonoBehaviour
         foreach (RectTransform rt in _loadingOverlay) _allUI.Add(rt);
         foreach (RectTransform rt in _startOverlay) _allUI.Add(rt);
         foreach (RectTransform rt in _startMenu) _allUI.Add(rt);
+        foreach (RectTransform rt in _instructions) _allUI.Add(rt);
         foreach (RectTransform rt in _continueButton) _allUI.Add(rt);
 
         _allUI.Add(_questlogHolder);
@@ -128,7 +130,6 @@ public class UIManager : MonoBehaviour
         Services.EventManager.Register<OnEnterPlay>(_fsm.TransitionTo<PlayState>);
         Services.EventManager.Register<OnPause>(_fsm.TransitionTo<PauseState>);
         Services.EventManager.Register<OnEnterDialogue>(HideDialogueEnterPrompt);
-        Services.EventManager.Register<OnEnterEndGame>(CutsceneFadeIn);
     }
 
     private void UnregisterEvents()
@@ -137,7 +138,6 @@ public class UIManager : MonoBehaviour
         Services.EventManager.Unregister<OnEnterPlay>(_fsm.TransitionTo<PlayState>);
         Services.EventManager.Unregister<OnPause>(_fsm.TransitionTo<PauseState>);
         Services.EventManager.Unregister<OnEnterDialogue>(HideDialogueEnterPrompt);
-        Services.EventManager.Unregister<OnEnterEndGame>(CutsceneFadeIn);
     }
 
     #endregion
@@ -190,6 +190,25 @@ public class UIManager : MonoBehaviour
 
     public void CutsceneFadeOut() => HideUI(_cutsceneFadeOverlay);
 
+    public void ShowInstructions() => DisplayUI(_instructions);
+
+    public void HideInstructions() => HideUI(_instructions);
+
+    public void ShowStartMenu()
+    {
+        DisplayUI(_startMenu);
+        foreach (RectTransform rt in _startMenu)
+        {
+            if (rt.name == "Continue Game")
+            {
+                HideUI(rt);
+                return;
+            }
+        }
+    }
+
+    public void HideStartMenu() => HideUI(_startMenu);
+
     #endregion
 
     #region Utilities
@@ -237,7 +256,7 @@ public class UIManager : MonoBehaviour
             UI.gameObject.SetActive(false);
     }
 
-    private void HideAllUI()
+    public void HideAllUI()
     {
         foreach (RectTransform rt in _allUI)
             HideUI(rt);
@@ -357,7 +376,7 @@ public class UIManager : MonoBehaviour
         {
             protected readonly float gapBetweenFades;
             protected float elapsedTime = 0f;
-            protected enum StageToFadeInAtEndEnum { Title, Subtitle, NewGame, Continue, Quit };
+            protected enum StageToFadeInAtEndEnum { Title, Subtitle, Continue, NewGame, Instructions, Quit };
             protected StageToFadeInAtEndEnum curStage;
             protected readonly UIManager uim;
             protected readonly List<RectTransform> startMenuItems;
@@ -415,7 +434,7 @@ public class UIManager : MonoBehaviour
 
             protected override void Fade()
             {
-                if (curStage == StageToFadeInAtEndEnum.Continue && !Services.SaveManager.SaveExists()) curStage = StageToFadeInAtEndEnum.Quit; // Skip continue button.
+                if (curStage == StageToFadeInAtEndEnum.Continue && !Services.SaveManager.SaveExists()) curStage = StageToFadeInAtEndEnum.NewGame; // Skip continue button.
                 if (curStage == StageToFadeInAtEndEnum.Quit) SetStatus(TaskStatus.Success);
 
                 uim.DisplayUI(startMenuItems[(int)curStage]);
@@ -435,7 +454,7 @@ public class UIManager : MonoBehaviour
 
             protected override void Fade()
             {
-                if (curStage == StageToFadeInAtEndEnum.Continue && !Services.SaveManager.SaveExists()) curStage = StageToFadeInAtEndEnum.NewGame; // Skip continue button.
+                if (curStage == StageToFadeInAtEndEnum.Continue && !Services.SaveManager.SaveExists()) curStage = StageToFadeInAtEndEnum.Subtitle; // Skip continue button.
                 if (curStage == StageToFadeInAtEndEnum.Title) SetStatus(TaskStatus.Success);
 
                 uim.HideUI(startMenuItems[(int)curStage]);

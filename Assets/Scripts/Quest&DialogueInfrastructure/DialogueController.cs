@@ -90,7 +90,7 @@ public class DialogueController : MonoBehaviour
     public void EnterDialogue()
     {
         NPCInteractionManager.EnterDialogue();
-        _curNPC = NPCInteractionManager.closestNPC;
+        _curNPC = NPCInteractionManager.ClosestNPC();
         Logger.Debug($"Starting dialogue: {_curNPC.YarnStartNode}");
         DialogueRunner.StartDialogue(_curNPC.YarnStartNode);
         NPCSpeak(null);
@@ -145,12 +145,13 @@ public class DialogueController : MonoBehaviour
 
         _speakerText.text = _playerSpeakerData.SpeakerName;
         _dialogueText.color = _playerSpeakerData.SpeakerColor;
-        Services.CameraManager.NPCCameraView();
+        //Services.CameraManager.NPCCameraView();
         _isPlayerSpeaking = true;
     }
 
     private IEnumerator ContinueDialogueAfterDelay()
     {
+        FModMusicManager.PlayUISound();
         Services.UIManager.HideContinueDialogue();
         OnLineEnd();
         yield return new WaitForSeconds(.25f);

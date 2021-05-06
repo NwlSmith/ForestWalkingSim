@@ -9,6 +9,7 @@ public static class SequenceManager
     private static readonly TaskManager _taskManager = new TaskManager();
 
     private static readonly Task _enterDialogue;
+    private static readonly Task _enterDialogueFailsafe;
     private static readonly Task _enterMidSequence;
     private static readonly Task _enterEndSequence;
     private static readonly Task _enterEndGameSequence;
@@ -20,9 +21,9 @@ public static class SequenceManager
     {
         // Pre-define task.
         _enterDialogue = DefineDialogueSequence();
+        _enterDialogueFailsafe = DefineDialogueFailsafeSequence();
         _enterMidSequence = DefineMidSequence();
         _enterEndSequence = DefineEndSequence();
-        _enterEndGameSequence = DefineEndGameSequence();
 
         RegisterEvents();
 
@@ -43,7 +44,6 @@ public static class SequenceManager
         Services.EventManager.Register<OnEnterDialogue>(EnterDialogue);
         Services.EventManager.Register<OnEnterMidCutscene>(EnterMidCutscene);
         Services.EventManager.Register<OnEnterEndCutscene>(EnterEndCutscene);
-        Services.EventManager.Register<OnEnterEndGame>(EnterEndGame);
     }
 
     private static void UnregisterEvents()
@@ -51,13 +51,16 @@ public static class SequenceManager
         Services.EventManager.Unregister<OnEnterDialogue>(EnterDialogue);
         Services.EventManager.Unregister<OnEnterMidCutscene>(EnterMidCutscene);
         Services.EventManager.Unregister<OnEnterEndCutscene>(EnterEndCutscene);
-        Services.EventManager.Unregister<OnEnterEndGame>(EnterEndGame);
     }
 
-    private static void EnterDialogue(AGPEvent e) => _taskManager.Do(_enterDialogue);
+    private static void EnterDialogue(AGPEvent e)
+    {
+        _taskManager.Do(_enterDialogue);
+        _taskManager.Do(_enterDialogueFailsafe);
+    }
+
     private static void EnterMidCutscene(AGPEvent e) => _taskManager.Do(_enterMidSequence);
     private static void EnterEndCutscene(AGPEvent e) => _taskManager.Do(_enterEndSequence);
-    private static void EnterEndGame(AGPEvent e) => _taskManager.Do(_enterEndGameSequence);
 
     public static void Save()
     {
@@ -70,11 +73,15 @@ public static class SequenceManager
 
     private static Task DefineDialogueSequence()
     {
-        Task enterDialogue = new DelegateTask(() => { }, () =>
+        
+        Task enterDialogue = new DelegateTask(() => { Logger.Warning("DefineDialogueSequence start"); }, () =>
         {
             return Services.PlayerMovement.inPlaceForSequence;
-        }, () =>
+        });
+
+        ActionTask triggerCameraAndUI = new ActionTask(() =>
         {
+            Logger.Warning("DefineDialogueSequence triggering camera to enter dialogue");
             Services.CameraManager.EnterDialogue();
             Services.UIManager.EnterDialogue();
         });
@@ -83,11 +90,31 @@ public static class SequenceManager
 
         Task startConvo = new ActionTask(() =>
         {
+            Logger.Warning("DefineDialogueSequence entering dialogue");
             Services.DialogueController.EnterDialogue();
+            _enterDialogueFailsafe.Abort();
+        });
+        
+        enterDialogue.Then(triggerCameraAndUI).Then(fadeIn).Then(startConvo);
+        return enterDialogue;
+    }
+
+    private static Task DefineDialogueFailsafeSequence()
+    {
+        WaitTask failsafeWait = new WaitTask(9.1f);
+        ActionTask failsafeAction = new ActionTask(() =>
+        {
+            if (!Services.PlayerMovement.inPlaceForSequence)
+            {
+                Services.CameraManager.EnterDialogue();
+                Services.UIManager.EnterDialogue();
+                Logger.Warning("Dialogue Failsafe Triggered in SequenceManager");
+            }
         });
 
-        enterDialogue.Then(fadeIn).Then(startConvo);
-        return enterDialogue;
+        failsafeWait.Then(failsafeAction);
+
+        return failsafeWait;
     }
 
     /*
@@ -121,10 +148,9 @@ public static class SequenceManager
         {
             Services.UIManager.HideItemPickupPrompt();
             return Services.PlayerMovement.inPlaceForSequence;
-        }, () =>
-        {
-            Services.PlayerItemHolder.DropItem();
         });
+
+        Task dropItem = new ActionTask(() => { Services.PlayerItemHolder.DropItem(); });
 
         Task waitForTime2 = new WaitTask(.66f);
 
@@ -141,8 +167,6 @@ public static class SequenceManager
         // Add in phase here to show plants growing?????????????????????????????????????
 
         Task waitForTime3 = new WaitTask(1.5f);
-
-
 
         // 4. Fade to white? black? 2s
         ActionTask fourthSequence = new ActionTask(() =>
@@ -177,106 +201,45 @@ public static class SequenceManager
             Services.GameManager.EnterDialogue();
         });
 
-        enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(triggerPlantAnims).Then(waitForTime6).Then(sixthSequence);
+        enterSequence.Then(waitForTime1).Then(secondSequence).Then(dropItem).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(triggerPlantAnims).Then(waitForTime6).Then(sixthSequence);
         return enterSequence;
     }
 
     private static Task DefineEndSequence()
     {
-        // 1. Move player to position. Move camera behind player. ~2s
-        Task enterSequence = new DelegateTask(() => { }, () =>
+        ActionTask firstSequence = new ActionTask(() =>
         {
-            return Services.PlayerMovement.inPlaceForSequence;
+            Services.UIManager.CutsceneFadeIn();
+        });
+        Task waitForTime1 = new WaitTask(2f);
+
+        ActionTask secondSequence = new ActionTask(() =>
+        {
+            Services.UIManager.CutsceneFadeOut();
+            Services.UIManager.HideAllUI();
+            PlayerAnimation.Sitting(true);
+            FModMusicManager.EndCutscene();
+            cutsceneObjectsManager.EndNPCs();
+
         });
 
-        Task waitForTime1 = new WaitTask(1f);
+        Task waitForTime2 = new WaitTask(14f);
 
-        // 2. Move Camera to cutsceneCamera, have camera slowly focus on item. Make player walk to tree. ~2s
-        Task secondSequence = new DelegateTask(() =>
-        {
-            // Trigger particles?
-            // Trigger music?
-        }, () =>
-        {
-            return Services.PlayerMovement.inPlaceForSequence;
-        }, () =>
-        {
-            Services.PlayerItemHolder.DropItem();
-        });
-
-        Task waitForTime2 = new WaitTask(.66f);
-
-        // 3.Trigger Quest item repository to take item, trigger sounds and particle effects, smoothly animate it into position and have large particle effect. 2s
         ActionTask thirdSequence = new ActionTask(() =>
         {
-            Services.QuestItemRepository.StartSequence();
-            FModMusicManager.ReturnedItem();
-            // Quest item Repository takes Item.
-            // trigger other stuff.
-        });
-
-        
-
-        Task waitForTime3 = new WaitTask(1.5f);
-
-        // 4. Fade to white? black? 2s
-        ActionTask fourthSequence = new ActionTask(() =>
-        {
-            // Fade out?
             Services.UIManager.CutsceneFadeIn();
         });
 
-        // 5. stay there for a sec as music fades. Place player into new position. 3s
-        Task waitForTime4 = new WaitTask(4.5f);
+        Task waitForTime3 = new WaitTask(4f);
 
-        // 6. Fade back in and have player turned around as environment changes are triggered. 2s
-        ActionTask fifthSequence = new ActionTask(() =>
-        {
-            PlayerAnimation.Sitting(true);
-            Services.PostProcessingManager.AdvanceStage();
-            Services.UIManager.HideItemPickupPrompt();
-            // Fade in?
-            Services.UIManager.CutsceneFadeOut();
-        });
-
-        Task waitForTime5 = new WaitTask(2f);
-
-        ActionTask triggerPlantAnims = new ActionTask(() => {
-            Services.UIManager.HideItemPickupPrompt();
-            cutsceneObjectsManager.Transition();
-            FModMusicManager.EndCutscene();
-        });
-        // trigger camera!!!!!!!!!!!!!!!!!!!!!!!!!
-
-        Task waitForTime6 = new WaitTask(13.5f);
-        // 7. 1 sec later have player get up and return to normal controls. 1s
-        ActionTask sixthSequence = new ActionTask(() =>
-        {
-            PlayerAnimation.Sitting(false);
-            NPCInteractionManager.FindClosestNPC();
-            Services.GameManager.EnterDialogue();
-        });
-
-        enterSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(triggerPlantAnims).Then(waitForTime6).Then(sixthSequence);
-        return enterSequence;
-    }
-
-    private static Task DefineEndGameSequence()
-    {
-        Task enterSequence = new ActionTask(() =>
-        {
-            Logger.Debug("Entering EndGameState.");
-            PlayerAnimation.Sitting(true);
-        });
-        Task waitForTime = new WaitTask(4.5f);
-        
         Task endGame = new ActionTask(() =>
         {
+            FModMusicManager.EndMusicLayers();
             UnityEngine.SceneManagement.SceneManager.LoadScene(2);
         });
 
-        enterSequence.Then(waitForTime).Then(endGame);
-        return enterSequence;
+        firstSequence.Then(waitForTime1).Then(secondSequence).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(endGame);
+        return firstSequence;
     }
 
 }
