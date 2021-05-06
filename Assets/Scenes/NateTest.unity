@@ -55004,7 +55004,7 @@ Animator:
   m_Controller: {fileID: 22100000, guid: d59d051a0c8491c4695d8acf6b1ab316, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -62109,8 +62109,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 132900047}
-  - {fileID: 167359282}
   - {fileID: 1609527056}
+  - {fileID: 167359282}
   - {fileID: 548310278}
   - {fileID: 669390867}
   m_Father: {fileID: 244673403}
@@ -68010,7 +68010,7 @@ Transform:
   - {fileID: 1243638123}
   - {fileID: 1545347235}
   m_Father: {fileID: 1479133574}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1609658141
 PrefabInstance:
@@ -69118,7 +69118,7 @@ Animator:
   m_Controller: {fileID: 22100000, guid: d59d051a0c8491c4695d8acf6b1ab316, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -69743,7 +69743,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 6317d6c02391ce347b8a188c8edc8ce6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
