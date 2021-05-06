@@ -105,6 +105,7 @@ public class WarblerQuest : FSMQuest
         Task start = new ActionTask(() =>
         {
             childNPC.GetComponentInChildren<Animator>().SetBool(Str.Moving, true);
+            childNPC.enabled = false;
             // sound?
         });
         Task prev = start;
