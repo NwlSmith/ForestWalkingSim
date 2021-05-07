@@ -16,23 +16,11 @@ using UnityEngine;
  * - We have freedom to go places, sure, but it doesn't feel intentional?
  * 
  * 
- * Add text that says Soil returned?
- * 
  * not clear where end of race is
  * 
  * STILL DIALOGUE ENTRY BUG
  * 
  * also people aren't able to get into dialogue properly after the cutscene?
- * 
- * save after every quest stage
- * save item positions
- * Maybe just want to get rid of it?
- * 
- * finally fix the birds
- * 
- * CAMERA MOVING CAUSES BUG???
- * 
- * fix dialogue cameras to include player.
  * 
  * Save is disabled in SaveManager at Line 177 and UIManager at Line 185
  */
