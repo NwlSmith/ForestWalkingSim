@@ -4871,7 +4871,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1266906922028409482, guid: 2f63675844b8641e48cc31ec88d67b33, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -75.2906
+      value: -75.291
       objectReference: {fileID: 0}
     - target: {fileID: 1266906922028409482, guid: 2f63675844b8641e48cc31ec88d67b33, type: 3}
       propertyPath: m_LocalPosition.z
@@ -28315,7 +28315,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1266906922028409482, guid: 2f63675844b8641e48cc31ec88d67b33, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -77.31795
+      value: -77.3171
       objectReference: {fileID: 0}
     - target: {fileID: 1266906922028409482, guid: 2f63675844b8641e48cc31ec88d67b33, type: 3}
       propertyPath: m_LocalPosition.z
@@ -58210,7 +58210,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4117629645202930049, guid: 5546e461a166240718ee6a1bf8b0a0c7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -76.112
+      value: -76.1123
       objectReference: {fileID: 0}
     - target: {fileID: 4117629645202930049, guid: 5546e461a166240718ee6a1bf8b0a0c7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -60094,7 +60094,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1266906922028409482, guid: 2f63675844b8641e48cc31ec88d67b33, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.016083
+      value: 9.92
       objectReference: {fileID: 0}
     - target: {fileID: 1266906922028409482, guid: 2f63675844b8641e48cc31ec88d67b33, type: 3}
       propertyPath: m_LocalPosition.y
@@ -60102,7 +60102,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1266906922028409482, guid: 2f63675844b8641e48cc31ec88d67b33, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 110.78711
+      value: 110.97
       objectReference: {fileID: 0}
     - target: {fileID: 1266906922028409482, guid: 2f63675844b8641e48cc31ec88d67b33, type: 3}
       propertyPath: m_LocalRotation.w
@@ -60903,7 +60903,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4117629645202930049, guid: 5546e461a166240718ee6a1bf8b0a0c7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -77.01094
+      value: -77.0102
       objectReference: {fileID: 0}
     - target: {fileID: 4117629645202930049, guid: 5546e461a166240718ee6a1bf8b0a0c7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -63600,7 +63600,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7786484098421253587, guid: 99884cf9949aa40969d1243f8e37c545, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -75.4483
+      value: -75.448
       objectReference: {fileID: 0}
     - target: {fileID: 7786484098421253587, guid: 99884cf9949aa40969d1243f8e37c545, type: 3}
       propertyPath: m_LocalPosition.z
@@ -66276,7 +66276,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4117629645202930049, guid: 5546e461a166240718ee6a1bf8b0a0c7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -77.00162
+      value: -77.004
       objectReference: {fileID: 0}
     - target: {fileID: 4117629645202930049, guid: 5546e461a166240718ee6a1bf8b0a0c7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -68069,7 +68069,7 @@ MonoBehaviour:
   - _gameObjectsEnableOnStageEnter:
     - {fileID: 1153000808}
     _gameObjectsDisableOnStageEnter: []
-    _textAddedToLog: 'Race The Turtle to the orange tree on the other end of the
+    _textAddedToLog: 'Race The Turtle to the big red tree on the other end of the
       clearing.
 
 '
@@ -76242,7 +76242,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4117629645202930049, guid: 5546e461a166240718ee6a1bf8b0a0c7, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4117629645202930049, guid: 5546e461a166240718ee6a1bf8b0a0c7, type: 3}
       propertyPath: m_LocalScale.x
