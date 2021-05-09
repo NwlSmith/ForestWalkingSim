@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FoxMaterial3
-  m_Shader: {fileID: 4800000, guid: 4f9c128b4bd394f1898c7f8111494b1b, type: 3}
+  m_Name: VM_Leaf 1
+  m_Shader: {fileID: 4800000, guid: c5f044abde7e94b638776d64a3a3b718, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -103,11 +103,13 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
+    - _Amplitude2: 0.1
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _ColorVariation: 0
+    - _ColorVarient1: 0.3
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
@@ -115,21 +117,30 @@ Material:
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _Float0: 0.5
+    - _Frequency: 3
+    - _Frequency2: 3
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Lightintensity: 0.25
+    - _Length: 0.5
+    - _Lightintensity: 0.35
     - _Metallic: 0
     - _OcclusionStrength: 1
+    - _OffsetAmplitude: 0
+    - _OffsetAmplitude2: 0.2
+    - _OffsetLength2: 0.5
+    - _OffsetTime: 0.2
+    - _OffsetTime2: 0.2
     - _Parallax: 0.005
     - _QueueOffset: 0
-    - _RIM: 1
+    - _RIM: 0.35
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SpecularIntensity: 0.31
+    - _SpecularIntensity: 0.34
     - _SrcBlend: 1
+    - _Strength: 0.2
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
@@ -142,9 +153,8 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 0.23584905, g: 0.17466179, b: 0.17466179, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _RIMTint: {r: 0.7890156, g: 0.8584906, b: 0.41709685, a: 0}
-    - _Shadow: {r: 0, g: 0, b: 0, a: 0}
+    - _RIMTint: {r: 0.98039216, g: 0.6784314, b: 0.8745098, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _SpecularColor: {r: 0.745283, g: 0.49943647, b: 0.3058473, a: 0}
-    - _Tint: {r: 1, g: 1, b: 1, a: 0}
+    - _SpecularColor: {r: 0.93333334, g: 0.5686275, b: 0.6313726, a: 0}
+    - _Tint: {r: 0.99215686, g: 0.49803922, b: 0.68235296, a: 0}
   m_BuildTextureStacks: []
