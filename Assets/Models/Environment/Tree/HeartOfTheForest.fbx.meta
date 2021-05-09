@@ -1,9 +1,29 @@
 fileFormatVersion: 2
-guid: 11308d34578752b47856249742012e68
+guid: 1991e6db9b89b4199b50b92e1f085635
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: grassland_a
+    second: {fileID: 2100000, guid: cb6404e0d5e2a42558f6274385327dc8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: grassland_b
+    second: {fileID: 2100000, guid: cb6404e0d5e2a42558f6274385327dc8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: land
+    second: {fileID: 2100000, guid: 1c3c6ead59ae948ccb70b0f913eaf3b7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tree
+    second: {fileID: 2100000, guid: d669d409385154ab7b4b70e57252ed22, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -41,8 +61,8 @@ ModelImporter:
     sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
