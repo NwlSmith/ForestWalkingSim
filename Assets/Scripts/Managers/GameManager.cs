@@ -23,6 +23,15 @@ using UnityEngine;
  * also people aren't able to get into dialogue properly after the cutscene?
  * 
  * Save is disabled in SaveManager at Line 177 and UIManager at Line 185
+ * 
+ * 
+ * spirit fox tails are freaking out again
+ * end song didn't trigger in time?
+ * figure out flower materials - apply root animation?
+ * fix path to heart
+ * holy shit wtf happened at the end??
+ * add grass to heart batch 1
+ * fix issue of item appearing above player's head?
  */
 
 public class GameManager : MonoBehaviour

@@ -177,6 +177,7 @@ public static class Services
     public static void OnDestroy()
     {
         SequenceManager.OnDestroy();
+        FModMusicManager.OnDestroy();
     }
     #endregion
 }

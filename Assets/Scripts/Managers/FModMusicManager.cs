@@ -18,6 +18,7 @@ public static class FModMusicManager
 
     public static void Init()
     {
+
         musicSoundState = FMODUnity.RuntimeManager.CreateInstance("event:/Music");
         CompileSounds();
         musicSoundState.start();
@@ -28,6 +29,20 @@ public static class FModMusicManager
         for (int i = 0; i < 3; i++)
         {
             uiSoundStates[i] = FMODUnity.RuntimeManager.CreateInstance("event:/UI");
+        }
+    }
+
+    public static void OnDestroy()
+    {
+
+        musicSoundState.clearHandle();
+
+        itemFoundSoundState.clearHandle();
+        itemReturnedSoundState.clearHandle();
+
+        for (int i = 0; i < 3; i++)
+        {
+            uiSoundStates[i].clearHandle();
         }
     }
 
