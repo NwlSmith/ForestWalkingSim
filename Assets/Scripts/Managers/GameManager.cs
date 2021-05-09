@@ -14,9 +14,7 @@ using UnityEngine;
  * To do:
  * - In URPExampleAssets > Settings > UniversalRenderPipeline Shadow Max distance was initially 50
  * - We have freedom to go places, sure, but it doesn't feel intentional?
- * 
- * 
- * not clear where end of race is
+ *
  * 
  * STILL DIALOGUE ENTRY BUG
  * 
@@ -25,13 +23,9 @@ using UnityEngine;
  * Save is disabled in SaveManager at Line 177 and UIManager at Line 185
  * 
  * 
- * spirit fox tails are freaking out again
- * end song didn't trigger in time?
  * figure out flower materials - apply root animation?
- * fix path to heart
- * holy shit wtf happened at the end??
- * add grass to heart batch 1
- * fix issue of item appearing above player's head?
+ * 
+ * add grass to heart batch 1!!!
  */
 
 public class GameManager : MonoBehaviour
