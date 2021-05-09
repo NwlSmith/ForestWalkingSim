@@ -91,6 +91,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TextureSample1:
+        m_Texture: {fileID: 2800000, guid: aceede4acc97a4f5dbcc59581e2eb1b5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _UpTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -153,21 +157,21 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     - _blend: 1
-    - _midblend: 0.92
+    - _midblend: 2
     - _speed: 0.02
-    - _topblend: 1
+    - _topblend: 1.21
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _CloudColor: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GroundColor: {r: 0.3584906, g: 0.20509334, b: 0.14373444, a: 1}
-    - _LandColor: {r: 0.08210216, g: 0.33900195, b: 0.38679245, a: 0}
-    - _MidColor: {r: 0.04903879, g: 0.19587964, b: 0.5471698, a: 0.8862745}
-    - _MidColor2: {r: 1, g: 0.6084906, b: 0.9814938, a: 0}
+    - _LandColor: {r: 0.0821021, g: 0.3390019, b: 0.3867924, a: 0}
+    - _MidColor: {r: 0.049038738, g: 0.19587958, b: 0.5471698, a: 0.8862745}
+    - _MidColor2: {r: 1, g: 0.4669811, b: 0.9728973, a: 0}
     - _RIMTint: {r: 0, g: 0, b: 0, a: 0}
     - _SkyColor: {r: 0.72463506, g: 0.8679245, b: 0.86514676, a: 1}
-    - _SkyColorBottom: {r: 0, g: 0.3113209, b: 0.5471698, a: 1}
+    - _SkyColorBottom: {r: 0, g: 0.31132084, b: 0.5471698, a: 1}
     - _SkyColorTop: {r: 0, g: 0.7093024, b: 1, a: 0}
     - _SkyTint: {r: 0.41985583, g: 0.6089418, b: 0.8018868, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
