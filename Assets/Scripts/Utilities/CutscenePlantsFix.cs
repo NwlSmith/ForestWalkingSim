@@ -18,6 +18,18 @@ public class CutscenePlantsFix
         {
             Transform child = parent.GetChild(i);
 
+            if (child.name.Contains("Batch"))
+                FixChildren(child);
+        }
+    }
+
+    private static void FixChildren(Transform batch)
+    {
+
+        for (int i = 0; i < batch.childCount; i++)
+        {
+            Transform child = batch.GetChild(i);
+
             if (Physics.Raycast(child.position + 30f * Vector3.up, Vector3.down, out RaycastHit hit, 50f, layerMask.value, QueryTriggerInteraction.Ignore))
             {
                 child.position = hit.point;

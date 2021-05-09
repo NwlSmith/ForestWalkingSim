@@ -11,10 +11,13 @@ public class PlayerFeedback : MonoBehaviour
     public int nextSource = 0;
     private AudioSource audioSourceSteps;
     private AudioSource audioSourceLeafRustleOngoing;
-    private AudioSource audioSourceLeafRustleEntry;
+    private AudioSource audioSourceWaterOngoing;
+    private AudioSource audioSourceEntry;
     private float leafRustleMaxVol = 1f;
     [SerializeField] private AudioClip leafRustleClip;
     [SerializeField] private AudioClip leafRustleEntryClip;
+    [SerializeField] private AudioClip waterClip;
+    [SerializeField] private AudioClip waterEntryClip;
     [SerializeField] private AudioClip jumpClip;
     [SerializeField] private AudioClip landClip;
     [SerializeField] private AudioClip[] grassClips;
@@ -27,6 +30,8 @@ public class PlayerFeedback : MonoBehaviour
     private bool onTerrain = false;
     private bool currentlyInBush = false;
     private bool prevInBush = false;
+    private bool currentlyInWater = false;
+    private bool prevInWater = false;
 
     private void Awake()
     {
@@ -48,14 +53,23 @@ public class PlayerFeedback : MonoBehaviour
         audioSourceLeafRustleOngoing.maxDistance = 10f;
         audioSourceLeafRustleOngoing.Play();
 
-        audioSourceLeafRustleEntry = gameObject.AddComponent<AudioSource>();
-        audioSourceLeafRustleEntry.playOnAwake = false;
-        audioSourceLeafRustleEntry.loop = false;
-        audioSourceLeafRustleEntry.clip = leafRustleEntryClip;
-        audioSourceLeafRustleEntry.volume = 1;
-        audioSourceLeafRustleEntry.spatialBlend = 1f;
-        audioSourceLeafRustleEntry.minDistance = 3f;
-        audioSourceLeafRustleEntry.maxDistance = 10f;
+        audioSourceWaterOngoing = gameObject.AddComponent<AudioSource>();
+        audioSourceWaterOngoing.playOnAwake = true;
+        audioSourceWaterOngoing.loop = true;
+        audioSourceWaterOngoing.clip = waterClip;
+        audioSourceWaterOngoing.volume = 0f;
+        audioSourceWaterOngoing.spatialBlend = 1f;
+        audioSourceWaterOngoing.minDistance = 3f;
+        audioSourceWaterOngoing.maxDistance = 10f;
+        audioSourceWaterOngoing.Play();
+
+        audioSourceEntry = gameObject.AddComponent<AudioSource>();
+        audioSourceEntry.playOnAwake = false;
+        audioSourceEntry.loop = false;
+        audioSourceEntry.volume = .5f;
+        audioSourceEntry.spatialBlend = 1f;
+        audioSourceEntry.minDistance = 3f;
+        audioSourceEntry.maxDistance = 10f;
     }
 
     private void FixedUpdate()
@@ -66,11 +80,18 @@ public class PlayerFeedback : MonoBehaviour
         currentlyInBush = Services.PlayerMovement.inBush;
         if (!prevInBush && currentlyInBush)
         {
-            audioSourceLeafRustleEntry.pitch = Random.Range(.9f, 1.1f);
-            audioSourceLeafRustleEntry.Play();
+            audioSourceEntry.pitch = Random.Range(.9f, 1.1f);
+            audioSourceEntry.PlayOneShot(leafRustleEntryClip);
+        }
+        currentlyInWater = Services.PlayerMovement.inWater;
+        if (!prevInWater && currentlyInWater)
+        {
+            audioSourceEntry.pitch = Random.Range(.9f, 1.1f);
+            audioSourceEntry.PlayOneShot(waterEntryClip);
         }
 
         prevInBush = currentlyInBush;
+        prevInWater = currentlyInWater;
 
         if (currentlyInBush && audioSourceLeafRustleOngoing.volume < leafRustleMaxVol)
         {
@@ -79,6 +100,14 @@ public class PlayerFeedback : MonoBehaviour
         else if (!currentlyInBush && audioSourceLeafRustleOngoing.volume > 0)
         {
             audioSourceLeafRustleOngoing.volume -= .01f;
+        }
+        if (currentlyInWater && audioSourceWaterOngoing.volume < leafRustleMaxVol)
+        {
+            audioSourceWaterOngoing.volume += .03f;
+        }
+        else if (!currentlyInWater && audioSourceWaterOngoing.volume > 0)
+        {
+            audioSourceWaterOngoing.volume -= .03f;
         }
     }
 

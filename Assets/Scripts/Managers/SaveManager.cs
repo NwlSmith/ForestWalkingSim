@@ -164,6 +164,7 @@ public class SaveManager
 
     public bool SaveExists()
     {
+        return false;
         if (!File.Exists(Application.dataPath + Str.SaveName)) return false;
         string defaultSaveString = File.ReadAllText(Application.dataPath + Str.SaveDefaultName);
         string saveString = File.ReadAllText(Application.dataPath + Str.SaveName);

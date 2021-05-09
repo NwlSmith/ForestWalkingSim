@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     public bool moving = false;
     public bool movingOnGround = false;
     public bool inBush = false;
+    public bool inWater = false;
 
 
     /// Stored inputs
@@ -66,7 +67,6 @@ public class PlayerMovement : MonoBehaviour
     // The finite state machine of the current gamestate.
     private FiniteStateMachine<PlayerMovement> _fsm;
     private TaskManager _taskManager = new TaskManager();
-
     #endregion 
 
     #region Lifecycle Management
@@ -482,6 +482,7 @@ public class PlayerMovement : MonoBehaviour
         private class MovingOnGroundState : MovementState
         {
             private LayerMask bushLayer = 4096; // should be just bush layer.
+            private LayerMask waterLayer = 16; // should be just water layer.
 
             public override void OnEnter()
             {
@@ -507,6 +508,7 @@ public class PlayerMovement : MonoBehaviour
 
 
                 Cont.inBush = CheckBushCollision;
+                Cont.inWater = CheckWaterCollision;
 
                 Vector3 direction = new Vector3(Cont._horizontalInput, 0f, Cont._verticalInput).normalized;
 
@@ -550,6 +552,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             private bool CheckBushCollision => Physics.CheckSphere(Cont.transform.position, .5f, bushLayer, QueryTriggerInteraction.Ignore);
+            private bool CheckWaterCollision => Physics.CheckSphere(Cont.transform.position, .5f, waterLayer, QueryTriggerInteraction.Ignore);
         }
 
         // Player is currently jumping. Possibly change into 2 states - a jump charging state and a released jump state.
