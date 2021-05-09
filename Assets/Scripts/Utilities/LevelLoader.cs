@@ -24,7 +24,6 @@ public class LevelLoader : MonoBehaviour
         while (!loading.isDone)
         {
             float prog = Mathf.Clamp01(loading.progress / .9f);
-            Logger.Debug($"Progress: {prog}, scene activation allowed?");
             
             yield return null;
         }

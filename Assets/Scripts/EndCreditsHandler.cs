@@ -40,7 +40,7 @@ public class EndCreditsHandler : MonoBehaviour
 
     private void NextScene()
     {
-        FModMusicManager.EndFoxTheme();
+        FModMusicManager.EndFoxThemeCredits();
         FModMusicManager.OnDestroy();
         SceneManager.LoadScene(0);
     }

@@ -95,6 +95,12 @@ public static class FModMusicManager
 
     public static void EndFoxTheme() => musicSoundState.setParameterByID(StrToID["Fox Theme"], 0);
 
+    public static void EndFoxThemeCredits()
+    {
+        musicSoundState.setParameterByID(StrToID["Fox Theme"], 0);
+        musicSoundState.stop(STOP_MODE.IMMEDIATE);
+    }
+
     public static void StartFoxTheme() => musicSoundState.setParameterByID(StrToID["Fox Theme"], 1);
 
     public static void EndMusicLayers()

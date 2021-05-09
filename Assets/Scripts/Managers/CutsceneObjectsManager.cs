@@ -63,11 +63,7 @@ public class CutsceneObjectsManager : MonoBehaviour
                     yield return new WaitForSeconds(.05f);
                 }
                 foreach (Animation anim in batch1Animators)
-                {
-                    GameObjectUtility.SetStaticEditorFlags(anim.gameObject, StaticEditorFlags.OccludeeStatic);
-                    GameObjectUtility.SetStaticEditorFlags(anim.gameObject, StaticEditorFlags.BatchingStatic);
                     anim.enabled = false;
-                }
                 break;
             case 1:
                 phase--;
@@ -78,27 +74,22 @@ public class CutsceneObjectsManager : MonoBehaviour
                     yield return new WaitForSeconds(.07f);
                 }
                 foreach (Animation anim in batch2Animators)
-                {
-                    GameObjectUtility.SetStaticEditorFlags(anim.gameObject, StaticEditorFlags.OccludeeStatic);
-                    GameObjectUtility.SetStaticEditorFlags(anim.gameObject, StaticEditorFlags.BatchingStatic);
                     anim.enabled = false;
-                }
 
                 break;
             case 0:
                 phase--;
-                foreach (Animation anim in batch3Animators)
+                batch3Animators[0].gameObject.SetActive(true);
+                batch3Animators[0].Play();
+                yield return new WaitForSeconds(2);
+                for (int i = 1; i < batch3Animators.Length; i++)
                 {
-                    anim.gameObject.SetActive(true);
-                    anim.Play();
+                    batch3Animators[i].gameObject.SetActive(true);
+                    batch3Animators[i].Play();
                     yield return new WaitForSeconds(1);
                 }
                 foreach (Animation anim in batch3Animators)
-                {
-                    GameObjectUtility.SetStaticEditorFlags(anim.gameObject, StaticEditorFlags.OccludeeStatic);
-                    GameObjectUtility.SetStaticEditorFlags(anim.gameObject, StaticEditorFlags.BatchingStatic);
                     anim.enabled = false;
-                }
                 break;
             default:
                 phase--;

@@ -23,7 +23,6 @@ using UnityEngine;
  * maybe make LOD further so it doesn't cull during end cutscene?
  * make sure camera sees trees growing! - make coroutine slower
  * 
- * fuckin player violin plays after end.
  * 
  */
 
