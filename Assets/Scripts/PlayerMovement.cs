@@ -94,6 +94,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (_fsm.PendingState != null) return;
         GameState curGS = ((GameState)_fsm.CurrentState);
         if (curGS != null)
             curGS.FixedUpdate();
@@ -380,7 +381,6 @@ public class PlayerMovement : MonoBehaviour
     // Player is forced to remain idle, turns to look at NPC.
     private class InDialogueState : GameState
     {
-
         public override void OnEnter()
         {
             Context.inPlaceForSequence = false;
@@ -394,13 +394,10 @@ public class PlayerMovement : MonoBehaviour
             Context._taskManager.Do(DefineSequence());
         }
 
-        private Task DefineSequence()
-        {
-            return Context.PlayerMoveToTransform(
+        private Task DefineSequence() => Context.PlayerMoveToTransform(
                 NPCInteractionManager.DialogueTrans,
                 NPCInteractionManager.ClosestNPC().transform,
                 NPCInteractionManager.ClosestNPC().GetPlayerCameraLookAtPosition());
-        }
 
         public override void OnExit() => Context.inPlaceForSequence = false;
     }

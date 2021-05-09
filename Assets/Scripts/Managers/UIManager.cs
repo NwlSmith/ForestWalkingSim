@@ -182,7 +182,8 @@ public class UIManager : MonoBehaviour
 
     public void EnterLoadSave() => _fsm.TransitionTo<LoadSaveState>();
 
-    public void ShowContinueGame() => DisplayUI(_continueButton);
+    //public void ShowContinueGame() => DisplayUI(_continueButton); // UNCOMMENT IF ENABLING SAVES
+    public void ShowContinueGame() => HideUI(_continueButton);
 
     public void HideContinueGame() => HideUI(_continueButton);
 

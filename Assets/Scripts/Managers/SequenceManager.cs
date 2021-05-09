@@ -5,23 +5,23 @@
  */
 public static class SequenceManager
 {
-
+    public static bool inCutscene = false;
     private static readonly TaskManager _taskManager = new TaskManager();
 
-    private static readonly Task _enterDialogue;
-    private static readonly Task _enterDialogueFailsafe;
-    private static readonly Task _enterMidSequence;
-    private static readonly Task _enterEndSequence;
-    private static readonly Task _enterEndGameSequence;
+    private static Task _enterDialogue;
+    private static Task _enterDialogueFailsafe;
+    private static Task _enterMidSequence;
+    private static Task _enterEndSequence;
+    private static Task _enterEndGameSequence;
     private static CutsceneObjectsManager cutsceneObjectsManager;
 
     public static bool[] specialCutsceneTriggers = new bool[4];
 
-    static SequenceManager()
+    public static void Init()
     {
         // Pre-define task.
-        _enterDialogue = DefineDialogueSequence();
         _enterDialogueFailsafe = DefineDialogueFailsafeSequence();
+        _enterDialogue = DefineDialogueSequence();
         _enterMidSequence = DefineMidSequence();
         _enterEndSequence = DefineEndSequence();
 
@@ -31,9 +31,8 @@ public static class SequenceManager
         {
             specialCutsceneTriggers[i] = false;
         }
+        cutsceneObjectsManager = UnityEngine.Object.FindObjectOfType<CutsceneObjectsManager>();
     }
-
-    public static void Init() => cutsceneObjectsManager = UnityEngine.Object.FindObjectOfType<CutsceneObjectsManager>();
 
     public static void OnDestroy() => UnregisterEvents(); // Possibly not useful.
 
@@ -53,14 +52,32 @@ public static class SequenceManager
         Services.EventManager.Unregister<OnEnterEndCutscene>(EnterEndCutscene);
     }
 
-    private static void EnterDialogue(AGPEvent e)
+    public static void EnterDialogue()
     {
-        _taskManager.Do(_enterDialogue);
+        Logger.Warning("EnterDialogue event triggered in SequenceManager");
+        _enterDialogueFailsafe = DefineDialogueFailsafeSequence();
+        _enterDialogue = DefineDialogueSequence();
         _taskManager.Do(_enterDialogueFailsafe);
+        _taskManager.Do(_enterDialogue);
     }
 
-    private static void EnterMidCutscene(AGPEvent e) => _taskManager.Do(_enterMidSequence);
-    private static void EnterEndCutscene(AGPEvent e) => _taskManager.Do(_enterEndSequence);
+    private static void EnterDialogue(AGPEvent e) => EnterDialogue();
+
+    public static void EnterMidCutscene()
+    {
+        _enterMidSequence = DefineMidSequence();
+        _taskManager.Do(_enterMidSequence);
+    }
+
+    private static void EnterMidCutscene(AGPEvent e) => EnterMidCutscene();
+
+    public static void EnterEndCutscene()
+    {
+        _enterEndSequence = DefineEndSequence();
+        _taskManager.Do(_enterEndSequence);
+    }
+
+    private static void EnterEndCutscene(AGPEvent e) => EnterEndCutscene();
 
     public static void Save()
     {
@@ -131,6 +148,7 @@ public static class SequenceManager
         // 1. Move player to position. Move camera behind player. ~2s
         Task enterSequence = new DelegateTask(() => 
         {
+            inCutscene = true;
         }, () =>
         {
             Services.UIManager.HideItemPickupPrompt();
@@ -199,6 +217,7 @@ public static class SequenceManager
             PlayerAnimation.Sitting(false);
             NPCInteractionManager.FindClosestNPC();
             Services.GameManager.EnterDialogue();
+            inCutscene = false;
         });
 
         enterSequence.Then(waitForTime1).Then(secondSequence).Then(dropItem).Then(waitForTime2).Then(thirdSequence).Then(waitForTime3).Then(fourthSequence).Then(waitForTime4).Then(fifthSequence).Then(waitForTime5).Then(triggerPlantAnims).Then(waitForTime6).Then(sixthSequence);
@@ -210,6 +229,7 @@ public static class SequenceManager
         ActionTask firstSequence = new ActionTask(() =>
         {
             Services.UIManager.CutsceneFadeIn();
+            inCutscene = true;
         });
         Task waitForTime1 = new WaitTask(2f);
 
@@ -234,6 +254,7 @@ public static class SequenceManager
 
         Task endGame = new ActionTask(() =>
         {
+            inCutscene = false;
             FModMusicManager.EndMusicLayers();
             UnityEngine.SceneManagement.SceneManager.LoadScene(2);
         });

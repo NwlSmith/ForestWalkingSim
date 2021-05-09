@@ -51,11 +51,12 @@ public static class NPCInteractionManager
     public static void FindClosestNPC()
     {
         Logger.Warning("Failsafe: Someone called FindClosestNPC() on NPCInteractionManager");
-        float closestDist = 75f;
+        float closestDist = 15f;
         NPC closeNPC = null;
 
         foreach (NPC npc in _npcs)
         {
+            if (!npc.enabled || !npc.transform.parent.gameObject.activeSelf || !npc.gameObject.activeSelf) continue;
             float curDist = Vector3.Distance(_transform.position, npc.transform.position);
             if (curDist < closestDist)
             {

@@ -16,20 +16,13 @@ using UnityEngine;
  * - We have freedom to go places, sure, but it doesn't feel intentional?
  * 
  * 
- * Add text that says Soil returned?
- * 
  * not clear where end of race is
  * 
  * STILL DIALOGUE ENTRY BUG
  * 
  * also people aren't able to get into dialogue properly after the cutscene?
  * 
- * save after every quest stage
- * save item positions
- * Will need quest stages to keep track of which birds are talked to, and which items have been collected
- * Maybe just want to get rid of it?
- * 
- * fix dialogue cameras to include player.
+ * Save is disabled in SaveManager at Line 177 and UIManager at Line 185
  */
 
 public class GameManager : MonoBehaviour
@@ -72,6 +65,11 @@ public class GameManager : MonoBehaviour
             _checkControllerElapsedTime = 0f;
             InputManager.CheckUsingController();
         }
+    }
+
+    private void OnDestroy()
+    {
+        Services.OnDestroy();
     }
 
     #endregion
@@ -251,12 +249,31 @@ public class GameManager : MonoBehaviour
     private class InDialogueState : GameState
     {
 
+        private float _elapsedTime = 0f;
+        private const float _maxTimeUntilFailsafe = 10f;
+
         public override void OnEnter()
         {
+            _elapsedTime = 0f;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             Logger.Warning("GameManager entering dialogue");
             Services.EventManager.Fire(new OnEnterDialogue());
+        }
+
+        public override void Update()
+        {
+            base.Update();
+            _elapsedTime += Time.deltaTime;
+            if (Services.DialogueController.inDialogue)
+                _elapsedTime = 1000f;
+            else if (_elapsedTime > _maxTimeUntilFailsafe && _elapsedTime < _maxTimeUntilFailsafe + .5f)
+            {
+                _elapsedTime = 1000f;
+                Logger.Warning("Dialogue Entry failsafe triggered in GameManager InDialogueState.");
+                SequenceManager.EnterDialogue();
+                Services.UIManager.HideDialogueEnterPrompt();
+            }
         }
 
         public override void OnExit()
@@ -280,17 +297,59 @@ public class GameManager : MonoBehaviour
          * 7. 1 sec later have player get up and return to normal controls. 1s // turns around!
          */
 
-        
+        private float _elapsedTime = 0f;
+        private const float _maxTimeUntilFailsafe = 10f;
 
-        public override void OnEnter() => Services.EventManager.Fire(new OnEnterMidCutscene());
+        public override void OnEnter()
+        {
+            _elapsedTime = 0f;
+            Services.EventManager.Fire(new OnEnterMidCutscene());
+        }
+
+        public override void Update()
+        {
+            base.Update();
+            _elapsedTime += Time.deltaTime;
+            if (SequenceManager.inCutscene)
+                _elapsedTime = 1000f;
+            else if (_elapsedTime > _maxTimeUntilFailsafe && _elapsedTime < _maxTimeUntilFailsafe + .5f)
+            {
+                _elapsedTime = 1000f;
+                Logger.Warning("Cutscene Entry failsafe triggered in GameManager MidCutsceneState.");
+                SequenceManager.EnterMidCutscene();
+                Services.CameraManager.EnterMidCutsceneFailsafe();
+                Services.UIManager.HideDialogueEnterPrompt();
+            }
+        }
     }
 
     // Use delegates to control player movement, Fade out screen, load main menu.
     private class EndCutsceneState : GameState
     {
+        private float _elapsedTime = 0f;
+        private const float _maxTimeUntilFailsafe = 10f;
 
+        public override void OnEnter()
+        {
+            _elapsedTime = 0f;
+            Services.EventManager.Fire(new OnEnterEndCutscene());
+        }
 
-        public override void OnEnter() => Services.EventManager.Fire(new OnEnterEndCutscene());
+        public override void Update()
+        {
+            base.Update();
+            _elapsedTime += Time.deltaTime;
+            if (SequenceManager.inCutscene)
+                _elapsedTime = 1000f;
+            else if (_elapsedTime > _maxTimeUntilFailsafe && _elapsedTime < _maxTimeUntilFailsafe + .5f)
+            {
+                _elapsedTime = 1000f;
+                Logger.Warning("Cutscene Entry failsafe triggered in GameManager EndCutsceneState.");
+                SequenceManager.EnterEndCutscene();
+                Services.CameraManager.EnterEndCutsceneFailsafe();
+                Services.UIManager.HideDialogueEnterPrompt();
+            }
+        }
 
         public override void OnExit() => Context._endingGame = true;
 

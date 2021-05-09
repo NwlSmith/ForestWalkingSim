@@ -45,6 +45,8 @@ public class DialogueController : MonoBehaviour
         private set => _inMemoryVariableStorage = value;
     }
 
+    public bool inDialogue { get; private set; }
+
     [SerializeField] private float _turtleTextSpeed = .1f;
     [SerializeField] private float _regularTextSpeed = .025f;
 
@@ -94,6 +96,8 @@ public class DialogueController : MonoBehaviour
         Logger.Debug($"Starting dialogue: {_curNPC.YarnStartNode}");
         DialogueRunner.StartDialogue(_curNPC.YarnStartNode);
         NPCSpeak(null);
+
+        inDialogue = true;
 
         MultiNPC multi = _curNPC.GetComponent<MultiNPC>();
         if (multi != null)
@@ -196,6 +200,8 @@ public class DialogueController : MonoBehaviour
         }
         else
             FModMusicManager.EndTrack(_curNPC.GetNPCSpeakerData().fMODSoundName);
+
+        inDialogue = false;
     }
 
     #endregion
