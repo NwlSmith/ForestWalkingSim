@@ -1,26 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class CutsceneObjectsManager : MonoBehaviour
 {
 
-    private Animator[] batch1Animators;
-    private Animator[] batch2Animators;
-    private Animator[] batch3Animators;
+    private Animation[] batch1Animators;
+    private Animation[] batch2Animators;
+    private Animation[] batch3Animators;
 
     [SerializeField] private GameObject[] smokeParticles;
 
     [SerializeField] private GameObject playerEndModel;
     [SerializeField] private GameObject[] npcModels;
+    [SerializeField] private GameObject spiritModel;
 
     private int phase = 2;
 
     private void Awake()
     {
-        batch1Animators = transform.GetChild(0).GetComponentsInChildren<Animator>();
-        batch2Animators = transform.GetChild(1).GetComponentsInChildren<Animator>();
-        batch3Animators = transform.GetChild(2).GetComponentsInChildren<Animator>();
+        batch1Animators = transform.GetChild(0).GetComponentsInChildren<Animation>();
+        batch2Animators = transform.GetChild(1).GetComponentsInChildren<Animation>();
+        batch3Animators = transform.GetChild(2).GetComponentsInChildren<Animation>();
+
+        foreach (Animation anim in batch1Animators)
+            anim.gameObject.SetActive(false);
+
+        foreach (Animation anim in batch2Animators)
+            anim.gameObject.SetActive(false);
+
+        foreach (Animation anim in batch3Animators)
+            anim.gameObject.SetActive(false);
 
         playerEndModel.SetActive(false);
         foreach (var npc in npcModels)
@@ -44,30 +55,55 @@ public class CutsceneObjectsManager : MonoBehaviour
         switch (phase)
         {
             case 2:
-                foreach (Animator anim in batch1Animators)
+                phase--;
+                foreach (Animation anim in batch1Animators)
                 {
-                    anim.SetTrigger(Str.cutsceneTrans);
-                    yield return new WaitForSeconds(.07f);
+                    anim.gameObject.SetActive(true);
+                    anim.Play();
+                    yield return new WaitForSeconds(.05f);
+                }
+                foreach (Animation anim in batch1Animators)
+                {
+                    GameObjectUtility.SetStaticEditorFlags(anim.gameObject, StaticEditorFlags.OccludeeStatic);
+                    GameObjectUtility.SetStaticEditorFlags(anim.gameObject, StaticEditorFlags.BatchingStatic);
+                    anim.enabled = false;
                 }
                 break;
             case 1:
-                foreach (Animator anim in batch2Animators)
+                phase--;
+                foreach (Animation anim in batch2Animators)
                 {
-                    anim.SetTrigger(Str.cutsceneTrans);
+                    anim.gameObject.SetActive(true);
+                    anim.Play();
                     yield return new WaitForSeconds(.07f);
                 }
+                foreach (Animation anim in batch2Animators)
+                {
+                    GameObjectUtility.SetStaticEditorFlags(anim.gameObject, StaticEditorFlags.OccludeeStatic);
+                    GameObjectUtility.SetStaticEditorFlags(anim.gameObject, StaticEditorFlags.BatchingStatic);
+                    anim.enabled = false;
+                }
+
                 break;
             case 0:
-                foreach (Animator anim in batch3Animators)
+                phase--;
+                foreach (Animation anim in batch3Animators)
                 {
-                    anim.SetTrigger(Str.cutsceneTrans);
-                    yield return new WaitForSeconds(.3f);
+                    anim.gameObject.SetActive(true);
+                    anim.Play();
+                    yield return new WaitForSeconds(1);
+                }
+                foreach (Animation anim in batch3Animators)
+                {
+                    GameObjectUtility.SetStaticEditorFlags(anim.gameObject, StaticEditorFlags.OccludeeStatic);
+                    GameObjectUtility.SetStaticEditorFlags(anim.gameObject, StaticEditorFlags.BatchingStatic);
+                    anim.enabled = false;
                 }
                 break;
             default:
+                phase--;
                 break;
         }
-        phase--;
     }
 
     public void EndNPCs() => StartCoroutine(EndNPCSEnum());
@@ -75,6 +111,7 @@ public class CutsceneObjectsManager : MonoBehaviour
     private IEnumerator EndNPCSEnum()
     {
         playerEndModel.SetActive(true);
+        spiritModel.SetActive(false);
 
         List<Animator> npcAnims = new List<Animator>();
 

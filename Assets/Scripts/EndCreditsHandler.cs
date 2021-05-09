@@ -35,7 +35,7 @@ public class EndCreditsHandler : MonoBehaviour
             yield return null;
         }
 
-        SceneManager.LoadScene(0);
+        NextScene();
     }
 
     private void NextScene()

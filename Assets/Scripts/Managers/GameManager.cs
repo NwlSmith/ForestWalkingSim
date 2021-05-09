@@ -13,19 +13,18 @@ using UnityEngine;
  * 
  * To do:
  * - In URPExampleAssets > Settings > UniversalRenderPipeline Shadow Max distance was initially 50
- * - We have freedom to go places, sure, but it doesn't feel intentional?
  *
  * 
- * STILL DIALOGUE ENTRY BUG
- * 
- * also people aren't able to get into dialogue properly after the cutscene?
+ * DIALOGUE ENTRY BUG?
  * 
  * Save is disabled in SaveManager at Line 177 and UIManager at Line 185
  * 
  * 
- * figure out flower materials - apply root animation?
+ * maybe make LOD further so it doesn't cull during end cutscene?
+ * make sure camera sees trees growing! - make coroutine slower
  * 
- * add grass to heart batch 1!!!
+ * fuckin player violin plays after end.
+ * 
  */
 
 public class GameManager : MonoBehaviour
