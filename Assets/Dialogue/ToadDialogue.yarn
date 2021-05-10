@@ -14,8 +14,7 @@ position: -1085,626
     <<NPCSpeak>>
     Ah, right.
     Now, I must ask that you keep what I am about to say between the two of us.
-    Worry not, it is nothing shameful.
-    But it is critical that you keep it to yourself.
+    Worry not, it is nothing shameful, but it is critical that you keep it to yourself.
     <<PlayerSpeak>>
     My lips are sealed!
     <<NPCSpeak>>
@@ -26,7 +25,7 @@ position: -1085,626
     I'm sure you've been doing a wonderful job!
     <<NPCSpeak>>
     Correct.
-    I have been maintaining its excellence since the fire.
+    I have been caring for it since the fire.
     As you have been made aware, Frog and I were to celebrate our anniversary soon.
     <<PlayerSpeak>>
     And the flower is for him?
@@ -35,13 +34,11 @@ position: -1085,626
     <<PlayerSpeak>>
     How thoughtful!
     <<NPCSpeak>>
-    It is thoughtful.
     More importantly for you, young one, is that I have planted this flower in the Soil which you seek.
     <<PlayerSpeak>>
     Oh, do you still need it?
     <<NPCSpeak>>
     There is more than enough to go around, it is unlikely to disturb my gift.
-    It must be some kind of miracle that the flower has survived so close to the site of the fire.
     Strange how such a minor thing as the life of a single flower can hold so much weight in a time like this.
     There is an unspoken understanding in this community that to reach this point in our lives we must have cheated death, to some extent.
     For many, the fire that burned down such a key part of the forest's landscape was far too close for comfort.
@@ -50,7 +47,6 @@ position: -1085,626
     <<PlayerSpeak>>
     I'm so sorry to hear that.
     <<NPCSpeak>>
-    It's been quite the rude awakening.
     Turtle has been particularly affected by it all.
     As the oldest in these woods, she seems afraid to lose the turtle she used to be.
     Did you know she used to be one of the fastest creatures in the forest?
@@ -66,7 +62,7 @@ position: -1085,626
     <<NPCSpeak>>
     I do not mind.
     The truth is that I've found someone to share that anxiety with.
-    It hasn't left, but it is considerably more manageable with someone like Frog around.
+    That feeling has not left, but it is considerably more manageable with someone like Frog around.
     <<PlayerSpeak>>
     You make a good team.
     <<NPCSpeak>>
