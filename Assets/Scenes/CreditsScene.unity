@@ -181,7 +181,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\n\n\n\n\n\n\n\r\n\n\n\n\r\n\nNate Smith\r\n\r\n\nRaveena Panja\r\nLuna
-    Wu\r\nLuna Wu\r\nLuna Wu & Frank Zhang\r\nAlekai McAdam\r\nNate Smith\r\n\r\n\nClara
+    Wu\r\nLuna Wu\nLuna Wu\r\nLuna Wu & Frank Zhang\r\nAlekai McAdam\r\nNate Smith\r\n\r\n\nClara
     Fernandez-Vara\r\nArjun Jaishankar\r\n\r\n\nAxel Kazis-Taylor\r\nKatarina Demos
     \r\nAlba S. Torremocha\r\n\r\n\n\n\n\n\n"
   m_isRightToLeft: 0
@@ -319,7 +319,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "- Design -\r\nAlekai McAdam\r\nRaveena Panja\r\nNate Smith\r\nSawyer Smith\r\nLuna
     Wu\r\nFrank Zhang\r\n\r\n- Writing -\r\nAlekai McAdam\r\nSawyer Smith\r\n\r\n-
-    Techical -\r\n\n\r\n- Art -\r\n\n\n\n\n\n\n\r\n- Faculty Guides -\r\n\n\n\r\n-
+    Techical -\r\n\n\r\n- Art -\r\n\n\n\n\n\n\n\n\r\n- Faculty Guides -\r\n\n\n\r\n-
     MUSIC -\r\n\n\n\n\r\n- Tools -\r\nSpine & Tail Animator FImpossible Creations\r\nFMOD\r\nUnity\r\nBlender\r\nYarn
     Spinner\r"
   m_isRightToLeft: 0
@@ -530,8 +530,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\n\n\n\n\n\n\n\r\n\n\n\n\r\n\nProgramming\n\r\n\nLogo\nShaders\nParticles\nModeling\nUI\nAnimation\n\r\n\nProfessor\nTA
-    \n\r\n\nScoring/Composition\nFlute\nViola/Teacher\n\r\n\n\n\n\n\n"
+  m_text: "\n\n\n\n\n\n\n\r\n\n\n\n\r\n\nProgramming\n\r\n\nLogo\nShaders\nVisual
+    Effects\nPost-Processing\nModeling\nUI\nAnimation\n\r\n\nProfessor\nTA \n\r\n\nScoring/Composition\nFlute\nViola/Teacher\n\r\n\n\n\n\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f3e2c11082afc0c40b1c37815ebb543b, type: 2}
   m_sharedMaterial: {fileID: 9085026801227705946, guid: f3e2c11082afc0c40b1c37815ebb543b, type: 2}
