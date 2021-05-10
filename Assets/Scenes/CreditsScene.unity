@@ -530,7 +530,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\n\n\n\n\n\n\n\r\n\n\n\n\r\n\nProgramming\n\r\n\nLogo\nShaders\nVisual
+  m_text: "\n\n\n\n\n\n\n\r\n\n\n\n\r\n\nProgramming\n\r\n\nLogo & UI Design\nShaders\nVisual
     Effects\nPost-Processing\nModeling\nUI\nAnimation\n\r\n\nProfessor\nTA \n\r\n\nScoring/Composition\nFlute\nViola/Teacher\n\r\n\n\n\n\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f3e2c11082afc0c40b1c37815ebb543b, type: 2}
