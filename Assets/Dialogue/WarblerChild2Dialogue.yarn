@@ -5,32 +5,23 @@ position: -773,288
 ---
 <<if $quest_warbler_stage is 0>>
     <<NPCSpeak>>
-    Hi! Got any toys?
+    Do you have time to play?
     <<PlayerSpeak>>
-    Sorry little one, I can't play right now.
+    Sorry little one, not right now.
 <<elseif $quest_warbler_stage gt 0 and $quest_warbler_stage lt 4>>
     <<if $found_warbler_child_2 is false>>
         <<NPCSpeak>>
-        Hi there! Who're you?
+        Hi... Did you need something?
         <<PlayerSpeak>>
-        You should get back home to your grandmother, little bird.
+        Your grandmother sent me to come get you. Are you alright?
         <<NPCSpeak>>
-        That doesn’t sound like much fun!
-        Ever since she stopped letting me play with the seed, I’ve been bored out of my mind.
-        Going home would just make me even more bored.
+        I'm okay. The fire was scary, but I'm having fun out here now!
+        Could you just tell her that I'll be back later?
         <<PlayerSpeak>>
-        Not everything is supposed to be fun. Your mom is worried about you.
+        I could, but that wouldn't stop her worrying.
         <<NPCSpeak>>
-        That’s silly. I’m fine, just look at me!
-        <<PlayerSpeak>>
-        You’re also very little.
-        If I were a mean fox, I would have gobbled you up already.
-        <<NPCSpeak>>
-        Should I be afraid of you?
-        <<PlayerSpeak>>
-        Not if you do as I say.
-        <<NPCSpeak>>
-        Fine... Your scary talk is freaking me out anyway. It’s time for me to go home.
+        Oh... I don't want her to worry.
+        I guess I can come back later.
         <<set $found_warbler_child_2 to true>>
         <<AdvanceQuest Warbler>>
     <<else>>

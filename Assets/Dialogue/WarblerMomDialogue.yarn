@@ -9,71 +9,62 @@ position: -184,215
     <<PlayerSpeak>>
     Excuse me, could I ask —
     <<NPCSpeak>>
-    Sorry, sweetie, I’d love to help you, but I’ve got bigger fish to fry! 
-    My three grandbabies must've snuck off in all the commotion.
-    I tried to look for them, but these old wings don’t work like they used to...
-    Say.
-    You look pretty spry.
-    I hate to ask, but would you help me?
+    Huh?
+    I'd love to help you, sweetie, but I'm looking for my three grandbabies.
+    Have you seen them? We were in the Heart of the forest during the fire and I lost sight of them.
+    I've looked around a bit, but these old wings don’t work like they used to.
+    I hate to ask, but... you look pretty spry. Would you help me?
     <<PlayerSpeak>>
-    Of course. I'll help you find your children.
+    Of course I'll help you find your grandchildren.
     <<NPCSpeak>>
-    Really? Well, now I feel bad for being so rude!
-    What was it that you were going to ask?
-    I'll help you out however I can.
+    Oh, thank goodness.
+    I'm sorry for being so rude. And rambling.
+    What was it that you were going to ask? I'll help you out however I can.
     <<PlayerSpeak>>
-    I'm looking for The Seed so I can regrow the heart of the forest.
+    I'm looking for The Seed so I can regrow the Heart of the forest.
     <<NPCSpeak>>
-    Wait, you’re looking for that?
-    It's been in the family for generations...
-    ...but I suppose I can part with it, since you're doing so much to help me.
+    That old thing? I like to keep it around in case of emergencies...
+    But you're doing so much to help me! I'll gladly hand it over once my three grandbabies are all accounted for.
     Besides, fixing the forest is certainly a worthy enough cause!
     <<PlayerSpeak>>
-    Do you know where they might be?
+    Do you know where I should start looking?
     <<NPCSpeak>>
     No, but they can't have gone too far.
     You’ll know them when you see them. They look just like me!
     <<AdvanceQuest Warbler>>
 <<elseif $quest_warbler_stage is 1>>
     <<NPCSpeak>>
-    Any luck finding my grandchildren?
+    Any luck?
     <<PlayerSpeak>>
     Not yet, but I'll keep looking.
     <<NPCSpeak>>
-    Thanks again for offering to help. You're very kind!
+    Thanks again for offering to help. Please let me know if you find anything.
 <<elseif $quest_warbler_stage is 2>>
     <<NPCSpeak>>
-    <<if $found_warbler_child_1 is true>>
-        You found Robin! Thank you so much!
-    <<elseif $found_warbler_child_2 is true>>
-        You found Wren! Thank you so much!
-    <<elseif $found_warbler_child_1 is true>>
-        You found Piper! Thank you so much!
-    <<endif>>
-    One of my babies is back!
-    It's a great start, but I've got two more.
-    <<PlayerSpeak>>
-    I'll go look.
-<<elseif $quest_warbler_stage is 3>>
-    <<NPCSpeak>>
-    You're a miracle worker! 
-    Thank you gor finding these two!
-    <<PlayerSpeak>>
-    It's no problem!
-    <<NPCSpeak>>
-    Just one more!
+    Thank you so much. You have no idea how helpful this is to me.
+    I'll stay here while you go look for the other two.
     <<PlayerSpeak>>
     I'm on it.
+<<elseif $quest_warbler_stage is 3>>
+    <<NPCSpeak>>
+    Oh, thank you, thank you!
+    <<if $found_warbler_child_1 is false>>
+        Just little Robin left.
+    <<elseif $found_warbler_child_2 is false>>
+        My darling Wren is the only one still missing.
+    <<elseif $found_warbler_child_1 is false>>
+        My poor baby Piper is the only one left to find.
+    <<endif>>
+    <<PlayerSpeak>>
+    I'll go look.
 <<elseif $quest_warbler_stage is 4>>
     <<AdvanceQuest Warbler>>
 <<elseif $quest_warbler_stage gt 4>>
     <<PlayerSpeak>>
-    What am I supposed to be doing again?
+    Hello again.
     <<NPCSpeak>>
-    Hey, you’re the one who wanted the Seed, not me!
-    The forest guardian with all the different tails knows about all this magic stuff more than I do.
-    I'd say that's your best bet.
+    Hi! You get that Seed back to the Heart of the forest safely, okay?
     <<PlayerSpeak>>
-    I’ll go there then. Thanks!
+    You can count on me!
 <<endif>>
 ===

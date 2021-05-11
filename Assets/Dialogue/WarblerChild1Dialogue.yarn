@@ -14,14 +14,12 @@ position: -491,284
         <<PlayerSpeak>>
         Your grandmother sent me to find you.
         <<NPCSpeak>>
-        Really? That sounds just like her! She can always sense when I’m in trouble.
+        That sounds just like her. She can always sense when I’m in trouble.
         She’s a great lady.
         <<PlayerSpeak>>
-        Your home is just around the corner.
+        Well, she's waiting for you right around the corner.
         <<NPCSpeak>>
-        Is it really?
-        My sense of direction has never been good...
-        Thanks, stranger. I won't wander off again.
+        Thank you, stranger.
         <<set $found_warbler_child_1 to true>>
         <<AdvanceQuest Warbler>>
     <<else>>

@@ -9,7 +9,7 @@ position: 153,208
     <<PlayerSpeak>>
     Do I know you?
     <<NPCSpeak>>
-    I sent for you, of course.
+    Not officially. I sent for you.
     Do you remember why you came here?
     <<PlayerSpeak>>
     I... don’t know.
@@ -17,20 +17,27 @@ position: 153,208
     <<NPCSpeak>>
     Yes, exactly, and then I called you here. I have a way with wanderers, you see.
     I can sense you have a kind heart. The creatures here are suffering from a fire that tore through the forest’s Heart.
-    It’s my job to guard this place, but I was too frail in my old age to stop it. I’m humble enough to admit when I need help.
+    I am the protector of this place, but I was too frail in my old age to stop it.
+    I’m humble enough to admit when I need help.
     <<PlayerSpeak>>
     Help from me? What can I do?
     I’m not magical or anything.
     <<NPCSpeak>>
     You don’t need to be magical. Just friendly.
     I need three items: the Seed, the Soil, and the Rain.
-    The Seed is owned by a Warbler and her grandchildren, the Rain is in the hands of an old turtle, and the Soil is is being looked after by a sweet elderly couple.
-    You will find the birds on your right, the turtle beyond the hill to your left, and the turtles in the glade behind me.
+    The Seed is owned by a Warbler and her grandchildren, to your right.
+    The Rain is in the hands of an old turtle, beyond the hill to your left.
+    And finally, the Soil is is being looked after by a sweet elderly couple, in the glade behind me.
     <<PlayerSpeak>>
-    I think I can help with that.
+    I think I can do that.
     <<NPCSpeak>>
+    The Heart may not seem like much, but it was the backbone of this community in its heyday.
+    Without it, the creatures here would be nothing more than animals.
     Thank you, truly.
-    Bring these items and place them before the burned tree.
+    <<PlayerSpeak>>
+    I'm glad to help.
+    <<NPCSpeak>>
+    Bring the Seed, the Soil, and the Rain. Place them before the burned Heart.
     If you need any help, please feel free to ask.
     <<set $quest_main_stage to 1>>
     <<AdvanceQuest Main>>
@@ -68,7 +75,7 @@ position: 153,208
     <<NPCSpeak>>
     <<if $seed_last_retrieved is true>>
         Ah, you’re back.
-        And you got the seed! Ms. Warbler must have taken a liking to you.
+        And you got the seed! That old Warbler must have taken a liking to you.
         <<set $seed_last_retrieved to false>>
     <<elseif $soil_last_retrieved is true>>
         Ah, you’re back! I see you have the Soil.
@@ -111,12 +118,14 @@ position: 153,208
     <<else>>
         Oh god I don't feel so good... We shouldn't be here...
     <<endif>>
-    Say, where are you headed after this?
+    Do you have any plans for after this, young fox?
     <<PlayerSpeak>>
-    Nowhere in particular. I just like to be of use.
+    Nothing in particular. I'll find somewhere else to be for a while, I suppose.
+    I just like to be of use.
     <<NPCSpeak>>
     I see. If I told you that you’d be able to continue helping here after the Heart is restored, would that interest you?
     <<PlayerSpeak>>
+    Are you offering me a job?
     I’ve never really stayed in one place that long before.
     <<NPCSpeak>>
     You don’t have to answer right away. Just think on it.
@@ -133,7 +142,7 @@ position: 153,208
         Oh god I don't feel so good... We shouldn't be here...
     <<endif>>
     <<NPCSpeak>>
-    You’ve done very well, little fox.
+    You’ve done very well.
     <<PlayerSpeak>>
     That’s it?
     <<NPCSpeak>>
@@ -153,13 +162,14 @@ position: 153,208
     <<NPCSpeak>>
     Essentially, I suppose.
     The role is mostly keeping the people here happy. Their joy strengthens the Heart and makes the forest more resilient.
-    I’ve been too tired to do it well, that’s all. It’s not usually all magic and fighting fires.
+    I’ve been too tired to do it well, is all. It’s not usually all magic and fighting fires.
     <<PlayerSpeak>>
     I’m sure you’ve done your best.
     I’ll stay and help out. This place has grown on me anyway.
     <<NPCSpeak>>
     You have a kind soul. I sensed it in you from miles away.
-    I appreciate everything you’re doing for me.
+    I appreciate everything you've done for me, and all the things you will continue to do.
+    Stay safe, little fox.
     <<AdvanceQuest Main>>
 <<endif>>
 ===

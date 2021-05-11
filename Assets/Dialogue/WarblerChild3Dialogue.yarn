@@ -9,21 +9,20 @@ position: -1015,295
 <<elseif $quest_warbler_stage gt 0 and $quest_warbler_stage lt 4>>
     <<if $found_warbler_child_3 is false>>
         <<NPCSpeak>>
-        Hey! Who're you??
+        Hey...
         <<PlayerSpeak>>
-        Your grandmother has been wondering where you are.
+        Hello, little bird.
+        I talked to your grandmother. I'm here to make sure you get home safely.
         <<NPCSpeak>>
-        You know my grandma? That’s crazy!
+        How do I know you're not lying?
+        How do I know I won't get gobbled up if I do what you say?
         <<PlayerSpeak>>
-        She sent me to come get you, actually.
+        You don't. You'll have to trust me.
+        I'm not going to force you to come with me. It's your choice.
         <<NPCSpeak>>
-        Why would she do that?
-        <<PlayerSpeak>>
-        She had no idea where you were.
-        You shouldn’t wander off like that. It scares the people who care about you.
-        <<NPCSpeak>>
-        Oh... I never thought about it like that.
-        Plus I’m hungry anyway. I guess I’ll head home!
+        Oh...
+        I... I don't like being out here alone!
+        I'll go with you.
         <<set $found_warbler_child_3 to true>>
         <<AdvanceQuest Warbler>>
     <<else>>

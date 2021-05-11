@@ -5,32 +5,31 @@ position: -99,-73
 ---
 <<if $quest_warbler_stage is 4>>
     <<NPCSpeak 0>>
-    You’re back!
-    All three of my grandbabies made their way back to me safely thanks to you.
-    And somehow they seem to have learned their lesson about sneaking off. Not sure how you did it.
+    You're a miracle worker! My family is safe thanks to you.
     Kids, say thank you to the nice fox.
     <<NPCSpeak 1>>
     Thank you!
     <<NPCSpeak 2>>
-    I'm still scared of you...
-    <<NPCSpeak 3>>
     Thanks.
+    <<NPCSpeak 3>>
+    Thank you, scary fox!
     <<PlayerSpeak>>
     I’m happy to help. Now, if I could ask —
     <<NPCSpeak 0>>
-    Ah, The Seed, of course! It's over there by the pine tree.
-    If you run into that big fancy fox with all the different tails, say hi from me!
+    Ah, The Seed, of course! It's on the rocks behind you.
+    If you run into the forest guardian, say hi from me!
     <<PlayerSpeak>>
     I will!
     <<AdvanceQuest Warbler>>
 <<else>>
     <<NPCSpeak 0>>
-    Are you lost?
+    Did you need something?
     <<PlayerSpeak>>
-    Yeah, where do I find the Seed?
-    <<NPCSpeak 1>>
-    On the rocks by the pine tree behind you silly!
+    Could you remind me where to find the seed?
+    <<NPCSpeak 0>>
+    On the rocks behind you!
+    I'm sorry I didn't have more time. I would've made cookies to go along with it.
     <<PlayerSpeak>>
-    Oh, right. Thanks!
+    No, this is perfect. Thank you.
 <<endif>>
 ===
