@@ -21,10 +21,6 @@ using UnityEngine;
  * 
  * 
  * maybe make LOD further so it doesn't cull during end cutscene?
- * make sure camera sees trees growing! - make coroutine slower
- * 
- * move up flower init pos
- * implement alekais UI stuff
  */
 
 public class GameManager : MonoBehaviour
