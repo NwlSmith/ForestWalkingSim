@@ -120,7 +120,7 @@ position: 153,208
     <<endif>>
     Where do you plan on going after this, young fox?
     <<PlayerSpeak>>
-    Nothing in particular. I'll find somewhere else to be for a while, I suppose.
+    Nowhere in particular. I'll find somewhere else to be for a while, I suppose.
     I just like to be of use.
     <<NPCSpeak>>
     I see. If I told you that you’d be able to continue helping here after the Heart is restored, would that interest you?
