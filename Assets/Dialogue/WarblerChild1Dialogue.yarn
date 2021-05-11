@@ -19,7 +19,7 @@ position: -491,284
         <<PlayerSpeak>>
         Well, she's waiting for you right around the corner.
         <<NPCSpeak>>
-        Thank you, stranger.
+        Thank you, stranger!
         <<set $found_warbler_child_1 to true>>
         <<AdvanceQuest Warbler>>
     <<else>>

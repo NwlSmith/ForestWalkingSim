@@ -29,7 +29,7 @@ position: -184,215
     <<PlayerSpeak>>
     Do you know where I should start looking?
     <<NPCSpeak>>
-    No, but they can't have gone too far.
+    We birds tend to stay in high places, but my grandchildren wouldn't go too far away.
     You’ll know them when you see them. They look just like me!
     <<AdvanceQuest Warbler>>
 <<elseif $quest_warbler_stage is 1>>

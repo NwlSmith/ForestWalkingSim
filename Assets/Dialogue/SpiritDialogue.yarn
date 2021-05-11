@@ -27,7 +27,7 @@ position: 153,208
     I need three items: the Seed, the Soil, and the Rain.
     The Seed is owned by a Warbler and her grandchildren, to your right.
     The Rain is in the hands of an old turtle, beyond the hill to your left.
-    And finally, the Soil is is being looked after by a sweet elderly couple, in the glade behind me.
+    And finally, the Soil is being looked after by a sweet elderly couple, in the glade behind me.
     <<PlayerSpeak>>
     I think I can do that.
     <<NPCSpeak>>
@@ -118,7 +118,7 @@ position: 153,208
     <<else>>
         Oh god I don't feel so good... We shouldn't be here...
     <<endif>>
-    Do you have any plans for after this, young fox?
+    Where do you plan on going after this, young fox?
     <<PlayerSpeak>>
     Nothing in particular. I'll find somewhere else to be for a while, I suppose.
     I just like to be of use.
