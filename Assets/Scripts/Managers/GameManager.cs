@@ -21,6 +21,25 @@ using UnityEngine;
  * 
  * 
  * maybe make LOD further so it doesn't cull during end cutscene?
+ * 
+ * 1.1 release fixes:
+ * audio cue for birds!!!
+ * fix final quest log cue for birds!!
+ * Add a river along turtle area.
+ * 
+ * ADD COLLIDER TO TREE - DONE
+ * make 3rd bird entry collider MUCH bigger? - DONE
+ * Make stone you talk to third bird on easier to walk on! - DONE
+ * tree is RED, not ORANGE - DONE
+ * Maybe add collider to 3rd bird bush? - DONE
+ * fox answered "not often" when it should be frog in frogandtoad - DONE
+ * END FOX IS PIIIINK!!! - DONE
+ * spirit tails feak out - DONE
+ * fix some spirit dialogue "Nothing more than animals" - DONE
+ * Keep objectives up longer. - DONE
+ * Flower didn't spawn in!!! - DONE
+ * DIRECTIONS FROM FROG AND TOAD ARE NOT CLEAR!!! - DONE
+ * "Where do you plan on going after this?" needs to be more like "after you help us out", not "which objective will you go for. - DONE
  */
 
 public class GameManager : MonoBehaviour

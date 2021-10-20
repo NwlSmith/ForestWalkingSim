@@ -25,7 +25,7 @@ position: -1338,671
     After the fire, we've been almost completely separated from each other!
     <<PlayerSpeak>>
     You don't see anyone else?
-    <<NPCSpeak1>>
+    <<NPCSpeak 1>>
     Not often.
     <<NPCSpeak 0>>
     It's much too dangerous for folks like us to get to the others through the heart of the forest now.
@@ -55,8 +55,8 @@ position: -1338,671
     Great!
     Could you give me some directions?
     <<NPCSpeak 1>>
-    Just around the bend behind you and to the left.
-    Head up the hill and you should find it there by the pink tree.
+    Turn around, and take the path to the left.
+    Keep going around the bend to your left and you should see it by the big pink tree on top of a rock.
     <<PlayerSpeak>>
     Thank you gentlemen!
     <<NPCSpeak 0>>
@@ -69,8 +69,8 @@ position: -1338,671
     Yes, sorry, could you please remind me where I have to go?
     <<NPCSpeak 1>>
     Certainly.
-    Continue down the path behind you and head up the hill.
-    Ought to be around there somewhere.
+    Continue down the path behind you and to the left.
+    It should be by the big pink tree if you follow the path.
     <<PlayerSpeak>>
     Thank you!
 <<endif>>

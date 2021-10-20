@@ -295,7 +295,7 @@ public class UIManager : MonoBehaviour
             DisplayUI(_questTagToLog[questTag]);
         });
 
-        Task wait3 = new WaitTask(5.5f);
+        Task wait3 = new WaitTask(6.5f);
 
         Task hideHolder = new ActionTask(() =>
         {
