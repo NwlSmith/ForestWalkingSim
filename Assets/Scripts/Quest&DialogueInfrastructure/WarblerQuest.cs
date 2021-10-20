@@ -137,7 +137,7 @@ public class WarblerQuest : FSMQuest
         return new DelegateTask(
             () =>
             {
-                Debug.Log("Going for target " + target.name);
+                Logger.Debug("Going for target " + target.name);
             },
             () =>
             {
@@ -146,13 +146,13 @@ public class WarblerQuest : FSMQuest
                 float angle = Mathf.SmoothDampAngle(npc.eulerAngles.y, targetAngle, ref turningSmoothVel[curWarblerNum], .2f);
                 npc.rotation = Quaternion.Euler(0f, angle, 0f);
                 
-                npc.position = npc.position + npc.forward * _warblerSpeed * Time.deltaTime;
+                npc.position += npc.forward * (_warblerSpeed * Time.deltaTime);
                 if (target.position.y > npc.position.y + .25f)
                 {
-                    npc.position = npc.position + npc.up * _warblerSpeed * Time.deltaTime;
+                    npc.position += npc.up * (_warblerSpeed * Time.deltaTime);
                 } else if (target.position.y < npc.position.y - .25f)
                 {
-                    npc.position = npc.position - npc.up * _warblerSpeed * Time.deltaTime;
+                    npc.position -= npc.up * (_warblerSpeed * Time.deltaTime);
                 }
 
                 return Vector3.Distance(npc.position, target.position) < _distFromTarget || _elapsedTime > 3f;

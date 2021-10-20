@@ -23,7 +23,8 @@ public class NPC : MonoBehaviour
     [SerializeField] private Transform _dialogueEnterPrompt;
     private Quaternion _initRot;
     private Animator _anim;
-
+    
+    private FMODUnity.StudioEventEmitter _emitter;
     protected NPCCollider _NPCCollider;
 
     private void Awake()
@@ -34,6 +35,7 @@ public class NPC : MonoBehaviour
             _dialogueEnterPrompt.gameObject.SetActive(false);
 
         _NPCCollider = GetComponentInChildren<NPCCollider>();
+        _emitter = GetComponent<FMODUnity.StudioEventEmitter>();
     }
 
     private void Start()
@@ -44,6 +46,10 @@ public class NPC : MonoBehaviour
 
     private void OnEnable()
     {
+        if (_emitter)
+        {
+            _emitter.Play();
+        }
         if (_initRot == null)
         {
             Logger.Warning("InitRot was null OnEnable");
@@ -69,6 +75,9 @@ public class NPC : MonoBehaviour
 
         if (_NPCCollider != null)
             _NPCCollider.Disappear(); // CAUSED CRASH
+        
+        if (_emitter)
+            _emitter.Stop();
     }
 
     public virtual void ExitDialogue()
