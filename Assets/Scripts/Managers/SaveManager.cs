@@ -174,6 +174,7 @@ public class SaveManager
 
     public void SaveData()
     {
+        return;
         Logger.Warning("Saving data...");
         QuestStageData[] questStagesArray =
         {
