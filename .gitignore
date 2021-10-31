@@ -139,7 +139,7 @@ ehthumbs.db
 Local/*
 Assets/save.json
 Assets/save.json.meta
-Assets/cur.save
-Assets/cur.save.meta
+#Assets/cur.save
+#Assets/cur.save.meta
 Assets/default.save
 Assets/default.save.meta
