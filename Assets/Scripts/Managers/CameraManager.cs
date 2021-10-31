@@ -316,6 +316,7 @@ public class CameraManager : MonoBehaviour
 
         private void DefineSequence()
         {
+            Context.cutsceneNum = 2;
             Context.cutsceneCamera.LookAt = Services.QuestItemRepository.CurrentQuestItem().transform;
 
             // will be independent.

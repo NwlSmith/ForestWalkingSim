@@ -208,7 +208,12 @@ public static class SequenceManager
 
         Task waitForTime5 = new WaitTask(1f);
 
-        ActionTask triggerPlantAnims = new ActionTask(() => { cutsceneObjectsManager.Transition(); });
+        ActionTask triggerPlantAnims = new ActionTask(() =>
+        {
+            cutsceneObjectsManager.Transition();
+            cutsceneObjectsManager.Transition();
+            cutsceneObjectsManager.Transition();
+        });
 
         Task waitForTime6 = new WaitTask(10.5f);
         // 7. 1 sec later have player get up and return to normal controls. 1s
